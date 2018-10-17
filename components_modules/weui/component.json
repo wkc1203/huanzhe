@@ -1,0 +1,7 @@
+{
+  "name": "weui",
+  "version": "1.6.7",
+  "main": "weui.css",
+  "mapping": "mapping.config.js",
+  "protocol": "gitlab"
+}

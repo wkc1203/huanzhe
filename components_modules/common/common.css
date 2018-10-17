@@ -1,0 +1,9 @@
+.wgt-common-article{
+    word-break: break-all;
+    word-wrap: break-word;
+    width: 100%;
+    box-sizing: border-box;
+}
+.wgt-common-article img{
+    max-width: 100%;
+}

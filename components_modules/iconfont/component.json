@@ -1,0 +1,7 @@
+{
+  "name": "iconfont",
+  "version": "3.0.4",
+  "main": "iconfont.css",
+  "mapping": "mapping.config.js",
+  "protocol": "gitlab"
+}

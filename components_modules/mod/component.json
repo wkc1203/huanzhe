@@ -1,0 +1,7 @@
+{
+  "name": "mod",
+  "version": "1.0.0",
+  "main": "mod.js",
+  "mapping": "mapping.config.js",
+  "protocol": "gitlab"
+}

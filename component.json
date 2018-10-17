@@ -1,0 +1,7 @@
+{
+  "name": "fe-wisdom-hospital-dev",
+  "version": "1.0.0",
+  "main": "",
+  "mapping": "mapping.config.js",
+  "protocol": "gitlab"
+}
