@@ -1,0 +1,119 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+.warm-tip {
+    font-size: 14px;
+    color: $hc-color-primary;
+    padding: 15px 15px 30px;
+}
+.btn{
+    margin: 30px 0;
+    .submit-btn {
+        color: #fff;
+        background-color: $hc-color-primary;
+
+        font-size: 18px;
+        height: 45px;
+        margin: 0 20px 20px;
+        position:relative;
+        display:block;
+       width:332px;
+        padding-left:14px;
+        padding-right:14px;
+        box-sizing:border-box;
+
+        text-align:center;
+        text-decoration:none;
+        line-height:2.55555556;
+        border-radius:5px;
+        -webkit-tap-highlight-color:transparent;
+        overflow:hidden;
+
+
+    }
+    .o-disabled{
+        background-color: #ddd;
+    }
+}
+.register-listitem{
+    padding: 15px;
+    display: flex;
+    position: relative;
+    .o-error{
+        color: #ff613b;
+    }
+
+    &.register-listitem_none{
+        display: none;
+    }
+
+    &:after{
+        content: ' ';
+        position: absolute;
+        left: 15px;
+        right: 0;
+        bottom: 0;
+        border-bottom: 1px solid $hc-color-border;
+    }
+    // &:first-child:before{
+    //   display: none;
+    // }
+
+    .listitem-head{
+        width:70px;
+        display: flex;
+        align-items: center;
+
+
+        .list-title{
+            flex: 1;
+            font-size: 17px;
+            color: $hc-color-title;
+            padding-right: 6px;
+            position: relative;
+            line-height: 1;
+
+            &.list-title_select:before{
+                content: ' ';
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                box-sizing: border-box;
+                border-bottom:5px solid $hc-color-title;
+                border-right: 5px solid $hc-color-title;
+                border-top: 5px solid transparent;
+                border-left: 5px solid transparent;
+            }
+        }
+    }
+    .listitem-body{
+        flex: 1;
+        font-size:17px;
+        color:$hc-color-info;
+        padding-left: 15px;
+        position: relative;
+    }
+    .listitem-bd{
+        flex: 1;
+        font-size:17px;
+        color:$hc-color-info;
+        padding-left: 15px;
+        position: relative;
+    }
+    .listitem-ft{
+        font-size:17px;
+        color:$hc-color-primary;
+        padding-right: 15px;
+        position: relative;
+
+        &:before {
+            content: "|";
+            color: $hc-color-info;
+            position: relative;
+            margin-right: 15px;
+        }
+    }
+    .ft-disabled {
+        color:$hc-color-gray;
+    }
+}

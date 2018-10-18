@@ -1,0 +1,87 @@
+@charset "utf-8";
+
+@import "../../resources/styles/mixins.scss";
+
+.qrcode-win{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    left: 0;
+    top: 0;
+    z-index:10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .qrcode-box {
+        background: #fff;
+        border-radius: 5px;
+        width: 80%;
+        max-width: 320px;
+        box-shadow: 0 0 15px 5px $title-color;
+
+        .qrcode {
+            
+            padding: 30px 50px;
+            
+            p{
+                position: relative;
+                margin: 0;
+            }
+
+            .qrcode-doc{
+                color: $title-color;
+                font-size: 16px;
+
+                .qrcode-title{
+                    color: #4c4c4c;
+                    font-size: 16px;
+                    padding-left: 5px;
+                    margin-left: 5px;
+                    border-left: 1px solid $title-color;
+                }
+            }
+
+            .qrcode-dept{
+                color: $text-color;
+                font-size: 14px;
+                padding-top: 5px;
+            }
+
+
+            .qrcode-img-box{
+                text-align: center;
+                padding-top: 10px;
+                .qrcode-img{
+                    width: 100%;
+                }
+            }
+
+            .qrcode-user-tip{
+                font-size: 12px;
+                color: $warn-color;
+                text-align: center;
+            }
+
+            .qrcode-btn-box {
+                text-align: center;
+                padding-top: 15px;
+
+                .qrcode-btn{
+                    display: inline-block;
+                    width: 100%;
+                    font-size: 18px;
+                    line-height: 40px;
+                    position: relative;
+                    color: $primary-color;
+                    border: 1px solid $primary-color;
+                    border-radius: 5px;
+                }
+            }
+
+        }
+
+
+    }
+}

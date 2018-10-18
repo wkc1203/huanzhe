@@ -1,0 +1,249 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+
+
+.page-site-deptlist{
+    ul{
+        list-style: none outside;
+    }
+    .g-layout-abs{
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+    .g-layout{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+    }
+    .m-search{
+        position: relative;
+        width: 100%;
+        z-index: 1;
+    }
+    .m-deptlist{
+        position: relative;
+        flex: 1;
+    }
+
+    .g-dept-list{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .m-list{
+        height: 100%;
+        display: flex;
+
+        .list-lt{
+            position: relative;
+            font-size: 16px;
+            height: 100%;
+            background-color: #f1f7f7;
+            color: $title-color;
+            overflow-y: auto;
+            box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
+
+
+
+            .list-lt-wrap{
+                //bugfixed iscroll的时候边框问题
+                position: relative;
+                padding-bottom: .3rem;
+                padding-top: .15rem;
+                z-index: 1;
+
+                &:before{
+                    content: " ";
+                    position: absolute;
+                    left: 0;
+                    top: 0.15rem;
+                    width: 100%;
+                    height: 1px;
+                    border-bottom: 1px solid $border-color;
+                    color: $border-color;
+                    transform-origin: 0 0;
+                    transform: scaleY(0.5);
+                }
+
+                &:after{
+                    content: " ";
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    width: 1px;
+                    height: 100%;
+                    border-right: 1px solid $border-color;
+                    color: $border-color;
+                    transform-origin: 100% 0;
+                    transform: scaleX(0.5);
+                }
+            }
+
+            .list-lt-li{
+                position: relative;
+                z-index: 1;
+                padding: .1rem .15rem .1rem .15rem;
+                min-width: .44rem;
+                max-width: 5em;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                color: $text-color;
+
+                &:after{
+                    content: " ";
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 1px;
+                    border-bottom: 1px solid $border-color;
+                    color: $border-color;
+                    transform-origin: 0 100%;
+                    transform: scaleY(0.5);
+                }
+                &.active{
+                    background-color: #fff;
+                    color: $title-color;
+                    &:before{
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        background-color: $primary-color;
+                        width: .03rem;
+                        height: 100%;
+                        left: 0;
+                        top: 0;
+                    }
+                }
+            }
+        }
+
+        .list-rt{
+            position: relative;
+            height: 100%;
+            flex: 1;
+            overflow-y: auto;
+            box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
+            z-index: 1;
+        }
+
+        .list-rt-wrap{
+            position: relative;
+            z-index: 2;
+            min-height:100%;
+        }
+
+        //.list-lt+.list-rt{
+        //    .sec-list{
+        //        padding-left: .3rem;
+        //    }
+        //}
+
+        .sec-list{
+            position: relative;
+            padding-left: .15rem;
+            padding-bottom: .3rem;
+            padding-top: .15rem;
+            font-size: 16px;
+            color: $title-color;
+            background-color: #fff;
+
+            a{
+                color: $title-color;
+            }
+        }
+        .sec-list-li{
+            .sec-li-name{
+                position: relative;
+                display: flex;
+                align-items: center;
+                padding: .1rem .15rem .1rem 0;
+
+                &>a{
+                    display: flex;
+                    flex: 1;
+                    align-items: center;
+                }
+
+                .name{
+                    display: block;
+                    flex: 1;
+                    color: $title-color;
+                }
+
+                &:after{
+                    content: " ";
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 1px;
+                    border-bottom: 1px solid $border-color;
+                    color: $border-color;
+                    transform-origin: 0 100%;
+                    transform: scaleY(0.5);
+                }
+            }
+            .trd-list{
+                display: none;
+                padding-left: .15rem;
+                .trd-list-li{
+                    position: relative;
+
+                    a{
+                        display: flex;
+                        padding: .10rem .15rem .10rem 0;
+                        align-items: center;
+                    }
+
+                    .name{
+                        display: block;
+                        flex: 1;
+                    }
+
+                    &:after{
+                        content: " ";
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        width: 100%;
+                        height: 1px;
+                        border-bottom: 1px solid $border-color;
+                        color: $border-color;
+                        transform-origin: 0 100%;
+                        transform: scaleY(0.5);
+                    }
+                }
+            }
+
+            &.active{
+                //color: $primary-color;
+                a{
+                    color: $primary-color;
+                }
+                .trd-list{
+                    display: block;
+                }
+            }
+
+        }
+
+    }
+
+
+}

@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+.tip5{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    .bindTip{
+        width:307px;
+        height:434px;
+    }
+    .know{
+        width:267px;
+        height:40px;
+        bottom:60px;
+        position: relative;
+
+    }
+}

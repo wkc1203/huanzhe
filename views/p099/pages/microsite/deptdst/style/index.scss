@@ -1,0 +1,113 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.page-site-deptdst{
+    .m-list-box{
+        position: relative;
+        &:after{
+            @include setBottomLine();
+        }
+    }
+    .m-list{
+        display: flex;
+        font-size: 16px;
+        overflow-x: auto;
+        text-align: center;
+        padding: 0 5px;
+        background: #fff;
+        color: $text-color;
+
+        .list-item{
+            flex: none;
+            box-sizing: border-box;
+            word-break: keep-all;
+            white-space: nowrap;
+
+            &.active{
+                color: $primary-color;
+                .item{
+                    &:after{
+                        content: '';
+                        display: block;
+                        width: 100%;
+                        height: 2px;
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        background: $primary-color;
+                        z-index: 1;
+                    }
+                }
+
+            }
+        }
+        .item{
+            position: relative;
+            text-align: center;
+            padding: 10px 0;
+            margin: 0 10px;
+        }
+    }
+    .m-detail {
+        .detail-table{
+            border-top: none !important;
+            background: transparent;
+            &:after{
+                @include setBottomLine();
+            }
+            td{
+                background: #fff;
+            }
+        }
+        .detail-icon {
+            font-size: 16px;
+            display: inline-block;
+            width: 2em;
+            height: 2em;
+            line-height: 2em;
+            border-radius: 50%;
+            color: $primary-color;
+            border: 1px solid $primary-color;
+            border-radius: 50%;
+        }
+    }
+
+    .m-slide{
+        position: absolute;
+        z-index:99999;
+        top:1%;
+        left:60%;
+        img{
+            height: .5rem;
+        }
+    }
+
+    .m-slide-animal{
+        -webkit-animation-name: m-slide;
+        animation-name: m-slide;
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-iteration-count: 2;
+        animation-iteration-count: 2;
+        -webkit-animation-direction: normal;
+        animation-direction: normal;
+    }
+
+    @keyframes m-slide {
+        0% {
+            left: 60%;
+        }
+        100% {
+            left: 40%;
+        }
+    }
+    @-webkit-keyframes m-slide {
+        0% {
+            left: 60%;
+        }
+        100% {
+            left: 40%;
+        }
+    }
+}

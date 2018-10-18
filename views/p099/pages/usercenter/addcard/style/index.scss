@@ -1,0 +1,236 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+.tip1{
+    color: $hc-color-warn;
+    font-size: 13px;
+    height:15px;
+    padding:0 20px;
+    line-height: 15px;
+    text-align: right;
+}
+.binduser-btn_line{
+    background: $hc-color-primary;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+    position:relative;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    padding-left:14px;
+    padding-right:14px;
+    box-sizing:border-box;
+    width:332px;
+    text-decoration:none;
+    line-height:2.55555556;
+
+    -webkit-tap-highlight-color:transparent;
+    overflow:hidden;
+
+
+    //padding: 22px 0;
+}
+
+.message-opertip{
+    display: flex;
+}
+.message-msg{
+    flex: 1;
+    color: $hc-color-warn;
+    padding: 12px 15px 18px;
+    font-size: 14px;
+    min-height: 35px;
+}
+.is-card{
+    margin-top: 10px;
+    background-color: #fff;
+}
+.indcard-list .id-card:before {
+    border: none;
+}
+.bindcard-list{
+    background: #fff;
+    .bindcard-listitem{
+        padding: 15px;
+        display: flex;
+        position: relative;
+
+        &.bindcard-listitem_none{
+            display: none;
+        }
+
+        &:before{
+            content: ' ';
+            position: absolute;
+            left: 15px;
+            right: 0;
+            top: 0;
+            border-top: 1px solid $hc-color-border;
+        }
+        &:first-child:before{
+            display: none;
+        }
+
+        .listitem-head{
+            width: 100px;
+            display: flex;
+            align-items: center;
+
+            .list-title{
+                flex: 1;
+                font-size: 15px;
+                color: $hc-color-title;
+                padding-right: 12px;
+                position: relative;
+                line-height: 1;
+
+                &.list-title_select:before{
+                    content: ' ';
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    box-sizing: border-box;
+                    border-bottom: 5px solid $hc-color-title;
+                    border-right: 5px solid $hc-color-title;
+                    border-top: 5px solid transparent;
+                    border-left: 5px solid transparent;
+                }
+            }
+        }
+        .listitem-body{
+            flex: 1;
+            padding-left: 15px;
+            position: relative;
+        }
+    }
+
+    .listitem_accest{
+        color: red;
+    }
+
+    .listitem_accest .listitem-body:before{
+        content: " ";
+        position: absolute;
+        top: 50%;
+        right: 0;
+        border-right: 1px solid $hc-color-text;
+        border-bottom: 1px solid $hc-color-text;
+        width: 8px;
+        height: 8px;
+        transform: translateY(-50%) rotate(-45deg);
+    }
+}
+
+.m-content{
+    font-size: 15px;
+    color: $hc-color-title;
+}
+
+.m-mt-20{
+    margin-top: 10px;
+}
+
+.o-error{
+    color: #ff613b;
+}
+
+.o-disabled{
+    background: #ddd;
+}
+
+.afterscan-carddivbox{
+    background: #fff;
+    padding: 10px 0 22px;
+}
+.afterscan-carddiv{
+
+    margin: auto;
+    width: 195px;
+    border-radius: 5px;
+    border: 1px solid $hc-color-primary;
+    overflow: hidden;
+
+    .carddiv-imgbox{
+        width: 185px;
+        height: 157px;
+        overflow: hidden;
+        margin: 5px auto 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .carddiv-img{
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+
+    .afterscan-reupload{
+        background: $hc-color-primary;
+        color: #fff;
+        text-align: center;
+        height: 26px;
+        line-height: 26px;
+        font-size: 13px;
+    }
+
+}
+
+.afterscan-opertip{
+    display: flex;
+    .opertip-msg{
+        flex: 1;
+        color: #ffa14e;
+        padding: 12px 0 18px 15px;
+        font-size: 14px;
+    }
+    .opertip-imgbox{
+        display: flex;
+        align-items: flex-end;
+        .opertip-img{
+            width: 40px;
+            height: 56px;
+            margin: 0 13px;
+        }
+
+    }
+}
+
+.check-box{
+    padding: 15px;
+    font-size: 15px;
+    color: $hc-color-gray;
+    checkbox {
+        transform: scale(.7)
+    }
+}
+
+.afterscan-operbtnbox{
+    margin: 21px 20px;
+}
+
+.binduser-radio{
+    margin-left: 55px;
+    &:first-child{
+        margin-left: 0;
+    }
+}
+.binduser-radio_object{
+    transform-origin: 0 30%;
+    transform: scale(.7);
+}
+.binduser-radio_text{
+    font-size: 15px;
+}
+.radio-item {
+    font-size: 15px;
+}
+.radio-item radio{
+    transform: scale(.7);
+    &:nth-child(2) {
+        padding-left: 50px;
+        height: 18px;
+    }
+}

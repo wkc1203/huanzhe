@@ -1,0 +1,155 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+.mu-card{
+    margin: 10px 10px 0;
+    background-color: #fff;
+    border-radius: 2px 2px 0 0;
+    padding: 0 15px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.02);
+
+    .card-info{
+        padding:20px 0 9px;
+    }
+    .info-main{
+        display: flex;
+        align-items: flex-start;
+        padding-left: 2px;
+    }
+    .main-name{
+        display: flex;
+        align-items: center;
+        flex: 1;
+    }
+    .name{
+        font-size: 19px;
+        font-weight: bold;
+        //height: 37px;
+    }
+    .status{
+        font-size: 12px;
+        height: 20px;
+        line-height: 20px;
+        color:$hc-color-gray;
+        margin-left: 8px;
+        border:1px solid $hc-color-gray;
+        border-radius: 2px;
+        padding: 0 4px;
+    }
+    .info-extra{
+        margin-top: 10px;
+        color:$hc-color-gray;
+        font-size: 14px;
+    }
+}
+
+.m-qrcode{
+    padding: 12px 0;
+    margin: 0 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    .qrimg{
+        height: 88px !important;
+        width: 273px !important;
+    }
+}
+
+.m-userinfo {
+    background-color: #fff;
+    overflow: hidden;
+    margin: 0 10px;
+    padding: 2px 0 11px;
+    .userinfo-item {
+        display: flex;
+        font-size: 15px;
+        padding: 0 16px;
+        margin: 10px 0;
+    }
+    .item-tit {
+        flex: 1;
+        color:$hc-color-gray;
+        min-width: 6em;
+    }
+    .item-txt {
+        color:$hc-color-title;
+        text-align: right;
+    }
+}
+
+.mu-list {
+    padding: 0 10px;
+    margin-top: 1px;
+    border-radius: 0 0 2px 2px;
+    .list-item {
+        display: block;
+        padding-left: 15px;
+        background-color: #fff;
+    }
+    .item {
+        display: flex;
+        align-items: center;
+        padding: 10px 0 10px 0;
+        margin-right: 18px;
+        border-bottom: 1px solid #f4f9f9;
+        overflow: hidden;
+        min-height: 28px;
+    }
+    .list-item:last-child{
+        .item{
+            border-bottom:none;
+        }
+    }
+    .item-hd {
+        flex: 1;
+        color: $hc-color-title;
+        font-size: 17px;
+    }
+    .item-bd {
+        color: $hc-color-gray;
+        font-size: 15px;
+        margin-left: 10px;
+        position: relative;
+
+        &.disabled:after {
+            content: ' ';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1;
+            opacity: 0;
+        }
+    }
+    .item-ft {
+        margin-left: 13px;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid #c2c9c9;
+        border-bottom: 2px solid #c2c9c9;
+        transform: translateX(-4px) rotate(-45deg);
+    }
+}
+
+.m-btn{
+    margin: 20px 10px 20px;
+    display: flex;
+    .btn-item{
+        font-size: 18px;
+        border-radius: 10px;
+        text-align: center;
+        background-color: #fff;
+        padding: 11px 0;
+    }
+    .primary-btn{
+        color: $hc-color-primary;
+        flex: 1;
+    }
+    .default-btn{
+        color: $hc-color-title;
+        margin-left: 10px;
+        flex: 1;
+    }
+
+}

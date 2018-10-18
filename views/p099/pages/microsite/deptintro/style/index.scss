@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.page-site-deptintro{
+    .g-info{
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+    }
+    .m-info{
+        padding: .10rem 0;
+        background: $primary-color;
+
+        .info{
+            display: flex;
+            text-align: center;
+            margin-top: .15rem;
+        }
+        .info-item{
+            position: relative;
+            flex: 1;
+
+            &:after{
+                content: '';
+                position: absolute;
+                width: .01rem;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%) scaleX(.5);
+                height: 75%;
+                background: #fff;
+            }
+
+            &:last-child{
+                &:after{
+                    display: none;
+                }
+            }
+        }
+        .item-label{
+            font-size: 14px;
+            margin-bottom: 0.03rem;
+            color: rgba(255,255,255,.8);
+        }
+        .item-add,.item-phone{
+            color: #fff;
+            font-size: 16px;
+            margin: 0 .1rem;
+        }
+        .item-phone{
+            display: block;
+        }
+    }
+    .m-detail{
+        flex: 1 1 auto;
+        margin-top: .15rem;
+        background: #fff;
+        padding: .20rem .15rem;
+        color: $text-color;
+        line-height: 1.8;
+        font-size: 14px;
+        white-space: pre-wrap;
+        max-height: 999999px;
+    }
+}

@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.page-site-dynamics{
+
+    .g-info{
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+    }
+    .m-info{
+        flex-direction: row;
+        padding: 10px 15px;
+        background: #fff;
+
+        .info-item{
+            align-items: center;
+        }
+    }
+    .m-detail{
+        flex: 1 1 auto;
+        max-height: 999999px;
+        line-height: 1.8;
+    }
+
+    .m-title {
+        color: #000;
+        font-size: 22px;
+        line-height: 1.45;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+
+    .m-time {
+        text-align: right;
+    }
+
+    p {
+        max-width: 100%;
+        text-indent: 0;
+        word-break: break-all;
+        word-wrap: break-word;
+    }
+
+    img {
+        max-width: 100%;
+    }
+}

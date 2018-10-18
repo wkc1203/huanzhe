@@ -1,0 +1,11 @@
+# Created by .ignore support plugin (hsz.mobi)
+/output
+/views/*/
+.DS_Store
+/.idea
+.idea
+**/META-INF
+gitlab-token.js
+*.iml
+.vscode
+gittimestamp.config
