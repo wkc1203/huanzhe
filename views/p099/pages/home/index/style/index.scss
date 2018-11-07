@@ -92,6 +92,17 @@
         }
     }
 }
+.no-data{
+    text-align: center;
+    padding-top: 100px;
+    font-size: 16px;
+    color: $hc-color-text;
+    img{
+        width: 125px;
+        height: 125px;
+        margin-bottom: 25px;
+    }
+}
 .page-home {
     .tarbar{
         height:auto;
@@ -136,14 +147,34 @@
             width: 100%;
         }
     }
+    ::-webkit-scrollbar {
 
+        display:none
+    }
     .content {
         position: relative;
         top: -31px;
         padding: 0 10px;
+        background: #f2f2f2;
         .title1 {
             height: 29px;
             line-height: 9px;
+            font-size: 17px;
+            padding: 15px;
+            color: $hc-color-title;
+            background-color: #fff;
+            border-bottom: 1px solid $hc-color-border;
+            div
+            {
+                position: absolute;
+                right: 40px;
+                top:25px;
+            }
+
+        }
+        .titleh {
+            height: 29px;
+            line-height: 29px;
             font-size: 17px;
             padding: 15px;
             color: $hc-color-title;
@@ -185,8 +216,8 @@
                 top: 50%;
                 width: 9px;
                 height: 9px;
-                border-right: 3px solid #c7c7cc;
-                border-bottom: 3px solid #c7c7cc;
+                border-right: 2px solid #c7c7cc;
+                border-bottom: 2px solid #c7c7cc;
                 transform: translate(-4px, -50%) rotate(-45deg);
             }
         }
@@ -226,8 +257,8 @@
                 top: 50%;
                 width: 9px;
                 height: 9px;
-                border-right: 3px solid #c7c7cc;
-                border-bottom: 3px solid #c7c7cc;
+                border-right: 2px solid #c7c7cc;
+                border-bottom: 2px solid #c7c7cc;
                 transform: translate(-4px, -50%) rotate(-45deg);
             }
         }
@@ -236,6 +267,7 @@
             height:100%;
             margin-bottom:10px;
             background: white;
+            overflow: hidden;
             .content1{
                 display: flex;
                 width: auto;
@@ -244,12 +276,11 @@
                 overflow-x: scroll;
                 div{
                     flex:1;
-                    padding:0 0px;
                     a{
 
                         width:auto;
                         display:block;
-
+                        padding:0 5px;
                         img{
                             width:45px;
                             height:45px;
@@ -258,7 +289,7 @@
                             border-radius: 50%;
                             border:1px solid #91cbde;
                         }
-                        text{
+                        div{
                             display:block;
                             width:100px;
                             overflow: hidden;

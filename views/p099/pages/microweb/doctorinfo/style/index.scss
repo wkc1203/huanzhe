@@ -2,7 +2,11 @@
 
 @import "../../../../resources/styles/mixins";
 
-.container {
+.container1 {
+    background-color:#F2F2F2;
+    box-sizing:border-box;
+    overflow:auto;
+
     .headerp{
         background: $hc-color-primary;
         color: #fff;
@@ -56,6 +60,15 @@
         background-color: #fff;
         height: 86px;
         justify-content:space-around;
+        .disNo{
+            display:none;
+        }
+        >div>a{
+            height:auto;
+            width:auto;
+            display:block;
+
+        }
         .oper-item {
             font-size: 14px;
             color: $hc-color-gray;

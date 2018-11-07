@@ -8,3 +8,4 @@ export const getPayInfo = (param) =>  fetch.post('/api/ehis/health/api/inquiry/p
 export const getConsultDet1 = (param) =>  fetch.post('/api/ehis/health/api/inquiry/prePay', param);
 
 export const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/getJsApiConfig', param);
+export const orderStatus = (param) => fetch.post('/api/ehis/health/api/inquiry/getOrderStatus', param, false);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { InfiniteLoader, LoadMore } from 'react-weui';
 import { Link } from 'react-router';
+import hashHistory from 'react-router/lib/hashHistory';
 
 import Connect from '../../../components/connect/Connect';
 import NoResult from '../../../components/noresult/NoResult';
@@ -23,134 +24,54 @@ class Widget extends Component {
 
   componentDidMount() {
     //this.getArticleTypeList();
+      this.getJs();
   }
+    getJs(){
 
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function(){
+                        //批量隐藏功能
+                        wx.hideMenuItems({
+                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        });
+                    });
+
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+                this.hideLoading();
+                alert("r"+JSON.stringify(e));
+                //this.showPopup({ content: e.msg });
+            });
+
+
+
+    }
   componentWillUnmount() {
     this.state.Timer && clearTimeout(this.state.Timer);
   }
 
-  /**
-   * 根据医院id获取文章类型列表
-   */
-  getArticleTypeList() {
-    const param = this.props.location.query;
-    const { noResult } = this.state;
-    this.showLoading();
-    Api
-      .getArticleTypeList(param)
-      .then((res) => {
-        this.hideLoading();
-        const articleTypeList = res.data;
-        if (articleTypeList && articleTypeList.length > 0) {
-          this.setState({
-            articleTypeList,
-          });
+  goPrev1(){
+    hashHistory.push({
+      pathname:'/usercenter/addcard'
+    })
 
-          const typeId = this.props.location.query.typeId || articleTypeList[0].typeId;
-          if (typeId) {
-            this.setState({ typeId });
-          }
-          this.getHospDynamics(typeId);
-          this.tabScrollIntoView();
-          this.showAnimation();
-        } else {
-          noResult.show = true;
-          this.setState({ noResult });
-        }
-      }, (e) => {
-        this.hideLoading();
-        noResult.show = true;
-        this.setState({ noResult });
-        this.showPopup({ content: e.msg });
-      });
-  }
-
-  /**
-   * 获取文章列表
-   * @param type {Number} 文章类型
-   * @param currentPage {Number} 要获取的页码数
-   * @param resolve {Object} 滚动拉取组件隐藏loading样式的回调
-   */
-  getHospDynamics(type = 1, currentPage = 1, resolve = () => null) {
-    const param = this.props.location.query;
-    Object.assign(param, { typeId: type, pageNum: currentPage });
-    this.showLoading();
-    const { noResult, articleData } = this.state;
-    Api
-      .getHospDynamics(param)
-      .then((res) => {
-        this.hideLoading();
-        const listData = res.data || {};
-        if (listData.recordList && listData.recordList.length > 0) {
-          // 合并相同类型数据
-          const listName = type;
-          const currentArticle = articleData[listName];
-          if (currentArticle && currentArticle.currentPage > 0
-            && parseFloat(currentArticle.currentPage) + 1 !== parseFloat(listData.currentPage)) {
-            // 不是本次要的数据
-            return;
-          }
-          if (!currentArticle) {
-            // 无数据 直接赋值
-            articleData[listName] = listData;
-            this.setState({ articleData }, () => resolve());
-          } else {
-            // 原来有数据 concat数组内容 其它分页数据(如当前页数，总页数)使用本次获取到的
-            let newArticleList = (currentArticle.recordList && currentArticle.recordList.length > 0)
-              ? currentArticle.recordList : [];
-            newArticleList = newArticleList.concat(listData.recordList);
-
-            articleData[param.typeId] = { ...listData, recordList: newArticleList };
-            this.setState({ articleData }, () => resolve());
-          }
-        } else {
-          noResult.show = true;
-          this.setState({ noResult }, () => resolve());
-        }
-      }, (e) => {
-        this.hideLoading();
-        noResult.show = true;
-        this.setState({ noResult }, () => resolve());
-        this.showPopup({ content: e.msg });
-      });
-  }
-
-  /**
-   * 改变显示文章的类型
-   * @param type {String} 文章类型
-   */
-  changeType(type) {
-    const { articleData, typeId } = this.state;
-    if (type === typeId) {
-      return;
-    }
-
-    this.setState({ typeId: type });
-    this.tabScrollIntoView();
-    // 判断是否已经查找过该类型
-    if (Object.keys(articleData).indexOf(type) < 0) {
-      // 没查找过前往查找
-      this.getHospDynamics(type);
-    }
-  }
-
-  tabScrollIntoView() {
-    window.setTimeout(() => {
-      this.refs.activeTab.scrollIntoView();
-    }, 100);
-  }
-
-  /**
-   * 显示滑动动画
-   */
-  showAnimation() {
-    const tabList = this.refs.tabList;
-    if (tabList.scrollWidth > tabList.clientWidth) {
-      this.setState({ isSlide: true });
-      this.state.Timer = setTimeout(() => {
-        this.setState({ isSlide: false });
-      }, 2000);
-    }
   }
 
   render() {
@@ -158,7 +79,14 @@ class Widget extends Component {
     return (
         <div className="tip5">
             <img className="bindTip" src="../../../resources/images/bindTip.png"></img>
-            <img   className="know" src="../../../resources/images/know.png"></img>
+            <img   className="know"
+                    onClick={
+                    ()=>{
+                   this.goPrev1()
+
+                    }
+                    }
+                   src="../../../resources/images/know.png"></img>
             {/*<img  @tap="goPrev1" class="know" src="../../../resources/images/know.png"></img>*/}
 
         </div>

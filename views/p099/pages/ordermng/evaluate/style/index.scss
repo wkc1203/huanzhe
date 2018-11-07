@@ -89,13 +89,114 @@
     .evaluate-item {
         font-size: 15px;
         color: $hc-color-text;
+
+        .pingJia2{
+            height:auto;
+
+            .title{
+                font-size:15px;
+                height:40px;
+                line-height: 40px;
+                text-align: center;
+                color:#333;
+                font-weight: bold;
+            }
+            .ping{
+                width:auto;
+                height:25px;
+                margin:0 auto;
+
+                .xing{
+                    font-size:15px;
+                    color:#333;
+                    display: block;
+                    width:auto;
+                    height:25px;
+                    line-height:25px;
+                    text-align: left;
+                    padding-left:25px;
+                    font-weight: bold;
+                    div{
+                        width:17px;
+                        display: inline-block;
+                        height:16px;
+                        margin-right:10px;
+                        img{
+                            width:17px;
+                            display: inline-block;
+                            height:16px;
+                            vertical-align: inherit;
+
+                        }
+                    }
+                }
+            }
+            .conmidHeight{
+                height:35px !important;
+            }
+            .conminHeight{
+                height: 0;
+            }
+            .ping-content{
+                height:80px;
+                margin:5px 25px;
+                width:auto;
+                .active{
+                    background:#4dabc7;
+                    color:white;
+                    border:1px solid #4dabc7;
+
+                }
+                div{
+                    border-radius:3px;
+                    margin-right:15px;
+                    margin-top:10px;
+                    width:85px;
+                    height:24px;
+                    float: left;
+                    color:#333;
+                    line-height: 24px;
+                    text-align: center;
+                    font-size:12px;
+                    border:1px solid #0b0205;
+                }
+            }
+            .ping-info,.ping-time{
+                margin:0px 25px 0 25px;
+            }
+            .text1{
+                font-size:15px;
+                font-weight: bold;
+                color:#333;
+            }
+            .text2{
+                color:#333;
+                font-size:15px;
+            }
+            .consult-again{
+                height:47px;
+                margin:10px 25px;
+                .again{
+                    background: #4dabc7;
+                    color:white;
+                    font-size:15px;
+                    width:100%;
+                    height:36px;
+                    line-height: 36px;
+                    text-align: center;
+                    border-radius:3px;
+                    display:block;
+                }
+            }
+
+        }
         .showTxt{
             display:none !important;
         }
         .pingJia1{
             height:auto;
             display:block;
-            background: white;
+
             .title{
                 font-size:15px;
                 height:40px;
@@ -117,7 +218,7 @@
                     font-size: 15px;
                     color: #333;
                     display: block;
-                    width: 30%;
+                    width: 35%;
                     margin-left:15px;
                     text-align: left;
                     height: 40px;
@@ -128,12 +229,12 @@
                     font-size:15px;
                     color:#333;
                     display: block;
-                    width:64%;
+                    width:60%;
                     height: 40px;
                     line-height: 40px;
                     text-align: center;
                     div{
-                        width:34px;
+                        width:17px;
                         display: inline-block;
                         height:16px;
                         margin-right:10px;
@@ -141,6 +242,9 @@
                             width:17px;
                             display: inline-block;
                             height:16px;
+
+                            vertical-align: inherit;
+
 
                         }
                     }
@@ -150,8 +254,9 @@
             }
             .ping-content{
                 height:81px;
+
                 margin:1px auto;
-                width:auto;
+                width:100%;
                 .active{
                     background:#4dabc7;
                     color:white;
@@ -159,7 +264,7 @@
 
                 }
                 div{
-                    border-radius:5px;
+                    border-radius:3px;
                     margin-left:25px;
                     margin-top:10px;
                     width:85px;
@@ -188,10 +293,13 @@
 
                 }
                 textarea{
-                    height:71px;
-                    width:auto;
-                    font-size:13px;
-                    padding:3px;
+                    height: 71px;
+                    width: 100%;
+                    font-size: 13px;
+                    padding: 5px;
+                    resize: none;
+                    border: none;
+
                 }
             }
             .ping-btn{
@@ -200,16 +308,15 @@
                 width: auto;
                 button,.again{
                     float: left;
-                    width:155px;
+                    width:145px;
                     height:36px;
                     line-height: 36px;
                     text-align: center;
-                    border-radius:5px;
+                    border-radius:3px;
                 }
                 .btn1{
                     border:1px solid #4dabc7;
                     color:#4dabc7;
-                    font-size:15px;
                     background: white;
                 }
                 .btn2{
@@ -219,95 +326,6 @@
                 }
 
             }
-        }
-        .pingJia2{
-            height:auto;
-            background: white;
-            width:100%;
-            .title{
-                font-size:15px;
-                height:40px;
-                line-height: 40px;
-                text-align: center;
-                color:#333;
-                font-weight: bold;
-            }
-            .ping{
-                width:100%;
-                height:40px;
-                margin:0 auto;
-
-                .xing{
-                    float: left;
-                    font-size:15px;
-                    color:#333;
-                    display: block;
-                    width:50%;
-                    height: 40px;
-                    line-height: 40px;
-                    text-align: center;
-                    padding-left:25px;
-                    font-weight: bold;
-                    div{
-                        width:17px;
-                        display: inline-block;
-                        height:16px;
-                        margin-right:10px;
-                        img{
-                            width:17px;
-                            display: inline-block;
-                            height:16px;
-
-                        }
-                    }
-                }
-            }
-            .ping-content{
-                height:81px;
-                margin:1px auto;
-                width:100%;
-                .active{
-                    background:#4dabc7;
-                    color:white;
-                    border:1px solid #4dabc7;
-
-                }
-                div{
-                    border-radius:5px;
-                    margin-left:25px;
-                    margin-top:10px;
-                    width:85px;
-                    float: left;
-                    height:24px;
-                    color:#333;
-                    line-height: 24px;
-                    text-align: center;
-                    font-size:12px;
-                    border:1px solid #0b0205;
-                }
-            }
-            .ping-info,.ping-time{
-                margin:0px 25px 0 25px;
-            }
-            .text1{
-                font-size:15px;
-                font-weight: bold;
-                color:#333;
-            }
-            .text2{
-                color:#333;
-                font-size:15px;
-            }
-            .consult-again{
-                height:47px;
-                margin:10px 25px;
-                button{
-                    background: #4dabc7;
-                    color:white;
-                    font-size:15px;
-                }
-            }
-
         }
     }
     .star-img {

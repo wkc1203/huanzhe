@@ -7,7 +7,8 @@
     height:15px;
     padding:0 20px;
     line-height: 15px;
-    text-align: right;
+    float: right;
+    width: 100px;
 }
 .binduser-btn_line{
     background: $hc-color-primary;
@@ -15,10 +16,10 @@
     border-radius: 5px;
     text-align: center;
     font-size: 18px;
+    border:none;
     position:relative;
     display:block;
-    margin-left:auto;
-    margin-right:auto;
+    margin:0 auto;
     padding-left:14px;
     padding-right:14px;
     box-sizing:border-box;
@@ -123,9 +124,10 @@
     }
 }
 
-.m-content{
+.m1-content{
     font-size: 15px;
     color: $hc-color-title;
+    border:none;
 }
 
 .m-mt-20{
@@ -208,7 +210,7 @@
 }
 
 .afterscan-operbtnbox{
-    margin: 21px 20px;
+    margin: 21px auto;
 }
 
 .binduser-radio{

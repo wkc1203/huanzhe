@@ -3,13 +3,13 @@
 @import "../../../../resources/styles/mixins";
 
 
-.page-pay {
+.page1-pay {
 
     .fee-box {
         height: 134px;
         background-color: #fff;
         margin-bottom: 10px;
-        .warm-tip {
+        .warm-tip1 {
             height: 30px;
             background-color: #ECFAFF;
             color: $hc-color-primary;
@@ -29,7 +29,7 @@
             }
         }
     }
-    .m-list {
+    .mm-list {
         padding: 15px 0;
         margin-top: 10px;
         background-color: #fff;
@@ -68,13 +68,14 @@
     }
 
     .btn{
-        margin: 30px 0;
+        margin: 30px auto;
         .submit-btn {
             background-color: $hc-color-primary;
             color: #fff;
+            border:none;
             font-size: 18px;
             height: 47px;
-            margin: 0 20px 20px;
+            margin:  20px auto;
             position:relative;
             display:block;
             width:332px;

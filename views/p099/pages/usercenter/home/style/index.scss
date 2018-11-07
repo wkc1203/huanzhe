@@ -243,7 +243,6 @@
 
 .modal{
     position: absolute;
-    display:none;
     top: 0;
     bottom: 0;
     left: 0;
@@ -269,6 +268,8 @@
         box-sizing: border-box;
         border-radius: 4px;
         background: #fff;
+        margin-left: 12%;
+        margin-top: 20%;
         .modal-img{
             margin: 0 auto;
             padding: 50px 0 25px;
@@ -288,6 +289,7 @@
             text-align: center;
         }
         .modal-btn{
+            height:100%;
             >div{
                 box-sizing: border-box;
                 text-align: center;
@@ -308,6 +310,8 @@
     .modal-close{
         position: relative;
         width: 30px;
+        margin-left: 45%;
+        margin-top: -6%;
         .modal-close-icon{
             width: 30px;
             height: 30px;

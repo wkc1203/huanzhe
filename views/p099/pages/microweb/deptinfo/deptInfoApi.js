@@ -5,4 +5,5 @@ export const getHisConfig = param => fetch.post('/api/personal/getbindcardprofil
 
 export const addPatients = param => fetch.post('/api/personal/addpatients', param);
 
-export const getUser = param => fetch.post('/api/personal/getuser', param);
+export const getDepInfo = (param) => fetch.post('/api/ehis/health/api/dept/dept', param);
+export const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/getJsApiConfig', param);

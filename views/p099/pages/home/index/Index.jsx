@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import hashHistory from 'react-router/lib/hashHistory';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
@@ -15,16 +16,116 @@ class Widget extends Component {
       hospInfo: {},
       isOpen:false,
       docList:[],
+        showToast: false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        style2: {
+            title: '提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        msg:'',
+        show:false,
     };
   }
 
   componentDidMount() {
          this.selectDept('全部科室','');
+        //this.getJs();
+
   }
+    componentWillUnmount() {
+        // 离开页面时结束所有可能异步逻辑
+
+    }
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
+
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
+    }
+    getJs(){
+
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems','showMenuItems'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function(){
+                        //批量隐藏功能
+                        wx.hideMenuItems({
+                            menuList: ["menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        });
+                    });
+
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+
+
+
+    }
     //底部跳转
     toNext(type){
         if(type==2){
-
             hashHistory.replace({
                 pathname: '/inquiry/inquirylist'
             });
@@ -43,11 +144,16 @@ class Widget extends Component {
         })
         this.getDocList(deptId);
     }
-    async getDocList(deptId = '') {
+     getDocList(deptId = '') {
+         this.showLoading();
         Api
             .getDocList({numPerPage: 100, deptId, name: '' })
             .then((res) => {
+                this.setState({
+                    show:true,
+                })
                  if(res.code==0&&res.data!=null){
+
                      var docList=[];
                      for(var i=0;i<5;i++){
                          docList.push(res.data.doctors[i]);
@@ -55,11 +161,16 @@ class Widget extends Component {
                      this.setState({
                          docList:docList
                      });
+                     this.hideLoading();
+
                  }
-                console.log(this.state.docList);
 
             }, (e) => {
-                this.showPopup({ content: e.msg });
+                this.hideLoading();
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
             });
     }
      //显示/隐藏正在建设中
@@ -75,38 +186,41 @@ class Widget extends Component {
         }
     }
 
-    getHospIntro() {
-    this.showLoading();
-    Api
-      .getHisInfo()
-      .then((res) => {
-        this.hideLoading();
-        this.setState({ hospInfo: res.data });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-      });
-  }
 
+    goDoctor(){
+        hashHistory.push({
+            pathname: '/consult/deptlist',
+            query:{type:1}
+        });
+    }
   render() {
      const {
           isOpen,
+         show,
          docList,
+         msg,
          }=this.state;
     return (
         /*首页*/
       <div className="page-home ">
-         <div className="header">
+          <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+              {msg}
+          </Dialog>
+          {!show&&<div  className='no-data'>
+              <img src='../../../resources/images/no-result.png' />
+              <div>暂未查询到相关信息</div>
+          </div>}
+          {show&&<div className="header">
            <img
                src="../../../resources/images/head-img.png"
                alt=""
                />
-         </div>
-         <div className="content">
+         </div>}
+          {show&&<div className="content">
            <div className="head-des">
               <div className="f-pa">
                 <Link className="d-tab"
-                      to={{ pathname: '/consult/deptlist' }}
+                      to={{ pathname: '/consult/alldeptlist' }}
                     >
                   <div>
                      <div className="icon">
@@ -157,7 +271,10 @@ class Widget extends Component {
                 </div>
               </div>
            </div>
-             <div className='title1 rightTab'>专家推荐<div >更多</div></div>
+             <div className='title1 rightTab'>专家推荐<div  onClick={()=>{
+             this.goDoctor()
+
+             }}>更多</div></div>
              <div className='doctor'>
                  <div  style={{height:'100%',width:'100%'}}>
                      <div className='content1' >
@@ -165,7 +282,11 @@ class Widget extends Component {
                              docList.map((item, index) => {
                                  return (
                                      <div key={index} style={{paddingTop:'15px'}}>
-                                         <Link >
+                                         <Link  to={{
+                                         pathname:'consult/deptdetail',
+                                         query:{doctorId:item.doctorId,deptId:item.deptId}
+
+                                         }}>
                                              <img src={item.image}></img>
                                              <div className="txt1">{item.name}</div>
                                              <div className="txt2">{item.deptName} {item.level}</div>
@@ -185,7 +306,7 @@ class Widget extends Component {
                      </div>
                  </div>
              </div>
-           <div className='title1'>常用服务</div>
+           <div className='titleh'>常用服务</div>
            <div className='b-tab'>
              <Link
                  to={{ pathname: '/microweb/deptlist' }}
@@ -249,7 +370,7 @@ class Widget extends Component {
                </div>
              </Link>
            </div>
-         </div>
+         </div>}
           {isOpen&&<div className='modal-tip'>
               <div className='modal-body-tip'>
                   <div className='modal-title'>温馨提示</div>

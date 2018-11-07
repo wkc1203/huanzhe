@@ -1,110 +1,608 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-
+import { Upload } from 'antd';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
+import reqwest from 'reqwest';
 
 import * as Api from './complainIndexApi';
 import 'style/index.scss';
-
+var imgArr1=[];
+var uuList=[];
+var maxLength=0;
+var imgList=[];
+var files = new Array();
 class Widget extends Component {
+    static contextTypes = {
+        router: React.PropTypes.object,
+    };
+
   constructor(props) {
     super(props);
     this.state = {
-      hospInfo: {},
+        signature:"",
+        uuIdList:[],
+        g_object_name_type:'random_name',
+        g_object_name:'',
+        suffix:'',
+        policy:"",
+        callback:"",
+        OSSAccessKeyId:"",
+        key:"",
+        name:"",
+        upLoadImg: [],
+        isUploadAll: false,
+        toptip: '',
+        content: '',
+        pics:'',
+        reason: '',
+        imgArr:[],
+        imgArr1:[],
+        reasonList: [
+            {reason: '服务态度不好', id: 1},
+            {reason: '医生回答不及时', id: 2},
+            {reason: '系统不稳定', id: 3},
+            {reason: '价格不合理', id: 4},
+            {reason: '其他', id: 5}
+        ],
+        previewVisible: false,
+        previewImage: '',
+
+        sign:{},
+        fileList:[],
+        uploading: false,
+        formData:{},
+        open:false,
+        showToast: false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        style2: {
+            title: '提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        msg:'',
     };
   }
 
+    getUuid() {
+        if(this.state.open){
+            var len = 32;//32长度
+            var radix = 16;//16进制
+            var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+            var uuid = [], i;
+            radix = radix || chars.length;
+            if(len) {
+                for(i = 0; i < len; i++)uuid[i] = chars[0 | Math.random() * radix];
+            } else {
+                var r;
+                uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+                uuid[14] = '4';
+                for(i = 0; i < 36; i++) {
+                    if(!uuid[i]) {
+                        r = 0 | Math.random() * 16;
+                        uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+                    }
+                }
+            }
+            uuList.push(uuid.join(''))
+            return uuid.join('');
+        }else{
+            return false;
+        }
+
+    }
+    randomName(){
+        var myDate = new Date();
+
+        var ossPath='PIC/';
+        var fileRandName=Date.now();
+        var year=myDate.getFullYear();
+        var month;
+        var day;
+        if(myDate.getMonth()+1<10) {
+            var  m=myDate.getMonth()+1;
+            month = '0'+m;
+        }else{
+            month=myDate.getMonth()+1;
+        }
+        if(myDate.getDate()<10){
+            var d=myDate.getDate()+1;
+            day='0'+d;
+        }else{
+            day=myDate.getDate();
+        }
+        this.setState({
+            key:ossPath+year+'/'+month+'/'+day
+        })
+
+
+    }
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
+
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
+    }
+    getJs1(){
+
+        /*Api
+         .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+         .then((res) => {
+         console.log(res);
+         if(res.code==0){
+         //写入b字段
+         console.log("str",res.data);
+         wx.config({
+         debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+         appId:res.data.appId, // 必填，公众号的唯一标识
+         timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+         nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+         signature:res.data.signature,// 必填，签名
+         jsApiList: ['chooseImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+         });
+         }
+
+
+         //this.setState({ hospInfo: res.data });
+         }, (e) => {
+         this.hideLoading();
+         alert("r"+JSON.stringify(e));
+         //this.showPopup({ content: e.msg });
+         });
+         */
+        Api
+            .getSign({bucket:'ihoss',dir:"PIC"})
+            .then((res) => {
+                if(res.code==0){
+                    this.hideLoading();
+                    var sign={
+
+                    };
+                    this.setState({
+                        name:new Date().getTime()+".png",
+                        signature:res.data.sign,
+                        policy:res.data.policy,
+                        callback:res.data.callback,
+                        OSSAccessKeyId:res.data.accessId,
+                        key:this.state.key,
+                    })
+                    /* host=res.data.host;
+                     policy=res.data.policy;
+                     sign1=res.data.sign;
+                     dir=res.data.dir;
+                     accessid=res.data.accessId;
+                     var files = document.getElementById("input1").files;
+                     console.log("files",files);*/
+
+                }
+
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+
+    }
+    complain(param) {
+        Api
+            .complain(param)
+            .then((res) => {
+                /* await wepy.showToast({
+                 title: '提交成功！',
+                 icon: 'success'
+                 });*/
+                this.showToast();
+                setTimeout(() => {
+                    /*this.context.router.goBack();*/
+                    this.context.router.goBack();
+                },500);
+
+
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+    }
+    submitData() {
+
+        let errMsg = !this.state.reason
+            ? '请选择投诉原因'
+            : this.state.content.length > 100 ? '描述不能多于100个字' : '';
+        if (errMsg) {
+
+            this.setState({
+                toptip:errMsg
+            })
+            this.toptip = errMsg;
+            setTimeout(() => {
+                this.setState({
+                    toptip: ''
+                })
+            }, 2000);
+            return;
+        }
+        const imgArr1 =this.uniq(this.state.imgArr);
+        var len = imgArr1.length;
+        if (len == 0) {
+            const params = {
+                complaintsCert: this.state.pics,
+                complaintsContent: this.state.content,
+                complaintsReason: this.state.reason,
+            };
+            this.complain(params);
+        } else {
+            var pics='';
+            if(imgArr1.length>1){
+
+                for(var i=0;i<imgArr1.length;i++){
+                     if(i!=imgArr1.length-1){
+                         pics=pics+imgArr1[i]+',';
+                     }else{
+                         pics=pics+imgArr1[i];
+                     }
+
+                }
+            }else{
+                pics=imgArr1[0];
+            }
+             this.setState({
+                 pics:pics
+             })
+            const params = {
+                complaintsCert: pics,
+                complaintsContent: this.state.content,
+                complaintsReason: this.state.reason,
+            };
+            this.complain(params);
+        }
+    }
+
+    saveContent(e) {
+        this.setState({
+            content:e.target.value
+        })
+    }
+    changeStatus(id) {
+        var reasonList = this.state.reasonList.map(item => {
+            if (item.id == id) {
+                item.active = true;
+            } else {
+                item.active = false;
+            }
+            return item;
+        });
+        var reason;
+        reasonList.map(item => {
+            if (item.active) {
+                reason = item.reason;
+            }
+        });
+        this.setState({
+            reason:reason,
+            reasonList:reasonList
+        })
+
+    }
+
+
+    getHospIntro() {
+        this.showLoading();
+        Api
+            .getHisInfo()
+            .then((res) => {
+                this.hideLoading();
+                this.setState({ hospInfo: res.data });
+            }, (e) => {
+                this.hideLoading();
+                this.showPopup({ content: e.msg });
+            });
+    }
+     isHasImg(pathImg){
+        var ImgObj=new Image();
+        ImgObj.src= pathImg;
+        if(ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0))
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    handleChange = (info) => {
+
+        if(info.fileList.length>maxLength){
+            maxLength=info.fileList.length;
+        }
+        for(var i=0;i<info.fileList.length;i++){
+
+
+            if(imgList.length==0) {
+               imgList.push(info.fileList[i].uid);
+            }else{
+                console.log("i",info.fileList[i].uid);
+                console.log("j",imgList[j]);
+                console.log("ji",info.fileList);
+                console.log("jj",imgList);
+
+                for(var j=0;j<imgList.length;j++){
+                      if(info.fileList[i].uid!=imgList[j]){
+                          imgList.push(info.fileList[i].uid);
+                      }
+                }
+            }
+
+        }
+        console.log("ll",imgList.length);
+        for(var i=0;i<=uuList.length-1;i++){
+            //imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+this.state.key+'/'+uuList[i]+'.png')
+            imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+this.state.key+'/'+uuList[i]+'.png');
+        }
+
+        let fileList = info.fileList;
+               console.log("img",info.fileList.length);
+        // 1. Limit the number of uploaded files
+        // Only to show two recent uploaded files, and old ones will be replaced by the new
+        fileList = fileList.slice(-2);
+
+        // 2. Read from response and show file link
+        fileList = fileList.map((file) => {
+            if (file.response) {
+                // Component will show file.url as link
+                file.url = file.response.url;
+            }
+            return file;
+        });
+
+        // 3. Filter successfully uploaded files according to response from server
+        fileList = fileList.filter((file) => {
+            if (file.response) {
+                return file.response.status === 'success';
+            }
+            return true;
+        });
+        var s=setTimeout(()=>{
+            var s=this.uniq(imgArr1);
+            var imgs=[];
+            for(var i=0;i<s.length;i++){
+
+                if(this.isHasImg(s[i])){
+                    alert("s",s[i]);
+                    imgs.push(s[i])
+                }else{
+                }
+            }
+
+            this.setState({
+                imgArr:this.uniq(imgs)
+            })
+        },500);
+        this.setState({ fileList });
+
+
+
+
+
+    }
+    getJs(){
+
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                    });
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+
+
+
+    }
+    previewImg(url){
+        const arr = [];
+        this.state.imgArr.map(item => {
+            if (item) {
+                arr.push(item);
+            }
+        });
+        wx.previewImage({
+            current: url, // 当前显示图片的http链接
+            urls: arr // 需要预览的图片http链接列表
+        });
+
+    }
   componentDidMount() {
-
+    this.getJs();
+      this.getJs1();
+      this.randomName();
   }
+     uniq(array){
+        var temp = [];
+        for(var i = 0; i < array.length; i++) {
+            //如果当前数组的第i项在当前数组中第一次出现的位置是i，才存入数组；否则代表是重复的
+            if(array.indexOf(array[i]) == i){
+                temp.push(array[i])
+            }
+        }
+        return temp;
+    }
+    render() {
+        const {sign,signature,formData,policy,callback,OSSAccessKeyId,key,name,upLoadImg,isUploadAll,toptip,content,pics,reason,imgArr,reasonList}=this.state
+        const { previewVisible, previewImage, fileList } = this.state;
+        const { uploading,msg } = this.state;
+      const props = {
+          action: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
+          onChange: this.handleChange,
+          multiple: true,
+          data:{signature:signature,
+          policy:policy,
+          callback:callback,
+          OSSAccessKeyId:OSSAccessKeyId,
+          key:key+"/"+this.getUuid()+".png"}
 
-  getHospIntro() {
-    this.showLoading();
-    Api
-      .getHisInfo()
-      .then((res) => {
-        this.hideLoading();
-        this.setState({ hospInfo: res.data });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-      });
-  }
-
-  render() {
-
-    return (
+      };
+      return (
         <div className="page-complain">
-            {/*<div className="hc-toptip" >toptip</div>
-            {/*<div className="hc-toptip" hidden="{{!toptip}}">{{toptip}}</div>*/}
-            <div className="header">
-                <img src="../../..//resources/images/complain-bg.png" />
-                <div className="header-title">感谢您为我们服务提供的宝贵意见</div>
-            </div>
-            <div className="complain-reason">
-                <div className="reason-title">
-                    请选择原因
+            <Toast icon="success-no-circle" show={this.state.showToast}>提交成功</Toast>
+            <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                {msg}
+            </Dialog>
+                <div className="clearfix">
                 </div>
-                <div className="reason-box">
-                    <div  className="reason-item">reason</div>
+                {toptip
+                &&<div className="hc-toptip" >{toptip}</div>}
+                <div className="header">
+                    <img src="../../..//resources/images/complain-bg.png" />
+                    <div className="header-title">感谢您为我们服务提供的宝贵意见</div>
+                </div>
+                <div className="complain-reason">
+                    <div className="reason-title">
+                        请选择原因
+                    </div>
+                    <div className="reason-box">
+                        {reasonList&&reasonList.map((item,index)=>{
+                            return(
+                                <div  key={index}
+                                      onClick={()=>{
+                              this.changeStatus(item.id)
 
-                    {/*<block wx:for="{{reasonList || []}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-                     <div @tap="changeStatus" data-id="{{item.id}}" className="reason-item {{item.active ? 'active' : ''}}">{{item.reason}}</div>
-                     </block>*/}
+                               }}
+                                      className={`reason-item ${item.active ? 'active' : ''}`}>{item.reason}</div>
 
+                            )
+
+                        })}
+                    </div>
                 </div>
-            </div>
-            <div className="complain-suggest">
-                <div className="suggest-title">请输入投诉或建议的内容</div>
-                <div className="area-box">
-                    <textarea   placeholder="请输入" />
-                    {/*<textarea cursor-spacing="100" @input='saveContent' placeholder-className="place-box" placeholder="请输入" />*/}
+                <div className="complain-suggest">
+                    <div className="suggest-title">请输入投诉或建议的内容</div>
+                    <div className="area-box">
+                    <textarea   placeholder="请输入"
+                                onChange={(e)=>{
+                      this.saveContent(e)
+
+                        }}/>
+                        {/*<textarea cursor-spacing="100" @input='saveContent' placeholder-className="place-box" placeholder="请输入" />*/}
+                    </div>
                 </div>
-            </div>
-            <div className="img-box">
-                <div className="img-title">请上传图片，最多5张，每张不超过2M</div>
-                <div className='img-choose-box'>
-                    <div className='img-box'>
-                        {/*<div className='img-box' @tap="chooseImg">*/}
-                        <div className='img-item'>
-                            <div>
-                                <img src="../../../resources/images/add-img.png" />
+
+                <div className="image-box">
+                    <div className="img-title">请上传图片，最多5张，每张不超过2M</div>
+                    <div className='img-choose-box'>
+                        <div className='img-box3'>
+                            <div className="img-item">
+                                <Upload
+                                    {...props} fileList={this.state.fileList}>
+                                    <div onClick={()=>{
+                                        this.setState({
+                                          open:true
+                                        })
+
+                                        }}>
+                                        <img src="../../../resources/images/add-img.png" />
+                                    </div>
+                                </Upload>
                             </div>
                         </div>
+                        {imgArr&&imgArr.map((item,index)=>{
+                            return(
+                                <div className='img-box3' key={index}>
+                                    <div className='img-add' onClick={()=>{
+                       this.previewImg(item)
+
+                        }}>
+                                        <icon    onClick={
+                                  ()=>{
+                                 this.deleteImg()
+
+                                  }} />
+                                        <div>
+                                           {!!item&&<img src={item} />}
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
                     </div>
-                    <div className='img-box'>
-                        <div className='img-add'>
-                            <icon  />
-                            <div>
-                                <img src="../../../resources/images/add-img.png" />
-                            </div>
-                        </div>
-                    </div>
-                    {/*<block wx:for="{{imgArr}}" wx:for-index="idx" wx:for-item="item" wx:key="{{idx}}">
-                     <div className='img-box'>
-                     <div className='img-add' @tap="predivImg" data-preurl="{{item}}" >
-                     <icon @tap.stop="deleteImg" data-url="{{item}}" type="clear" size="16" color='red' />
-                     <div>
-                     <img src="{{item}}" />
-                     </div>
-                     </div>
-                     </div>
-                     </block>*/}
-            {/*<button @tap="submitData" className="submit-btn">*/}
                 </div>
-            </div>
-            <div className='btn'>
-                <button  className="submit-btn">
 
-                    提交
-                </button>
-            </div>
-            <div className="empty-box"></div>
-        </div>
+                <div className='btn'>
+                    <button  className="submit-btn"
+                             onClick={()=>{
+                    this.submitData()
 
-    );
-  }
+                    }}
+                        >
+                        提交
+                    </button>
+                </div>
+                <div className="empty-box"></div>
+            </div>
+
+        );
+    }
+
 }
 
 export default Connect()(Widget);

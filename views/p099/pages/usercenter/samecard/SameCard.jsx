@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { InfiniteLoader, LoadMore } from 'react-weui';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import { Link } from 'react-router';
+import hashHistory from 'react-router/lib/hashHistory';
 
 import Connect from '../../../components/connect/Connect';
 import NoResult from '../../../components/noresult/NoResult';
@@ -9,213 +10,313 @@ import * as Api from './sameCardApi';
 import './style/index.scss';
 
 class Widget extends Component {
+    static contextTypes = {
+        router: React.PropTypes.object,
+    };
   constructor(props) {
     super(props);
     this.state = {
-      noResult: {
-        msg: '暂未获取到相关信息',
-        show: false,
-      },
-      articleTypeList: [],
-      articleData: {},
-    };
+        userInfo: {},
+        cardList: [],
+        cardList1:[],
+        showTip:false,
+        leftBindNum:'',
+        cardNew:[],
+        showToast: false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            title:'提示',
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        style3: {
+            title:'您一共只能绑定两张就诊卡',
+            buttons: [
+                {
+                    label: '我知道了',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        style2: {
+            title: '提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        msg:'',
+    }
   }
 
   componentDidMount() {
-    //this.getArticleTypeList();
-  }
+      //this.getJs();
+      this.getCardList1();
+      this.setState({
+          leftBindNum:this.props.location.query.left
+      })
 
+  }
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
+
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
+    }
+    getJs(){
+
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function(){
+                        //批量隐藏功能
+                        wx.hideMenuItems({
+                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        });
+                    });
+
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+                //this.hideLoading();
+                //alert("r"+JSON.stringify(e));
+                //this.showPopup({ content: e.msg });
+            });
+
+
+
+    }
+     getCardList1(){
+         Api
+             .getCardList1()
+             .then((res) => {
+                 this.setState({
+                     cardNew:res.data
+                 })
+
+                 if (res.code == 0) {
+                     this.setState({
+                         cardList:res.data
+                     })
+                 }
+                 var cardList=res.data;
+                 for(var i=0;i<cardList.length;i++){
+                     cardList[i].isSelect=false;
+
+                 }
+                 this.setState({
+                     cardList:cardList
+                 })
+
+             }, (e) => {
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
+             });
+
+    }
   componentWillUnmount() {
     this.state.Timer && clearTimeout(this.state.Timer);
   }
 
-  /**
-   * 根据医院id获取文章类型列表
-   */
-  getArticleTypeList() {
-    const param = this.props.location.query;
-    const { noResult } = this.state;
-    this.showLoading();
-    Api
-      .getArticleTypeList(param)
-      .then((res) => {
-        this.hideLoading();
-        const articleTypeList = res.data;
-        if (articleTypeList && articleTypeList.length > 0) {
-          this.setState({
-            articleTypeList,
-          });
-
-          const typeId = this.props.location.query.typeId || articleTypeList[0].typeId;
-          if (typeId) {
-            this.setState({ typeId });
-          }
-          this.getHospDynamics(typeId);
-          this.tabScrollIntoView();
-          this.showAnimation();
-        } else {
-          noResult.show = true;
-          this.setState({ noResult });
+    select1(index){
+        console.log(index);
+        var cardList=this.state.cardList;
+        for(var i=0;i<cardList.length;i++)
+        {
+            if(index==i){
+                cardList[i].isSelect=!cardList[i].isSelect;
+            }
         }
-      }, (e) => {
-        this.hideLoading();
-        noResult.show = true;
-        this.setState({ noResult });
-        this.showPopup({ content: e.msg });
-      });
-  }
+       this.setState({
+           cardList:cardList
+       })
 
-  /**
-   * 获取文章列表
-   * @param type {Number} 文章类型
-   * @param currentPage {Number} 要获取的页码数
-   * @param resolve {Object} 滚动拉取组件隐藏loading样式的回调
-   */
-  getHospDynamics(type = 1, currentPage = 1, resolve = () => null) {
-    const param = this.props.location.query;
-    Object.assign(param, { typeId: type, pageNum: currentPage });
-    this.showLoading();
-    const { noResult, articleData } = this.state;
-    Api
-      .getHospDynamics(param)
-      .then((res) => {
-        this.hideLoading();
-        const listData = res.data || {};
-        if (listData.recordList && listData.recordList.length > 0) {
-          // 合并相同类型数据
-          const listName = type;
-          const currentArticle = articleData[listName];
-          if (currentArticle && currentArticle.currentPage > 0
-            && parseFloat(currentArticle.currentPage) + 1 !== parseFloat(listData.currentPage)) {
-            // 不是本次要的数据
-            return;
-          }
-          if (!currentArticle) {
-            // 无数据 直接赋值
-            articleData[listName] = listData;
-            this.setState({ articleData }, () => resolve());
-          } else {
-            // 原来有数据 concat数组内容 其它分页数据(如当前页数，总页数)使用本次获取到的
-            let newArticleList = (currentArticle.recordList && currentArticle.recordList.length > 0)
-              ? currentArticle.recordList : [];
-            newArticleList = newArticleList.concat(listData.recordList);
 
-            articleData[param.typeId] = { ...listData, recordList: newArticleList };
-            this.setState({ articleData }, () => resolve());
-          }
-        } else {
-          noResult.show = true;
-          this.setState({ noResult }, () => resolve());
+    }
+    add(){
+        var flag=0;
+        for(var i=0;i<this.state.cardList.length;i++){
+            if(this.state.cardList[i].isSelect==true){
+                flag++;
+            }
         }
-      }, (e) => {
-        this.hideLoading();
-        noResult.show = true;
-        this.setState({ noResult }, () => resolve());
-        this.showPopup({ content: e.msg });
-      });
-  }
+        console.log('flag',flag);
+        console.log('left',this.state.leftBindNum);
+        if(flag>this.state.leftBindNum){
+                   this.setState({
+                       showIOS2:true
+                   })
+        }else{
+            var cardList=this.state.cardList;
+            var  cardNew=this.state.cardNew;
+            for(var i=0;i<cardList.length;i++){
+                if(cardList[i].isSelect==true){
+                    console.log("nw");
 
-  /**
-   * 改变显示文章的类型
-   * @param type {String} 文章类型
-   */
-  changeType(type) {
-    const { articleData, typeId } = this.state;
-    if (type === typeId) {
-      return;
+                    for (var val in cardNew[i]) {
+                        console.log(val + " " + cardNew[i][val]);//输出如:name
+                        if(cardNew[i][val]==null){
+                            delete cardNew[i][val];
+                        }
+                        if(cardNew[i][val]==1){
+                            console.log("isd");
+                            cardNew[i][val]=0;
+                        }
+                       this.setState({
+                           cardNew:cardNew,
+                           cardList:cardList
+                       })
+
+                    }
+
+                    this.addPerson(this.state.cardNew[i]);
+                }
+            }
+        }
     }
+     addPerson(param){
+         Api
+             .sameCard(param)
+             .then((res) => {
+                 if (res.code == 0) {
+                            this.showToast();
+                     const timer = setTimeout(() => {
+                         clearTimeout(timer);
+                         this.context.router.goBack()
+                     }, 2000);
+                 }
+             }, (e) => {
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
+             });
 
-    this.setState({ typeId: type });
-    this.tabScrollIntoView();
-    // 判断是否已经查找过该类型
-    if (Object.keys(articleData).indexOf(type) < 0) {
-      // 没查找过前往查找
-      this.getHospDynamics(type);
     }
-  }
+    goNext(){
+        hashHistory.push({
+            pathname:'usercenter/addcard',
+            query:{type:1}
+        })
 
-  tabScrollIntoView() {
-    window.setTimeout(() => {
-      this.refs.activeTab.scrollIntoView();
-    }, 100);
-  }
-
-  /**
-   * 显示滑动动画
-   */
-  showAnimation() {
-    const tabList = this.refs.tabList;
-    if (tabList.scrollWidth > tabList.clientWidth) {
-      this.setState({ isSlide: true });
-      this.state.Timer = setTimeout(() => {
-        this.setState({ isSlide: false });
-      }, 2000);
     }
-  }
-
   render() {
-
+     const{userInfo,cardList,cardList1,showTip,leftBindNum,cardNew,msg}=this.state;
     return (
         <div>
-        <div className="title">
+            <Toast icon="success-no-circle" show={this.state.showToast}>同步成功</Toast>
+
+            <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+            {msg}
+          </Dialog>
+            <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={this.state.showIOS2}>
+            </Dialog>
+            {cardList.length>0&&<div className="title">
             已检测到您在重医儿童医院微信公众号绑定了以下就诊人，请选择是否进行同步
-        </div>
+        </div>}
       {/*<div className="title" wx:if="{{cardList.length>0}}">
        已检测到您在重医儿童医院微信公众号绑定了以下就诊人，请选择是否进行同步
        </div>*/}
-      <div className="card-item"  >
-          <div className="collect"  >
-              <img src="../../../resources/images/com.png"></img>
-          </div>
-          <div className="card-info">
-              <div>就诊人  <span>name</span></div>
-              <div>就诊卡 <span>patCardNo</span>  </div>
-          </div>
-      </div>
-      <div className="card-item" >
-          <div className="collect">
-              <img src="../../../resources/images/default.png"/>
-          </div>
-          <div className="card-info no">
-          <div >就诊人name</div>
-          <div>就诊卡patCardNo</div>
-          </div>
-          </div>
-      {/*<block wx:for="{{cardList}}" wx:for-index="idx" wx:for-item="card" wx:key="{{idx}}"  >
-       <div className="card-item"  wx:if="{{card.accountId==null}}"  @tap="select1({{idx}})">
-       <div className="collect"  >
-       <img src="../../../resources/images/com.png" wx:if="{{card.isSelect}}"></img>
-       <img src="../../../resources/images/nocom.png" wx:if="{{!card.isSelect}}"></img>
-       </div>
-       <div className="card-info">
-       <div>就诊人  <span>{{card.name}}</span></div>
-       <div>就诊卡 <span>{{card.patCardNo}}</span>  </div>
-       </div>
-       </div>
-       <div className="card-item" wx:if="{{card.accountId!=null}}">
-       <div className="collect">
-       <img src="../../../resources/images/default.png"/>
-       </div>
-       <div className="card-info no">
-       <div >就诊人 {{card.name}}</div>
-       <div>就诊卡 {{card.patCardNo}}</div>
-       </div>
-       </div>
-       </block>*/}
+            {cardList&&cardList.map((item,index)=>{
+                return(
+                    <div key={index}>
+                       { item.accountId==null&&<div className="card-item"  onClick={()=>{
+                       this.select1(index)
+
+                       }}>
+                            <div className="collect"  >
+                                <img src={item.isSelect?"./././resources/images/com.png":"./././resources/images/nocom.png"}></img>
+
+                            </div>
+                            <div className="card-info">
+                                <div>就诊人  {item.name}</div>
+                                <div>就诊卡{item.patCardNo} </div>
+                            </div>
+                        </div>}
+                        { item.accountId!=null&&<div className="card-item"  >
+                            <div className="collect"  >
+                                <img src="../../../resources/images/default.png"></img>
+
+                            </div>
+                            <div className="card-info">
+                                <div>就诊人 {item.name}</div>
+                                <div>就诊卡{item.patCardNo} </div>
+                            </div>
+                        </div>}
+                    </div>
+
+                )
+
+            })}
 
 
-      <div className="same">
+            {cardList.length>0&&<div className="same"
+                                     onClick={()=>{
+                this.add()
+
+                }}>
           同步就诊人
-      </div>
-      <div className="bind" >
+      </div>}
+            {cardList.length>0&&
+            <div className="bind"
+                onClick={()=>{
+                this.goNext()
+
+                }}>
           绑定新就诊人
-      {/*<div className="same" @tap="add" wx:if="{{cardList.length>0}}">
-       同步就诊人
-       </div>
-       <div className="bind" @tap="goNext" wx:if="{{cardList.length>0}}">
-       绑定新就诊人
-       </div>*/}
-          </div>
+          </div>}
               </div>
 
 

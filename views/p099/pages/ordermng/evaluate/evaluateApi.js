@@ -1,8 +1,11 @@
 import fetch from '../../../utils/fetch';
 
 // 绑定就诊卡
-export const getHisConfig = param => fetch.post('/api/personal/getbindcardprofile', param);
 
-export const addPatients = param => fetch.post('/api/personal/addpatients', param);
+export const getDocDet = (param) => fetch.post('/api/ehis/health/api/appraisal/preAppraisal', param);
 
-export const getUser = param => fetch.post('/api/personal/getuser', param);
+export const evaluate = (param) => fetch.post('/api/ehis/health/api/appraisal/appraisal', param);
+export const evaluate1 = (param) => fetch.post('/api/ehis/health/api/appraisal/appraisals', param);
+
+export const getEvaluateDet = (param) => fetch.post('/api/ehis/health/api/appraisal/page', param);
+export const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/getJsApiConfig', param);

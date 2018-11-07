@@ -16,15 +16,19 @@
             height: 25px;
             color: $hc-color-gray;
         }
-        .item-box {
+        .item-box1 {
             background-color: #fff;
             font-size: 17px;
             color: $hc-color-title;
             border-bottom: 1px solid $hc-color-border;
-            .list-item {
+            .list-item,a {
                 margin: 0 30px 0 15px;
                 height: 44px;
+                color: $hc-color-title;
                 line-height: 44px;
+                width:auto;
+                display:block;
+
                 &:not(:last-child) {
                     border-bottom: 1px solid $hc-color-border;
                 }

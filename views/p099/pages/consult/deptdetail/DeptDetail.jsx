@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
@@ -8,302 +9,557 @@ import * as Api from './deptDetailApi';
 import 'style/index.scss';
 
 class Widget extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hospInfo: {},
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            isShowTip: false,
+            footShow: false,
+            isShowProtocol: false,
+            isFavorite: false,
+            doctorId: '1',
+            showToast: false,
+            showLoading: false,
+            toastTimer: null,
+            loadingTimer: null,
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+            style1: {
+                buttons: [
+                    {
+                        label: '确定',
+                        onClick: this.hideDialog.bind(this)
+                    }
+                ]
+            },
+            style2: {
+                title: '提示',
+                buttons: [
+                    {
+                        type: 'default',
+                        label: '取消',
+                        onClick: this.hideDialog.bind(this)
+                    },
+                    {
+                        type: 'primary',
+                        label: '确定',
+                        onClick: this.hideDialog.bind(this)
+                    }
+                ]
+            },
+            msg:'',
+            deptId: '1',
+            docInfo: {},
+            evaluate: [],
+            currentPage: 1,
+            pageCount: 1,
+            pageNum:1,
+            t1:{text:'态度好',show:false},
+            t2:{text:'及时回复',show:false},
+            t3:{text:'解答详细',show:false},
+            t4:{text:'很专业',show:false},
+            t5:{text:'非常感谢',show:false},
+            totalCount: 0,
+            totalFee: 0,
+            leftTime: 8,
+        };
+    }
 
-  componentDidMount() {
+    componentDidMount() {
+        document.getElementById("head").scrollIntoView();
+        this.setState({
+            doctorId:this.props.location.query.doctorId,
+            deptId:this.props.location.query.deptId,
+        })
+        this.getDeptDetail(this.props.location.query.doctorId, this.props.location.query.deptId);
+        this.getEvaluateList(1, this.props.location.query.doctorId, this.props.location.query.deptId);
+    }
+    showToast() {
+        this.setState({showToast: true});
 
-  }
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
 
-  getHospIntro() {
-    this.showLoading();
-    Api
-      .getHisInfo()
-      .then((res) => {
-        this.hideLoading();
-        this.setState({ hospInfo: res.data });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-      });
-  }
+    showLoading() {
+        this.setState({showLoading: true});
 
-  render() {
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
+    }
+    getDeptDetail(doctorId, deptId) {
+        this.showLoading();
+        Api
+            .getDeptDetail({doctorId:doctorId, deptId:deptId})
+            .then((res) => {
 
-    return (
-        <div className="page-dept-detail container">
-            <div className='header'>
-                <div className='doctor'>
-                    {/*<img className="doc-img" src="{{docInfo.img}}" alt="医生头像" />*/}
-                    <img className="doc-img" src='../../../resources/images/collect.png' alt="医生头像" />
-                    <div className='text-box'>
+                this.setState({
+                    isFavorite: res.data.isFavorite,
+                    docInfo: res.data.doctor
+                });
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+
+            });
+    }
+    getEvaluateList(pageNum, doctorId, deptId) {
+        Api
+            .getEvaluateDet({ pageNum:pageNum, doctorId:doctorId, deptId:deptId })
+            .then((res) => {
+                this.hideLoading();
+                this.setState({
+                    currentPage: res.data.currentPage,
+                    pageCount: res.data.pageCount,
+                    totalCount:res.data.totalCount,
+                    evaluate:this.state.evaluate.concat(res.data.recordList)
+                });
+                var eList=[];
+                eList=this.state.evaluate;
+                for(var i=0;i<eList.length;i++)
+                {
+                    if(eList[i].appraisalLabel){
+                        var str=eList[i].appraisalLabel.split('-');
+                        eList[i].ping=str;
+                    }
+                }
+                this.setState({
+                    evaluate:eList
+                })
+            },(e) =>{
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+
+            });
+    }
+    getHospIntro() {
+        this.showLoading();
+        Api
+            .getHisInfo()
+            .then((res) => {
+                this.hideLoading();
+                this.setState({ hospInfo: res.data });
+            }, (e) => {
+                this.hideLoading();
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+    }
+
+    clock() {
+        this.clockTimer = setTimeout(() => {
+            var leftTime=this.state.leftTime;
+            --leftTime;
+            if (leftTime <= 0) {
+                this.setState({
+                    footShow:true
+                })
+
+                clearTimeout(this.clockTimer);
+            } else {
+                this.setState({
+                    leftTime:leftTime
+                })
+                this.clock();
+            }
+        }, 1000);
+    }
+    switchTip(flag){
+        this.setState({
+            isShowTip:flag == '1'
+        })
+
+
+    }
+    jumpConfirminfo(remune) {
+        Api
+            .isRegister()
+            .then((res) => {
+                if(res.code == 0){
+                    console.log(res.data);
+                    this.setState({
+                        isShowProtocol:true,
+                        totalFee:remune
+                    });
+                    var html=document.getElementsByTagName('html')[0];
+                    var body=document.getElementsByTagName('body')[0];
+                    html.setAttribute('style','height:100%;overflow:hidden;');
+                    body.setAttribute('style','height:100%;overflow:hidden;');
+
+                    this.clock();
+                }
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+    }
+    componentWillUnmount(){
+
+        var html=document.getElementsByTagName('html')[0];
+        var body=document.getElementsByTagName('body')[0];
+        html.setAttribute('style','background:#F2F2F2');
+        body.setAttribute('style','background:#F2F2F2');
+    }
+    cancelModal(){
+        this.setState({
+            isShowProtocol:false,
+            footShow:false
+        })
+        var html=document.getElementsByTagName('html')[0];
+        var body=document.getElementsByTagName('body')[0];
+        html.setAttribute('style','background:#F2F2F2');
+        body.setAttribute('style','background:#F2F2F2');
+
+    }
+    addMore(cur) {
+        this.getEvaluateList(cur + 1, this.state.doctorId, this.state.deptId);
+    }
+    switchCollect(isFavorite){
+        const { doctorId, deptId } = this.state;
+        console.log('f',isFavorite)
+        if(!isFavorite){
+            Api
+                .addCollect({ doctorId, deptId })
+                .then((res) => {
+                    if(res.code==0){
+                        this.setState({
+                            isFavorite: true,
+                        });
+                    }
+                }, e=> {
+                    this.setState({
+                        msg:e.msg,
+                        showIOS1:true
+                    })
+                });
+        } else {
+            Api
+                .cancelCollect({ doctorId, deptId })
+                .then((res) => {
+                    if(res.code==0){
+                        this.setState({
+                            isFavorite: false,
+                        });
+                    }
+                }, e=> {
+                    this.setState({
+                        msg:e.msg,
+                        showIOS1:true
+                    })
+                });
+        }
+    }
+    render() {
+        const {docInfo,isShowTip,msg,footShow,isShowProtocol,isFavorite,doctorId,deptId,evaluate,currentPage,pageCount,pageNum,t1,t2,t3,t4,t5,totalCount,totalFee,leftTime}=this.state;
+        return (
+            <div className="page-dept-detail container1">
+                <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                    {msg}
+                </Dialog>
+
+                <div className='header2' id="head">
+                    <div className='doctor2'>
+                        <img className="doc-img" src={docInfo.image} alt="医生头像" />
+                        <div className='text1-box'>
+                            <div>
+                                {docInfo.name}
+                                {
+                                    docInfo.inquirys&&docInfo.inquirys.map((item,index)=>{
+                                        return(
+                                            <div key={index} className={`${item.type=='1'&&item.isOnDuty=='0'?'status-item1':'disNo'} ${item.type=='1'&&item.isOnDuty=='1'?'status-active1':'disNo'}`} >{item.type=='1'&&item.isOnDuty=='1'?'在线':''} {item.type=='1'&&item.isOnDuty=='0'?'离线':''}</div>
+
+                                        )
+
+                                    })
+                                }
+                                {isFavorite&&<img
+                                    onClick={()=>{
+                                this.switchCollect(isFavorite)
+
+                                }}
+                                    src='../../../resources/images/collect-none.png'/>}
+                                {!isFavorite&&<img
+                                    onClick={()=>{
+                                this.switchCollect(isFavorite)
+
+                                }}
+                                    src='../../../resources/images/collect-active.png' />}
+                            </div>
+                            <div>{docInfo.hisName}</div>
+                            <div>{docInfo.deptName} | {docInfo.level}</div>
+                        </div>
+                    </div>
+                </div>
+                <div className='data'>
+                    <div className='item'>
+                        <div>服务</div>
+
+                        <div>{docInfo.serviceTimes}人</div>
+                    </div>
+                    <div className='item'>
+                        <div>好评率</div>
+                        <div>{docInfo.favoriteRate}</div>
+                        {/*<div>{{docInfo.favoriteRate}}</div>*/}
+                    </div>
+                    <div className='item'>
+                        <div>从业年限</div>
+                        <div>{docInfo.workingLife}年</div>
+                    </div>
+                </div>
+                <div className='content'>
+                    <div className='d-tab'>
+                        { docInfo.inquirys&&docInfo.inquirys.map((item1,index1)=>{
+                            return(
+                                <div key={index1}
+                                     onClick={
+                         ()=>{
+                         this.jumpConfirminfo(item1.remune)
+
+                         }
+                         }
+                                     className={` ${item1.type=='1'&&item1.isOnDuty=='1'?'inquity-item':'disNo'}`} >
+                                    <div className='icon'>
+                                        <img src="../../../resources/images/inquiry-bg.png" />
+                                    </div>
+                                    <div className='text'>
+                                        <div>图文咨询</div>
+                                        <div>使用图片、文字等咨询医生</div>
+                                    </div>
+                                    <div className='des-fee'>￥{(item1.remune/100).toFixed(2)}<span>/次</span></div>
+                                </div>
+                            )
+                        })}
+                        { docInfo.inquirys&&docInfo.inquirys.map((item2,index2)=>{
+                                return(
+                                    <div
+                                        key={index2}
+                                        className={`${item2.type=='1'&&item2.isOnDuty=='0'?'inquity-item':'disNo'}`} >
+
+                                        <div className='icon'>
+                                            <img src="../../../resources/images/inquiry-gray.png" />
+                                        </div>
+                                        <div className='text'>
+                                            <div><text className="f-color-gray">图文咨询2</text></div>
+                                            <div>使用图片、文字等咨询医生</div>
+                                        </div>
+                                        <div className='des'>￥{(item2.remune/100).toFixed(2)}<span>/次</span></div>
+                                    </div>
+                                )}
+                        )}
+
+                        <div className="inquity-item"
+                             onClick={
+                        ()=>{
+                       this.switchTip(1)
+
+                        }
+                        }>
+                            <div className='icon'>
+                                <img src='../../../resources/images/video.png' />
+                            </div>
+                            <div className='text'>
+                                <div>视频咨询</div>
+                                <div>一对一电话咨询</div>
+                            </div>
+                        </div>
+                        <div className="inquity-item"
+                             onClick={
+                        ()=>{
+                       this.switchTip(1)
+
+                        }
+                        }>
+                            <div className='icon'>
+                                <img src='../../../resources/images/phone.png' />
+                            </div>
+                            <div className='text'>
+                                <div>电话咨询</div>
+                                <div>一对一电话咨询</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='doc-intro'>
                         <div>
-                            name
-                            <div className="status-active">在线</div>
-                            <img  src="../../../resources/images/collect.png" />
-                        </div>
-                        <div>hisName</div>
-                        <div>deptName | level</div>
-                        {/*<div>
-                         {{docInfo.name}}
-                         <block wx:for="{{docInfo.inquirys}}" wx:for-index="idx" wx:for-item="item1" wx:key="{{idx}}">
-                         <block wx:if="{{item1.type == '1'}}">
-                         <div className="status-active" wx:if="{{item1.isOnDuty == '1'}}">在线</div>
-                         <div className="status-item" wx:if="{{item1.isOnDuty == '0'}}">离线</div>
-                         </block>
-                         </block>
-                         <img @tap="switchCollect({{isFavorite}})" src="{{isFavorite ? '../../../resources/images/collect-none.png' : '../../../resources/images/collect-active.png'}}" />
-                         </div>
-                         <div>{{docInfo.hisName}}</div>
-                         <div>{{docInfo.deptName}} | {{docInfo.level}}</div>*/}
-                    </div>
-                </div>
-            </div>
-            <div className='data'>
-                <div className='item'>
-                    <div>服务</div>
-                    {/*<div>serviceTimes人</div>*/}
-                    <div>serviceTimes人</div>
-                </div>
-                <div className='item'>
-                    <div>好评率</div>
-                    <div>favoriteRat</div>
-                    {/*<div>{{docInfo.favoriteRate}}</div>*/}
-                </div>
-                <div className='item'>
-                    <div>从业年限</div>
-                    <div>workingLife年</div>
-                    {/*<div>{{docInfo.workingLife}}年</div>*/}
-                </div>
-            </div>
-            <div className='content'>
-                <div className='d-tab'>
 
-                    <div className="inquity-item" >
-                        <div className='icon'>
-                            <img src="../../../resources/images/inquiry-bg.png" />
+                            擅长领域
                         </div>
-                        <div className='text'>
-                            <div>图文咨询</div>
-                            <div>使用图片、文字等咨询医生</div>
-                        </div>
-                        <div className='des-fee'>￥100<span>/次</span></div>
-                    </div>
-                    {/*<block wx:for="{{docInfo.inquirys}}" wx:for-index="idx" wx:for-item="item" wx:key="{{idx}}">
-                     <block wx:if="{{item.type == '1'}}">
-                     <block wx:if="{{item.isOnDuty == '1'}}">
-                     <div className="inquity-item" @tap="jumpConfirminfo({{item.remune}}))">
-
-                     <div className='icon'>
-                     <img src="../../../resources/images/inquiry-bg.png" />
-                     </div>
-                     <div className='text'>
-                     <div>图文咨询</div>
-                     <div>使用图片、文字等咨询医生</div>
-                     </div>
-                     <div className='des-fee'>￥{{WxsUtils.formatMoney(item.remune,100)}}<span>/次</span></div>
-                     </div>
-                     </block>
-                     <block wx:if="{{item.isOnDuty == '0'}}">
-                     <div className="inquity-item">
-                     <div className='icon'>
-                     <img src="../../../resources/images/inquiry-gray.png" />
-                     </div>
-                     <div className='text'>
-                     <div><text className="f-color-gray">图文咨询</text></div>
-                     <div>使用图片、文字等咨询医生</div>
-                     </div>
-                     <div className='des'>￥{{WxsUtils.formatMoney(item.remune,100)}}<span>/次</span></div>
-                     </div>
-                     </block>
-                     </block>
-                     </block>*/}
-                    {/*<div className="inquity-item" @tap="switchTip(1)">
-                     <div className='icon'>
-                     <img src='../../../resources/images/video.png' />
-                     </div>
-                     <div className='text'>
-                     <div>视频咨询</div>
-                     <div>一对一视频咨询</div>
-                     </div>
-                     </div>*/}
-                    <div className="inquity-item">
-                        <div className='icon'>
-                            <img src='../../../resources/images/phone-active.png' />
-                        </div>
-                        <div className='text'>
-                            <div>电话咨询</div>
-                            <div>一对一电话咨询</div>
+                        <div className="ski-des">
+                            {docInfo.specialty || '暂无描述'}
                         </div>
 
-                        {/*<div className="inquity-item" @tap="switchTip(1)">
-                         <div className='icon'>
-                         <img src='../../../resources/images/phone.png' />
-                         </div>
-                         <div className='text'>
-                         <div>电话咨询</div>
-                         <div>一对一电话咨询</div>
-                         </div>
-
-                         */}
                     </div>
-                </div>
-                <div className='doc-intro'>
-                    <div>
+                    <div className='doc-intro'>
+                        <div>
 
-                        擅长领域
-                    </div>
-                    <div className="ski-des">
-                        暂无描述
-                    </div>
-                    {/*<div className="ski-des">
-                     {{docInfo.specialty || '暂无描述'}}
-                     </div>
-                     */}
-                </div>
-                <div className='doc-intro'>
-                    <div>
-
-                        医生介绍
-                    </div>
-                    <div className="ski-des">
-                        '暂无介绍'
-                    </div>
-                    {/*<div className="ski-des">
-                     {{docInfo.introduction || '暂无介绍'}}
-                     </div>
-                     */}
-                </div>
-            </div>
-            <div className='evaluate'>
-                <div className='eva-title'>
-                    <div>
-
-                    </div>
-                    患者评价<span>共0次</span></div>
-
-                <div className='eva-content'>
-                    <div>nameStr
-
-                        <img src="../../../resources/images/collect.png"  alt="" />
-
-                        <span>createTimeStr</span></div>
-                    <div>appraisal</div>
-                    <div className="ping-content" >
-
-                        <div className="showTxt" >item</div>
+                            医生介绍
+                        </div>
+                        <div className="ski-des">
+                            {docInfo.introduction || '暂无介绍'}
+                        </div>
 
                     </div>
                 </div>
+                <div className='evaluate'>
+                    <div className='eva-title'>
+                        <div>
 
+                        </div>
+                        患者评价<span>共{totalCount || '0'}次</span></div>
 
+                    {evaluate.map((item3,index3)=>{
+                        return(
+                            <div className='eva-content' key={index3}>
+                                <div>{item3.nameStr}
 
-                {/* 患者评价<span>共{{totalCount || '0'}}次</span></div>
-                 <block wx:for="{{evaluate || []}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-                 <div className='eva-content'>
-                 <div>{{item.nameStr}}
-                 <block wx:for="{{[1,2,3,4,5]}}" wx:for-index="index1" wx:for-item="item1" wx:key="index1">
-                 <img src="../../../resources/images/star-active.png" wx:if="{{index1 < item.score && item.score > 3}}" alt="" />
-                 <img src="../../../resources/images/star.png" wx:if="{{index1 >= item.score && item.score > 3}}" alt="" />
-                 </block>
-                 <span>{{item.createTimeStr}}</span></div>
-                 <div>{{item.appraisal}}</div>
-                 <div className="ping-content" style="{{item.appraisalLabel?'':'display:none;'}}">
-                 <block wx:for="{{item.ping}}" wx:for-index="idx" wx:for-item="item1" wx:key="{{idx}}">
-                 <div className=" {{t1.show ? '': 'showTxt' }}" style="margin-right:20rpx;">{{item1}}</div>
-                 </block>
-                 </div>
-                 </div>
-                 </block>
-                 */}
+                                    {1<item3.score&&item3.score>3&&
+                                    <img src="../../../resources/images/star-active.png"
+                                         alt="" />}
+                                    {1>=item3.score&&item3.score>3&&
+                                    <img src="../../../resources/images/star-active.png"
+                                         alt="" />}
 
+                                    {2<item3.score&&item3.score>3&&
+                                    <img src="../../../resources/images/star-active.png"
+                                         alt="" />}
+                                    {2>=item3.score&&item3.score>3&&
+                                    <img src="../../../resources/images/star-active.png"
+                                         alt="" />}
 
-                <div className="wgt-empty-box" style={{display:'none'}}>
-                    <img  className="wgt-empty-img" src="../../../resources/images/nocom.png" alt=""></img>
-                    <div className="wgt-empty-txt">暂未查询到相关信息
+                                    {3<item3.score&&item3.score>3&&
+                                    <img src="../../../resources/images/star-active.png"
+                                         alt="" />}
+                                    {3>=item3.score&&item3.score>3&&
+                                    <img src="../../../resources/images/star-active.png"
+                                         alt="" />}
+
+                                    {4<item3.score&&item3.score>3&&
+                                    <img src="../../../resources/images/star-active.png"
+                                         alt="" />}
+                                    {4>=item3.score&&item3.score>3&&
+                                    <img src="../../../resources/images/star-active.png"
+                                         alt="" />}
+
+                                    {5<item3.score&&item3.score>3&&
+                                    <img src="../../../resources/images/star-active.png"
+                                         alt="" />}
+                                    {5>=item3.score&&item3.score>3&&
+                                    <img src="../../../resources/images/star-active.png"
+                                         alt="" />}
+
+                                    <span>{item3.createTimeStr}</span></div>
+                                <div>{item3.appraisal}</div>
+                                {item3.appraisalLabel&&
+                                <div className="ping-content" >
+
+                                    { item3.ping&&item3.ping.map((item4,index4)=>{
+                                            return(
+                                                <div className={`${item4==''?'disNo':''}`}
+                                                    key={index4}
+                                                    style={{marginRight:'10px'}}>
+                                                    {item4}
+                                                </div>
+                                            )}
+                                    )
+
+                                    }
+                                </div>}
+                            </div>
+                        )
+
+                    })}
+                    {evaluate.length <= 0&&
+                    <div className="wgt-empty-box">
+                        <img className="wgt-empty-img" src="../../../resources/images/no-result.png" alt=""></img>
+
+                        <div className="wgt-empty-txt">暂未查询到相关信息
+                        </div>
                     </div>
+                    }
+                    {currentPage < pageCount&&
+                    <div  className='more'
+                          onClick={()=>{
+                   this.addMore(currentPage)
+
+                    }}
+                        >查看更多评价
+                    </div>}
+
+
                 </div>
 
-                <div  className='more' >查看更多评价</div>
+                {isShowProtocol&&<div className='modal1' >
+                    <div className='modal-body-protocol'>
+                        <div className='modal-title'>温馨提示：</div>
+                        <div className='modal-content-protocol'>
+                            <div className="content">
+                                <div className="content-item">1、您即将向{docInfo.name}医生进行图文咨询，<span className="f-color-red">试运行期间咨询费{(totalFee/100).toFixed(2)}元/次，平台正式上线后将调整咨询费</span>，本次咨询有效期48小时，有效期内您可以对咨询问题进行补充；</div>
+                                <div className="content-item">2、付款成功后，医生将在24小时内回复您的咨询，<span className="f-color-red">若医生未在24小时内回复您的咨询，系统将自动关闭本次咨询并自动为您退款；</span></div>
+                                <div className="content-item">3、咨询过程中您需提供真实、完整、详细的信息，医生将尽可能利用所掌握的医学知识及临床经验给予一定的解惑，<span className="f-color-red">如需获得更详细、全方位和更确切的医疗信息和诊疗服务，请前往医院挂号就诊；</span></div>
+                                <div className="content-item">4、因医生回复咨询需一定的时间，<span className="f-color-red">如需急诊的患者，请自行前往医院就诊。</span></div>
+                            </div>
+                        </div>
 
-                {/*<block wx:if="{{evaluate.length <= 0}}">
-                 <div className="wgt-empty-box">
-                 <img mode="widthFix" className="wgt-empty-img" src="../../../resources/images/no-result.png" alt=""></img>
-                 <div className="wgt-empty-txt">暂未查询到相关信息
-                 </div>
-                 </div>
-                 </block>
-                 <div @tap="addMore({{currentPage}})" className='more' wx:if="{{currentPage < pageCount}}">查看更多评价</div>
-                 */}
+                    </div>
+                    {footShow&&<div className='modal-footer' >
+                        <span onClick={()=>{
+                       this.cancelModal()
 
+                        }}>取消</span>
+                        <Link
+                            to={{
+                             pathname:'consult/confirminfo',
+                             query:{doctorId:docInfo.doctorId,deptId:docInfo.deptId,totalFee:totalFee}
+                             }}
+                            >确认</Link>
+                    </div>}
+                    {!footShow&&<div className='modal-footer' >
+                        <div className="cutdown-time">请阅读 {leftTime} s</div>
+                    </div>}
+                </div>}
+
+
+                {isShowTip&&<div className='modal-tip1' >
+
+                    <div className='modal-body-tip'>
+                        <div className='modal-title'>温馨提示</div>
+                        <div className='modal-content-tip'>
+                            <div className="content">
+                                <div className="content-item">该功能正在努力建设中</div>
+                            </div>
+                        </div>
+                        <div className='modal-footer-tip'>
+                        <span
+                            onClick={()=>{
+                           this.switchTip(0)
+                            }}>我知道了</span>
+
+                        </div>
+                    </div>
+                </div>}
             </div>
 
-            <div className='modal' >
-                <div className='modal-body-protocol'>
-                    <div className='modal-title'>温馨提示：</div>
-                    <div className='modal-content-protocol'>
-                        <div className="content">
-                            <div className="content-item">1、您即将向name医生进行图文咨询，<span className="f-color-red">试运行期间咨询费100元/次，平台正式上线后将调整咨询费</span>，本次咨询有效期48小时，有效期内您可以对咨询问题进行补充；</div>
-                            <div className="content-item">2、付款成功后，医生将在24小时内回复您的咨询，<span className="f-color-red">若医生未在24小时内回复您的咨询，系统将自动关闭本次咨询并自动为您退款；</span></div>
-                            <div className="content-item">3、咨询过程中您需提供真实、完整、详细的信息，医生将尽可能利用所掌握的医学知识及临床经验给予一定的解惑，<span className="f-color-red">如需获得更详细、全方位和更确切的医疗信息和诊疗服务，请前往医院挂号就诊；</span></div>
-                            <div className="content-item">4、因医生回复咨询需一定的时间，<span className="f-color-red">如需急诊的患者，请自行前往医院就诊。</span></div>
-                        </div>
-                    </div>
-                    <div className='modal-footer' >
-                        <span>取消</span>
-                        <span>确认</span>
-                    </div>
-                    <div className='modal-footer' >
-                        <div className="cutdown-time">请阅读 leftTime s</div>
-                    </div>
-                </div>
-            </div>
-
-            {/*<div className='modal' wx:if="{{isShowProtocol}}">
-             <div className='modal-body-protocol'>
-             <div className='modal-title'>温馨提示：</div>
-             <div className='modal-content-protocol'>
-             <div slot="content">
-             <div className="content-item">1、您即将向{{docInfo.name}}医生进行图文咨询，<span className="f-color-red">试运行期间咨询费{{WxsUtils.formatMoney(totalFee,100)}}元/次，平台正式上线后将调整咨询费</span>，本次咨询有效期48小时，有效期内您可以对咨询问题进行补充；</div>
-             <div className="content-item">2、付款成功后，医生将在24小时内回复您的咨询，<span className="f-color-red">若医生未在24小时内回复您的咨询，系统将自动关闭本次咨询并自动为您退款；</span></div>
-             <div className="content-item">3、咨询过程中您需提供真实、完整、详细的信息，医生将尽可能利用所掌握的医学知识及临床经验给予一定的解惑，<span className="f-color-red">如需获得更详细、全方位和更确切的医疗信息和诊疗服务，请前往医院挂号就诊；</span></div>
-             <div className="content-item">4、因医生回复咨询需一定的时间，<span className="f-color-red">如需急诊的患者，请自行前往医院就诊。</span></div>
-             </div>
-             </div>
-             <div className='modal-footer' wx:if="{{footShow}}">
-             <span bindtap="cancelModal">取消</span>
-             <span bindtap="sure('{{docInfo.doctorId}}','{{docInfo.deptId}}')">确认</span>
-             </div>
-             <div className='modal-footer' wx:if="{{!footShow}}">
-             <div className="cutdown-time">请阅读 {{leftTime}}s</div>
-             </div>
-             </div>
-             </div>*/}
-
-            <div className='modal-tip' >
-                {/*<div className='modal-tip' wx:if="{{isShowTip}}">*/}
-
-                <div className='modal-body-tip'>
-                    <div className='modal-title'>温馨提示</div>
-                    <div className='modal-content-tip'>
-                        <div className="content">
-                            <div className="content-item">该功能正在努力建设中</div>
-                        </div>
-                    </div>
-                    <div className='modal-footer-tip'>
-                        <span >我知道了</span>
-                        {/*<span bindtap="sure" @tap="switchTip(0)">我知道了</span>*/}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    );
-  }
+        );
+    }
 }
 
 export default Connect()(Widget);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { InfiniteLoader, LoadMore } from 'react-weui';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import { Link } from 'react-router';
+import hashHistory from 'react-router/lib/hashHistory';
 
 import Connect from '../../../components/connect/Connect';
 import NoResult from '../../../components/noresult/NoResult';
@@ -12,240 +13,287 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      noResult: {
-        msg: '暂未获取到相关信息',
-        show: false,
-      },
-      articleTypeList: [],
-      articleData: {},
+        showToast: false,
+        showToast1:false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        style2: {
+            title: '提示',
+
+            buttons: [
+                {
+                    type: 'default',
+                    label: '暂不删除',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定删除',
+                    onClick: this.unBind.bind(this)
+                }
+            ]
+        },
+        msg:'',
+        popConfig: {
+            show: false,
+            title: '提示',
+            cancelText: '取消',
+            submitText: '确定'
+        },
+        userInfo: {},
+        id: ''
     };
   }
 
   componentDidMount() {
-    //this.getArticleTypeList();
-  }
+      //this.getJs();
+      this.setState({
+          id:this.props.location.query.patientId
+      })
+      this.getUserInfo({ patientId: this.props.location.query.patientId });
 
+  }
+    getJs(){
+
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function(){
+                        //批量隐藏功能
+                        wx.hideMenuItems({
+                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        });
+                    });
+
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+
+                alert("r"+JSON.stringify(e));
+                //this.showPopup({ content: e.msg });
+            });
+
+
+
+    }
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
+    showToast1() {
+        this.setState({showToast1: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast1: false});
+        }, 2000);
+    }
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
+    }
+     getUserInfo(param) {
+
+        Api
+            .getUserInfo(param)
+            .then((res) => {
+
+                this.setState({
+                    userInfo:res.data
+                })
+            }, (e) => {
+
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+
+    }
   componentWillUnmount() {
-    this.state.Timer && clearTimeout(this.state.Timer);
+    //this.state.Timer && clearTimeout(this.state.Timer);
   }
+     setDefault() {
 
-  /**
-   * 根据医院id获取文章类型列表
-   */
-  getArticleTypeList() {
-    const param = this.props.location.query;
-    const { noResult } = this.state;
-    this.showLoading();
-    Api
-      .getArticleTypeList(param)
-      .then((res) => {
-        this.hideLoading();
-        const articleTypeList = res.data;
-        if (articleTypeList && articleTypeList.length > 0) {
-          this.setState({
-            articleTypeList,
-          });
+        if (this.state.userInfo.isDefalut != 1) {
+            Api
+                .setDefault({ id: this.props.location.query.patientId })
+                .then((res) => {
+                    if (res.code == 0) {
+                        /*wepy.showToast({
+                            title: '设置成功',
+                            icon: 'success'
+                        });*/
+                        this.showToast1();
+                        console.log(res.code);
+                        var userInfo=this.state.userInfo;
+                        userInfo.isDefalut = 1;
+                        this.setState({
+                            userInfo:userInfo
+                        })
+                    }
 
-          const typeId = this.props.location.query.typeId || articleTypeList[0].typeId;
-          if (typeId) {
-            this.setState({ typeId });
-          }
-          this.getHospDynamics(typeId);
-          this.tabScrollIntoView();
-          this.showAnimation();
-        } else {
-          noResult.show = true;
-          this.setState({ noResult });
+                }, (e) => {
+                    this.setState({
+                        msg:e.msg,
+                        showIOS1:true
+                    })
+                });
+
         }
-      }, (e) => {
-        this.hideLoading();
-        noResult.show = true;
-        this.setState({ noResult });
-        this.showPopup({ content: e.msg });
-      });
-  }
-
-  /**
-   * 获取文章列表
-   * @param type {Number} 文章类型
-   * @param currentPage {Number} 要获取的页码数
-   * @param resolve {Object} 滚动拉取组件隐藏loading样式的回调
-   */
-  getHospDynamics(type = 1, currentPage = 1, resolve = () => null) {
-    const param = this.props.location.query;
-    Object.assign(param, { typeId: type, pageNum: currentPage });
-    this.showLoading();
-    const { noResult, articleData } = this.state;
-    Api
-      .getHospDynamics(param)
-      .then((res) => {
-        this.hideLoading();
-        const listData = res.data || {};
-        if (listData.recordList && listData.recordList.length > 0) {
-          // 合并相同类型数据
-          const listName = type;
-          const currentArticle = articleData[listName];
-          if (currentArticle && currentArticle.currentPage > 0
-            && parseFloat(currentArticle.currentPage) + 1 !== parseFloat(listData.currentPage)) {
-            // 不是本次要的数据
-            return;
-          }
-          if (!currentArticle) {
-            // 无数据 直接赋值
-            articleData[listName] = listData;
-            this.setState({ articleData }, () => resolve());
-          } else {
-            // 原来有数据 concat数组内容 其它分页数据(如当前页数，总页数)使用本次获取到的
-            let newArticleList = (currentArticle.recordList && currentArticle.recordList.length > 0)
-              ? currentArticle.recordList : [];
-            newArticleList = newArticleList.concat(listData.recordList);
-
-            articleData[param.typeId] = { ...listData, recordList: newArticleList };
-            this.setState({ articleData }, () => resolve());
-          }
-        } else {
-          noResult.show = true;
-          this.setState({ noResult }, () => resolve());
-        }
-      }, (e) => {
-        this.hideLoading();
-        noResult.show = true;
-        this.setState({ noResult }, () => resolve());
-        this.showPopup({ content: e.msg });
-      });
-  }
-
-  /**
-   * 改变显示文章的类型
-   * @param type {String} 文章类型
-   */
-  changeType(type) {
-    const { articleData, typeId } = this.state;
-    if (type === typeId) {
-      return;
     }
 
-    this.setState({ typeId: type });
-    this.tabScrollIntoView();
-    // 判断是否已经查找过该类型
-    if (Object.keys(articleData).indexOf(type) < 0) {
-      // 没查找过前往查找
-      this.getHospDynamics(type);
-    }
-  }
+     unBind1() {
+         this.setState({
+             showIOS2:true,
+             msg:'确定删除该就诊人吗？'
+         })
 
-  tabScrollIntoView() {
-    window.setTimeout(() => {
-      this.refs.activeTab.scrollIntoView();
-    }, 100);
-  }
 
-  /**
-   * 显示滑动动画
-   */
-  showAnimation() {
-    const tabList = this.refs.tabList;
-    if (tabList.scrollWidth > tabList.clientWidth) {
-      this.setState({ isSlide: true });
-      this.state.Timer = setTimeout(() => {
-        this.setState({ isSlide: false });
-      }, 2000);
+
     }
-  }
+    unBind(){
+        Api
+            .unBind({ id:this.props.location.query.patientId})
+            .then((res) => {
+                if (res.code == 0) {
+                    this.setState({
+
+                        showIOS2:false
+                    })
+                    this.showToast();
+                    const timer = setTimeout(() => {
+                        clearTimeout(timer);
+                        hashHistory.push({
+                            pathname:'usercenter/userlist',
+                        })
+                    }, 2000);
+                }
+
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+
+    }
 
   render() {
-
+     const {popConfig,userInfo,id,msg}=this.state
     return (
         <div className="ui-page">
+            <Toast icon="success-no-circle" show={this.state.showToast1}>设置成功</Toast>
 
+            <Toast icon="success-no-circle" show={this.state.showToast}>删除成功</Toast>
+            <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                {msg}
+            </Dialog>
+            <Dialog type="ios" title={this.state.style2.title} buttons={this.state.style2.buttons} show={this.state.showIOS2}>
+                {msg}
+            </Dialog>
             <div className="mu-card">
                 <div className="card-info">
                     <div className="info-main">
                         <div className="main-name">
-                            <div className="name">name</div>
-                            <div className="status" >默认</div>
+                            <div className="name">{userInfo.name}</div>
+                            {userInfo.isDefalut == 1&&<div className="status" >默认</div>}
                         </div>
                     </div>
-                    <div className="info-extra">patCardType   patCardNo</div>
-
-
-
-                    {/*<div className="name">{{userInfo.name}}</div>
-                     <div className="status" wx:if="{{userInfo.isDefalut == 1}}">默认</div>
-                     </div>
-                     </div>
-                     <div className="info-extra">{{userInfo.patCardTypeName || '就诊卡'}}：{{userInfo.patCardNo||userInfo.idNo}}</div><!-- 协商后台考虑无卡情况 -->
-                     */}
+                    <div className="info-extra">
+                        {userInfo.patCardTypeName || '就诊卡'}：{userInfo.patCardNo||userInfo.idNo}
+                    </div>
                 </div>
             </div>
 
             <div className="m-userinfo">
 
-                <div className="userinfo-item" >
+                {userInfo.sex&&<div className="userinfo-item" >
                     <div className="item-tit">性别</div>
-                    <div className="item-txt">女</div>
-                </div>
-                <div className="userinfo-item" >
+                    <div className="item-txt">{userInfo.sex === 'M' ? '男' : '女'}</div>
+                </div>}
+                {userInfo.birthday&&<div className="userinfo-item" >
                     <div className="item-tit">出生日期</div>
-                    <div className="item-txt">birth</div>
-                </div>
-                <div className="userinfo-item" >
+                    <div className="item-txt">{userInfo.birth}</div>
+                </div>}
+                {userInfo.idNo&&<div className="userinfo-item" >
                     <div className="item-tit">身份证号</div>
-                    <div className="item-txt">idNo</div>
-                </div>
+                    <div className="item-txt">{userInfo.idNo}</div>
+                </div>}
                 <div className="userinfo-item">
                     <div className="item-tit">手机号</div>
-                    <div className="item-txt">mobile</div>
+                    <div className="item-txt">{userInfo.mobile}</div>
                 </div>
                 <div className="userinfo-item">
                     <div className="item-tit">就诊卡号</div>
-                    <div className="item-txt">patCardNo</div>
+                    <div className="item-txt">{userInfo.patCardNo||userInfo.idNo}</div>
                 </div>
             </div>
 
-            {/*<div className="userinfo-item" wx:if="{{userInfo.sex}}">
-             <div className="item-tit">性别</div>
-             <div className="item-txt">{{userInfo.sex === 'M' ? '男' : '女'}}</div>
-             </div>
-             <div className="userinfo-item" wx:if="{{userInfo.birthday}}">
-             <div className="item-tit">出生日期</div>
-             <div className="item-txt">{{userInfo.birth}}</div>
-             </div>
-             <div className="userinfo-item" wx:if="{{userInfo.idNo}}">
-             <div className="item-tit">身份证号</div>
-             <div className="item-txt">{{userInfo.idNo}}</div>
-             </div>
-             <div className="userinfo-item">
-             <div className="item-tit">手机号</div>
-             <div className="item-txt">{{userInfo.mobile}}</div>
-             </div>
-             <div className="userinfo-item">
-             <div className="item-tit">就诊卡号</div>
-             <div className="item-txt">{{userInfo.patCardNo||userInfo.idNo}}</div>
-             </div>
-             </div>*/}
+
 
             <div className="mu-list">
-                <div className="list-item" >
+                {userInfo.isDefalut == 0&&<div className="list-item" >
                     <div className="item">
-                        <div className="item-hd">设为默认就诊人</div>
-                        <div className="item-bd disabled" >
-                            <switch checked="" disabled color="#3ECDB5" />
+                        <div className="item-hd"
+                          >设为默认就诊人</div>
+                        <div className="item-bd disabled"
+                             onClick={()=>{
+                            this.setDefault()
+
+                            }}
+                            >
+                            <Switch checked={userInfo.isDefalut == 1} disabled color="#3ECDB5" />
                         </div>
                     </div>
-                </div>
-                {/*<div className="list-item" wx:if="{{userInfo.isDefalut == 0}}">
-                 <div className="item">
-                 <div className="item-hd">设为默认就诊人</div>
-                 <div className="item-bd disabled" @tap="setDefault">
-                 <switch checked="{{userInfo.isDefalut == 1}}" disabled color="#3ECDB5" />
-                 </div>
-                 </div>
-                 </div>*/}
-
+                </div>}
                 <div className="m-btn">
 
-                    <div className="btn-item default-btn" >删除就诊人</div>
+                    <div className="btn-item default-btn" onClick={()=>{
+                    this.unBind1()
+
+                    }}>删除就诊人</div>
                 </div>
 
             </div>

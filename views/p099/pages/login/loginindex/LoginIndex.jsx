@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Toptips,Switch } from 'react-weui';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
@@ -16,6 +16,38 @@ class Widget extends Component {
     super(props);
     this.state = {
       hospInfo: {},
+        showToast: false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        style2: {
+            title: '提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        msg:'',
       isShowProtocol:false,
       hasErr: true ,// 是否存在校验错误
       errorElement: {}, // 发生错误的元素
@@ -31,9 +63,69 @@ class Widget extends Component {
   }
 
   componentDidMount() {
-
+      // this.getJs();
   }
+    showToast() {
+        this.setState({showToast: true});
 
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
+
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
+    }
+    getJs(){
+
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function(){
+                        //批量隐藏功能
+                        wx.hideMenuItems({
+                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        });
+                    });
+
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+                this.hideLoading();
+                alert("r"+JSON.stringify(e));
+                //this.showPopup({ content: e.msg });
+            });
+
+
+
+    }
   getHospIntro() {
     this.showLoading();
     Api.getHisInfo()
@@ -148,7 +240,6 @@ class Widget extends Component {
         };
     }
     resetThisError(e) {
-
         const id = e.target.id;
         console.log('onFocus',e.target.id);
         var elements=this.state.errorElement;
@@ -214,15 +305,17 @@ class Widget extends Component {
              .then((res) => {
                  this.hideLoading();
                  console.log("res.cde",res.code);
-                 if(res.code==1){
+                 if(res.code==0){
                      this.setState({
                          isSendValidate:true,
                      })
                      this.clock();
                  }
              }, (e) => {
-                 this.hideLoading();
-                 this.showPopup({ content: e.msg });
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
              });
 
     }
@@ -280,15 +373,20 @@ class Widget extends Component {
              .then((res) => {
                  if(res.code==0){
                      this.hideLoading();
-                     this.showSuccess({
+                     alert("1212");
+                     this.showToast();
+                     this.context.router.goBack();
+                     /*this.showSuccess({
                          title: '注册成功',
                          duration: 1500,
                          complete: ()=>{
                              this.context.router.goBack();
                          }
-                     });
+                     });*/
+
 
                  }else if (res.code== 995) {
+                     alert("1212233");
                      Api
                          .validateImg()
                          .then((res) => {
@@ -296,9 +394,10 @@ class Widget extends Component {
                          });
                  }
              }, (e) => {
-                 this.hideLoading();
-
-                 this.showPopup({ content: e.msg });
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
              });
     }
         switch(){
@@ -314,12 +413,16 @@ class Widget extends Component {
 
         }
   render() {
-    const {isShowProtocol,name,idNo,phone,errorElement,hasErr,leftTime,validateCode,isSendValidate,isChecked,toptip}=this.state;
+    const {isShowProtocol,name,msg,idNo,phone,errorElement,hasErr,leftTime,validateCode,isSendValidate,isChecked,toptip}=this.state;
     console.log('hase',hasErr);
       console.log('isch',isChecked);
       console.log('isSendValidate',isSendValidate);
     return (
         <div className="container page-login">
+            <Toast icon="success-no-circle" show={this.state.showToast}>注册成功</Toast>
+            <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                {msg}
+            </Dialog>
             <div className="logo-img">
                 <img src="../../../resources/images/logo.png" />
             </div>
@@ -609,48 +712,7 @@ class Widget extends Component {
             </div>
             }
 
-            {/*<toptip :toptip.sync="toptip" />
-            <div className='modal'  >
-                <div className='modal-body'>
-                    <div className='modal-title'>title</div>
-                    <div className='modal-content'>
-                        <div className="content">
-                            <div className="validate-img">
-                                <img  src="/img.png" />
-                            </div>
-                            <div className="validate-input">
-                                <input id="vrifyCode"   type="div" placeholder="请输入验证码" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='modal-footer'>
-                        <span >cancelText</span>
-                        <span >submitText</span>
-                    </div>
-                </div>
-            </div>*/}
-
-      {/*<div className='modal' wx:if="{{popConfig.show}}">
-       <div className='modal-body'>
-       <div className='modal-title'>{{popConfig.title}}</div>
-       <div className='modal-content'>
-       <div className="content">
-       <div className="validate-img">
-       <img @tap="changeValidate" src="{{validateImg}}" />
-       </div>
-       <div className="validate-input">
-       <input id="vrifyCode" maxlength="6"  @input="userIO" value="{{vrifyCode}}" type="div" placeholder="请输入验证码" />
-       </div>
-       </div>
-       </div>
-       <div className='modal-footer'>
-       <span bindtap="bindClose">{{popConfig.cancelText}}</span>
-       <span bindtap="sure">{{popConfig.submitText}}</span>
-       </div>
-       </div>
-       </div>
-       </div>
-       */} </div>
+          </div>
 
           );
   }

@@ -23,6 +23,7 @@
         display: flex;
         position:fixed;
         width: 100%;
+        position: fixed;
         left: 0;
         top: 0;
         z-index: 10;
@@ -115,16 +116,6 @@
         .search-content {
             width: 100%;
             height: 100%;
-            .space{
-                height:8px;
-                background:#F2F2F2;
-            }
-            .title2{
-                font-size:13px;
-                color:#333;
-                background:#fff;
-                padding:8px 15px;
-            }
             .content {
 
                 background-color:#fff;
@@ -136,6 +127,7 @@
                     width:auto;
                     line-height: 25px;
                     text-align: left;
+
                     padding:8px 15px;
                 }
                 .space{
@@ -157,8 +149,7 @@
                     margin-left: 15px;
                     border-bottom: 1px solid #E2E9E8;
                     font-size: 15px;
-
-                    .list-item{
+                    .list-item {
                         font-size: 15px;
                         display: flex;
                         flex-direction: row;
@@ -257,15 +248,14 @@
                         height: 67px;
                     }
                 }
-                .text-box1 {
+                .text-box {
                     margin: 0 15px;
                     flex: 1;
                     .doc-name {
                         color: $hc-color-title;
                         font-size: 18px;
-
                     }
-                    .doc-des1 {
+                    .doc-des {
                         color: $hc-color-gray;
                         line-height: 18px;
                         font-size: 13px;
@@ -340,8 +330,6 @@
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
-        word-break:break-all;
-        word-wrap:break-word
     }
     .ellipsis {
         overflow: hidden;
@@ -386,10 +374,6 @@
                 margin-left: 15px;
                 height: 100%;
                 overflow: auto;
-                a{
-                    display:block;
-                    color:#333;
-                }
                 .list-item {
                     height: 44px;
                     border-bottom: 1px solid #E2E9E8;

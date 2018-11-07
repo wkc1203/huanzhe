@@ -1,7 +1,8 @@
 ﻿import React, { Component } from 'react';
-import { Button, Toptips } from 'react-weui';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
+import hashHistory from 'react-router/lib/hashHistory';
 
 import * as Api from './deptlistForDocApi';
 import './style/index.scss';
@@ -12,165 +13,196 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: {},
-      sexOption: [
-        {
-          dictKey: 'M',
-          dictValue: '男',
+      docList: [],
+      // 科室列表
+      deptList: [],
+        showToast: false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
         },
-        {
-          dictKey: 'F',
-          dictValue: '女',
+        style2: {
+            title: '提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
         },
-      ],
-      viewData: {
-        onSubmit: false,
-        showToptips: false,
-        toptips: '',
-        isNewCard: '0',
-        noresult: {
-          msg: '暂未获取到医院配置信息',
-          show: false,
-        },
-        isloading: 0,
-      },
+        msg:'',
+      // 选中tab
+      activeIdx: -2,
+      // 显示历史记录
+      showHistory: false,
+      // 功能类型(科室介绍: dept, 医生介绍: doctor)
+      funType: 'doctor',
     };
   }
   componentDidMount() {
-   
+     // this.getJs();
+    this.deptListFull();
   }
   componentWillUnmount() {
     // 离开页面时结束所有可能异步逻辑
 
   }
-  getUser() { // 获取实名制
-    Api
-      .getUser()
-      .then((res) => {
-        console.log(res);
-        this.setState({ user: res.data });
-      }, e=> {
-        console.log(e);
-      });
-  }
-  getHisConfig() {
-    const { viewData } = this.state;
-    viewData.isloading = 1;
-    this.setState({ viewData });
-    this.showLoading();
-    Api
-      .getHisConfig()
-      .then((res) => {
-        this.hideLoading();
-        viewData.isloading = 0;
-        // 添加身份证的验证规则
-        res.data.idTypes = res.data.idTypes.map((v) => {
-          if (v.dictKey === '1') {
-            v.validator = `[{'required':'',tip:'${v.dictValue}不能为空'},{'idcard':'',tip:'${v.dictValue}格式错误'}]`;
-            v.maxLength = 18;
-          } else {
-            v.validator = `[{'required':'',tip:'${v.dictValue}不能为空'}]`;
-            v.maxLength = 30;
-          }
-          return v;
-        });
-        this.setState({ viewData, config: res.data });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-        viewData.isloading = 2;
-        viewData.noresult.show = true;
-        this.setState({ viewData });
-      });
-  }
-  isZfb() {
-    const { platformSource } = window.CONSTANT_CONFIG;
-    return platformSource == 2;
-  }
-  switchPatientType(v) {
-    this.setState({
-      patientType: v,
-    });
-  }
-  submitData(onSubmit) {
-    if (onSubmit) {
-      return false;
+    getJs(){
+
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems','showMenuItems'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function(){
+                        //批量隐藏功能
+                        wx.hideMenuItems({
+                            menuList: ["menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        });
+                    });
+
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+
+
+
     }
-    const ret = Validator(this.refs.dataForm);
-    if (ret.result.length > 0) {
-      this.setState({
-        showToptips: true,
-        toptips: ret.result[0].tip,
-      });
-      this.state.errorTimer = setTimeout(() => {
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
+
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
         this.setState({
-          showToptips: false,
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
         });
-      }, 2000);
-      return false;
     }
-    const { viewData } = this.state;
-    viewData.onSubmit = true;
-    this.setState({ viewData });
-    this.showLoading();
+  deptListFull() {
     Api
-      .addPatients(ret.data)
-      .then(() => {
-        viewData.onSubmit = false;
-        this.setState({ viewData });
-        this.showSuccess({
-          title: '绑定成功',
-          duration: 1500,
-          complete: ()=>{
-            this.context.router.goBack();
+        .deptListFull()
+        .then((res) => {
+          if(res.code==0){
+            this.setState({
+              activeIdx:0,
+              deptList:res.data
+            })
+            this.getDocList(0);
           }
+        }, e=> {
+            this.setState({
+                msg:e.msg,
+                showIOS1:true
+            })
         });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-        viewData.onSubmit = false;
-        this.setState({ viewData });
-      });
+
   }
-  isNewCard(e) {
-    const { viewData } = this.state;
-    viewData.isNewCard = e.target.value;
-    this.setState({ viewData });
+  getDocList(index){
+    console.log("yesindex",this.state.deptList[index]);
+    const  no = this.state.deptList[index].no || {};
+    console.log("no",no);
+    Api
+        .docListFull({pdeptId: no})
+        .then((res) => {
+          console.log(res);
+          this.setState({ docList: res.data.doctors });
+        }, e=> {
+            this.setState({
+                msg:e.msg,
+                showIOS1:true
+            })
+        });
   }
-  isSelf(relationType) {
-    this.setState({
-      isSelf: relationType.toString() === '1',
+  bindChangeIndex(index) {
+    console.log("index",index);
+     this.setState({
+       activeIdx:index.index
+     })
+    this.getDocList(index.index);
+  }
+  bindTapDept(doctorId){
+    hashHistory.replace({
+      pathname: '/microweb/doctorinfo',
+      query:{doctorId:doctorId}
     });
+
   }
-  isZfbSelf() {
-    const { isSelf } = this.state;
-    return this.isZfb() && isSelf;
-  }
-  filterChildWhenSelf() {
-    const { config, isSelf } = this.state;
-    const { patientTypes = [] } = config;
-    if (isSelf) {
-      return patientTypes.filter((v) => {
-        return v && v.dictKey && v.dictKey.toString() !== '1';
-      });
-    } else {
-      return patientTypes;
-    }
-  }
+
   render() {
- 
+      const {searchFocus,msg,deptList,docList,activeIdx}=this.state
     return (
-        <div className="dfc-page">
-          {/*<div className="p-page {{searchFocus ? 'unscroll' : ''}}">*/}
+        <div className={`dfc-page ${searchFocus ? 'unscroll' : ''} `}>
+            <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                {msg}
+            </Dialog>
+            {/*<div className="p-page {{searchFocus ? 'unscroll' : ''}}">*/}
           <div className="g-list">
             <div className="m-list">
               <div className="list-box">
                 <div className="list-lt-box">
                   <div className="list-lt">
-                    <div
-                        className="lt-item "
-                        >name
-                    </div>
+                    {
+                        deptList.length>0&&deptList.map((item,index)=>{
+                          return(
+                              <div  className={`lt-item ${activeIdx === index ? 'active' : ''}`} key={index}
+                                  onClick={()=>{
+                                  this.bindChangeIndex({index})
+                                  }}>
+                                {item.name}
+                              </div>
+                          )
+
+                        })
+                    }
+
                     {/*<block wx:if="{{deptList.length > 0}}">
                      <block
                      wx:for="{{deptList || []}}"
@@ -193,46 +225,32 @@ class Widget extends Component {
                      className="rt-sec active"
                      wx:if="{{docList.length > 0}}"
                      >*/}
-                    <div
-                        className="rt-sec active"
-                        >
-
-                      {/*<block
-                       wx:for="{{docList}}"
-                       wx:key="index"
-                       >
-
-                       <div
-                       className="sec-li"
-                       bindtap="bindTapDept('{{item.doctorId}}')"
-                       >*/}
-
-                      <div
-                          className="sec-li"
-
+                    {docList.length>0&&<div
+                          className="rt-sec active"
                           >
+                          {docList.map((item1,index1)=>{
+                            return(
+                                <Link
+                                   to={{ pathname: '/microweb/doctorinfo',
+                                    query:{doctorId:item1.doctorId}
+                                    }}
+                                    className="sec-li"
 
-                        <div className="doc-info">
-                          <img className="doc-img" src="../../../resources/images/doc.png" alt="医生头像" />
-                          <div className="text-box">
-                            <div className='doc-name'>name</div>
-                            <div className='doc-des'>level</div>
-                          </div>
-                          <div className="unit-arrow"></div>
-                        </div>
+                                    key={index1}>
+                                  <div className="doc-info">
+                                    <img className="doc-img" src={item1.image || '/resources/images/doc.png'} alt="医生头像" />
+                                    <div className="text-box">
+                                      <div className='doc-name'>{item1.name}</div>
+                                      <div className='doc-des'>{item1.level}</div>
+                                    </div>
+                                    <div className="unit-arrow"></div>
+                                  </div>
+                                </Link>
+                            )
+                          })
+                              }
                       </div>
-
-                      {/*<div className="doc-info">
-                       <img className="doc-img" src="{{item.img || '../../../resources/images/doc.png'}}" alt="医生头像" />
-                       <div className="text-box">
-                       <div className='doc-name'>{{item.name}}</div>
-                       <div className='doc-des'>{{item.level}}</div>
-                       </div>
-                       <div className="unit-arrow"></div>
-                       </div>
-                       </div>
-                       </block>*/}
-                    </div>
+                    }
                   </div>
                 </div>
               </div>

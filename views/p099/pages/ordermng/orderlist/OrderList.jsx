@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Button, Toptips } from 'react-weui';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
 
@@ -12,37 +12,180 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: {},
-      sexOption: [
-        {
-          dictKey: 'M',
-          dictValue: '男',
+        patientName: '全部就诊人',
+        isPatShow: false,
+        orderList: [],
+        showToast: false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
         },
-        {
-          dictKey: 'F',
-          dictValue: '女',
+        style2: {
+            title: '提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
         },
-      ],
-      viewData: {
-        onSubmit: false,
-        showToptips: false,
-        toptips: '',
-        isNewCard: '0',
-        noresult: {
-          msg: '暂未获取到医院配置信息',
-          show: false,
-        },
-        isloading: 0,
-      },
-    };
+        msg:'',
+        patList: []
+    }
   }
   componentDidMount() {
-   
+      //this.getJs();
+      this.getCardList();
+      this.getOrderList();
   }
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
+
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
+    }
+
+
+    getJs(){
+
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function(){
+                        //批量隐藏功能
+                        wx.hideMenuItems({
+                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        });
+                    });
+
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+               /* this.hideLoading();
+                alert("r"+JSON.stringify(e));
+                //this.showPopup({ content: e.msg });*/
+            });
+
+
+
+    }
   componentWillUnmount() {
+
+      this.setState({
+          patList:[],
+          patientName:'全部就诊人',
+          isPatShow:false,
+          orderList:[]
+      })
     // 离开页面时结束所有可能异步逻辑
 
   }
+    selectPat(patientId, patientName) {
+        this.setState({
+            patientName:patientName,
+            isPatShow:false,
+        })
+        this.getOrderList(patientId);
+    }
+    openList() {
+        this.setState({
+            isPatShow:!this.state.isPatShow,
+        })
+    }
+     getCardList() {
+         this.showLoading();
+         Api
+             .getCardList()
+             .then((res) => {
+                  if(res.code==0){
+                      this.hideLoading();
+                      console.log(res);
+                      this.setState({ patList: res.data.cardList });
+
+                  }
+                  }, e=> {
+                 this.hideLoading();
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
+             });
+
+    }
+     getOrderList(patientId = '') {
+         this.showLoading();
+         Api
+             .getOrderList({patientId:patientId})
+             .then((res) => {
+                 if (res.code == 0) {
+                     this.hideLoading();
+
+                     const objStatus = { '-1': '待付款', '0': '咨询中', '1': '咨询中', '3': '已完成' };
+                     var items = res.data.map((item, index) => {
+                         item.statusName = objStatus[item.status];
+                         return item;
+                     });
+                     this.setState({ orderList: items});
+                     this.orderList = items;
+                 }
+
+             }, e=> {
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
+             });
+
+    }
   getUser() { // 获取实名制
     Api
       .getUser()
@@ -50,226 +193,109 @@ class Widget extends Component {
         console.log(res);
         this.setState({ user: res.data });
       }, e=> {
-        console.log(e);
+            this.setState({
+                msg:e.msg,
+                showIOS1:true
+            })
       });
   }
-  getHisConfig() {
-    const { viewData } = this.state;
-    viewData.isloading = 1;
-    this.setState({ viewData });
-    this.showLoading();
-    Api
-      .getHisConfig()
-      .then((res) => {
-        this.hideLoading();
-        viewData.isloading = 0;
-        // 添加身份证的验证规则
-        res.data.idTypes = res.data.idTypes.map((v) => {
-          if (v.dictKey === '1') {
-            v.validator = `[{'required':'',tip:'${v.dictValue}不能为空'},{'idcard':'',tip:'${v.dictValue}格式错误'}]`;
-            v.maxLength = 18;
-          } else {
-            v.validator = `[{'required':'',tip:'${v.dictValue}不能为空'}]`;
-            v.maxLength = 30;
-          }
-          return v;
-        });
-        this.setState({ viewData, config: res.data });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-        viewData.isloading = 2;
-        viewData.noresult.show = true;
-        this.setState({ viewData });
-      });
-  }
-  isZfb() {
-    const { platformSource } = window.CONSTANT_CONFIG;
-    return platformSource == 2;
-  }
-  switchPatientType(v) {
-    this.setState({
-      patientType: v,
-    });
-  }
-  submitData(onSubmit) {
-    if (onSubmit) {
-      return false;
-    }
-    const ret = Validator(this.refs.dataForm);
-    if (ret.result.length > 0) {
-      this.setState({
-        showToptips: true,
-        toptips: ret.result[0].tip,
-      });
-      this.state.errorTimer = setTimeout(() => {
-        this.setState({
-          showToptips: false,
-        });
-      }, 2000);
-      return false;
-    }
-    const { viewData } = this.state;
-    viewData.onSubmit = true;
-    this.setState({ viewData });
-    this.showLoading();
-    Api
-      .addPatients(ret.data)
-      .then(() => {
-        viewData.onSubmit = false;
-        this.setState({ viewData });
-        this.showSuccess({
-          title: '绑定成功',
-          duration: 1500,
-          complete: ()=>{
-            this.context.router.goBack();
-          }
-        });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-        viewData.onSubmit = false;
-        this.setState({ viewData });
-      });
-  }
-  isNewCard(e) {
-    const { viewData } = this.state;
-    viewData.isNewCard = e.target.value;
-    this.setState({ viewData });
-  }
-  isSelf(relationType) {
-    this.setState({
-      isSelf: relationType.toString() === '1',
-    });
-  }
-  isZfbSelf() {
-    const { isSelf } = this.state;
-    return this.isZfb() && isSelf;
-  }
-  filterChildWhenSelf() {
-    const { config, isSelf } = this.state;
-    const { patientTypes = [] } = config;
-    if (isSelf) {
-      return patientTypes.filter((v) => {
-        return v && v.dictKey && v.dictKey.toString() !== '1';
-      });
-    } else {
-      return patientTypes;
-    }
-  }
+
   render() {
- 
+    const {patientName,isPatShow,orderList,patList,msg}=this.state
     return (
     <div className="container page-order-list">
-        <div>
+        <Toast icon="success-no-circle" show={this.state.showToast}>修改成功</Toast>
+        <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+            {msg}
+        </Dialog>
+        <div style={{height:'44px',marginBottom:'10px'}}>
 
-            <ul >
-                <li className="active">patientName</li>
+            <ul  onClick={
+            ()=>{
+            this.openList()
+
+            }
+            }>
+                <li className={`${isPatShow ? 'active' : 'default-item'}`}>{patientName}</li>
             </ul>
-            {/*<ul @tap="openList">
-             <li className="{{isPatShow ? 'active' : 'default-item'}}">{{patientName}}</li>
-             </ul>*/}
-
         </div>
-        <div className='modal' >
+        {isPatShow&&<div className='modal2' >
             <div className='modal-body'>
-                <div  className='modal-list'>全部就诊人</div>
-                <div  className='modal-list'>patientName</div>
+                <div  className='modal-list'
+                    onClick={()=>{
+                    this.selectPat('','全部就诊人')
+
+                    }}
+                    >全部就诊人</div>
+                {patList&&patList.map((item,index)=>{
+                   return(
+                       <div
+                           key={index}
+                           onClick={()=>{
+                    this.selectPat(item.patientId,item.patientName)
+
+                    }}
+                           className='modal-list'>{item.patientName}</div>
+                   )
+
+                })}
+
 
             </div>
-            {/*<div className='modal' wx:if="{{isPatShow}}">
-             <div className='modal-body'>
-             <div @tap="selectPat('','全部就诊人')" className='modal-list'>全部就诊人</div>
-             <block wx:for="{{patList}}" wx:for-index="idx" wx:for-item="item" wx:key="{{idx}}">
-             <div @tap="selectPat('{{item.patientId}}','{{item.patientName}}')" className='modal-list'>{{item.patientName}}</div>
-             </block>
-             </div>*/}
-
-        </div>
+        </div>}
 
         {/*<block wx:for="{{orderList}}" wx:for-index="idx" wx:for-item="item" wx:key="{{idx}}">*/}
-        <div className='doc-item'>
 
-            <Link>
-                <div className="doc-info">
-                    <img className="doc-img" src="../../../resources/images/doc.png" alt="医生头像" />
-                    <div className="text-box">
-                        <div className='doc-name'>doctorName</div>
-                        <div className='doc-des'>deptName  level</div>
-                        <div className='doc-des'>hisName</div>
-                    </div>
-                </div>
-                <div className='msg-box'>
-                    <div>
-                        <div>咨询时间：createTime</div>
-                        <div>完成时间：finishTime  </div>
-                    </div>
-                    <div className='price-box'>
-                        ￥100
-                    </div>
-                </div>
-            </Link>
+        {orderList&&orderList.map((item,index)=>{
+           return(
+               <div className='doc-item' key={index}>
+                   <Link to={{
+                   pathname:'/ordermng/orderdetail',
+                   query:{orderId:item.id}
+                   }}>
+                       <div className="doc-info">
+                           <img className="doc-img" src={item.doctorImgUrl || '../../../resources/images/doc.png'} alt="医生头像" />
+                           <div className="text-box11">
+                               <div className='doc-name'>{item.doctorName}</div>
+                               <div className='doc-des'>{item.deptName} {item.level ? '|' : ''}  {item.level}</div>
+                               <div className='doc-des'>{item.hisName}</div>
+                           </div>
+                       </div>
+                       <div className='msg-box'>
+                           <div>
+                               <div>咨询时间：{item.createTime}</div>
+                               <div>完成时间：{item.finishTime || '暂无完成时间' }  </div>
+                           </div>
+                           <div className='price-box'>
+                               ￥{(item.totalFee/100).toFixed(2)}
+                           </div>
+                       </div>
+                   </Link>
 
-            {/*<navigator url="/pages/ordermng/orderdetail/orderdetail?orderId={{item.id}}">
-             <div className="doc-info">
-             <img className="doc-img" src="{{item.doctorImgUrl || '../../../resources/images/doc.png'}}" alt="医生头像" />
-             <div className="text-box">
-             <div className='doc-name'>{{item.doctorName}}</div>
-             <div className='doc-des'>{{item.deptName}} {{item.level ? '|' : ''}} {{item.level}}</div>
-             <div className='doc-des'>{{item.hisName}}</div>
-             </div>
-             </div>
-             <div className='msg-box'>
-             <div>
-             <div>咨询时间：{{item.createTime}}</div>
-             <div>完成时间：{{item.finishTime || '暂无完成时间' }}</div>
-             </div>
-             <div className='price-box'>
-             ￥{{WxsUtils.formatMoney(item.totalFee,100)}}
-             </div>
-             </div>
-             </navigator>*/}
-
-
-            <div className="oper-box">
-                <div className="pat-item">typeName | 就诊人：patientName</div>
-                <div className="status-name">statusName</div>
-
-
-                {/*<div className="oper-box">
-                 <div className="pat-item">{{item.typeName}} | 就诊人：{{item.patientName}}</div>
-                 <div className="status-name" wx:if="{{item.status != '2'}}">{{item.statusName}}</div>
-                 <div className="status-name" wx:if="{{item.status == '2'}}">已完成</div>
-                 <div className="eva-item" wx:if="{{item.status == '2'}}">
-                 <navigator url="/pages/ordermng/evaluate/evaluate?orderId={{item.id}}" className='evaluate'>评价</navigator>
-                 </div>*/}
-
-
-            </div>
-        </div>
-
-    <div  className='no-data' style={{display:'none'}}>
+                   <div className="oper-box">
+                       <div className="pat-item">{item.typeName} | 就诊人：{item.patientName}</div>
+                       {item.status != '2'&&<div className="status-name">{item.statusName}</div>}
+                       {item.status == '2'&&<div className="status-name">已完成</div>}
+                       {item.status == '2'&&<div className="eva-item" >
+                           <Link
+                               to={{
+                               pathname:'/ordermng/evaluate',
+                               query:{orderId:item.id}
+                               }}
+                               className='evaluate'
+                               >
+                               评价
+                           </Link>
+                       </div>}
+                   </div>
+               </div>
+           )
+        })}
+        {orderList.length <= 0&&<div  className='no-data' >
           <img src='../../../resources/images/no-result.png' />
           <div>暂未查询到相关信息</div>
-          </div>
-              <div className='modal' >
-                  <div className='modal-body'>
-                      <div className='modal-list'>全部服务text</div>
-                      <div className='modal-list'>专家问诊text</div>
-                      <div className='modal-list'>视频问诊text</div>
-                  </div>
-              </div>
-              {/*<div wx:if="{{orderList.length <= 0}}" className='no-data'>
-               <img src='../../../resources/images/no-result.png' />
-               <div>暂未查询到相关信息</div>
-               </div>
-               <div className='modal' wx:if="{{isTypShow}}">
-               <div className='modal-body'>
-               <div className='modal-list'>全部服务{{typeList.text}}</div>
-               <div className='modal-list'>专家问诊{{typeList.text}}</div>
-               <div className='modal-list'>视频问诊{{typeList.text}}</div>
-               </div>
-               </div>*/}
+          </div>}
+
           </div>
     );
   }

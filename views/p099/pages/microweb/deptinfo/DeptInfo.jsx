@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Button, Toptips } from 'react-weui';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 
 import * as Api from './deptInfoApi';
@@ -11,172 +11,151 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: {},
-      sexOption: [
-        {
-          dictKey: 'M',
-          dictValue: '男',
+        showToast: false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
         },
-        {
-          dictKey: 'F',
-          dictValue: '女',
+        style2: {
+            title: '提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
         },
-      ],
-      viewData: {
-        onSubmit: false,
-        showToptips: false,
-        toptips: '',
-        isNewCard: '0',
-        noresult: {
-          msg: '暂未获取到医院配置信息',
-          show: false,
-        },
-        isloading: 0,
-      },
+        msg:'',
+      deptInfo:[]
     };
   }
   componentDidMount() {
-   
+    //this.getJs();
+    console.log(this.props.location.query.no);
+    this.getDepInfo({no:this.props.location.query.no});
   }
   componentWillUnmount() {
     // 离开页面时结束所有可能异步逻辑
 
   }
-  getUser() { // 获取实名制
-    Api
-      .getUser()
-      .then((res) => {
-        console.log(res);
-        this.setState({ user: res.data });
-      }, e=> {
-        console.log(e);
-      });
-  }
-  getHisConfig() {
-    const { viewData } = this.state;
-    viewData.isloading = 1;
-    this.setState({ viewData });
-    this.showLoading();
-    Api
-      .getHisConfig()
-      .then((res) => {
-        this.hideLoading();
-        viewData.isloading = 0;
-        // 添加身份证的验证规则
-        res.data.idTypes = res.data.idTypes.map((v) => {
-          if (v.dictKey === '1') {
-            v.validator = `[{'required':'',tip:'${v.dictValue}不能为空'},{'idcard':'',tip:'${v.dictValue}格式错误'}]`;
-            v.maxLength = 18;
-          } else {
-            v.validator = `[{'required':'',tip:'${v.dictValue}不能为空'}]`;
-            v.maxLength = 30;
-          }
-          return v;
-        });
-        this.setState({ viewData, config: res.data });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-        viewData.isloading = 2;
-        viewData.noresult.show = true;
-        this.setState({ viewData });
-      });
-  }
-  isZfb() {
-    const { platformSource } = window.CONSTANT_CONFIG;
-    return platformSource == 2;
-  }
-  switchPatientType(v) {
-    this.setState({
-      patientType: v,
-    });
-  }
-  submitData(onSubmit) {
-    if (onSubmit) {
-      return false;
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
     }
-    const ret = Validator(this.refs.dataForm);
-    if (ret.result.length > 0) {
-      this.setState({
-        showToptips: true,
-        toptips: ret.result[0].tip,
-      });
-      this.state.errorTimer = setTimeout(() => {
+
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
         this.setState({
-          showToptips: false,
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
         });
-      }, 2000);
-      return false;
     }
-    const { viewData } = this.state;
-    viewData.onSubmit = true;
-    this.setState({ viewData });
-    this.showLoading();
+  getJs(){
+
     Api
-      .addPatients(ret.data)
-      .then(() => {
-        viewData.onSubmit = false;
-        this.setState({ viewData });
-        this.showSuccess({
-          title: '绑定成功',
-          duration: 1500,
-          complete: ()=>{
-            this.context.router.goBack();
+        .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+        .then((res) => {
+          console.log(res);
+          if(res.code==0){
+            //写入b字段
+            console.log("str",res.data);
+            wx.config({
+              debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+              appId:res.data.appId, // 必填，公众号的唯一标识
+              timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+              nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+              signature:res.data.signature,// 必填，签名
+              jsApiList: ['hideMenuItems','showMenuItems'] // 必填，需要使用的JS接口列表
+            });
+            wx.ready(function(){
+              //批量隐藏功能
+              wx.hideMenuItems({
+                menuList: ["menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+              });
+            });
+
           }
+
+
+          //this.setState({ hospInfo: res.data });
+        }, (e) => {
+            this.setState({
+                msg:e.msg,
+                showIOS1:true
+            })
         });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-        viewData.onSubmit = false;
-        this.setState({ viewData });
-      });
+
+
+
   }
-  isNewCard(e) {
-    const { viewData } = this.state;
-    viewData.isNewCard = e.target.value;
-    this.setState({ viewData });
+   getDepInfo(param){
+    Api
+        .getDepInfo(param)
+        .then((res) => {
+          console.log(res);
+          if(res.code == 0){
+            this.setState({ deptInfo: res.data });
+          }
+        }, e=> {
+            this.setState({
+                msg:e.msg,
+                showIOS1:true
+            })
+        });
+
   }
-  isSelf(relationType) {
-    this.setState({
-      isSelf: relationType.toString() === '1',
-    });
-  }
-  isZfbSelf() {
-    const { isSelf } = this.state;
-    return this.isZfb() && isSelf;
-  }
-  filterChildWhenSelf() {
-    const { config, isSelf } = this.state;
-    const { patientTypes = [] } = config;
-    if (isSelf) {
-      return patientTypes.filter((v) => {
-        return v && v.dictKey && v.dictKey.toString() !== '1';
-      });
-    } else {
-      return patientTypes;
-    }
-  }
+
   render() {
- 
+    const {deptInfo,msg}=this.state;
+    console.log('kl',deptInfo.length)
     return (
         <div className="p-page">
-          <div className="m-deptname">name</div>
-          {/*<block wx:if="{{deptInfo}}">
-           <div className="m-deptname">{{deptInfo.name}}</div>*/}
-          <div className="m-deptinfo">
+            <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                {msg}
+            </Dialog>
+          {!!deptInfo&&<div className="m-deptname">{deptInfo.name}</div>}
+          {!!deptInfo&&<div className="m-deptinfo">
+              <div className="m-blockinfo" >
+                <div className="m-title">科室介绍</div>
+                <div className="m-summary">{deptInfo.summary ? deptInfo.summary : '暂无简介'}</div>
+              </div>
+          </div>}
 
-            <div className="m-blockinfo">
-              <div className="m-title">科室介绍</div>
-              <div className="m-summary">summary</div>
-              {/* <div className="m-summary">{{deptInfo.summary ? deptInfo.summary : '暂无简介'}}</div>*/}
-            </div>
-          </div>
           {/*</block>
            <div className='no-data' wx:if="{{!deptInfo}}">*/}
-          <div className='no-data'  style={{display:'none'}}>
+          {!deptInfo&&<div className='no-data'  >
             <img src='../../../resources/images/no-result.png' />
             <div>暂未查询到相关信息</div>
-          </div>
+          </div>}
         </div>
 
     );

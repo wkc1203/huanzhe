@@ -8,3 +8,4 @@ export const getUser = (param) => fetch.post('/api/ehis/user/personal/getuser', 
 export const getCardList = (param) => fetch.post('/api/ehis/user/personal/getpatientslist', param);
 
 export const getCardList1 = (param) => fetch.post('/api/ehis/user/personal/getPatientsFromHosp', param);
+export const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/getJsApiConfig', param);

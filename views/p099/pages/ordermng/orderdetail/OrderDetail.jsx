@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Button, Toptips } from 'react-weui';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
 
@@ -12,299 +12,317 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: {},
-      sexOption: [
-        {
-          dictKey: 'M',
-          dictValue: '男',
+        orderId: '',
+        statusName: '',
+        statusClassName: '',
+        orderDetail: {},
+        leftTimeFlag: false,
+        // 剩余支付时间
+        leftTime: '00:00',
+        showToast: false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
         },
-        {
-          dictKey: 'F',
-          dictValue: '女',
+        style2: {
+            title: '提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
         },
-      ],
-      viewData: {
-        onSubmit: false,
-        showToptips: false,
-        toptips: '',
-        isNewCard: '0',
-        noresult: {
-          msg: '暂未获取到医院配置信息',
-          show: false,
-        },
-        isloading: 0,
-      },
+        msg:'',
+        leftTimer:''
     };
   }
   componentDidMount() {
-   
+      //this.getJs();
+     this.setState({
+         orderId:this.props.location.query.orderId
+     })
+      console.log("this",this.state.orderId);
+      console.log("this11",this.props.location.query.orderId);
+      this.getOrderDet();
   }
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
+
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
+    }
+    getJs(){
+
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function(){
+                        //批量隐藏功能
+                        wx.hideMenuItems({
+                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        });
+                    });
+
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+
+
+
+    }
   componentWillUnmount() {
     // 离开页面时结束所有可能异步逻辑
+      this.state.leftTimer && clearInterval(this.state.leftTimer);
 
   }
-  getUser() { // 获取实名制
-    Api
-      .getUser()
-      .then((res) => {
-        console.log(res);
-        this.setState({ user: res.data });
-      }, e=> {
-        console.log(e);
-      });
-  }
-  getHisConfig() {
-    const { viewData } = this.state;
-    viewData.isloading = 1;
-    this.setState({ viewData });
-    this.showLoading();
-    Api
-      .getHisConfig()
-      .then((res) => {
-        this.hideLoading();
-        viewData.isloading = 0;
-        // 添加身份证的验证规则
-        res.data.idTypes = res.data.idTypes.map((v) => {
-          if (v.dictKey === '1') {
-            v.validator = `[{'required':'',tip:'${v.dictValue}不能为空'},{'idcard':'',tip:'${v.dictValue}格式错误'}]`;
-            v.maxLength = 18;
-          } else {
-            v.validator = `[{'required':'',tip:'${v.dictValue}不能为空'}]`;
-            v.maxLength = 30;
-          }
-          return v;
-        });
-        this.setState({ viewData, config: res.data });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-        viewData.isloading = 2;
-        viewData.noresult.show = true;
-        this.setState({ viewData });
-      });
-  }
-  isZfb() {
-    const { platformSource } = window.CONSTANT_CONFIG;
-    return platformSource == 2;
-  }
-  switchPatientType(v) {
-    this.setState({
-      patientType: v,
-    });
-  }
-  submitData(onSubmit) {
-    if (onSubmit) {
-      return false;
+     getOrderDet() {
+         Api
+             .getOrderDet({
+                 orderId:this.props.location.query.orderId
+             })
+             .then((res) => {
+                 if (res.code == 0) {
+                     this.getStatus(res.data.status);
+                     this.setState({ orderDetail: res.data });
+                     this.getLeftTime(res.data.leftPayTime || 0);
+                 }
+
+             }, e=> {
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
+             });
+
+
     }
-    const ret = Validator(this.refs.dataForm);
-    if (ret.result.length > 0) {
-      this.setState({
-        showToptips: true,
-        toptips: ret.result[0].tip,
-      });
-      this.state.errorTimer = setTimeout(() => {
+    getStatus(status) {
+        const STATUS_MAP = {
+            '-1': {
+                name: 'waiting',
+                statusName: '待付款'
+            },
+            '0': {
+                name: 'info',
+                statusName: '咨询中'
+            },
+            '1': {
+                name: 'info',
+                statusName: '咨询中'
+            },
+            '2': {
+                name: 'waiting',
+                statusName: '待评价'
+            },
+            '3': {
+                name: 'success',
+                statusName: '已完成'
+            }
+        };
+
+        const statusObj = STATUS_MAP[status] || {};
         this.setState({
-          showToptips: false,
-        });
-      }, 2000);
-      return false;
+            statusName:statusObj.statusName,
+            statusClassName:statusObj.name
+        })
+
     }
-    const { viewData } = this.state;
-    viewData.onSubmit = true;
-    this.setState({ viewData });
-    this.showLoading();
-    Api
-      .addPatients(ret.data)
-      .then(() => {
-        viewData.onSubmit = false;
-        this.setState({ viewData });
-        this.showSuccess({
-          title: '绑定成功',
-          duration: 1500,
-          complete: ()=>{
-            this.context.router.goBack();
-          }
-        });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-        viewData.onSubmit = false;
-        this.setState({ viewData });
-      });
-  }
-  isNewCard(e) {
-    const { viewData } = this.state;
-    viewData.isNewCard = e.target.value;
-    this.setState({ viewData });
-  }
-  isSelf(relationType) {
-    this.setState({
-      isSelf: relationType.toString() === '1',
-    });
-  }
-  isZfbSelf() {
-    const { isSelf } = this.state;
-    return this.isZfb() && isSelf;
-  }
-  filterChildWhenSelf() {
-    const { config, isSelf } = this.state;
-    const { patientTypes = [] } = config;
-    if (isSelf) {
-      return patientTypes.filter((v) => {
-        return v && v.dictKey && v.dictKey.toString() !== '1';
-      });
-    } else {
-      return patientTypes;
+    getLeftTime(time = 0) {
+        if (time <= 0) {
+            this.state.leftTimer && clearInterval(this.state.leftTimer);
+          this.setState({
+              leftTimeFlag:false,
+              leftTime:'00:00'
+          })
+
+            return;
+        }
+
+        const minute = `00${Math.floor(time / 60)}`.substr(-2);
+        const second = `00${Math.floor(time % 60)}`.substr(-2);
+        this.setState({
+            leftTimeFlag:true,
+            leftTime:`${minute}:${second}`
+        })
+        var  leftTimer=this.state.leftTimer;
+
+        leftTimer = setTimeout(() => {
+            this.getLeftTime(--time);
+        }, 1000);
+        this.setState({
+            leftTimer:leftTimer
+        })
+
     }
-  }
+    repay() {
+        this.context.router.push({
+            pathname:'consult/pay',
+            query:{orderId:this.state.orderId,inquiryId:this.state.orderDetail.inquiryId,totalFee:this.state.orderDetail.totalFee}
+        })
+
+    }
+
   render() {
- 
+    const {orderId,msg,statusName,statusClassName,orderDetail,leftTimeFlag,leftTime}=this.state
     return (
         <div className="container page-order-detail">
-            <div className="m-lefttime" style={{display:'none'}}>
+            <Toast icon="success-no-circle" show={this.state.showToast}>修改成功</Toast>
+            <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                {msg}
+            </Dialog>
+            {leftTimeFlag && orderDetail.orderStatus === 'U'&&<div className="m-lefttime" >
                 <div className="lefttime-zw"></div>
-                <div className="lefttime">剩余支付时间 leftTime</div>
-            </div>
-            {/*<block wx:if="{{leftTimeFlag && orderDetail.orderStatus === 'U'}}">
-             <div className="m-lefttime">
-             <div className="lefttime-zw"></div>
-             <div className="lefttime">剩余支付时间 {{leftTime}}</div>
-             </div>
-             </block>*/}
+                <div className="lefttime">剩余支付时间 {leftTime}</div>
+            </div>}
 
             <div className="wgt-detailstatus wgt-detailstatus-waiting">
                 <div className="wgt-detailstatus-bd">
                     <div className="wgt-detailstatus-bd-icon">
+                        <i className={`${statusClassName?'weui-icon-'+statusClassName:''}`}></i>
 
-                        <icon  size="30" color="#fff" />
 
                     </div>
                     <div className="wgt-detailstatus-bd-tit ">
-                        <div name="title">statusName</div>
+                        {statusName}
                     </div>
                 </div>
-
-                {/*<div className="wgt-detailstatus wgt-detailstatus-{{statusclassName}}">
-                 <div className="wgt-detailstatus-bd">
-                 <div className="wgt-detailstatus-bd-icon">
-                 <block wx:if="{{statusclassNameName}}">
-                 <icon type="{{statusclassNameName}}" size="30" color="#fff" />
-                 </block>
-                 </div>
-                 <div className="wgt-detailstatus-bd-tit">
-                 <div name="title">{{statusName}}</div>
-                 </div>
-                 </div>*/}
-
-
               
             </div>
             <div className="od-list">
-                <div className="title">就诊信息</div>
-                <div className="content">
+                <div className="title3">就诊信息</div>
+                <div className="content2">
                     <div className="list">
                         <div className="list-item">
                             <div className="item-label">咨询类型</div>
-                            <div className="item-value">typeName </div>
-                            {/*<div className="item-value">{{orderDetail.typeName}} </div>*/}
+                            <div className="item-value">{orderDetail.typeName} </div>
                         </div>
                         <div className="list-item">
                             <div className="item-label">咨询原因</div>
-                            <div className="item-value">purpose</div>
-                            {/*<div className="item-value">{{orderDetail.purpose}}</div>*/}
+                            <div className="item-value">{orderDetail.purpose}</div>
                         </div>
                         <div className="list-item">
                             <div className="item-label">医生姓名</div>
-                            <div className="item-value">doctorName</div>
-                            {/*<div className="item-value">{{orderDetail.doctorName}}</div>*/}
+                            <div className="item-value">{orderDetail.doctorName}</div>
                         </div>
                         <div className="list-item">
                             <div className="item-label">科室名称</div>
-                            <div className="item-value">deptName</div>
-                            {/*<div className="item-value">{{orderDetail.deptName}}</div>*/}
+                            <div className="item-value">{orderDetail.deptName}</div>
                         </div>
                         <div className="list-item">
                             <div className="item-label">就诊人</div>
-                            <div className="item-value">patientName</div>
-                            {/*<div className="item-value">{{orderDetail.patientName}}</div>*/}
+                            <div className="item-value">{orderDetail.patientName}</div>
                         </div>
                         <div className="list-item">
                             <div className="item-label">就诊卡号</div>
-                            <div className="item-value">patientCardNo</div>
-                            {/*<div className="item-value">{{orderDetail.patientCardNo}}</div>*/}
+                            <div className="item-value">{orderDetail.patientCardNo}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="od-list">
-                <div className="title">支付详情</div>
-                <div className="content">
+                <div className="title3">支付详情</div>
+                <div className="content2">
 
                     <div className="list">
-                        <div className="list-item" >
-                            <div className="item-label">订单创建时间</div>
-                            <div className="item-value">createTime</div>
-                        </div>
-                        <div className="list-item" >
-                            <div className="item-label">支付时间</div>
-                            <div className="item-value">payTime</div>
-                        </div>
-                        <div className="list-item" >
-                            <div className="item-label">支付金额</div>
-                            <div className="item-value">￥100</div>
-                        </div>
-                        <div className="list-item" >
-                            <div className="item-label">订单状态</div>
-                            <div className="item-value">orderStatusName</div>
-                        </div>
-                        <div className="list-item" >
-                            <div className="item-label">微信订单号</div>
-                            <div className="item-value">tradeNo</div>
-                        </div>
-                        <div className="list-item" >
-                            <div className="item-label">平台订单号</div>
-                            <div className="item-value">orderId</div>
-                        </div>
 
-                        {/*<div className="list">
-                         <div className="list-item" wx:if="{{orderDetail.createTime}}">
-                         <div className="item-label">订单创建时间</div>
-                         <div className="item-value">{{orderDetail.createTime}}</div>
-                         </div>
-                         <div className="list-item" wx:if="{{orderDetail.payTime}}">
-                         <div className="item-label">支付时间</div>
-                         <div className="item-value">{{orderDetail.payTime}}</div>
-                         </div>
-                         <div className="list-item" wx:if="{{orderDetail.totalFee}}">
-                         <div className="item-label">支付金额</div>
-                         <div className="item-value">￥{{WxsUtils.formatMoney(orderDetail.totalFee,100)}}</div>
-                         </div>
-                         <div className="list-item" wx:if="{{orderDetail.status}}">
-                         <div className="item-label">订单状态</div>
-                         <div className="item-value">{{orderDetail.orderStatusName}}</div>
-                         </div>
-                         <div className="list-item" wx:if="{{orderDetail.tradeNo}}">
-                         <div className="item-label">微信订单号</div>
-                         <div className="item-value">{{orderDetail.tradeNo}}</div>
-                         </div>
-                         <div className="list-item" wx:if="{{orderDetail.orderId}}">
-                         <div className="item-label">平台订单号</div>
-                         <div className="item-value">{{orderDetail.orderId}}</div>
-                         </div>*/}
+                        {orderDetail.createTime&&<div className="list-item" >
+                            <div className="item-label">订单创建时间</div>
+                            <div className="item-value">{orderDetail.createTime}</div>
+                        </div>}
+                        {orderDetail.payTime&&<div className="list-item" >
+                            <div className="item-label">支付时间</div>
+                            <div className="item-value">{orderDetail.payTime}</div>
+                        </div>}
+                        {orderDetail.totalFee&&<div className="list-item" >
+                            <div className="item-label">支付金额</div>
+                            <div className="item-value">￥{(orderDetail.totalFee/100).toFixed(2)}</div>
+                        </div>}
+                        {orderDetail.status&&<div className="list-item" >
+                            <div className="item-label">订单状态</div>
+                            <div className="item-value">{orderDetail.orderStatusName}</div>
+                        </div>}
+                        {orderDetail.tradeNo&&<div className="list-item" >
+                            <div className="item-label">微信订单号</div>
+                            <div className="item-value">{orderDetail.tradeNo}</div>
+                        </div>}
+                        {orderDetail.orderId&&<div className="list-item" >
+                            <div className="item-label">平台订单号</div>
+                            <div className="item-value">{orderDetail.orderId}</div>
+                        </div>}
+
+
 
                     </div>
                 </div>
             </div>
             <div className="empty-box"></div>
 
-            <div className="footer-btn">
-                <div className="fee-item">￥100</div>
-                <div  className="repay-btn">立即支付</div>
+            {orderDetail.orderStatus == 'U' && leftTimeFlag&&<div className="footer-btn">
+                <div className="fee-item">￥{(orderDetail.totalFee/100).toFixed(2)}</div>
+                <div  className="repay-btn"
+                      onClick={
+                      ()=>{
+                      this.repay()
 
-                {/*<div className="footer-btn" wx:if="{{orderDetail.orderStatus == 'U' && leftTimeFlag}}">
-                 <div className="fee-item">￥{{WxsUtils.formatMoney(orderDetail.totalFee,100)}}</div>
-                 <div @tap="repay" className="repay-btn">立即支付</div>*/}
-            </div>
+                      }
+                      }
+                    >立即支付</div>
+            </div>}
         </div>
 
     );

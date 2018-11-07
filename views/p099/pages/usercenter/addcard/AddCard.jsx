@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { InfiniteLoader, LoadMore } from 'react-weui';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
+
 import { Link } from 'react-router';
+import {getBirthdayByIdCard,validators} from '../../../utils/validator';
+import hashHistory from 'react-router/lib/hashHistory';
 
 import Connect from '../../../components/connect/Connect';
 import NoResult from '../../../components/noresult/NoResult';
@@ -12,153 +15,388 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      noResult: {
-        msg: '暂未获取到相关信息',
-        show: false,
-      },
-      articleTypeList: [],
-      articleData: {},
+        type:0,
+        errorElement: {}, // 发生错误的元素
+        hasErr: true, // 是否存在校验错误
+        toptip: '',
+        idTypesIdx: 0,
+        patCardsIdx: 0,
+        CURSOR_SPACING: '100',
+        isNewCard: 0,
+        isNoCard: 0,
+        isDefault: false,
+        patientName: '',
+        idType: '1',
+        birthday: '',
+        idNo: '',
+        patCardNo: '',
+        patientMobile: '',
+        relationType: '5',
+        patientType: '0',
+        relationA:false,
+        relationB:false,
+        relationAll:'',
+        showToast: false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        style2: {
+            title: '提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
+        },
+        msg:'',
     };
   }
 
   componentDidMount() {
     //this.getArticleTypeList();
+      this.getJs();
+      this.setState({
+          type:this.props.location.query.type
+      })
   }
 
   componentWillUnmount() {
     this.state.Timer && clearTimeout(this.state.Timer);
   }
 
-  /**
-   * 根据医院id获取文章类型列表
-   */
-  getArticleTypeList() {
-    const param = this.props.location.query;
-    const { noResult } = this.state;
-    this.showLoading();
-    Api
-      .getArticleTypeList(param)
-      .then((res) => {
-        this.hideLoading();
-        const articleTypeList = res.data;
-        if (articleTypeList && articleTypeList.length > 0) {
-          this.setState({
-            articleTypeList,
-          });
+    getJs(){
 
-          const typeId = this.props.location.query.typeId || articleTypeList[0].typeId;
-          if (typeId) {
-            this.setState({ typeId });
-          }
-          this.getHospDynamics(typeId);
-          this.tabScrollIntoView();
-          this.showAnimation();
-        } else {
-          noResult.show = true;
-          this.setState({ noResult });
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function(){
+                        //批量隐藏功能
+                        wx.hideMenuItems({
+                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        });
+                    });
+
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+                this.hideLoading();
+                alert("r"+JSON.stringify(e));
+                //this.showPopup({ content: e.msg });
+            });
+
+
+
+    }
+    formSubmit() {
+        const hasErr = this.validator1();
+        console.log("has",hasErr)
+        if (hasErr) {
+            return false;
         }
-      }, (e) => {
-        this.hideLoading();
-        noResult.show = true;
-        this.setState({ noResult });
-        this.showPopup({ content: e.msg });
-      });
-  }
+        this.pushData();
+    }
+    validator(e) {
+        console.log("valid",e.target.value);
+        const  id  = e.target.value;
+        this.setState({
+            hasErr:this.validator1(id)
+        })
+    }
+    changeDefault(){
+        this.setState({
+            isDefault:!this.state.isDefault
+        })
+    }
+     pushData() {
+        // 绑卡
+        this.showLoading();
+        const value = this.getFormData();
+        value.isDefault = this.state.isDefault ? '1' : '0';
+         Api
+           .bindCard(value)
+           .then((res)=>{
+                 if (res.code == 0) {
+                   this.hideLoading();
+                     this.showToast();
+                   /*  wepy.showToast({
+                         title: '绑定成功',
+                         icon: 'success'
+                     });*/
+                     const timer = setTimeout(() => {
+                         clearTimeout(timer);
+                         this.context.router.goBack();
+                        /* if(this.type==1){
+                            /!* hashHistory.push({
+                                 pathname:'/usercenter/home'
+                             })*!/
+                         }else{
+                             /!*wepy.navigateBack({ delta: 1 });*!/
+                         }*/
 
-  /**
-   * 获取文章列表
-   * @param type {Number} 文章类型
-   * @param currentPage {Number} 要获取的页码数
-   * @param resolve {Object} 滚动拉取组件隐藏loading样式的回调
-   */
-  getHospDynamics(type = 1, currentPage = 1, resolve = () => null) {
-    const param = this.props.location.query;
-    Object.assign(param, { typeId: type, pageNum: currentPage });
-    this.showLoading();
-    const { noResult, articleData } = this.state;
-    Api
-      .getHospDynamics(param)
-      .then((res) => {
-        this.hideLoading();
-        const listData = res.data || {};
-        if (listData.recordList && listData.recordList.length > 0) {
-          // 合并相同类型数据
-          const listName = type;
-          const currentArticle = articleData[listName];
-          if (currentArticle && currentArticle.currentPage > 0
-            && parseFloat(currentArticle.currentPage) + 1 !== parseFloat(listData.currentPage)) {
-            // 不是本次要的数据
-            return;
-          }
-          if (!currentArticle) {
-            // 无数据 直接赋值
-            articleData[listName] = listData;
-            this.setState({ articleData }, () => resolve());
-          } else {
-            // 原来有数据 concat数组内容 其它分页数据(如当前页数，总页数)使用本次获取到的
-            let newArticleList = (currentArticle.recordList && currentArticle.recordList.length > 0)
-              ? currentArticle.recordList : [];
-            newArticleList = newArticleList.concat(listData.recordList);
+                     }, 2000);
+                 }
 
-            articleData[param.typeId] = { ...listData, recordList: newArticleList };
-            this.setState({ articleData }, () => resolve());
-          }
-        } else {
-          noResult.show = true;
-          this.setState({ noResult }, () => resolve());
+             }
+           ,(e)=>{
+                 this.hideLoading();
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
+         })
+    }
+    validator1(id) {
+        const validate = {
+            patientName: {
+                regexp: /^[\u4e00-\u9fa5_a-zA-Z0-9]{2,8}$/,
+                errTip: '请输入2-8位合法姓名'
+            },
+            idNo: {
+                regexp: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
+                errTip: '请输入18位身份证'
+            },
+            /* patientMobile: {
+             regexp: /^1\d{10}$/,
+             errTip: '请输入正确的手机号'
+             },*/
+            patCardNo: {
+                regexp: (() => {
+                    if (this.state.isNewCard == 1) {
+                        return {};
+                    } else {
+                        return /^[_a-zA-Z0-9]{2,10}$/ || /^\S+$/;
+                    }
+                })(),
+                errTip: '请输入2-10位就诊卡号'
+            }
+        };
+
+        const value = this.getFormData();
+
+        let hasErr = false;
+        for (let o in value) {
+            const obj = validate[o];
+            if (obj && obj.regexp) {
+                let thisErr = false;
+                if (typeof obj.regexp === 'function') {
+                    const retObj = obj.regexp(value);
+                    if (!retObj.ret) {
+                        hasErr = true;
+                        thisErr = true;
+                        var  errorElement=this.state.errorElement;
+                        if (id && id == o) {
+                            errorElement[id] = true;
+                        }
+                        this.setState({
+                            errorElement:errorElement
+                        })
+                    }
+                } else {
+                    if (
+                        typeof obj.regexp.test === 'function' &&
+                        !obj.regexp.test(value[o])
+                    ) {
+                        hasErr = true;
+                        thisErr = true;
+                        var  errorElement=this.state.errorElement;
+                        if (id && id == o) {
+                            errorElement[id] = true;
+                        }
+                        this.setState({
+                            errorElement:errorElement
+                        })
+                    }
+                }
+                if (
+                    (!id && hasErr) ||
+                    (obj.errTarget && obj.errTarget == id && thisErr)
+                ) {
+                    // 提交时弹框提示
+                    var errorElement=this.state.errorElement;
+                    errorElement[obj.errTarget || o] = true;
+                    var  toptip=this.state.toptip;
+                    toptip = obj.errTip || '';
+                     this.setState({
+                         errorElement:errorElement,
+                         toptip:toptip
+                     })
+                    const errTimer = setTimeout(() => {
+                        this.setState({
+                            toptip:''
+                        })
+
+                        clearTimeout(errTimer);
+                    }, 2000);
+                    break;
+                }
+            }
         }
-      }, (e) => {
-        this.hideLoading();
-        noResult.show = true;
-        this.setState({ noResult }, () => resolve());
-        this.showPopup({ content: e.msg });
-      });
-  }
 
-  /**
-   * 改变显示文章的类型
-   * @param type {String} 文章类型
-   */
-  changeType(type) {
-    const { articleData, typeId } = this.state;
-    if (type === typeId) {
-      return;
+        return hasErr;
+    }
+    getFormData() {
+        const {
+            patientName,
+            idNo,
+            patCardNo,
+            birthday,
+            patientMobile,
+            isNewCard,
+            isNoCard,
+            idTypesIdx,
+            patCardsIdx,
+            hisConfig
+            } = this.state;
+        return {
+            patientName:patientName,
+            idNo:idNo,
+            idType: '1',
+            birthday:birthday,
+            patCardNo:patCardNo,
+            patientMobile:patientMobile,
+            relationType: '5',
+            patientType: '0',
+            patCardType: '21',
+            isNewCard:isNewCard,
+            isNoCard:isNoCard
+        };
+    }
+    showNext(){
+       hashHistory.push({
+           pathname:'/usercenter/cardtip'
+       })
+
+    }
+    getBirthday(){
+        const idNo = this.state.idNo;
+        this.setState({
+            birthday:getBirthdayByIdCard(idNo, '-'),
+            hasErr:this.validator1(idNo)
+        })
+
+    }
+    changeProp(e) {
+        this.setState({
+            birthday:e.target.value
+        })
+    }
+    radioChange(e) {
+        if (e.target.value == 1) {
+            this.setState({
+                isNewCard:0
+            })
+        } else {
+            this.setState({
+                isNewCard:1
+            })
+        }
+    }
+    userIO(e) {
+        const id = e.target.id;
+        const value = e.target.value;
+        console.log("id",id);
+        if(id=='patientName'){
+            console.log("patientName",value)
+            this.setState({
+                patientName:value
+            })
+        }
+        if(id=='idNo'){
+            console.log("patientNam11e",value)
+
+            this.setState({
+                idNo:value
+            })
+        }
+
+        if(id=='patCardNo'){
+            console.log("patien1111tName",value)
+
+            this.setState({
+                patCardNo:value
+            })
+        }
+
+        //this[id] = value;
+    }
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
     }
 
-    this.setState({ typeId: type });
-    this.tabScrollIntoView();
-    // 判断是否已经查找过该类型
-    if (Object.keys(articleData).indexOf(type) < 0) {
-      // 没查找过前往查找
-      this.getHospDynamics(type);
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
     }
-  }
-
-  tabScrollIntoView() {
-    window.setTimeout(() => {
-      this.refs.activeTab.scrollIntoView();
-    }, 100);
-  }
-
-  /**
-   * 显示滑动动画
-   */
-  showAnimation() {
-    const tabList = this.refs.tabList;
-    if (tabList.scrollWidth > tabList.clientWidth) {
-      this.setState({ isSlide: true });
-      this.state.Timer = setTimeout(() => {
-        this.setState({ isSlide: false });
-      }, 2000);
+    hideDialog() {
+        console.log(this.state);
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
     }
-  }
+    resetThisError(e) {
+           console.log('ee',e.target.id)
+        const id  = e.target.id;
+        var  errorElement=this.state.errorElement;
+        errorElement[id] = false;
+        this.setState({
+            errorElement:errorElement
+        })
 
-  render() {
-
-    return (
+    }
+    render() {
+    const {relationAll,relationB,msg,relationA,patientType,relationType,patientMobile,patCardNo,idNo,birthday,idType,patientName,isDefault,isNoCard,isNewCard,CURSOR_SPACING,patCardsIdx,idTypesIdx,toptip,hasErr,errorElement,type}=this.state;
+    console.log("errorElement",toptip);
+        return (
         <div>
-
-        <form bindsubmit="formSubmit">
+            <Toast icon="success-no-circle" show={this.state.showToast}>绑定成功</Toast>
+            <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                {msg}
+            </Dialog>
+            <Toptips type="warn" show={toptip!=''}>{toptip}</Toptips>
+        <div >
             <div className="bindcard-list">
                 <div className="bindcard-listitem">
                     <div className="listitem-head">
@@ -166,15 +404,29 @@ class Widget extends Component {
                     </div>
                     <div className="listitem-body">
                         <input
-                            className="m-content " placeholder="请输入宝宝姓名"
-
+                            className={`m1-content ${errorElement.patientName ? 'o-error' : ''}`} placeholder="请输入宝宝姓名"
+                            maxLength='8'
                             id="patientName"
+                            value={patientName}
+                            onBlur={
+                            (e)=>{
+                            this.validator(e)
+                            }
+
+                            }
+                            onChange={
+                            (e)=>{
+                           this.userIO(e)
+
+                            }
+                            }
+                            onFocus={
+                            (e)=>{
+                          this.resetThisError(e)
+
+                            }
+                            }
                             />
-                        {/*<input
-                         className="m-content {{errorElement.patientName ? 'o-error' : ''}}" placeholder="请输入宝宝姓名"
-                         cursor-spacing="{{CURSOR_SPACING}}" placeholder-style="color:{{errorElement.patientName ? 'color: #ff613b;' : ''}}"
-                         maxlength="8" id="patientName" value="{{patientName}}" @blur="validator" @input="userIO" @focus="resetThisError"
-                         />*/}
                     </div>
                 </div>
 
@@ -189,11 +441,31 @@ class Widget extends Component {
                     </div>
                     <div className="listitem-body">
                         <input
-                            className="m-content " type="text"
-                            placeholder="请输入宝宝或监护人证件号"  id="idNo"
+                            className={`m1-content ${errorElement.idNo ? 'o-error' : ''}`} placeholder="请输入宝宝或监护人证件号"
+                            maxLength='18'
+                            id="idNo"
+                            value={idNo}
+                            onBlur={
+                            (e)=>{
+                            this.validator(e)
+                            }
+
+                            }
+                            onChange={
+                            (e)=>{
+                           this.userIO(e)
+
+                            }
+                            }
+                            onFocus={
+                            (e)=>{
+                          this.resetThisError(e)
+
+                            }
+                            }
                             />
                         {/*<input
-                         className="m-content {{errorElement.idNo ? 'o-error' : ''}}" type="text"
+                         className="m1-content {{errorElement.idNo ? 'o-error' : ''}}" type="text"
                          placeholder="请输入宝宝或监护人证件号" placeholder-style="color:{{errorElement.idNo ? 'color: #ff613b;' : ''}}"
                          value="{{idNo}}" id="idNo" maxlength="18" cursor-spacing="{{CURSOR_SPACING}}" @blur="getBirthday" @input="userIO" @focus="resetThisError"
                          />*/}
@@ -209,9 +481,32 @@ class Widget extends Component {
                         <text className="list-title">就诊卡</text>
                     </div>
                     <div className="listitem-body">
-                        <input className="m-content" type="text" placeholder="请输入就诊卡号"
-                               id="patCardNo"/>
-                        {/*<input className="m-content {{errorElement.patCardNo ? 'o-error' : ''}}" type="text" placeholder="请输入就诊卡号" cursor-spacing="{{CURSOR_SPACING}}" bindinput="userIO" bindfocus="resetThisError" placeholder-style="color:{{errorElement.patCardNo ? 'color: #ff613b;' : ''}}"
+                        <input
+                            className={`m1-content ${errorElement.idNo ? 'o-error' : ''}`} placeholder="请输入就诊卡号"
+                            maxLength='15'
+                            id="patCardNo"
+                            value={patCardNo}
+                            name="patCardNo"
+                            onBlur={
+                            (e)=>{
+                            this.validator(e)
+                            }
+
+                            }
+                            onChange={
+                            (e)=>{
+                           this.userIO(e)
+
+                            }
+                            }
+                            onFocus={
+                            (e)=>{
+                          this.resetThisError(e)
+
+                            }
+                            }
+                            />
+                        {/*<input className="m1-content {{errorElement.patCardNo ? 'o-error' : ''}}" type="text" placeholder="请输入就诊卡号" cursor-spacing="{{CURSOR_SPACING}}" bindinput="userIO" bindfocus="resetThisError" placeholder-style="color:{{errorElement.patCardNo ? 'color: #ff613b;' : ''}}"
                          id="patCardNo" name="patCardNo" maxlength="15" @blur="validator" value="{{patCardNo}}" />*/}
 
                     </div>
@@ -220,13 +515,24 @@ class Widget extends Component {
             </div>
 
             <div className="afterscan-operbtnbox">
-                <button className="binduser-btn_line" >确定</button>
-                {/*<button className="binduser-btn_line {{hasErr ? 'o-disabled' : ''}}" formType="submit">确定</button>*/}
-            </div>
+                <button
+                    onClick={
+                    ()=>{
+                    this.formSubmit()
 
-        </form>
-        <div  className="tip1">如何申请就诊卡</div>
-            {/* <div  className="tip" @tap="showNext">如何申请就诊卡</div>*/}
+                    }
+                    }
+                    className={`binduser-btn_line ${hasErr ? 'o-disabled' : ''}`} >确定</button>
+            </div>
+        </div>
+        <div  className="tip1"
+            onClick={
+            ()=>{
+           this.showNext()
+
+            }
+            }
+            >如何申请就诊卡</div>
 
      </div>
                     );

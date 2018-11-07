@@ -1,8 +1,9 @@
 import fetch from '../../../utils/fetch';
 
-// 绑定就诊卡
-export const getHisConfig = param => fetch.post('/api/personal/getbindcardprofile', param);
 
-export const addPatients = param => fetch.post('/api/personal/addpatients', param);
 
-export const getUser = param => fetch.post('/api/personal/getuser', param);
+export const getDoctorInfo = (param) => fetch.post('/api/ehis/health/api/doctor/doctor', param);
+
+export const addCollect = (param) => fetch.post('/api/ehis/user/favorite/addmyfavorite', param, false);
+
+export const cancelCollect = (param) => fetch.post('/api/ehis/user/favorite/cancelmyfavorite', param, false);

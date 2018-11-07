@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Button, Toptips } from 'react-weui';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
 
@@ -12,250 +12,294 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: {},
-      sexOption: [
-        {
-          dictKey: 'M',
-          dictValue: '男',
+      doctor:[],
+      isFavorite: false,
+      doctorId:'',
+        showToast: false,
+        showLoading: false,
+        toastTimer: null,
+        loadingTimer: null,
+        showIOS1: false,
+        showIOS2: false,
+        showAndroid1: false,
+        showAndroid2: false,
+        style1: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
         },
-        {
-          dictKey: 'F',
-          dictValue: '女',
+        style2: {
+            title: '提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.hideDialog.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '确定',
+                    onClick: this.hideDialog.bind(this)
+                }
+            ]
         },
-      ],
-      viewData: {
-        onSubmit: false,
-        showToptips: false,
-        toptips: '',
-        isNewCard: '0',
-        noresult: {
-          msg: '暂未获取到医院配置信息',
-          show: false,
-        },
-        isloading: 0,
-      },
+        msg:'',
+      deptId:'',
+      isShowTip: false,
+      doctorInquirys:[]
     };
   }
   componentDidMount() {
-   
+      //this.getJs();
+    var doctorId=this.props.location.query.doctorId;
+    console.log("doctorId",doctorId)
+    this.getDoctorInfo({doctorId:doctorId});
   }
   componentWillUnmount() {
     // 离开页面时结束所有可能异步逻辑
 
   }
-  getUser() { // 获取实名制
-    Api
-      .getUser()
-      .then((res) => {
-        console.log(res);
-        this.setState({ user: res.data });
-      }, e=> {
-        console.log(e);
-      });
-  }
-  getHisConfig() {
-    const { viewData } = this.state;
-    viewData.isloading = 1;
-    this.setState({ viewData });
-    this.showLoading();
-    Api
-      .getHisConfig()
-      .then((res) => {
-        this.hideLoading();
-        viewData.isloading = 0;
-        // 添加身份证的验证规则
-        res.data.idTypes = res.data.idTypes.map((v) => {
-          if (v.dictKey === '1') {
-            v.validator = `[{'required':'',tip:'${v.dictValue}不能为空'},{'idcard':'',tip:'${v.dictValue}格式错误'}]`;
-            v.maxLength = 18;
-          } else {
-            v.validator = `[{'required':'',tip:'${v.dictValue}不能为空'}]`;
-            v.maxLength = 30;
-          }
-          return v;
-        });
-        this.setState({ viewData, config: res.data });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-        viewData.isloading = 2;
-        viewData.noresult.show = true;
-        this.setState({ viewData });
-      });
-  }
-  isZfb() {
-    const { platformSource } = window.CONSTANT_CONFIG;
-    return platformSource == 2;
-  }
-  switchPatientType(v) {
-    this.setState({
-      patientType: v,
-    });
-  }
-  submitData(onSubmit) {
-    if (onSubmit) {
-      return false;
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
     }
-    const ret = Validator(this.refs.dataForm);
-    if (ret.result.length > 0) {
-      this.setState({
-        showToptips: true,
-        toptips: ret.result[0].tip,
-      });
-      this.state.errorTimer = setTimeout(() => {
+
+    showLoading() {
+        this.setState({showLoading: true});
+
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+    hideDialog() {
+        console.log(this.state);
         this.setState({
-          showToptips: false,
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
         });
-      }, 2000);
-      return false;
     }
-    const { viewData } = this.state;
-    viewData.onSubmit = true;
-    this.setState({ viewData });
-    this.showLoading();
+    getJs(){
+
+        Api
+            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .then((res) => {
+                console.log(res);
+                if(res.code==0){
+                    //写入b字段
+                    console.log("str",res.data);
+                    wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId:res.data.appId, // 必填，公众号的唯一标识
+                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
+                        signature:res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems','showMenuItems'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function(){
+                        //批量隐藏功能
+                        wx.hideMenuItems({
+                            menuList: ["menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        });
+                    });
+
+                }
+
+
+                //this.setState({ hospInfo: res.data });
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+
+
+
+    }
+   getDoctorInfo(param) {
     Api
-      .addPatients(ret.data)
-      .then(() => {
-        viewData.onSubmit = false;
-        this.setState({ viewData });
-        this.showSuccess({
-          title: '绑定成功',
-          duration: 1500,
-          complete: ()=>{
-            this.context.router.goBack();
+        .getDoctorInfo(param)
+        .then((res) => {
+          if(res.code==0){
+
+            this.setState({
+              isFavorite: res.data.isFavorite,
+              doctor:res.data.doctor,
+              doctorInquirys:res.data.doctor.inquirys,
+              doctorId:res.data.doctor.inquirys[0].doctorId,
+              deptId:res.data.doctor.inquirys[0].deptId,
+            });
+            console.log("inquirys",res.data.doctor.inquirys);
           }
+          console.log(res);
+          this.setState({ user: res.data });
+        }, e=> {
+            this.setState({
+                msg:e.msg,
+                showIOS1:true
+            })
         });
-      }, (e) => {
-        this.hideLoading();
-        this.showPopup({ content: e.msg });
-        viewData.onSubmit = false;
-        this.setState({ viewData });
-      });
   }
-  isNewCard(e) {
-    const { viewData } = this.state;
-    viewData.isNewCard = e.target.value;
-    this.setState({ viewData });
-  }
-  isSelf(relationType) {
-    this.setState({
-      isSelf: relationType.toString() === '1',
-    });
-  }
-  isZfbSelf() {
-    const { isSelf } = this.state;
-    return this.isZfb() && isSelf;
-  }
-  filterChildWhenSelf() {
-    const { config, isSelf } = this.state;
-    const { patientTypes = [] } = config;
-    if (isSelf) {
-      return patientTypes.filter((v) => {
-        return v && v.dictKey && v.dictKey.toString() !== '1';
-      });
+   switchCollect(isFavorite){
+    const { doctorId, deptId } = this.state;
+       console.log('f',isFavorite)
+    if(!isFavorite){
+      Api
+          .addCollect({ doctorId, deptId })
+          .then((res) => {
+            if(res.code==0){
+              this.setState({
+                isFavorite: true,
+              });
+            }
+          }, e=> {
+              this.setState({
+                  msg:e.msg,
+                  showIOS1:true
+              })
+          });
     } else {
-      return patientTypes;
+      Api
+          .cancelCollect({ doctorId, deptId })
+          .then((res) => {
+            if(res.code==0){
+              this.setState({
+                isFavorite: false,
+              });
+            }
+          }, e=> {
+              this.setState({
+                  msg:e.msg,
+                  showIOS1:true
+              })
+          });
     }
   }
+  switchTip(flag){
+     this.setState({
+       isShowTip:flag == '1'
+     })
+
+  }
+
   render() {
- 
-    return (
+    const {doctor,isFavorite,isShowTip,doctorInquirys,msg}=this.state;
+      console.log("isf",isFavorite);
+      return (
         <div className="di-page">
-          <div className="container">
+            <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                {msg}
+            </Dialog>
+          <div className="container1">
             <div className='headerp'>
               <div className='doctor'>
-                <img className="doc-img" src="../../../resources/images/doc.png" alt="医生头像" />
+
+                {doctor.image&&<img className="doc-img" src={doctor.image} alt="医生头像"/>
+                }
+                {!doctor.image&&<img className="doc-img" src="../../../resources/images/doc.png" alt="医生头像"/>
+                }
                 {/*<img className="doc-img" src="{{doctor.img || '../../../resources/images/doc.png'}}" alt="医生头像" />*/}
                 <div className='text-box'>
-
                   <div>
-                    name
-                    <img  src="../../../resources/images/collect-none.png" />
+                    {doctor.name}
+                    {isFavorite&&<img  src="../../../resources/images/collect-none.png"
+                          onClick={()=>{
+                this.switchCollect(isFavorite)
+
+                }}/>}
+                    {!isFavorite&&<img  src="../../../resources/images/collect-active.png"
+                          onClick={()=>{
+                this.switchCollect(isFavorite)
+
+                }}/>}
                   </div>
-                  <div>grade grade  level</div>
-                  <div>deptName</div>
-
-                  {/*<div>
-                   {{doctor.name}}
-                   <img @tap="switchCollect({{isFavorite}})" src="{{isFavorite ? '../../../resources/images/collect-none.png' : '../../../resources/images/collect-active.png'}}" />
-                   </div>
-                   <div>{{doctor.grade || ''}} {{doctor.grade ? '|' : '' }}  {{doctor.level}}</div>
-                   <div>{{doctor.deptName}}</div>*/}
-
+                  <div>{doctor.grade || ''} {doctor.grade ? '|' : '' }   {doctor.level}</div>
+                  <div>{doctor.deptName}</div>
                 </div>
               </div>
             </div>
 
-            <div className="m-oper">
+             <div className="m-oper">
+                {!!doctor&&doctorInquirys.map((item,index)=>{
+                      console.log('type',item.type)
+                  return(
+                      <div key={index} className={`${item.type=='1'?'':'disNo'}`}>
+                        {item.type == '1' && item.isOnDuty == '1'&&<Link className="oper-item active"
+                              to={{
+                                pathname:'consult/confirminfo',
+                                query:{doctorId:doctor.doctorId,deptId:doctor.deptId,totalFee:item.remune},
+                              }}>
+                          <div>
+                            <img src="../../../resources/images/inquiry-bg.png" />
+                          </div>
+                          <div>图文咨询</div>
+                        </Link>
+                            }
+                        {item.type=='1'&&item.isOnDuty == '0'&&<div className="oper-item" >
+                          <div>
+                            <img src="../../../resources/images/inquiry-gray.png" />
+                          </div>
+                          <div>图文咨询</div>
+                          <div>（离线）</div>
+                        </div>
+                            }
+                      </div>
+                        )
+                    }
+                  )
+                        }
 
-              <Link className="oper-item active">
-                <div><img src="../../../resources/images/inquiry-bg.png" /></div>
-                <div>图文咨询</div>
-              </Link>
-              <div className="oper-item" >
-                <div><img src="../../../resources/images/inquiry-gray.png" /></div>
-                <div>图文咨询</div>
-                <div>（离线）</div>
-              </div>
-
-              <div className="oper-item" >
+             <div className="oper-item" onClick={()=>{
+                this.switchTip(1)
+                }}>
                 <div><img src="../../../resources/images/video.png" /></div>
                 <div>视频咨询</div>
               </div>
-              <div className="oper-item" >
+              <div className="oper-item" onClick={()=>{
+                this.switchTip(1)
+                }}>
                 <div><img src="../../../resources/images/phone.png" /></div>
                 <div>电话咨询</div>
               </div>
-              {/*<block wx:for="{{doctor.inquirys}}" wx:for-index="idx" wx:for-item="item" wx:key="{{idx}}">
-               <navigator className="oper-item active" url="/pages/consult/confirminfo/confirminfo?doctorId={{doctor.doctorId}}&deptId={{doctor.deptId}}&totalFee={{item.remune}}" wx:if="{{item.type == '1' && item.isOnDuty == '1'}}">
-               <div><img src="../../../resources/images/inquiry-bg.png" /></div>
-               <div>图文咨询</div>
-               </navigator>
-               <div className="oper-item" wx:if="{{item.type == '1' && item.isOnDuty == '0'}}">
-               <div><img src="../../../resources/images/inquiry-gray.png" /></div>
-               <div>图文咨询</div>
-               <div>（离线）</div>
-               </div>
-               </block>
-               <div className="oper-item" @tap="switchTip(1)">
-               <div><img src="../../../resources/images/video.png" /></div>
-               <div>视频咨询</div>
-               </div>
-               <div className="oper-item" @tap="switchTip(1)">
-               <div><img src="../../../resources/images/phone.png" /></div>
-               <div>电话咨询</div>
-               </div>*/}
             </div>
               <div className="m-deptinfo">
                 <div className="m-blockinfo">
                   <div className="m-title">擅长领域</div>
-                  <div className="m-summary">specialty</div>
-                  {/*<div className="m-summary">{{doctor.specialty ? doctor.specialty : '暂无描述'}}</div>*/}
+                  <div className="m-summary">{doctor.specialty ? doctor.specialty : '暂无描述'}</div>
                 </div>
               </div>
               <div className="m-deptinfo">
                 <div className="m-blockinfo">
                   <div className="m-title">医生简介</div>
-                  <div className="m-summary">introduction</div>
-                  {/*<div className="m-summary">{{doctor.introduction ? doctor.introduction : '暂无介绍'}}</div>*/}
+                  <div className="m-summary">{doctor.introduction ? doctor.introduction : '暂无介绍'}</div>
                 </div>
               </div>
             </div>
-            <div className='modal-tip' style={{display:'none'}}>
-              {/*<div className='modal-tip' wx:if="{{isShowTip}}">*/}
-              <div className='modal-body-tip'>
-                <div className='modal-title'>温馨提示</div>
-                <div className='modal-content-tip'>
-                  <div slot="content">
-                    <div className="content-item">该功能正在努力建设中！</div>
-                  </div>
-                </div>
-                <div className='modal-footer-tip'>
-                  <span >我知道了</span>
-                  {/* <span bindtap="sure" @tap="switchTip(0)">我知道了</span>*/}
+          {isShowTip && <div className='modal-tip'>
+            <div className='modal-body-tip'>
+              <div className='modal-title'>温馨提示</div>
+              <div className='modal-content-tip'>
+                <div slot="content">
+                  <div className="content-item">该功能正在努力建设中！</div>
                 </div>
               </div>
+              <div className='modal-footer-tip'>
+                <span  onClick={()=>{
+                this.switchTip(0)
+
+                }}>我知道了</span>
+              </div>
             </div>
+          </div>
+          }
           </div>
     );
   }
