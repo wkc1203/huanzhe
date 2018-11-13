@@ -11,3 +11,4 @@ export const addCollect = (param) =>  fetch.post('/api/ehis/user/favorite/addmyf
 export const cancelCollect = (param) =>  fetch.post('/api/ehis/user/favorite/cancelmyfavorite', param, false);
 
 export const isRegister = (param) =>  fetch.post('/api/ehis/user/personal/isregistered', param);
+export const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/getJsApiConfig', param);

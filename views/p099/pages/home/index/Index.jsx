@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import hashHistory from 'react-router/lib/hashHistory';
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
-
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
-
 import * as Api from './indexApi';
 import './style/index.scss';
-
 class Widget extends Component {
   constructor(props) {
     super(props);
@@ -51,24 +48,19 @@ class Widget extends Component {
         show:false,
     };
   }
-
   componentDidMount() {
          this.selectDept('全部科室','');
-        //this.getJs();
-
+        this.getJs();
   }
     componentWillUnmount() {
         // 离开页面时结束所有可能异步逻辑
-
     }
     showToast() {
         this.setState({showToast: true});
-
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
         }, 2000);
     }
-
     showLoading() {
         this.setState({showLoading: true});
 
@@ -77,7 +69,6 @@ class Widget extends Component {
         }, 2000);
     }
     hideDialog() {
-        console.log(this.state);
         this.setState({
             showIOS1: false,
             showIOS2: false,
@@ -86,16 +77,15 @@ class Widget extends Component {
         });
     }
     getJs(){
-
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#"))})
             .then((res) => {
                 console.log(res);
                 if(res.code==0){
                     //写入b字段
                     console.log("str",res.data);
                     wx.config({
-                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                         appId:res.data.appId, // 必填，公众号的唯一标识
                         timestamp:res.data.timestamp, // 必填，生成签名的时间戳
                         nonceStr:res.data.noncestr, // 必填，生成签名的随机串
@@ -103,28 +93,20 @@ class Widget extends Component {
                         jsApiList: ['hideMenuItems','showMenuItems'] // 必填，需要使用的JS接口列表
                     });
                     wx.ready(function(){
-                        //批量隐藏功能
-                        wx.hideMenuItems({
-                            menuList: ["menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+                        wx.showMenuItems({
+                            menuList: ["menuItem:copyUrl","menuItem:openWithQQBrowser","menuItem:share:appMessage", "menuItem:share:timeline"
+                            ,"menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:QZone",
+                                "menuItem:openWithSafari"] // 要显示的菜单项，所有menu项见附录3
                         });
                     });
 
                 }
-
-
-                //this.setState({ hospInfo: res.data });
             }, (e) => {
-                this.setState({
-                    msg:e.msg,
-                    showIOS1:true
-                })
             });
-
-
-
     }
     //底部跳转
-    toNext(type){
+    toNext(type){"menuItem:favorite"
         if(type==2){
             hashHistory.replace({
                 pathname: '/inquiry/inquirylist'
@@ -135,8 +117,6 @@ class Widget extends Component {
                 pathname: '/usercenter/home'
             });
         }
-
-
     }
     selectDept(deptName,deptId){
         this.setState({
@@ -153,7 +133,6 @@ class Widget extends Component {
                     show:true,
                 })
                  if(res.code==0&&res.data!=null){
-
                      var docList=[];
                      for(var i=0;i<5;i++){
                          docList.push(res.data.doctors[i]);
@@ -162,9 +141,7 @@ class Widget extends Component {
                          docList:docList
                      });
                      this.hideLoading();
-
                  }
-
             }, (e) => {
                 this.hideLoading();
                 this.setState({
@@ -185,8 +162,6 @@ class Widget extends Component {
             })
         }
     }
-
-
     goDoctor(){
         hashHistory.push({
             pathname: '/consult/deptlist',
@@ -237,7 +212,6 @@ class Widget extends Component {
                 </Link>
                 <div className="d-tab" onClick={()=>{
                 this.switchOpen(1)
-
                 }}>
                   <div>
                     <div className="icon">
@@ -254,7 +228,6 @@ class Widget extends Component {
                 </div>
                 <div className="d-tab" onClick={()=>{
                 this.switchOpen(1)
-
                 }}>
                   <div>
                     <div className="icon">
@@ -273,7 +246,6 @@ class Widget extends Component {
            </div>
              <div className='title1 rightTab'>专家推荐<div  onClick={()=>{
              this.goDoctor()
-
              }}>更多</div></div>
              <div className='doctor'>
                  <div  style={{height:'100%',width:'100%'}}>
@@ -302,7 +274,6 @@ class Widget extends Component {
                           <text class="txt2">{{item.deptName}} {{item.level}}</text>
                           </navigator>
                           </div>*/}
-
                      </div>
                  </div>
              </div>
@@ -320,7 +291,6 @@ class Widget extends Component {
                      src="../../../resources/images/dept-info.png"
                      alt=""
                      />
-
                </div>
              </Link>
              <Link
@@ -352,7 +322,6 @@ class Widget extends Component {
                </div>
              </Link>
              <Link
-
                  onClick={
                 ()=> {
                  window.location.href='https://mp.weixin.qq.com/s/oK59jdRPtnoS686p3ci4TQ'
@@ -375,9 +344,7 @@ class Widget extends Component {
               <div className='modal-body-tip'>
                   <div className='modal-title'>温馨提示</div>
                   <div className='modal-content-tip'>
-
                           <div className="content-item">该功能正在努力建设中</div>
-
                   </div>
                   <div className='modal-footer-tip' onClick={
                   ()=>{
@@ -399,7 +366,6 @@ class Widget extends Component {
               <div onClick={
                  ()=>{
                 this.toNext(2)
-
                  }
               }>
                   <img
@@ -418,7 +384,6 @@ class Widget extends Component {
               </div>
           </div>
       </div>
-
     );
   }
 }

@@ -69,7 +69,7 @@
                 .doc-des {
                     color: $hc-color-gray;
                     line-height: 22px;
-                    font-size: 13px;
+                    font-size: 14px;
                 }
             }
         }
@@ -97,7 +97,7 @@
                 color: $hc-color-gray;
                 border-radius: 50%;
                 border: 1px solid $hc-color-border;
-                font-size: 13px;
+                font-size: 14px;
                 text-align: center;
                 line-height: 50px;
                 margin-right: 20px;
@@ -221,7 +221,7 @@
         flex-wrap: wrap;
         .img-box {
             height: 71px;
-            margin: 15px 16px 0 0;
+            margin: 15px 10px 0 0;
             .img-item {
                 width: 69px;
                 height:69px;
@@ -230,6 +230,7 @@
                     width: 40px;
                     height: 40px;
                     padding: 15px;
+
                 }
             }
             .img-add{
@@ -243,8 +244,11 @@
                     top: -10px;
                 }
                 img{
-                    width: 69px;
-                    height: 69px;
+
+                    width: 57px;
+                    height: 57px;
+
+                    padding: 5px;
                 }
             }
         }
@@ -261,7 +265,7 @@
                 color: #505050;
             }
             &:nth-child(2){
-                font-size: 13px;
+                font-size: 14px;
                 color: $hc-color-gray;
             }
         }

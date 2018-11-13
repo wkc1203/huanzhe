@@ -2,7 +2,6 @@
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
-
 import * as Api from './doctorInfoApi';
 import './style/index.scss';
 class Widget extends Component {
@@ -48,14 +47,14 @@ class Widget extends Component {
         },
         msg:'',
       deptId:'',
+        toastTitle:'',
       isShowTip: false,
       doctorInquirys:[]
     };
   }
   componentDidMount() {
-      //this.getJs();
+      this.getJs();
     var doctorId=this.props.location.query.doctorId;
-    console.log("doctorId",doctorId)
     this.getDoctorInfo({doctorId:doctorId});
   }
   componentWillUnmount() {
@@ -64,7 +63,6 @@ class Widget extends Component {
   }
     showToast() {
         this.setState({showToast: true});
-
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
         }, 2000);
@@ -72,13 +70,11 @@ class Widget extends Component {
 
     showLoading() {
         this.setState({showLoading: true});
-
         this.state.loadingTimer = setTimeout(()=> {
             this.setState({showLoading: false});
         }, 2000);
     }
     hideDialog() {
-        console.log(this.state);
         this.setState({
             showIOS1: false,
             showIOS2: false,
@@ -87,9 +83,8 @@ class Widget extends Component {
         });
     }
     getJs(){
-
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#"))})
             .then((res) => {
                 console.log(res);
                 if(res.code==0){
@@ -104,32 +99,23 @@ class Widget extends Component {
                         jsApiList: ['hideMenuItems','showMenuItems'] // 必填，需要使用的JS接口列表
                     });
                     wx.ready(function(){
-                        //批量隐藏功能
-                        wx.hideMenuItems({
-                            menuList: ["menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+                        wx.showMenuItems({
+                            menuList: ["menuItem:copyUrl","menuItem:openWithQQBrowser","menuItem:share:appMessage", "menuItem:share:timeline"
+                                ,"menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:QZone",
+                                "menuItem:openWithSafari"] // 要显示的菜单项，所有menu项见附录3
                         });
                     });
 
                 }
-
-
-                //this.setState({ hospInfo: res.data });
             }, (e) => {
-                this.setState({
-                    msg:e.msg,
-                    showIOS1:true
-                })
             });
-
-
-
     }
    getDoctorInfo(param) {
     Api
         .getDoctorInfo(param)
         .then((res) => {
           if(res.code==0){
-
             this.setState({
               isFavorite: res.data.isFavorite,
               doctor:res.data.doctor,
@@ -137,9 +123,7 @@ class Widget extends Component {
               doctorId:res.data.doctor.inquirys[0].doctorId,
               deptId:res.data.doctor.inquirys[0].deptId,
             });
-            console.log("inquirys",res.data.doctor.inquirys);
           }
-          console.log(res);
           this.setState({ user: res.data });
         }, e=> {
             this.setState({
@@ -150,38 +134,44 @@ class Widget extends Component {
   }
    switchCollect(isFavorite){
     const { doctorId, deptId } = this.state;
-       console.log('f',isFavorite)
-    if(!isFavorite){
-      Api
-          .addCollect({ doctorId, deptId })
-          .then((res) => {
-            if(res.code==0){
-              this.setState({
-                isFavorite: true,
-              });
-            }
-          }, e=> {
-              this.setState({
-                  msg:e.msg,
-                  showIOS1:true
-              })
-          });
-    } else {
-      Api
-          .cancelCollect({ doctorId, deptId })
-          .then((res) => {
-            if(res.code==0){
-              this.setState({
-                isFavorite: false,
-              });
-            }
-          }, e=> {
-              this.setState({
-                  msg:e.msg,
-                  showIOS1:true
-              })
-          });
-    }
+       if (!isFavorite) {
+           Api
+               .addCollect({doctorId, deptId})
+               .then((res) => {
+                   if (res.code == 0) {
+                       this.showToast();
+                       this.setState({
+                           isFavorite: true,
+                           toastTitle:"收藏成功"
+                       });
+                   }
+               }, e=> {
+                   this.showToast();
+                   this.setState({
+                       toastTitle:e.msg
+                   });
+
+               });
+       } else {
+           Api
+               .cancelCollect({doctorId, deptId})
+               .then((res) => {
+                   if (res.code == 0) {
+                       this.showToast();
+
+                       this.setState({
+                           isFavorite: false,
+                           toastTitle:"取消收藏成功"
+                       });
+                   }
+               }, e=> {
+                   this.showToast();
+                   this.setState({
+                       toastTitle:e.msg
+                   });
+
+               });
+       }
   }
   switchTip(flag){
      this.setState({
@@ -191,10 +181,11 @@ class Widget extends Component {
   }
 
   render() {
-    const {doctor,isFavorite,isShowTip,doctorInquirys,msg}=this.state;
-      console.log("isf",isFavorite);
+    const {doctor,isFavorite,isShowTip,doctorInquirys,msg,toastTitle}=this.state;
       return (
         <div className="di-page">
+            <Toast icon="success-no-circle" show={this.state.showToast}>{toastTitle}</Toast>
+
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
                 {msg}
             </Dialog>
@@ -206,7 +197,6 @@ class Widget extends Component {
                 }
                 {!doctor.image&&<img className="doc-img" src="../../../resources/images/doc.png" alt="医生头像"/>
                 }
-                {/*<img className="doc-img" src="{{doctor.img || '../../../resources/images/doc.png'}}" alt="医生头像" />*/}
                 <div className='text-box'>
                   <div>
                     {doctor.name}
@@ -229,7 +219,6 @@ class Widget extends Component {
 
              <div className="m-oper">
                 {!!doctor&&doctorInquirys.map((item,index)=>{
-                      console.log('type',item.type)
                   return(
                       <div key={index} className={`${item.type=='1'?'':'disNo'}`}>
                         {item.type == '1' && item.isOnDuty == '1'&&<Link className="oper-item active"

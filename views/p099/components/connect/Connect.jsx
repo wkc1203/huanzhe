@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Toast, Toptips } from 'react-weui';
-import PopUp from '../../components/popup/PopUp';
 
 function Connect(cb) {
   return function (WrapperComponent) {
@@ -176,7 +175,6 @@ function Connect(cb) {
           const injectHtml = (
             <div key="">
               <Toast {...state.toastConfig}>{state.toastText}</Toast>
-              <PopUp {...state.popupConfig}>{state.popupConfig.content}</PopUp>
               <Toptips type="warn" show={state.topTips.show}>{state.topTips.tip}</Toptips>
             </div>
           );

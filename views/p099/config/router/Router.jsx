@@ -17,10 +17,6 @@ import { INHOSP, TREAT } from '../../config/constant/constant';
 import GetUserInfo from '../../pages/auth/getuserinfo/GetuserInfo';
 import Developing from '../../pages/auth/developing/Developing';
 
-/**
- * 投诉建议
- */
-import ComplainIndex from '../../pages/complain/complainindex/ComplainIndex';
 
 
 /**
@@ -29,10 +25,6 @@ import ComplainIndex from '../../pages/complain/complainindex/ComplainIndex';
 import Inquiry from '../../pages/inquiry/inquirylist/InquiryList';
 import ChatIndex from '../../pages/inquiry/chat/ChatIndex';
 
-/**
- * 收藏
- */
-import CollectIndex from '../../pages/collect/collectindex/CollectIndex';
 
 /**
  * 订单
@@ -47,7 +39,11 @@ import OrderList from '../../pages/ordermng/orderlist/OrderList';
 import ConfirmInfo from '../../pages/consult/confirminfo/ConfirmInfo';
 import DeptDetail from '../../pages/consult/deptdetail/DeptDetail';
 import DeptList from '../../pages/consult/deptlist/DeptList';
+import AllDeptList from '../../pages/consult/alldeptlist/AllDeptList';
 import Pay from '../../pages/consult/pay/Pay';
+import Waiting from '../../pages/consult/waiting/Waiting';
+
+
 
 /**
  * 门诊加号
@@ -64,7 +60,9 @@ import MicroIndex from '../../pages/home/index/Index';
 /**
  * 登录
  */
+
 import LoginIndex from '../../pages/login/loginindex/LoginIndex';
+import NoRegister from '../../pages/login/noRegister/noRegister';
 
 /**
  * 常用服务
@@ -91,48 +89,7 @@ import UserList from '../../pages/usercenter/userlist/UserList';
 import UserInfo from '../../pages/usercenter/userinfo/UserInfo';
 
 
-const FUNCTION_ROUTER_DICTIONARY = {
-  '1': {
-    'name': '挂号业务',
-    'regexp': '/register(/:name)',
-  },
-  '2': {
-    'name': '门诊缴费',
-    'regexp': '/treat(/:name)',
-  },
-  '3': {
-    'name': '住院缴费',
-    'regexp': '/inhosp(/:name)',
-  },
-  '4': {
-    'name': '就诊卡充值',
-    'regexp': '/recharge(/:name)',
-  },
-  '5': {
-    'name': '通用业务',
-    'regexp': '/tyyw(/:name)',
-  },
-  '6': {
-    'name': '在线取号',
-    'regexp': '/takeno(/:name)',
-  },
-  '7': {
-    'name': '检验检查报告',
-    'regexp': '/report(/:name)',
-  },
-  '8': {
-    'name': '住院日清单',
-    'regexp': '/inhosp/inventory',
-  },
-  '9': {
-    'name': '排队候诊',
-    'regexp': '/queue(/:name)',
-  },
-  '10': {
-    'name': '个人中心',
-    'regexp': '/usercenter(/:name)',
-  },
-}
+
 
 class Routers extends React.Component {
   constructor(props) {
@@ -150,20 +107,7 @@ class Routers extends React.Component {
     this.setState({ apiLoading: false });
   }
 
-  getHisFunction() {
-    this.showLoading();
-    Api.getHisFunction({ bizChannel: window.CONSTANT_CONFIG.platformSource, status: 2 }) // 查询下架功能status：1上下，2：下架
-      .then((res) => {
-        this.hideLoading();
-        const CLOSE_FUNCTION = (res && Array.isArray(res.data)) ? res.data.map((v, k) => {
-          return FUNCTION_ROUTER_DICTIONARY[v.functionId];
-        }) : [];
-        this.setState({ CLOSE_FUNCTION, apiLoading: false });
-      }, (e) => {
-        this.hideLoading();
-        this.setState({ apiLoading: false });
-      });
-  }
+
 
   render(){
     const { CLOSE_FUNCTION, apiLoading } = this.state;
@@ -196,7 +140,9 @@ class Routers extends React.Component {
             <IndexRedirect to="/consult/confirminfo" />
             <Route path="/consult/confirminfo" component={ConfirmInfo} title='图文咨询' />
             <Route path="/consult/deptdetail" component={DeptDetail} title='专家名片' />
+            <Route path="/consult/alldeptlist" component={AllDeptList} title='找专家咨询' />
             <Route path="/consult/deptlist" component={DeptList} title='找专家咨询' />
+            <Route path="/consult/waiting" component={Waiting} title='支付处理中' />
             <Route path="/consult/pay" component={Pay} title='收银台' />
 
           </Route>
@@ -204,7 +150,7 @@ class Routers extends React.Component {
           <Route path="/ordermng">
             <IndexRedirect to="/ordermng/evaluate" />
             <Route path="/ordermng/evaluate" component={Evaluate} title='服务评价' />
-            <Route path="/ordermng/orderdetail" component={OrderDetail} title='专家问诊' />
+            <Route path="/ordermng/orderdetail" component={OrderDetail} title='互联网医院' />
             <Route path="/ordermng/orderlist" component={OrderList} title='咨询管理' />
           </Route>
 
@@ -213,6 +159,8 @@ class Routers extends React.Component {
           <Route path="/login">
             <IndexRedirect to="/login/loginindex" />
             <Route path="/login/loginindex" component={LoginIndex} title='注册信息' />
+            <Route path="/login/noregister" component={NoRegister} title='关注公众号' />
+
           </Route>
           {/* 常用服务 */}
           <Route path="/microweb">
@@ -225,18 +173,6 @@ class Routers extends React.Component {
             <Route path="/microweb/article" component={ArticleIndex} title='新闻公告' />
           </Route>
 
-
-          {/* 收藏 */}
-          <Route path="/collect">
-            <IndexRedirect to="/collect/collectindex" />
-            <Route path="/collect/collectindex" component={CollectIndex} title='我的收藏' />
-          </Route>
-
-          {/* 投诉建议 */}
-          <Route path="/complain">
-            <IndexRedirect to="/complain/complainindex" />
-            <Route path="/complain/complainindex" component={ComplainIndex} title='投诉建议' />
-          </Route>
           {/* 权限 */}
           <Route path="/auth">
             <IndexRedirect to="/auth/getuserinfo" />

@@ -52,7 +52,6 @@
         height: 66px;
     }
     .text-box {
-        padding-left: 15px;
         flex: 1;
         .doc-name {
             color: $hc-color-title;
@@ -138,7 +137,7 @@
                 height: 0;
             }
             .ping-content{
-                height:80px;
+                height:140px;
                 margin:5px 25px;
                 width:auto;
                 .active{
@@ -305,11 +304,14 @@
             .ping-btn{
                 margin:10px 25px;
                 height:47px;
+                display: flex;
                 width: auto;
                 button,.again{
                     float: left;
                     width:145px;
+                    flex:1;
                     height:36px;
+                    font-size: 15px;
                     line-height: 36px;
                     text-align: center;
                     border-radius:3px;
@@ -318,8 +320,11 @@
                     border:1px solid #4dabc7;
                     color:#4dabc7;
                     background: white;
+                    font-size:15px;
+
                 }
                 .btn2{
+                    font-size:15px;
                     color:white;
                     margin-left:14px;
                     background: #4dabc7;

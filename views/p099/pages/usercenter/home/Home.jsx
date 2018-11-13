@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import { Link } from 'react-router';
 import hashHistory from 'react-router/lib/hashHistory';
-
 import Connect from '../../../components/connect/Connect';
 import NoResult from '../../../components/noresult/NoResult';
-
 import * as Api from './homeApi';
 import './style/index.scss';
-
 class Widget extends Component {
     static contextTypes = {
         router: React.PropTypes.object,
@@ -65,7 +62,7 @@ class Widget extends Component {
   }
 
   componentDidMount() {
-      //this.getJs();
+      this.getJs();
     //this.getArticleTypeList();
       //alert(this.props.location.query.login_access_token);
      /* alert("ddd"+this.state.login_access_token);
@@ -87,46 +84,37 @@ class Widget extends Component {
   componentWillUnmount() {
 
   }
-    getJs(){
-
+    getJs() {
+        console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
             .then((res) => {
-                console.log(res);
-                if(res.code==0){
-                    //写入b字段
-                    console.log("str",res.data);
+                if (res.code == 0) {
+//写入b字段
                     wx.config({
-                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId:res.data.appId, // 必填，公众号的唯一标识
-                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
-                        signature:res.data.signature,// 必填，签名
-                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: res.data.appId, // 必填，公众号的唯一标识
+                        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+                        signature: res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
                     });
-                    wx.ready(function(){
-                        //批量隐藏功能
+                    wx.ready(function () {
+//批量隐藏功能
                         wx.hideMenuItems({
-                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                            menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
                         });
                     });
-
                 }
-
-
-                //this.setState({ hospInfo: res.data });
             }, (e) => {
-                this.hideLoading();
-                alert("r"+JSON.stringify(e));
-                //this.showPopup({ content: e.msg });
+                this.setState({
+                    msg: e.msg,
+                    showIOS1: true
+                })
             });
-
-
-
     }
     toNext(type){
         if(type==1){
-
                 hashHistory.replace({
                     pathname: '/home/index'
                 });
@@ -136,17 +124,13 @@ class Widget extends Component {
                pathname: '/inquiry/inquirylist'
            });
        }
-
-
     }
     showToast() {
         this.setState({showToast: true});
-
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
         }, 2000);
     }
-
     showLoading() {
         this.setState({showLoading: true});
 
@@ -155,7 +139,6 @@ class Widget extends Component {
         }, 2000);
     }
     hideDialog() {
-        console.log(this.state);
         this.setState({
             showIOS1: false,
             showIOS2: false,
@@ -164,32 +147,21 @@ class Widget extends Component {
         });
     }
     isRegistered() {
-
         Api
             .isRegistered()
             .then((res) => {
-
-
                    if(res.code==0){
-
                        this.getUser();
                        this.getCardList();
                    }
             }, (e) => {
-                this.setState({
-                    msg:e.msg,
-                    showIOS1:true
-                })
             });
     }
     isRegistered1() {
-
         Api
             .isRegistered()
             .then((res) => {
-
                 if(res.code==0){
-
                    this.getCardList1();
                 }
             }, (e) => {
@@ -203,22 +175,23 @@ class Widget extends Component {
         Api
             .getCardList1()
             .then((res) => {
-
                 if(res.code==0){
+                    this.hideLoading();
                      if(res.data.length>0){
-                         hashHistory.replace({
+                         hashHistory.push({
                              pathname: '/usercenter/samecard',
                              query:{left:2}
                          });
                      }else{
-                         hashHistory.replace({
+                         hashHistory.push({
                              pathname: '/usercenter/addcard',
                              query:{type:0}
                          });
                      }
-
                 }
             },(e) => {
+                this.hideLoading();
+
                 this.setState({
                     msg:e.msg,
                     showIOS1:true
@@ -237,8 +210,6 @@ class Widget extends Component {
                          defaultUser:res.data.cardList[0],
                          pList:res.data.cardList
                      })
-
-
                 }
             },(e) => {
                 this.setState({
@@ -248,13 +219,13 @@ class Widget extends Component {
             });
     }
     addCard(){
+        this.showLoading();
       this.isRegistered1();
 }
     getUser(){
         Api
             .getUser()
             .then((res) => {
-                 console.log(res);
                  if(res.code==0){
                      this.setState({
                          userInfo:res.data,
@@ -263,7 +234,6 @@ class Widget extends Component {
                      var storage=window.localStorage;
                      //写入b字段
                      storage.userInfo=JSON.stringify(res.data);
-
                  }
 
             }, (e) => {
@@ -271,11 +241,8 @@ class Widget extends Component {
                     msg:e.msg,
                     showIOS1:true
                 })
-
             });
-
     }
-
     modalOpen(){
         this.setState({
             isShow:true
@@ -297,8 +264,7 @@ class Widget extends Component {
     }
 
   render() {
-       const {userInfo,userId,msg,isShow,patNum,defaultUser,leftBindNum}=this.state;
-      console.log("patNum",patNum);
+       const {userInfo,msg,isShow,patNum,defaultUser,leftBindNum}=this.state;
       return (
         <div className="h-page">
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
@@ -316,12 +282,6 @@ class Widget extends Component {
 
                     }}
                     >{userInfo.mobile}<img src="../../../resources/images/edit.png" /></div>}
-
-              {/*<img className="m-wxicon" src="{{userInfo.headimg}}" />
-               <div className="m-nickname" wx:if="{{userInfo.realName}}">{{userInfo.realName}}</div>
-               <navigator className="m-nickname unlogin" url="/pages/login/login" wx:if="{{!userInfo.realName}}">注册</navigator>
-               <div className="m-phone" @tap="modalOpen" wx:if="{{userInfo.mobile}}">{{userInfo.mobile || ''}}<img src="../../../resources/images/edit.png" /></div>
-               */}
             </div>
           </div>
             {leftBindNum<2&&<Link className="m-mycard"
@@ -345,7 +305,6 @@ class Widget extends Component {
                 <div className="t2">绑定就诊卡立即享重医儿童医院专家为您一对一服务</div>
             </div>
             }
-          {/*</block>*/}
                      <div className="m-function">
                          <Link className="function-list"  to={{
                           pathname:'/ordermng/orderlist'
@@ -362,8 +321,6 @@ class Widget extends Component {
                                  </div>
                              </div>
                          </Link>
-                     {/*<block wx:if="{{leftBindNum==2}}">*/}
-
                   </div>
             {false&&<div className="m-function">
                     <Link className="function-list"
@@ -384,7 +341,6 @@ class Widget extends Component {
                     <div className="m-function">
                     <Link className="function-list"
                         to={{pathname:'/usercenter/collect'}}>
-                    {/*<navigator className="function-list" url="/pages/usercenter/collect/index">*/}
                     <div className="list-item">
                     <div className="item">
                     <div className="item-icon">
@@ -397,12 +353,10 @@ class Widget extends Component {
                     </div>
                     </div>
                     </Link>
-                    {/*</navigator>*/}
                     </div>
                     <div className="m-function">
                     <Link className="function-list"
                         to={{pathname:'/usercenter/complain'}}>
-                    {/*<navigator className="function-list" url="/pages/usercenter/complain/index">*/}
                     <div className="list-item">
                     <div className="item">
                     <div className="item-icon">
@@ -415,7 +369,6 @@ class Widget extends Component {
                     </div>
                     </div>
                     </Link>
-                    {/*</navigator>*/}
 
                     </div>
             {isShow&&<div className='modal' >
@@ -448,7 +401,6 @@ class Widget extends Component {
                 this.toNext(1);
               }
             }>
-
               <img
                   src="../../../resources/images/index.png"
                   />
@@ -463,10 +415,8 @@ class Widget extends Component {
               <img
                   src="../../../resources/images/inquiry.png"/>
               <div >咨询会话</div>
-
             </div>
             <div>
-
               <img
                   src="../../../resources/images/my-active.png"/>
               <div style={{color:'#4FABCA'}}>我的</div>

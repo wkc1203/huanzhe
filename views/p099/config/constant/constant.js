@@ -1,4 +1,4 @@
-export const DOMAIN = 'http://t.cqkqinfo.com';
+export const DOMAIN = 'https://tih.cqkqinfo.com';
 
 /**
  * 平台id

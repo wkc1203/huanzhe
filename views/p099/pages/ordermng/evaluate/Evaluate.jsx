@@ -73,70 +73,54 @@ class Widget extends Component {
   componentDidMount() {
       this.getJs();
       this.getDocDet();
-
-          console.log('s');
           this.getEvaluate();
-
   }
   componentWillUnmount() {
     // 离开页面时结束所有可能异步逻辑
 
   }
-    getJs(){
-
+    getJs() {
+        console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
             .then((res) => {
-                console.log(res);
-                if(res.code==0){
-                    //写入b字段
-                    console.log("str",res.data);
+                if (res.code == 0) {
+//写入b字段
                     wx.config({
-                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId:res.data.appId, // 必填，公众号的唯一标识
-                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
-                        signature:res.data.signature,// 必填，签名
-                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: res.data.appId, // 必填，公众号的唯一标识
+                        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+                        signature: res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
                     });
-                    wx.ready(function(){
-                        //批量隐藏功能
+                    wx.ready(function () {
+//批量隐藏功能
                         wx.hideMenuItems({
-                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                            menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
                         });
                     });
-
                 }
-
-
-                //this.setState({ hospInfo: res.data });
             }, (e) => {
                 this.setState({
-                    msg:e.msg,
-                    showIOS1:true
+                    msg: e.msg,
+                    showIOS1: true
                 })
             });
-
-
-
     }
     showToast() {
         this.setState({showToast: true});
-
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
         }, 2000);
     }
-
     showLoading() {
         this.setState({showLoading: true});
-
         this.state.loadingTimer = setTimeout(()=> {
             this.setState({showLoading: false});
         }, 2000);
     }
     hideDialog() {
-        console.log(this.state);
         this.setState({
             showIOS1: false,
             showIOS2: false,
@@ -191,7 +175,6 @@ class Widget extends Component {
 
 
                     });
-                    console.log("nn",this.state.newtime,this.dateTime(res.data[0].createTime?res.data[0].createTime:''));
                     var str=this.state.newItem;
                     var s=[];
                     s= str.split("-");
@@ -308,15 +291,12 @@ class Widget extends Component {
                 t5:t5
             })
         }
-        console.log("id"+id);
-
     }
     setATxt(e){
         this.setState({
             txtNum:e.target.value.length,
             appraisal: e.target.value
         })
-
     }
     saveContent(e){
         this.setState({
@@ -327,52 +307,38 @@ class Widget extends Component {
     submitEvaluate(){
         var  appraisalLabel1='';
         if(this.state.t1.show==true){
-            console.log("t1")
             appraisalLabel1+=this.state.t1.text+"-";
             this.setState({
                 appraisalLabel:appraisalLabel1
             })
-            console.log(appraisalLabel1)
-            console.log(this.state.appraisalLabel)
-
         }
         if(this.state.t2.show==true){
-            console.log("t1")
-
             appraisalLabel1+=this.state.t2.text+"-";
             this.setState({
                 appraisalLabel:appraisalLabel1
             })
         }
         if(this.state.t3.show==true){
-            console.log("t1")
-
             appraisalLabel1+=this.state.t3.text+"-";
             this.setState({
                 appraisalLabel:appraisalLabel1
             })
         }
         if(this.state.t4.show==true){
-            console.log("t1")
-
             appraisalLabel1+=this.state.t4.text+"-";
             this.setState({
                 appraisalLabel:appraisalLabel1
             })
         }
         if(this.state.t5.show==true){
-            console.log("t1")
-
             appraisalLabel1+=this.state.t5.text+"-";
             this.setState({
                 appraisalLabel:appraisalLabel1
             })
         }
-        console.log("ss",appraisalLabel1);
         this.setState({
             appraisalLabel:appraisalLabel1.substring(0,appraisalLabel1.length-1)
         })
-        console.log("sta",this.state.appraisalLabel);
         const doctor = this.state.docInfo;
         const params = {
             hisName: doctor.hisName,
@@ -386,25 +352,17 @@ class Widget extends Component {
             score: this.state.score,
             orderId: this.state.orderId,
         };
-        console.log(params);
         Api.evaluate(params)
             .then((res) => {
                 this.hideLoading();
                 if (res.code == 0) {
-                    /* await wepy.showToast({
-                     title: '评价成功！',
-                     icon: 'success'
-                     });
-                     */
+
                     this.showToast();
-                    console.log(this.state.isEvaluate+"endE3");
                     this.end=true;
                     this.setState({
                         end:true,
                     })
                     this.context.router.goBack();
-                   // this.getEvaluate();
-                    console.log(this.state.end+"end");
 
                 }
             }, (e) => {
@@ -436,9 +394,7 @@ class Widget extends Component {
     }
 
   render() {
-     const {sources,inquiryId,name,toptip,userInfo,docInfo,appraisal,score,
-         pingShow,isEvaluate,doctorid,deptid,txtNum,t1,t2,t3,t4,t5,appraisalLabel,newScore,
-         itemList,newText,newItem,newTime }=this.state;
+     const {docInfo,appraisal,score, pingShow,doctorid,deptid,txtNum,t1,t2,t3,t4,t5,newScore,itemList,newText,newTime,msg }=this.state;
     return (
         <div className='container page-evaluate'>
             <Toast icon="success-no-circle" show={this.state.showToast}>评价成功</Toast>
@@ -616,12 +572,9 @@ class Widget extends Component {
                         }}
                         >再次咨询</Link>
                 </div>
-
             </div>
             </div>
           </div>
-       
-
         </div>
 
     );

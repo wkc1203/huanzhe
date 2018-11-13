@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
-
 import { Link } from 'react-router';
 import {getBirthdayByIdCard,validators} from '../../../utils/validator';
 import hashHistory from 'react-router/lib/hashHistory';
-
 import Connect from '../../../components/connect/Connect';
 import NoResult from '../../../components/noresult/NoResult';
-
 import * as Api from './addCardApi';
 import './style/index.scss';
 
 class Widget extends Component {
+    static contextTypes = {
+        router: React.PropTypes.object,
+    };
   constructor(props) {
     super(props);
     this.state = {
@@ -72,64 +72,51 @@ class Widget extends Component {
   }
 
   componentDidMount() {
-    //this.getArticleTypeList();
       this.getJs();
       this.setState({
           type:this.props.location.query.type
       })
   }
-
   componentWillUnmount() {
     this.state.Timer && clearTimeout(this.state.Timer);
   }
-
-    getJs(){
-
+    getJs() {
+        console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
             .then((res) => {
-                console.log(res);
-                if(res.code==0){
-                    //写入b字段
-                    console.log("str",res.data);
+                if (res.code == 0) {
+//写入b字段
                     wx.config({
-                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId:res.data.appId, // 必填，公众号的唯一标识
-                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
-                        signature:res.data.signature,// 必填，签名
-                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: res.data.appId, // 必填，公众号的唯一标识
+                        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+                        signature: res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
                     });
-                    wx.ready(function(){
-                        //批量隐藏功能
+                    wx.ready(function () {
+//批量隐藏功能
                         wx.hideMenuItems({
-                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                            menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
                         });
                     });
-
                 }
-
-
-                //this.setState({ hospInfo: res.data });
             }, (e) => {
-                this.hideLoading();
-                alert("r"+JSON.stringify(e));
-                //this.showPopup({ content: e.msg });
+                this.setState({
+                    msg: e.msg,
+                    showIOS1: true
+                })
             });
-
-
-
     }
     formSubmit() {
         const hasErr = this.validator1();
-        console.log("has",hasErr)
         if (hasErr) {
             return false;
         }
         this.pushData();
     }
     validator(e) {
-        console.log("valid",e.target.value);
         const  id  = e.target.value;
         this.setState({
             hasErr:this.validator1(id)
@@ -151,24 +138,12 @@ class Widget extends Component {
                  if (res.code == 0) {
                    this.hideLoading();
                      this.showToast();
-                   /*  wepy.showToast({
-                         title: '绑定成功',
-                         icon: 'success'
-                     });*/
                      const timer = setTimeout(() => {
-                         clearTimeout(timer);
                          this.context.router.goBack();
-                        /* if(this.type==1){
-                            /!* hashHistory.push({
-                                 pathname:'/usercenter/home'
-                             })*!/
-                         }else{
-                             /!*wepy.navigateBack({ delta: 1 });*!/
-                         }*/
+                         clearTimeout(timer);
 
                      }, 2000);
                  }
-
              }
            ,(e)=>{
                  this.hideLoading();
@@ -188,10 +163,6 @@ class Widget extends Component {
                 regexp: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
                 errTip: '请输入18位身份证'
             },
-            /* patientMobile: {
-             regexp: /^1\d{10}$/,
-             errTip: '请输入正确的手机号'
-             },*/
             patCardNo: {
                 regexp: (() => {
                     if (this.state.isNewCard == 1) {
@@ -203,9 +174,7 @@ class Widget extends Component {
                 errTip: '请输入2-10位就诊卡号'
             }
         };
-
         const value = this.getFormData();
-
         let hasErr = false;
         for (let o in value) {
             const obj = validate[o];
@@ -264,7 +233,6 @@ class Widget extends Component {
                 }
             }
         }
-
         return hasErr;
     }
     getFormData() {
@@ -275,10 +243,7 @@ class Widget extends Component {
             birthday,
             patientMobile,
             isNewCard,
-            isNoCard,
-            idTypesIdx,
-            patCardsIdx,
-            hisConfig
+            isNoCard
             } = this.state;
         return {
             patientName:patientName,
@@ -298,7 +263,6 @@ class Widget extends Component {
        hashHistory.push({
            pathname:'/usercenter/cardtip'
        })
-
     }
     getBirthday(){
         const idNo = this.state.idNo;
@@ -306,7 +270,6 @@ class Widget extends Component {
             birthday:getBirthdayByIdCard(idNo, '-'),
             hasErr:this.validator1(idNo)
         })
-
     }
     changeProp(e) {
         this.setState({
@@ -327,48 +290,35 @@ class Widget extends Component {
     userIO(e) {
         const id = e.target.id;
         const value = e.target.value;
-        console.log("id",id);
         if(id=='patientName'){
-            console.log("patientName",value)
             this.setState({
                 patientName:value
             })
         }
         if(id=='idNo'){
-            console.log("patientNam11e",value)
-
             this.setState({
                 idNo:value
             })
         }
-
         if(id=='patCardNo'){
-            console.log("patien1111tName",value)
-
             this.setState({
                 patCardNo:value
             })
         }
-
-        //this[id] = value;
     }
     showToast() {
         this.setState({showToast: true});
-
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
         }, 2000);
     }
-
     showLoading() {
         this.setState({showLoading: true});
-
         this.state.loadingTimer = setTimeout(()=> {
             this.setState({showLoading: false});
         }, 2000);
     }
     hideDialog() {
-        console.log(this.state);
         this.setState({
             showIOS1: false,
             showIOS2: false,
@@ -377,7 +327,6 @@ class Widget extends Component {
         });
     }
     resetThisError(e) {
-           console.log('ee',e.target.id)
         const id  = e.target.id;
         var  errorElement=this.state.errorElement;
         errorElement[id] = false;
@@ -387,8 +336,7 @@ class Widget extends Component {
 
     }
     render() {
-    const {relationAll,relationB,msg,relationA,patientType,relationType,patientMobile,patCardNo,idNo,birthday,idType,patientName,isDefault,isNoCard,isNewCard,CURSOR_SPACING,patCardsIdx,idTypesIdx,toptip,hasErr,errorElement,type}=this.state;
-    console.log("errorElement",toptip);
+    const {msg,patCardNo,idNo,patientName,toptip,hasErr,errorElement}=this.state;
         return (
         <div>
             <Toast icon="success-no-circle" show={this.state.showToast}>绑定成功</Toast>
@@ -429,10 +377,6 @@ class Widget extends Component {
                             />
                     </div>
                 </div>
-
-
-
-
             </div>
             <div className="bindcard-list m-mt-20">
                 <div className="bindcard-listitem">
@@ -464,16 +408,8 @@ class Widget extends Component {
                             }
                             }
                             />
-                        {/*<input
-                         className="m1-content {{errorElement.idNo ? 'o-error' : ''}}" type="text"
-                         placeholder="请输入宝宝或监护人证件号" placeholder-style="color:{{errorElement.idNo ? 'color: #ff613b;' : ''}}"
-                         value="{{idNo}}" id="idNo" maxlength="18" cursor-spacing="{{CURSOR_SPACING}}" @blur="getBirthday" @input="userIO" @focus="resetThisError"
-                         />*/}
                     </div>
                 </div>
-
-
-
             </div>
             <div className="bindcard-list is-card m-mt-20">
                 <div className="bindcard-listitem">
@@ -506,20 +442,14 @@ class Widget extends Component {
                             }
                             }
                             />
-                        {/*<input className="m1-content {{errorElement.patCardNo ? 'o-error' : ''}}" type="text" placeholder="请输入就诊卡号" cursor-spacing="{{CURSOR_SPACING}}" bindinput="userIO" bindfocus="resetThisError" placeholder-style="color:{{errorElement.patCardNo ? 'color: #ff613b;' : ''}}"
-                         id="patCardNo" name="patCardNo" maxlength="15" @blur="validator" value="{{patCardNo}}" />*/}
-
                     </div>
                 </div>
-
             </div>
-
             <div className="afterscan-operbtnbox">
                 <button
                     onClick={
                     ()=>{
                     this.formSubmit()
-
                     }
                     }
                     className={`binduser-btn_line ${hasErr ? 'o-disabled' : ''}`} >确定</button>
@@ -529,11 +459,9 @@ class Widget extends Component {
             onClick={
             ()=>{
            this.showNext()
-
             }
             }
             >如何申请就诊卡</div>
-
      </div>
                     );
   }

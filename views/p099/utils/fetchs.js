@@ -7,6 +7,7 @@ import { DOMAIN } from '../config/constant/constant';
 export default {
   post(url, param) {
     const CONSTANT_CONFIG = window.CONSTANT_CONFIG;
+
     const config = {
       hisId:2214,
       platformSource:3,
@@ -15,12 +16,13 @@ export default {
 
     };
     const queryStr = Utils.jsonToQueryString({...config});
-    return fetch(`${DOMAIN}${url}${url.indexOf('?') >= 0 ? '&' : '?'}${queryStr}`, {
-      credentials: 'include',
-      method: 'POST',
+    const  DOMAIN1="https://ihoss.oss-cn-beijing.aliyuncs.com"
+    return fetch(`${DOMAIN1}`, {
+      mode:'no-cors',
       headers: {
         Accept: 'application/json, text/javascript, */*; q=0.01',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Access-Control-Allow-Methods':'*',
       },
       body: Utils.jsonToQueryString({ ...Utils.formDataToJson(param) }),
     })
@@ -40,11 +42,6 @@ export default {
           //var str = "1234A4567B789";
           //var str = window.location.substring(window.location.indexOf("=") + 1,window.location.indexOf("&"));
         }
-      if(data.code === '901'){
-        window.REDIRECT_CODE = 901;
-        hashHistory.replace({
-          pathname: '/login/noregister'
-        }); }
         if(data.code === 990){
           window.REDIRECT_CODE = 990;
           hashHistory.replace({

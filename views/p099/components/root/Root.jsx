@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 import * as Constant from '../../config/constant/constant';
-import Footer from '../footer/Footer';
 
 
 export default class Root extends Component {
@@ -26,9 +25,7 @@ export default class Root extends Component {
       <div className="wgt-app">
         <div className="wgt-container" style={{height:'100%'}}>
           {children}
-          {
-            !noFooter && <Footer />
-          }
+
         </div>
       </div>
     );

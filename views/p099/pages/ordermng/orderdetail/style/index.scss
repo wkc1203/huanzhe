@@ -3,6 +3,10 @@
 @import "../../../../resources/styles/mixins";
 
 .page-order-detail {
+    .weui-icon-waiting {
+        font-size: 23px;
+        color: white;
+    }
     .weui-icon-success,.weui-icon-wating,.weui-icon-info {
         font-size: 30px;
         color: white;

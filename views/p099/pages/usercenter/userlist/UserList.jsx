@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import { Link } from 'react-router';
 import hashHistory from 'react-router/lib/hashHistory';
-
 import Connect from '../../../components/connect/Connect';
 import NoResult from '../../../components/noresult/NoResult';
-
 import * as Api from './userListApi';
 import './style/index.scss';
 
@@ -61,41 +59,52 @@ class Widget extends Component {
       //this.getJs();
       this.getCardList();
   }
-    getJs(){
-
+    getJs() {
+        console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
             .then((res) => {
-                console.log(res);
-                if(res.code==0){
-                    //写入b字段
-                    console.log("str",res.data);
+                if (res.code == 0) {
+//写入b字段
                     wx.config({
-                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId:res.data.appId, // 必填，公众号的唯一标识
-                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
-                        signature:res.data.signature,// 必填，签名
-                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: res.data.appId, // 必填，公众号的唯一标识
+                        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+                        signature: res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
                     });
-                    wx.ready(function(){
-                        //批量隐藏功能
+                    wx.ready(function () {
+//批量隐藏功能
                         wx.hideMenuItems({
-                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                            menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
                         });
                     });
-
                 }
+            }, (e) => {
+                this.setState({
+                    msg: e.msg,
+                    showIOS1: true
+                })
+            });
+    }
 
-
-                //this.setState({ hospInfo: res.data });
+    getMsg() {
+        Api
+            .getMsg()
+            .then((res) => {
+                if (res.code == 0 && res.data != null) {
+                    this.setState({
+                        quiryNum: res.data.length
+                    })
+                }
             }, (e) => {
                 this.hideLoading();
-                alert("r"+JSON.stringify(e));
-                //this.showPopup({ content: e.msg });
+                this.setState({
+                    msg: e.msg,
+                    showIOS1: true
+                })
             });
-
-
 
     }
      getCardList(){
@@ -109,11 +118,10 @@ class Widget extends Component {
                  })
                  }
              }, (e) => {
-
              });
-
     }
     isRegister() {
+        this.showLoading();
         Api
             .isRegister()
             .then((res) => {
@@ -121,12 +129,12 @@ class Widget extends Component {
                     Api
                         .getCardList1()
                         .then((res) => {
+                            this.hideLoading();
                             if(res.data.length > 0){
                                 hashHistory.push({
                                     pathname:'usercenter/samecard',
                                     query:{
                                         left:this.state.leftBindNum,
-
                                     }
                                 })
 
@@ -161,7 +169,6 @@ class Widget extends Component {
   }
     showLoading() {
         this.setState({showLoading: true});
-
         this.state.loadingTimer = setTimeout(()=> {
             this.setState({showLoading: false});
         }, 2000);
@@ -177,7 +184,7 @@ class Widget extends Component {
     }
 
   render() {
-    const {userInfo,cardList,leftBindNum,msg}=this.state;
+    const {cardList,msg}=this.state;
 
     return (
         <div className="u-page">
@@ -206,8 +213,6 @@ class Widget extends Component {
                )
 
             })}
-
-
             {2-cardList.length>0&&<div  className="m-adduser" onClick={()=>{
            this.isRegister()
             }}>
@@ -217,21 +222,12 @@ class Widget extends Component {
                     <div className="add-text">还可添加{2-cardList.length}人</div>
                 </div>
             </div>}
-            {/*<div @tap="isRegister" className="m-adduser" wx:if="{{2-cardList.length>0}}">
-             <div><img src="../../../resources/images/plus.png" /></div>
-             <div>
-             <div className="add-title">添加就诊人</div>
-             <div className="add-text">还可添加{{2-cardList.length}}人</div>
-             </div>
-             </div>
-             */}
             <div className="bandTip">
                 您只能绑定两张就诊卡，如果已有两张就诊卡,
             </div>
             <div className="bandTip">
                 需要删除以后才能绑定新的就诊卡
             </div>
-
         </div>
 
 

@@ -3,7 +3,6 @@ import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
 import hashHistory from 'react-router/lib/hashHistory';
-
 import * as Api from './deptlistForDocApi';
 import './style/index.scss';
 class Widget extends Component {
@@ -57,17 +56,15 @@ class Widget extends Component {
     };
   }
   componentDidMount() {
-     // this.getJs();
+     this.getJs();
     this.deptListFull();
   }
   componentWillUnmount() {
     // 离开页面时结束所有可能异步逻辑
-
   }
     getJs(){
-
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#"))})
             .then((res) => {
                 console.log(res);
                 if(res.code==0){
@@ -82,34 +79,24 @@ class Widget extends Component {
                         jsApiList: ['hideMenuItems','showMenuItems'] // 必填，需要使用的JS接口列表
                     });
                     wx.ready(function(){
-                        //批量隐藏功能
-                        wx.hideMenuItems({
-                            menuList: ["menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+                        wx.showMenuItems({
+                            menuList: ["menuItem:copyUrl","menuItem:openWithQQBrowser","menuItem:share:appMessage", "menuItem:share:timeline"
+                                ,"menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:QZone",
+                                "menuItem:openWithSafari"] // 要显示的菜单项，所有menu项见附录3
                         });
                     });
 
                 }
-
-
-                //this.setState({ hospInfo: res.data });
             }, (e) => {
-                this.setState({
-                    msg:e.msg,
-                    showIOS1:true
-                })
             });
-
-
-
     }
     showToast() {
         this.setState({showToast: true});
-
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
         }, 2000);
     }
-
     showLoading() {
         this.setState({showLoading: true});
 
@@ -118,7 +105,6 @@ class Widget extends Component {
         }, 2000);
     }
     hideDialog() {
-        console.log(this.state);
         this.setState({
             showIOS1: false,
             showIOS2: false,
@@ -146,13 +132,10 @@ class Widget extends Component {
 
   }
   getDocList(index){
-    console.log("yesindex",this.state.deptList[index]);
     const  no = this.state.deptList[index].no || {};
-    console.log("no",no);
     Api
         .docListFull({pdeptId: no})
         .then((res) => {
-          console.log(res);
           this.setState({ docList: res.data.doctors });
         }, e=> {
             this.setState({
@@ -162,7 +145,6 @@ class Widget extends Component {
         });
   }
   bindChangeIndex(index) {
-    console.log("index",index);
      this.setState({
        activeIdx:index.index
      })
@@ -183,7 +165,6 @@ class Widget extends Component {
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
                 {msg}
             </Dialog>
-            {/*<div className="p-page {{searchFocus ? 'unscroll' : ''}}">*/}
           <div className="g-list">
             <div className="m-list">
               <div className="list-box">
@@ -199,32 +180,12 @@ class Widget extends Component {
                                 {item.name}
                               </div>
                           )
-
                         })
                     }
-
-                    {/*<block wx:if="{{deptList.length > 0}}">
-                     <block
-                     wx:for="{{deptList || []}}"
-                     wx:key="index"
-                     >
-                     <div
-                     className="lt-item {{activeIdx === index ? 'active' : ''}}"
-                     bindtap="bindChangeIndex({{index}})"
-                     >{{item.name}}
-                     </div>
-                     </block>
-                     </block>     */}
-
                   </div>
                 </div>
                 <div className="list-rt-box">
                   <div className="list-rt">
-
-                    {/*<div
-                     className="rt-sec active"
-                     wx:if="{{docList.length > 0}}"
-                     >*/}
                     {docList.length>0&&<div
                           className="rt-sec active"
                           >

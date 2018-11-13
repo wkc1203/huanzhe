@@ -2,7 +2,6 @@
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
-
 import * as Api from './deptListApi';
 import './style/index.scss';
 class Widget extends Component {
@@ -46,7 +45,6 @@ class Widget extends Component {
             ]
         },
         msg:'',
-      // 科室列表
       deptList:[],
     };
   }
@@ -56,16 +54,13 @@ class Widget extends Component {
   }
   componentWillUnmount() {
     // 离开页面时结束所有可能异步逻辑
-
   }
     showToast() {
         this.setState({showToast: true});
-
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
         }, 2000);
     }
-
     showLoading() {
         this.setState({showLoading: true});
 
@@ -74,7 +69,6 @@ class Widget extends Component {
         }, 2000);
     }
     hideDialog() {
-        console.log(this.state);
         this.setState({
             showIOS1: false,
             showIOS2: false,
@@ -83,9 +77,8 @@ class Widget extends Component {
         });
     }
     getJs(){
-
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#"))})
             .then((res) => {
                 console.log(res);
                 if(res.code==0){
@@ -100,25 +93,17 @@ class Widget extends Component {
                         jsApiList: ['hideMenuItems','showMenuItems'] // 必填，需要使用的JS接口列表
                     });
                     wx.ready(function(){
-                        //批量隐藏功能
-                        wx.hideMenuItems({
-                            menuList: ["menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+                        wx.showMenuItems({
+                            menuList: ["menuItem:copyUrl","menuItem:openWithQQBrowser","menuItem:share:appMessage", "menuItem:share:timeline"
+                                ,"menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:QZone",
+                                "menuItem:openWithSafari"] // 要显示的菜单项，所有menu项见附录3
                         });
                     });
 
                 }
-
-
-                //this.setState({ hospInfo: res.data });
             }, (e) => {
-                this.setState({
-                    msg:e.msg,
-                    showIOS1:true
-                })
             });
-
-
-
     }
    deptListFull() {
        this.showLoading();
@@ -132,17 +117,12 @@ class Widget extends Component {
             var pingList1=[];
               var m=res.data;
             for(let o in m){
-                console.log("o",o);
               pingList1.push(o);
             }
-
             this.setState({
               pingList:pingList1
             })
-              console.log(res);
-            console.log("gg",pingList1);
           }
-
         }, e=> {
             this.hideLoading();
             this.setState({
@@ -158,7 +138,6 @@ class Widget extends Component {
     }
   render() {
      const {deptList,pingList,scrollerId,msg}=this.state;
-      console.log("s",scrollerId);
     return (
         <div className="d-page">
           {pingList.length>0&&pingList.map((item,index)=>{
@@ -184,7 +163,6 @@ class Widget extends Component {
           )
           })
           }
-
           <div className="right-list">
               {pingList.length > 0 && pingList.map((item2, index2)=> {
                   return (
@@ -202,7 +180,6 @@ class Widget extends Component {
             <div>暂未查询到相关信息</div>
           </div>}
         </div>
-
     );
   }
 }

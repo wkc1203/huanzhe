@@ -2,7 +2,6 @@
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
-
 import * as Api from './orderListApi';
 import './style/index.scss';
 class Widget extends Component {
@@ -51,27 +50,25 @@ class Widget extends Component {
     }
   }
   componentDidMount() {
-      //this.getJs();
+      this.showLoading();
+     console.log("sds");
+      this.getJs();
       this.getCardList();
       this.getOrderList();
   }
     showToast() {
         this.setState({showToast: true});
-
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
         }, 2000);
     }
-
     showLoading() {
         this.setState({showLoading: true});
-
         this.state.loadingTimer = setTimeout(()=> {
             this.setState({showLoading: false});
         }, 2000);
     }
     hideDialog() {
-        console.log(this.state);
         this.setState({
             showIOS1: false,
             showIOS2: false,
@@ -79,47 +76,36 @@ class Widget extends Component {
             showAndroid2: false,
         });
     }
-
-
-    getJs(){
-
+    getJs() {
+        console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
             .then((res) => {
-                console.log(res);
-                if(res.code==0){
-                    //写入b字段
-                    console.log("str",res.data);
+                if (res.code == 0) {
+//写入b字段
                     wx.config({
-                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId:res.data.appId, // 必填，公众号的唯一标识
-                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
-                        signature:res.data.signature,// 必填，签名
-                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: res.data.appId, // 必填，公众号的唯一标识
+                        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+                        signature: res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
                     });
-                    wx.ready(function(){
-                        //批量隐藏功能
+                    wx.ready(function () {
+//批量隐藏功能
                         wx.hideMenuItems({
-                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                            menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
                         });
                     });
-
                 }
-
-
-                //this.setState({ hospInfo: res.data });
             }, (e) => {
-               /* this.hideLoading();
-                alert("r"+JSON.stringify(e));
-                //this.showPopup({ content: e.msg });*/
+                this.setState({
+                    msg: e.msg,
+                    showIOS1: true
+                })
             });
-
-
-
     }
   componentWillUnmount() {
-
       this.setState({
           patList:[],
           patientName:'全部就诊人',
@@ -142,17 +128,37 @@ class Widget extends Component {
         })
     }
      getCardList() {
-         this.showLoading();
          Api
              .getCardList()
              .then((res) => {
                   if(res.code==0){
-                      this.hideLoading();
-                      console.log(res);
-                      this.setState({ patList: res.data.cardList });
 
+                      this.setState({ patList: res.data.cardList });
                   }
                   }, e=> {
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
+             });
+    }
+     getOrderList(patientId = '') {
+         this.showLoading();
+         Api
+             .getOrderList({patientId:patientId})
+             .then((res) => {
+                 if (res.code == 0) {
+                      this.hideLoading();
+                     const objStatus = { '-1': '待付款', '0': '咨询中', '1': '咨询中', '3': '已完成' };
+                     var items = res.data.map((item, index) => {
+                         item.statusName = objStatus[item.status];
+                         return item;
+                     });
+
+
+                     this.setState({ orderList: items});
+                 }
+             }, e=> {
                  this.hideLoading();
                  this.setState({
                      msg:e.msg,
@@ -161,36 +167,11 @@ class Widget extends Component {
              });
 
     }
-     getOrderList(patientId = '') {
-         this.showLoading();
-         Api
-             .getOrderList({patientId:patientId})
-             .then((res) => {
-                 if (res.code == 0) {
-                     this.hideLoading();
-
-                     const objStatus = { '-1': '待付款', '0': '咨询中', '1': '咨询中', '3': '已完成' };
-                     var items = res.data.map((item, index) => {
-                         item.statusName = objStatus[item.status];
-                         return item;
-                     });
-                     this.setState({ orderList: items});
-                     this.orderList = items;
-                 }
-
-             }, e=> {
-                 this.setState({
-                     msg:e.msg,
-                     showIOS1:true
-                 })
-             });
-
-    }
   getUser() { // 获取实名制
-    Api
+
+      Api
       .getUser()
       .then((res) => {
-        console.log(res);
         this.setState({ user: res.data });
       }, e=> {
             this.setState({
@@ -209,11 +190,9 @@ class Widget extends Component {
             {msg}
         </Dialog>
         <div style={{height:'44px',marginBottom:'10px'}}>
-
             <ul  onClick={
             ()=>{
             this.openList()
-
             }
             }>
                 <li className={`${isPatShow ? 'active' : 'default-item'}`}>{patientName}</li>
@@ -224,7 +203,6 @@ class Widget extends Component {
                 <div  className='modal-list'
                     onClick={()=>{
                     this.selectPat('','全部就诊人')
-
                     }}
                     >全部就诊人</div>
                 {patList&&patList.map((item,index)=>{
@@ -233,19 +211,12 @@ class Widget extends Component {
                            key={index}
                            onClick={()=>{
                     this.selectPat(item.patientId,item.patientName)
-
                     }}
                            className='modal-list'>{item.patientName}</div>
                    )
-
                 })}
-
-
             </div>
         </div>}
-
-        {/*<block wx:for="{{orderList}}" wx:for-index="idx" wx:for-item="item" wx:key="{{idx}}">*/}
-
         {orderList&&orderList.map((item,index)=>{
            return(
                <div className='doc-item' key={index}>
@@ -271,7 +242,6 @@ class Widget extends Component {
                            </div>
                        </div>
                    </Link>
-
                    <div className="oper-box">
                        <div className="pat-item">{item.typeName} | 就诊人：{item.patientName}</div>
                        {item.status != '2'&&<div className="status-name">{item.statusName}</div>}
@@ -295,7 +265,6 @@ class Widget extends Component {
           <img src='../../../resources/images/no-result.png' />
           <div>暂未查询到相关信息</div>
           </div>}
-
           </div>
     );
   }

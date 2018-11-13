@@ -26,7 +26,7 @@
         border-radius: 4px;
         background: #fff;
         .modal-content-tip {
-            padding: 0 13px 15px;
+            padding: 0 14px 15px;
             overflow: auto;
             font-size: 15px;
             color: $hc-color-gray;
@@ -67,7 +67,7 @@
     border-top:0.5px solid #d6d6d6;
     align-items:center;
     text-align:center;
-    font-size:13px;
+    font-size:14px;
     color: #797979;
     div{
         flex:1;
@@ -114,7 +114,7 @@
         border-top:0.5px solid #d6d6d6;
         align-items:center;
         text-align:center;
-        font-size:13px;
+        font-size:14px;
         color: #797979;
         div{
             flex:1;
@@ -155,7 +155,6 @@
         position: relative;
         top: -31px;
         padding: 0 10px;
-        background: #f2f2f2;
         .title1 {
             height: 29px;
             line-height: 9px;
@@ -239,7 +238,7 @@
                 margin-bottom: 6px;
             }
             .text > div:last-child {
-                font-size: 13px;
+                font-size: 14px;
                 color: $hc-color-gray;
             }
         }
@@ -307,7 +306,7 @@
                             font-weight: bold;
                         }
                         .txt2{
-                            font-size:13px;
+                            font-size:14px;
                             color:#666;
                             height:20px;
                             line-height: 20px;
@@ -359,7 +358,7 @@
                     margin-bottom: 6px;
                 }
                 &:last-child {
-                    font-size: 12px;
+                    font-size: 14px;;
                     color: #989898;
                 }
             }
@@ -369,7 +368,7 @@
             position: relative;
             display: flex;
             background: #fff;
-            padding: 13px 0 0;
+            padding: 14px 0 0;
             margin-bottom: 20px;
             box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.02);
             border-radius: 4px;
@@ -450,7 +449,7 @@
         .title {
             height: 35px;
             font-size: 17px;
-            padding-left: 13px;
+            padding-left: 14px;
             color: $hc-color-title;
         }
         .box {
@@ -493,7 +492,7 @@
             border-radius: 4px;
             background: #fff;
             .modal-content-tip {
-                padding: 0 13px 15px;
+                padding: 0 14px 15px;
                 overflow: auto;
                 font-size: 15px;
                 color: $hc-color-gray;

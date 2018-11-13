@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
-
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
-
 import * as Api from './collectIndexApi';
 import 'style/index.scss';
-
 class Widget extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +17,7 @@ class Widget extends Component {
         loadingTimer: null,
         showIOS1: false,
         showIOS2: false,
+        toastTitle:'',
         showAndroid1: false,
         showAndroid2: false,
         style1: {
@@ -50,54 +48,44 @@ class Widget extends Component {
   }
 
   componentDidMount() {
-      //this.getJs();
+      this.getJs();
       this.getCollectList();
   }
-    getJs(){
-
+    getJs() {
+        console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
             .then((res) => {
-                console.log(res);
-                if(res.code==0){
-                    //写入b字段
-                    console.log("str",res.data);
+                if (res.code == 0) {
+//写入b字段
                     wx.config({
-                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId:res.data.appId, // 必填，公众号的唯一标识
-                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
-                        signature:res.data.signature,// 必填，签名
-                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: res.data.appId, // 必填，公众号的唯一标识
+                        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+                        signature: res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
                     });
-                    wx.ready(function(){
-                        //批量隐藏功能
+                    wx.ready(function () {
+//批量隐藏功能
                         wx.hideMenuItems({
-                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                            menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
                         });
                     });
-
                 }
-
-
-                //this.setState({ hospInfo: res.data });
             }, (e) => {
-                this.hideLoading();
-                alert("r"+JSON.stringify(e));
-                //this.showPopup({ content: e.msg });
+                this.setState({
+                    msg: e.msg,
+                    showIOS1: true
+                })
             });
-
-
-
     }
     showToast() {
         this.setState({showToast: true});
-
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
         }, 2000);
     }
-
     showLoading() {
         this.setState({showLoading: true});
 
@@ -106,7 +94,6 @@ class Widget extends Component {
         }, 2000);
     }
     hideDialog() {
-        console.log(this.state);
         this.setState({
             showIOS1: false,
             showIOS2: false,
@@ -115,33 +102,29 @@ class Widget extends Component {
         });
     }
     switchCollect(deptId, doctorId){
-        this.showLoading();
         Api
             .cancelCollect({ doctorId:doctorId, deptId:deptId })
             .then((res) => {
                 if(res.code == 0) {
-                    this.hideLoading();
+
+                    this.showToast();
                     this.getCollectList();
                     return false;
                 }
             }, (e) => {
-                this.hideLoading();
                 this.setState({
                     msg:e.msg,
                     showIOS1:true
                 })
-
             });
-
     }
 
      getCollectList() {
-
          Api
              .getCollectList()
              .then((res) => {
+                 if (res.code == 0){
 
-                 if (res.code == 0) {
                      this.setState({
                          docList: res.data
                      })
@@ -151,13 +134,8 @@ class Widget extends Component {
                      msg:e.msg,
                      showIOS1:true
                  })
-
              });
-
-
-
     }
-
   render() {
     const {docList,deptId,msg}=this.state
     return (
@@ -207,15 +185,12 @@ class Widget extends Component {
                                       <div key={index1}>
                                           {item1.type=='1'&&<c>图文咨询</c>}
                                           {item1.type=='1'&&<span className="fee-des">￥{(item1.remune/100).toFixed(2)}元/次 </span>}
-
                                       </div>
                                   )
-
                               }) }
                                {item.type == '2'&&<div>
                                    <span>|</span>
                                    视频问诊<span className="fee-des">￥{(item1.remune/100).toFixed(2)}元/次 </span>
-
                                </div>}
                            {item.type == '3'&&<div>
                                <span>|</span>

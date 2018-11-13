@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import { Link } from 'react-router';
-
 import Connect from '../../../components/connect/Connect';
 import NoResult from '../../../components/noresult/NoResult';
 import hashHistory from 'react-router/lib/hashHistory';
-
 import * as Api from './newPhoneApi';
 import './style/index.scss';
 
@@ -56,52 +54,42 @@ class Widget extends Component {
     }
 
     componentDidMount() {
-        //this.getArticleTypeList();
         this.getJs();
     }
 
     componentWillUnmount() {
         this.state.Timer && clearTimeout(this.state.Timer);
     }
-    getJs(){
-
+    getJs() {
+        console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
-            .getJsApiConfig({url:'https://tih.cqkqinfo.com/views/p099/'})
+            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
             .then((res) => {
-                console.log(res);
-                if(res.code==0){
-                    //写入b字段
-                    console.log("str",res.data);
+                if (res.code == 0) {
+//写入b字段
                     wx.config({
-                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId:res.data.appId, // 必填，公众号的唯一标识
-                        timestamp:res.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr:res.data.noncestr, // 必填，生成签名的随机串
-                        signature:res.data.signature,// 必填，签名
-                        jsApiList: ['hideMenuItems','showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: res.data.appId, // 必填，公众号的唯一标识
+                        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+                        signature: res.data.signature,// 必填，签名
+                        jsApiList: ['hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
                     });
-                    wx.ready(function(){
-                        //批量隐藏功能
+                    wx.ready(function () {
+//批量隐藏功能
                         wx.hideMenuItems({
-                            menuList: ["menuItem:share:QZone","menuItem:share:facebook","menuItem:favorite","menuItem:share:weiboApp","menuItem:share:qq","menuItem:share:timeline","menuItem:share:appMessage","menuItem:copyUrl", "menuItem:openWithSafari","menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                            menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
                         });
                     });
-
                 }
-
-
-                //this.setState({ hospInfo: res.data });
             }, (e) => {
-                this.hideLoading();
-                alert("r"+JSON.stringify(e));
-                //this.showPopup({ content: e.msg });
+                this.setState({
+                    msg: e.msg,
+                    showIOS1: true
+                })
             });
-
-
-
     }
     hideDialog() {
-        console.log(this.state);
         this.setState({
             showIOS1: false,
             showIOS2: false,
@@ -110,7 +98,6 @@ class Widget extends Component {
         });
     }
     userIO(e) {
-        console.log("u"+e.target.value);
         var type=e.target.id;
         if(type=='name'){
             this.setState({
@@ -135,14 +122,12 @@ class Widget extends Component {
 
     }
     validator1(id) {
-        console.log("s"+id);
         this.setState({
             hasErr:this.validator(id)
         })
 
     }
     validator(id) {
-        console.log(id);
         const validate = {
             phone: {
                 regexp: /^1\d{10}$/,
@@ -171,7 +156,6 @@ class Widget extends Component {
                         if (id && id == o) {
                             var elements=this.state.errorElement;
                             elements[id] = true;
-                            console.log("idid",elements);
                             this.setState({
                                 errorElement:elements,
                             })
@@ -189,7 +173,6 @@ class Widget extends Component {
                         if (id && id == o) {
                             var elements=this.state.errorElement;
                             elements[id] = true;
-                            console.log("idid",elements);
                             this.setState({
                                 errorElement:elements,
                             })
@@ -226,11 +209,8 @@ class Widget extends Component {
     }
     resetThisError(e) {
         const id = e.target.id;
-        console.log('onFocus',e.target.id);
         var elements=this.state.errorElement;
-        console.log('el',elements);
         elements[id]=false;
-
         this.setState({
             errorElement:elements
         })
@@ -246,7 +226,6 @@ class Widget extends Component {
      * 倒计时
      */
     clock() {
-        console.log('111');
         var clockTimer = setTimeout(() => {
             var  leftTime1= this.state.leftTime;
             --leftTime1;
@@ -276,13 +255,11 @@ class Widget extends Component {
 
     showLoading() {
         this.setState({showLoading: true});
-
         this.state.loadingTimer = setTimeout(()=> {
             this.setState({showLoading: false});
         }, 2000);
     }
     pushData(){
-        //wepy.showLoading({ title: '修改中', mask: true });
         const value = {};
         value.phone = this.state.phone;
         value.validateCode = this.state.validateCode;
@@ -292,28 +269,19 @@ class Widget extends Component {
                 this.hideLoading();
                 if (res.code == 0) {
                     this.showToast();
-                    /*wepy.hideLoading();
-                     wepy.showToast({
-                     title: '修改成功',
-                     icon: 'success'
-                     });*/
                     const timer = setTimeout(() => {
                         clearTimeout(timer);
                         hashHistory.push({
                             pathname:'usercenter/home'
                        })
-                        // wepy.navigateBack({ delta: 1 });
                     }, 2000);
                 }
             }, (e) => {
                 this.hideLoading();
-                console.log("ff",this.state.showIOS1)
                 this.setState({
                     msg:e.msg,
                     showIOS1:true
                 })
-
-                console.log("ff1",this.state.showIOS1)
             });
 
     }
@@ -335,7 +303,6 @@ class Widget extends Component {
             .getValidate({ phone: this.state.phone })
             .then((res) => {
                 this.hideLoading();
-                console.log("res.cde",res.code);
                 if(res.code==0){
                     this.setState({
                         isSendValidate:true,
@@ -350,7 +317,7 @@ class Widget extends Component {
     }
 
     render() {
-        const {leftTime,phone,toptip,validateCode,msg,isSendValidate,errorElement,hasErr}=this.state;
+        const {leftTime,phone,validateCode,msg,isSendValidate,errorElement,hasErr}=this.state;
         return (
             <div>
                 <Toast icon="success-no-circle" show={this.state.showToast}>修改成功</Toast>
@@ -423,9 +390,7 @@ class Widget extends Component {
             this.submitData()
 
             }}>提交</button>
-                    {/*<button className="submit-btn" @tap="submitData">提交</button>*/}
                 </div>
-                {/* <toptip :toptip.sync="toptip" />*/}
             </div>
 
         );
