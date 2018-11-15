@@ -643,7 +643,7 @@ validate(){
                 imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
                 success.push(file.uid)
                 for(var i=0;i<imgArr1.length;i++){
-                    if(i<=4){
+                    if(i<4){
                         image.push(imgArr1[i])
                     }
                 }
@@ -654,7 +654,7 @@ validate(){
                 this.setState({
                     imgArr:image
                 })
-                if (this.state.imgArr.length >=5) {
+                if (this.state.imgArr.length >=4) {
                     this.setState({
                         open1: true
                     })

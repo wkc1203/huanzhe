@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/views/p099/pages/usercenter/newphone/NewPhone.jsx" line="249" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="08de66d0-0d47-48f4-b50a-2c0fbbbcd5dd" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/yarn.lock" />
       <change type="DELETED" beforePath="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views\.gitkeep" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
@@ -24,108 +28,360 @@
     <favorites_list name="fe-wisdom-hospital-dev" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="fetch.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/p099/utils/fetch.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Index.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/p099/pages/home/index/Index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.6190476">
-              <caret line="54" column="28" selection-start-line="54" selection-start-column="28" selection-end-line="54" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DeptList.jsx" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/deptlist/DeptList.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.15418503">
-              <caret line="40" column="23" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/deptlist/style/index.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.7794118">
-              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="deptListApi.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/deptlist/deptListApi.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="indexApi.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/p099/pages/home/index/indexApi.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="43" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/p099/pages/home/index/style/index.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.0612245">
-              <caret line="249" column="35" selection-start-line="249" selection-start-column="35" selection-end-line="249" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="constant.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/p099/config/constant/constant.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="44" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Home.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/home/Home.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.75">
-              <caret line="119" column="61" selection-start-line="119" selection-start-column="61" selection-end-line="119" selection-end-column="61" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="homeApi.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/home/homeApi.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5687545">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="ChatIndex.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/pages/inquiry/chat/ChatIndex.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="1109" column="42" selection-start-line="1109" selection-start-column="42" selection-end-line="1109" selection-end-column="42" />
+                  <folding>
+                    <marker date="1542246155936" expanded="true" signature="37025:56454" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="37088:48195" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="37251:37453" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="37485:37967" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="37534:37741" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="37766:37940" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="37800:37909" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="38000:40378" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="38056:39408" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="38106:38673" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="38742:38880" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="38949:39376" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="39446:40350" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="39513:39910" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="39598:39872" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="39952:40317" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="40023:40282" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="40484:46844" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="40732:46728" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="40934:46556" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="41109:41414" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="41776:43428" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="41888:42061" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="42249:42723" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="42806:43293" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="43493:45001" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="43573:43746" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="43810:44866" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="44302:44415" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="44464:44639" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="44688:44815" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="45160:46512" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="45346:45840" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="45923:46068" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="46131:46267" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="46313:46465" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="46874:47414" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="46922:47387" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="47135:47356" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="47202:47321" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="47447:48171" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="47495:48144" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="47710:48113" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="47781:47911" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="47952:48078" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="48227:51420" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="48379:49936" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="48426:49909" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="48480:48737" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="48766:49023" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="49052:49308" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="49337:49593" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="49622:49878" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="49957:50589" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="50610:50808" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="50829:51009" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="51030:51396" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="51086:51369" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="51454:56434" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="51615:54001" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="51662:53910" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="51716:52131" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="52160:52566" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="52595:53009" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="53038:53436" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="53465:53879" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="54022:55226" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="54077:54259" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="54284:54482" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="54507:54729" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="54754:54960" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="54985:55199" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="55247:55813" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="55303:55712" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="55834:56411" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="55885:56086" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542246155936" expanded="true" signature="56111:56384" placeholder="&lt;xml/&gt;" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ComplainIndex.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/complain/ComplainIndex.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="484" column="39" selection-start-line="484" selection-start-column="39" selection-end-line="484" selection-end-column="39" />
+                  <folding>
+                    <marker date="1542198957638" expanded="true" signature="14140:17982" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="14270:14428" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="14445:14494" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="14597:14793" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="14810:15521" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="14864:14951" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="14972:15498" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="15137:15413" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="15538:15909" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="15662:15886" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="15709:15859" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="15926:17611" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="16046:17588" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="16103:16696" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="16158:16665" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="16217:16630" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="16329:16588" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="16825:17503" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="16900:17464" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="16929:17169" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="17210:17421" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="17268:17373" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="17629:17913" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542198957638" expanded="true" signature="17671:17890" placeholder="&lt;xml/&gt;" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="fetchs.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/utils/fetchs.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="25" column="8" selection-start-line="21" selection-start-column="6" selection-end-line="25" selection-end-column="8" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/index.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="12" column="65" selection-start-line="12" selection-start-column="65" selection-end-line="12" selection-end-column="65" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="complainIndexApi.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/complain/complainIndexApi.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="10" column="94" selection-start-line="10" selection-start-column="51" selection-end-line="10" selection-end-column="94" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="fetch.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/utils/fetch.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="57" column="7" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Index.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/pages/home/index/Index.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-4.0">
+                  <caret line="85" column="31" selection-start-line="85" selection-start-column="31" selection-end-line="85" selection-end-column="31" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AllDeptList.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/alldeptlist/AllDeptList.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-0.84375">
+                  <caret line="228" column="15" selection-start-line="228" selection-start-column="15" selection-end-line="228" selection-end-column="48" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="index.scss" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/alldeptlist/style/index.scss">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.2780083">
+                  <caret line="338" column="18" selection-start-line="338" selection-start-column="18" selection-end-line="338" selection-end-column="18" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SameCard.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/samecard/SameCard.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="235" column="5" selection-start-line="235" selection-start-column="5" selection-end-line="235" selection-end-column="5" />
+                  <folding>
+                    <marker date="1542176407644" expanded="true" signature="7262:9490" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="7366:7518" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="7531:7667" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="7700:7786" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="7884:9064" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="7949:8532" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="8091:8286" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="8315:8501" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="8582:9036" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="8640:8791" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="8820:9005" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="9134:9284" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542176407644" expanded="true" signature="9331:9468" placeholder="&lt;xml/&gt;" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="ConfirmInfo.jsx" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/confirminfo/ConfirmInfo.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.19525547">
+                  <caret line="642" column="17" selection-start-line="642" selection-start-column="17" selection-end-line="642" selection-end-column="17" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AddCard.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/addcard/AddCard.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
+                  <folding>
+                    <marker date="1542098023644" expanded="true" signature="10813:15354" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="10916:11074" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="11153:15189" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="11172:12374" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="11220:12355" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="11276:11397" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="11418:12332" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="11474:12305" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="12387:13582" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="12443:13563" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="12499:12620" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="12641:13540" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="12697:13513" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="13595:14849" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="13659:14830" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="13715:13837" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="13858:14807" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="13914:14780" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="14862:15174" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="14917:15155" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542098023644" expanded="true" signature="15198:15342" placeholder="&lt;xml/&gt;" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="DeptDetail.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/deptdetail/DeptDetail.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="174" column="15" selection-start-line="174" selection-start-column="15" selection-end-line="174" selection-end-column="15" />
+                  <folding>
+                    <marker date="1542072606392" expanded="true" signature="10814:25112" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="10974:11164" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="11182:13016" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="11238:12993" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="11371:12966" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="11427:12802" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="11702:12021" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="12186:12450" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="12500:12766" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="13033:13581" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="13076:13223" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="13244:13390" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="13411:13558" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="13598:17983" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="13644:17340" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="13824:14799" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="14262:14421" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="14458:14643" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="15022:15939" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="15239:15408" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="15449:15779" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="15516:15664" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="16056:16664" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="16310:16448" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="16477:16633" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="16689:17313" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="16959:17097" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="17126:17282" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="17361:17649" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="17413:17482" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="17507:17621" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="17670:17960" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="17722:17791" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="17816:17933" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="18000:22277" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="18047:18204" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="18099:18135" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="18320:21570" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="18395:20653" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="18528:18630" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="18744:18846" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="18960:19062" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="19176:19278" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="19392:19494" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="19608:19710" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="19824:19926" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="20040:20142" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="20256:20358" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="20472:20574" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="20804:21534" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="21024:21330" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="21687:21957" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="21859:21930" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="22048:22253" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="22313:24281" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="22358:23563" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="22485:23535" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="22554:23504" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="22612:22867" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="22671:22798" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="22900:23066" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="23099:23296" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="23181:23290" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="23329:23469" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="23597:24087" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="23652:23752" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="23777:24060" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="24123:24257" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="24315:25092" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="24365:25069" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="24486:24720" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="24550:24689" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="24745:25042" placeholder="&lt;xml/&gt;" />
+                    <marker date="1542072606392" expanded="true" signature="24808:25011" placeholder="&lt;xml/&gt;" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -150,57 +406,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/views/p099/pages/microweb/doctorinfo/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/microweb/doctorinfo/DoctorInfo.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/microweb/news/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/microweb/article/ArticleIndex.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/microweb/article/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/microweb/notice/NoticeIndex.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/ordermng/evaluate/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/ordermng/evaluate/Evaluate.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/ordermng/orderdetail/OrderDetail.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/ordermng/orderdetail/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/ordermng/orderlist/OrderList.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/ordermng/orderlist/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/addcard/AddCard.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/addcard/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/cardtip/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/cardtip/CardTip.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/newphone/NewPhone.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/components/connect/Connect.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/collect/collectindex/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/complain/complainindex/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/complain/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/newphone/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/samecard/SameCard.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/samecard/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/userlist/UserList.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/userlist/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/userinfo/UserInfo.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/userinfo/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/config/router/Router.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/auth/getuserinfo/style/index.scss" />
-        <option value="$PROJECT_DIR$/fis-conf.js" />
-        <option value="$PROJECT_DIR$/views/p099/pages/inquiry/inquirylist/InquiryList.jsx" />
         <option value="$PROJECT_DIR$/views/p099/pages/microweb/news/News.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/auth/getuserinfo/getuserInfoApi.js" />
-        <option value="$PROJECT_DIR$/views/p099/config/constant/constant.js" />
-        <option value="$PROJECT_DIR$/dist/views/p099/pkg/aio.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/microweb/notice/NoticeIndex.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/cardtip/CardTip.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/ordermng/evaluate/Evaluate.jsx" />
         <option value="$PROJECT_DIR$/views/p099/pages/auth/getuserinfo/GetuserInfo.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/config/init/init.js" />
-        <option value="$PROJECT_DIR$/views/p099/pages/login/loginindex/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/pages/login/loginindex/loginIndexApi.js" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/home/style/index.scss" />
+        <option value="$PROJECT_DIR$/views/p099/pages/consult/alldeptlist/allDeptListApi.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/consult/deptdetail/deptDetailApi.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/consult/deptlist/deptListApi.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/inquiry/chat/chatIndexApi.js" />
         <option value="$PROJECT_DIR$/views/p099/pages/login/loginindex/LoginIndex.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/home/homeApi.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/microweb/article/articleIndexApi.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/microweb/doctorinfo/doctorInfoApi.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/microweb/news/newsApi.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/microweb/notice/noticeIndexApi.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/cardtip/cardTipApi.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/ordermng/orderdetail/style/index.scss" />
+        <option value="$PROJECT_DIR$/views/p099/pages/ordermng/orderdetail/OrderDetail.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/consult/waiting/Waiting.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/ordermng/orderlist/OrderList.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/newphone/style/index.scss" />
+        <option value="$PROJECT_DIR$/views/p099/pages/microweb/deptinfo/DeptInfo.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/microweb/doctorinfo/DoctorInfo.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/collect/CollectIndex.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/config/router/Router.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/login/noRegister/noRegister.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/login/noRegister/style/index.scss" />
+        <option value="$PROJECT_DIR$/views/p099/utils/fetch.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/login/loginindex/style/index.scss" />
+        <option value="$PROJECT_DIR$/views/p099/pages/consult/pay/Pay.jsx" />
         <option value="$PROJECT_DIR$/views/p099/pages/usercenter/home/Home.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/resources/styles/common.scss" />
+        <option value="$PROJECT_DIR$/views/p099/pages/consult/deptdetail/DeptDetail.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/inquiry/chat/style/index.scss" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/addcard/AddCard.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/userlist/UserList.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/newphone/NewPhone.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/userinfo/UserInfo.jsx" />
         <option value="$PROJECT_DIR$/views/p099/pages/home/index/indexApi.js" />
         <option value="$PROJECT_DIR$/views/p099/pages/home/index/style/index.scss" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/complain/complainIndexApi.js" />
+        <option value="$PROJECT_DIR$/views/p099/pages/consult/confirminfo/confirmInfoApi.js" />
+        <option value="$PROJECT_DIR$/views/.babelrc" />
+        <option value="$PROJECT_DIR$/.babelrc" />
+        <option value="$PROJECT_DIR$/views/p099/index.html" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/samecard/SameCard.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/usercenter/complain/ComplainIndex.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/inquiry/chat/ChatIndex.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/consult/confirminfo/ConfirmInfo.jsx" />
         <option value="$PROJECT_DIR$/views/p099/pages/home/index/Index.jsx" />
-        <option value="$PROJECT_DIR$/views/p099/pages/microweb/deptlist/deptListApi.js" />
-        <option value="$PROJECT_DIR$/views/p099/pages/microweb/deptlist/style/index.scss" />
-        <option value="$PROJECT_DIR$/views/p099/utils/fetch.js" />
-        <option value="$PROJECT_DIR$/views/p099/pages/microweb/deptlist/DeptList.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/consult/alldeptlist/AllDeptList.jsx" />
+        <option value="$PROJECT_DIR$/views/p099/pages/consult/alldeptlist/style/index.scss" />
       </list>
     </option>
   </component>
@@ -320,30 +576,8 @@
               <option name="myItemId" value="pages" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="p099" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="microweb" />
+              <option name="myItemId" value="usercenter" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -369,11 +603,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="microweb" />
+              <option name="myItemId" value="usercenter" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="deptlist" />
+              <option name="myItemId" value="samecard" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -399,15 +633,89 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="microweb" />
+              <option name="myItemId" value="usercenter" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="deptlist" />
+              <option name="myItemId" value="complain" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="style" />
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="p099" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="p099" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inquiry" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="p099" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="inquiry" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chat" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -463,11 +771,127 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="home" />
+              <option name="myItemId" value="consult" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="index" />
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="p099" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="consult" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="deptdetail" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="p099" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="consult" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="confirminfo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="p099" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="consult" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="alldeptlist" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="p099" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="consult" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="alldeptlist" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -485,19 +909,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="p099" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="router" />
+              <option name="myItemId" value="dist" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -511,19 +923,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="p099" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="init" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -534,6 +942,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -545,13 +957,71 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="pkg" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="p099" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mock" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fe-wisdom-hospital-dev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="constant" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -564,118 +1034,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="dist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="media" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components_modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mod" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components_modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components_modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="common" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components_modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="weui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fe-wisdom-hospital-dev" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -690,7 +1048,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../龙湖佑佑医院/youyou/fe-wisdom-hospital-dev" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="JavaScriptLanguageLevel" value="JSX" />
     <property name="FullScreen" value="false" />
@@ -722,17 +1080,20 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views" />
-      <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views\p099\pages\usercenter\userlist" />
-      <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views\p099\pages\usercenter\userinfo" />
-      <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views\p099\pages\usercenter\samecard" />
-      <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views\p099\pages\usercenter\complain" />
+      <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views\p099\resources\images" />
+      <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views\p099\pages\login" />
+      <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views\p099\components" />
+      <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views\p099\pages\consult" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views" />
       <recent name="E:\陈艳资料\工作资料\重庆互联网医院\fe-wisdom-hospital-dev\views\p099\pages\add\addManage" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Node.js.DeptDetail.jsx">
+    <configuration default="false" name="DeptDetail.jsx" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="F:/myapp/node/node" path-to-js-file="DeptDetail.jsx" working-dir="$PROJECT_DIR$/views/p099/pages/consult/deptdetail">
+      <method />
+    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <method />
     </configuration>
@@ -771,6 +1132,14 @@
       <envs />
       <method />
     </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="Node.js.DeptDetail.jsx" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Node.js.DeptDetail.jsx" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="SvnConfiguration">
@@ -787,18 +1156,17 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22398478" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26081082" sideWeight="0.2036802" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20135134" sideWeight="0.25126645" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23648648" sideWeight="0.5069552" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19459459" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27297297" sideWeight="0.49746192" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26081082" sideWeight="0.7963198" order="10" side_tool="false" content_ui="tabs" x="243" y="757" width="1338" height="300" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17432432" sideWeight="0.7487335" order="10" side_tool="false" content_ui="tabs" x="243" y="757" width="1338" height="300" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -806,6 +1174,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24054053" sideWeight="0.4877193" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -813,15 +1182,15 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17282608" sideWeight="0.35443038" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20135134" sideWeight="0.25126645" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19459459" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22203948" sideWeight="0.6455696" order="10" side_tool="false" content_ui="tabs" x="243" y="757" width="1338" height="300" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27794337" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27297297" sideWeight="0.49746192" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24459459" sideWeight="0.7487335" order="10" side_tool="false" content_ui="tabs" x="243" y="757" width="1338" height="300" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28337428" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32826087" sideWeight="0.4957806" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24054053" sideWeight="0.4877193" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -853,43 +1222,193 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/views/p099/pages/inquiry/chat/ChatIndex.jsx</url>
-          <line>39</line>
+          <line>1124</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/views/p099/pages/consult/pay/Pay.jsx</url>
+          <line>146</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="7" />
+      <option name="time" value="13" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/newphone/NewPhone.jsx">
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/userlist/userListApi.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/auth/getuserinfo/GetuserInfo.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="75" column="62" selection-start-line="73" selection-start-column="20" selection-end-line="75" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/doctorinfo/doctorInfoApi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/ordermng/orderdetail/style/index.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/ordermng/orderdetail/OrderDetail.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="193" column="48" selection-start-line="193" selection-start-column="48" selection-end-line="193" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/waiting/Waiting.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="334" column="5" selection-start-line="334" selection-start-column="5" selection-end-line="334" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/deptlist/DeptList.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="79" column="11" selection-start-line="79" selection-start-column="11" selection-end-line="79" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/ordermng/orderlist/OrderList.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="161" column="36" selection-start-line="161" selection-start-column="36" selection-end-line="161" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/newphone/style/index.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="19" selection-start-line="19" selection-start-column="19" selection-end-line="19" selection-end-column="19" />
+          <caret line="139" column="13" selection-start-line="139" selection-start-column="8" selection-end-line="139" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/ordermng/evaluate/Evaluate.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.09375">
+          <caret line="515" column="24" selection-start-line="515" selection-start-column="22" selection-end-line="515" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/deptinfo/DeptInfo.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="124" column="0" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/collect/CollectIndex.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.28125">
+          <caret line="113" column="23" selection-start-line="113" selection-start-column="23" selection-end-line="113" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/config/router/Router.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.4">
+          <caret line="160" column="42" selection-start-line="160" selection-start-column="42" selection-end-line="160" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/doctorinfo/DoctorInfo.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="197" column="95" selection-start-line="197" selection-start-column="62" selection-end-line="197" selection-end-column="95" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/login/noRegister/noRegister.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="38" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/login/noRegister/style/index.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.242424">
+          <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/login/loginindex/style/index.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.3775511">
+          <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/login/loginindex/LoginIndex.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/home/homeApi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.59375">
+          <caret line="9" column="25" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/home/Home.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.59375">
+          <caret line="186" column="29" selection-start-line="186" selection-start-column="29" selection-end-line="186" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/components/connect/Connect.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="96" column="17" selection-start-line="96" selection-start-column="6" selection-end-line="96" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/pay/Pay.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="94" column="27" selection-start-line="94" selection-start-column="27" selection-end-line="94" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/samecard/SameCard.jsx">
+    <entry file="file://$PROJECT_DIR$/views/p099/resources/styles/common.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="171" column="31" selection-start-line="171" selection-start-column="31" selection-end-line="171" selection-end-column="31" />
-          <folding />
+        <state vertical-scroll-proportion="-4.5">
+          <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/samecard/style/index.scss">
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/inquiry/chat/style/index.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+        <state vertical-scroll-proportion="1.744898">
+          <caret line="149" column="23" selection-start-line="149" selection-start-column="23" selection-end-line="149" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/userlist/UserList.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.142857">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -897,66 +1416,198 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/newphone/NewPhone.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.4285715">
+          <caret line="275" column="44" selection-start-line="275" selection-start-column="44" selection-end-line="275" selection-end-column="44" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/userlist/UserList.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="158" column="25" selection-start-line="158" selection-start-column="25" selection-end-line="158" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/userlist/style/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="116" column="1" selection-start-line="116" selection-start-column="1" selection-end-line="116" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/userinfo/UserInfo.jsx">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.142857">
+          <caret line="162" column="30" selection-start-line="162" selection-start-column="30" selection-end-line="162" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/addcard/AddCard.jsx">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="227" column="30" selection-start-line="227" selection-start-column="30" selection-end-line="227" selection-end-column="30" />
+          <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
+          <folding>
+            <marker date="1542098023644" expanded="true" signature="10813:15354" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="10916:11074" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="11153:15189" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="11172:12374" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="11220:12355" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="11276:11397" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="11418:12332" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="11474:12305" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="12387:13582" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="12443:13563" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="12499:12620" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="12641:13540" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="12697:13513" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="13595:14849" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="13659:14830" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="13715:13837" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="13858:14807" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="13914:14780" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="14862:15174" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="14917:15155" placeholder="&lt;xml/&gt;" />
+            <marker date="1542098023644" expanded="true" signature="15198:15342" placeholder="&lt;xml/&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/home/index/style/index.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.6530613">
+          <caret line="111" column="19" selection-start-line="111" selection-start-column="19" selection-end-line="111" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/deptdetail/DeptDetail.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="174" column="15" selection-start-line="174" selection-start-column="15" selection-end-line="174" selection-end-column="15" />
+          <folding>
+            <marker date="1542072606392" expanded="true" signature="10814:25112" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="10974:11164" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="11182:13016" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="11238:12993" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="11371:12966" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="11427:12802" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="11702:12021" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="12186:12450" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="12500:12766" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="13033:13581" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="13076:13223" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="13244:13390" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="13411:13558" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="13598:17983" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="13644:17340" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="13824:14799" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="14262:14421" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="14458:14643" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="15022:15939" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="15239:15408" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="15449:15779" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="15516:15664" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="16056:16664" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="16310:16448" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="16477:16633" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="16689:17313" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="16959:17097" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="17126:17282" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="17361:17649" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="17413:17482" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="17507:17621" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="17670:17960" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="17722:17791" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="17816:17933" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="18000:22277" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="18047:18204" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="18099:18135" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="18320:21570" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="18395:20653" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="18528:18630" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="18744:18846" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="18960:19062" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="19176:19278" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="19392:19494" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="19608:19710" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="19824:19926" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="20040:20142" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="20256:20358" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="20472:20574" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="20804:21534" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="21024:21330" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="21687:21957" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="21859:21930" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="22048:22253" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="22313:24281" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="22358:23563" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="22485:23535" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="22554:23504" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="22612:22867" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="22671:22798" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="22900:23066" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="23099:23296" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="23181:23290" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="23329:23469" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="23597:24087" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="23652:23752" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="23777:24060" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="24123:24257" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="24315:25092" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="24365:25069" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="24486:24720" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="24550:24689" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="24745:25042" placeholder="&lt;xml/&gt;" />
+            <marker date="1542072606392" expanded="true" signature="24808:25011" placeholder="&lt;xml/&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/inquiry/chat/chatIndexApi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.25581396">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/confirminfo/confirmInfoApi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24150269">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/home/index/indexApi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="3" column="19" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/userinfo/style/index.scss">
+    <entry file="file://$PROJECT_DIR$/.babelrc">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="122" column="9" selection-start-line="122" selection-start-column="9" selection-end-line="122" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.19320215">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/common/development/Development.jsx">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/config/router/routerApi.js">
+    <entry file="file://$PROJECT_DIR$/component.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="27" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="27" />
-          <folding />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/complain/ComplainIndex.jsx">
+    <entry file="file://$PROJECT_DIR$/package-lock.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="3" selection-start-line="21" selection-start-column="2" selection-end-line="32" selection-end-column="3" />
-          <folding />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/auth/getuserinfo/style/index.scss">
+    <entry file="file://$PROJECT_DIR$/.eslintrc">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.318182">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.41300192">
+          <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -968,314 +1619,207 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/inquiry/inquirylist/InquiryList.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.4">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/utils/validator.js">
+    <entry file="file://$PROJECT_DIR$/views/p099/utils/fetch.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="57" column="7" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/whatwg-fetch/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state>
-          <first_editor vertical-scroll-proportion="0.0">
-            <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yarn.lock">
+    <entry file="file://$PROJECT_DIR$/views/p099/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="3134" column="4" selection-start-line="3134" selection-start-column="4" selection-end-line="3134" selection-end-column="4" />
+          <caret line="12" column="65" selection-start-line="12" selection-start-column="65" selection-end-line="12" selection-end-column="65" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/auth/getuserinfo/getuserInfoApi.js">
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/complain/complainIndexApi.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <caret line="10" column="94" selection-start-line="10" selection-start-column="51" selection-end-line="10" selection-end-column="94" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/bootstrap.txt">
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/samecard/SameCard.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="64" column="4" selection-start-line="64" selection-start-column="4" selection-end-line="64" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fis-conf.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="66" column="5" selection-start-line="66" selection-start-column="5" selection-end-line="66" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/microsite/doclist/DocList.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="68" column="25" selection-start-line="68" selection-start-column="20" selection-end-line="68" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/utils/utils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript5.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="173" column="0" selection-start-line="173" selection-start-column="0" selection-end-line="173" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/news/News.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="71" column="33" selection-start-line="71" selection-start-column="33" selection-end-line="71" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/auth/getuserinfo/GetuserInfo.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.15625">
-          <caret line="62" column="14" selection-start-line="62" selection-start-column="14" selection-end-line="62" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/config/router/Router.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5228137">
-          <caret line="197" column="0" selection-start-line="197" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/config/init/init.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.8">
-          <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/antd-mobile/es/popup/demo/basic.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/DHTML.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.0625">
-          <caret line="1871" column="31" selection-start-line="1871" selection-start-column="22" selection-end-line="1871" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/components/connect/Connect.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="74" column="6" selection-start-line="74" selection-start-column="6" selection-end-line="74" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/auth/developing/Developing.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/views/p099/pkg/aio.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="49472" column="2" selection-start-line="49472" selection-start-column="2" selection-end-line="49472" selection-end-column="2" />
+          <caret line="235" column="5" selection-start-line="235" selection-start-column="5" selection-end-line="235" selection-end-column="5" />
           <folding>
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="[...]" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{&quot;key&quot;: 'pushData'...}" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1539833458795" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1542176407644" expanded="true" signature="7262:9490" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="7366:7518" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="7531:7667" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="7700:7786" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="7884:9064" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="7949:8532" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="8091:8286" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="8315:8501" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="8582:9036" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="8640:8791" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="8820:9005" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="9134:9284" placeholder="&lt;xml/&gt;" />
+            <marker date="1542176407644" expanded="true" signature="9331:9468" placeholder="&lt;xml/&gt;" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/antd-mobile/es/popup/demo/basic.js">
+    <entry file="file://$PROJECT_DIR$/views/p099/utils/fetchs.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="74" column="14" selection-start-line="74" selection-start-column="14" selection-end-line="74" selection-end-column="14" />
+          <caret line="25" column="8" selection-start-line="21" selection-start-column="6" selection-end-line="25" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/antd-mobile/lib/popup/demo/basic.d.ts">
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/complain/ComplainIndex.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
-          <folding />
+          <caret line="484" column="39" selection-start-line="484" selection-start-column="39" selection-end-line="484" selection-end-column="39" />
+          <folding>
+            <marker date="1542198957638" expanded="true" signature="14140:17982" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="14270:14428" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="14445:14494" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="14597:14793" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="14810:15521" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="14864:14951" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="14972:15498" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="15137:15413" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="15538:15909" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="15662:15886" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="15709:15859" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="15926:17611" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="16046:17588" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="16103:16696" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="16158:16665" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="16217:16630" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="16329:16588" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="16825:17503" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="16900:17464" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="16929:17169" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="17210:17421" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="17268:17373" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="17629:17913" placeholder="&lt;xml/&gt;" />
+            <marker date="1542198957638" expanded="true" signature="17671:17890" placeholder="&lt;xml/&gt;" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/antd-mobile/lib/popup/demo/basic.js">
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/confirminfo/ConfirmInfo.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.9375">
-          <caret line="90" column="31" selection-start-line="90" selection-start-column="31" selection-end-line="90" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.19525547">
+          <caret line="642" column="17" selection-start-line="642" selection-start-column="17" selection-end-line="642" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/login/loginindex/style/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.0">
-          <caret line="32" column="39" selection-start-line="32" selection-start-column="39" selection-end-line="32" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/login/loginindex/loginIndexApi.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/login/loginindex/LoginIndex.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.84375">
-          <caret line="101" column="30" selection-start-line="101" selection-start-column="30" selection-end-line="101" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/home/style/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.1911764">
-          <caret line="116" column="9" selection-start-line="116" selection-start-column="1" selection-end-line="116" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/home/homeApi.js">
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/inquiry/chat/ChatIndex.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/usercenter/home/Home.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.75">
-          <caret line="119" column="61" selection-start-line="119" selection-start-column="61" selection-end-line="119" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/home/index/indexApi.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="43" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/config/constant/constant.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="44" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/home/index/style/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.0612245">
-          <caret line="249" column="35" selection-start-line="249" selection-start-column="35" selection-end-line="249" selection-end-column="35" />
-          <folding />
+          <caret line="1109" column="42" selection-start-line="1109" selection-start-column="42" selection-end-line="1109" selection-end-column="42" />
+          <folding>
+            <marker date="1542246155936" expanded="true" signature="37025:56454" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="37088:48195" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="37251:37453" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="37485:37967" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="37534:37741" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="37766:37940" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="37800:37909" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="38000:40378" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="38056:39408" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="38106:38673" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="38742:38880" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="38949:39376" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="39446:40350" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="39513:39910" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="39598:39872" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="39952:40317" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="40023:40282" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="40484:46844" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="40732:46728" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="40934:46556" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="41109:41414" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="41776:43428" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="41888:42061" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="42249:42723" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="42806:43293" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="43493:45001" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="43573:43746" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="43810:44866" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="44302:44415" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="44464:44639" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="44688:44815" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="45160:46512" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="45346:45840" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="45923:46068" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="46131:46267" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="46313:46465" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="46874:47414" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="46922:47387" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="47135:47356" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="47202:47321" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="47447:48171" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="47495:48144" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="47710:48113" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="47781:47911" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="47952:48078" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="48227:51420" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="48379:49936" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="48426:49909" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="48480:48737" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="48766:49023" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="49052:49308" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="49337:49593" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="49622:49878" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="49957:50589" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="50610:50808" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="50829:51009" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="51030:51396" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="51086:51369" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="51454:56434" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="51615:54001" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="51662:53910" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="51716:52131" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="52160:52566" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="52595:53009" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="53038:53436" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="53465:53879" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="54022:55226" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="54077:54259" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="54284:54482" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="54507:54729" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="54754:54960" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="54985:55199" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="55247:55813" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="55303:55712" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="55834:56411" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="55885:56086" placeholder="&lt;xml/&gt;" />
+            <marker date="1542246155936" expanded="true" signature="56111:56384" placeholder="&lt;xml/&gt;" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/p099/pages/home/index/Index.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.6190476">
-          <caret line="54" column="28" selection-start-line="54" selection-start-column="28" selection-end-line="54" selection-end-column="28" />
+        <state vertical-scroll-proportion="-4.0">
+          <caret line="85" column="31" selection-start-line="85" selection-start-column="31" selection-end-line="85" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/deptlist/deptListApi.js">
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/alldeptlist/AllDeptList.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state vertical-scroll-proportion="-0.84375">
+          <caret line="228" column="15" selection-start-line="228" selection-start-column="15" selection-end-line="228" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/deptlist/style/index.scss">
+    <entry file="file://$PROJECT_DIR$/views/p099/pages/consult/alldeptlist/style/index.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.7794118">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/utils/fetch.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/p099/pages/microweb/deptlist/DeptList.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15418503">
-          <caret line="40" column="23" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.2780083">
+          <caret line="338" column="18" selection-start-line="338" selection-start-column="18" selection-end-line="338" selection-end-column="18" />
           <folding />
         </state>
       </provider>

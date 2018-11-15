@@ -83,7 +83,7 @@ class Widget extends Component {
              .getMsg()
              .then((res) => {
 
-                 if(res.code==0){
+                 if(res.code==0&&res.data!=null){
                         var s=[];
                        for(var i=0;i<res.data.length;i++){
                            if(i<2){

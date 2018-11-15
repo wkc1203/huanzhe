@@ -149,10 +149,10 @@ class Widget extends Component {
         } else {
             this.setState({
                 search1: false,
-            })
-F        }
+            })}
     }
     bindSearchFocus(e) {
+        console.log("ee");
         this.setState({
             searchFocus: true,
         })

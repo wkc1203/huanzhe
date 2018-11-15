@@ -6,6 +6,7 @@
     "server": "fis3 server start --root dist"
   },
   "dependencies": {
+    "antd": "^3.10.3",
     "antd-mobile": "^1.0.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-import": "^1.1.1",
@@ -23,12 +24,14 @@
     "react-dom": "^15.3.1",
     "react-router": "^2.8.1",
     "react-svg-use": "^2.1.0",
+    "react-uplod-img": "^1.1.0",
     "react-weui": "1.0.4",
     "reactjs-iscroll": "^0.3.2",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.2.0",

@@ -341,8 +341,9 @@
     .dept-modal {
         position: fixed;
         left: 0;
-        top: 8%;
+        margin-top:50px;
         width: 100%;
+        top:0%;
         height: 100%;
         z-index: 99999;
         .modal-pop {
