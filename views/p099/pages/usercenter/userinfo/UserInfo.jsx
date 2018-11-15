@@ -8,6 +8,9 @@ import * as Api from './userInfoApi';
 import './style/index.scss';
 
 class Widget extends Component {
+    static contextTypes = {
+        router: React.PropTypes.object,
+    };
   constructor(props) {
     super(props);
     this.state = {
@@ -155,8 +158,8 @@ class Widget extends Component {
                         })
                         const timer = setTimeout(() => {
                             clearTimeout(timer);
-                            hashHistory.push({
-                                pathname:'usercenter/userlist',
+                            this.context.router.replace({
+                                pathname:'/usercenter/home'
                             })
                         }, 2000);
                     }
@@ -188,8 +191,8 @@ class Widget extends Component {
                     this.showToast();
                     const timer = setTimeout(() => {
                         clearTimeout(timer);
-                        hashHistory.push({
-                            pathname:'usercenter/userlist',
+                        this.context.router.replace({
+                            pathname:'usercenter/home',
                         })
                     }, 2000);
                 }

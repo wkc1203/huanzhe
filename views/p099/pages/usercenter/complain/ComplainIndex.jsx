@@ -8,8 +8,10 @@ import * as Api from './complainIndexApi';
 import 'style/index.scss';
 var imgArr1=[];
 var uuList=[];
+var nameList=[];
 var maxLength=0;
 var imgList=[];
+var success=[];
 var interval1='';
 var upload=true;
 var files = new Array();
@@ -89,7 +91,7 @@ class Widget extends Component {
     };
   }
     randomName(){
-        if(this.state.open){
+
         var myDate = new Date();
         var ossPath='PIC/';
         var fileRandName=Date.now();
@@ -110,12 +112,12 @@ class Widget extends Component {
         }
         var date=new Date().getTime();
 
-        var m=ossPath+year+'/'+month+'/'+day+'/'+date+'/';
+        var m=ossPath+year+'/'+month+'/'+day+"/";
 
         uuList[0]=m;
-            console.log(uuList);
+            console.log("1"+m);
         return  m;
-    }}
+    }
     showToast() {
         this.setState({showToast: true});
         this.state.toastTimer = setTimeout(()=> {
@@ -137,7 +139,73 @@ class Widget extends Component {
             showAndroid2: false,
         });
     }
+     S4() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    }
+     guid() {
+         var m=this.S4()+this.S4()+"-"+this.S4()+"-"+this.S4()+"-"+this.S4()+"-"+this.S4()+this.S4()+this.S4();
+         nameList[0]=m;
+        return m;
+    }
+    handleUpload(file){
+        const formData = new FormData();
+        var filename='';
+        var image=[];
+        console.log("fii",file)
+
+               filename=this.randomName() + this.guid()+file.name.substring(file.name.indexOf("."),file.name.length)
+               formData.append('key', filename);
+               formData.append("policy",this.state.sign.policy);
+               formData.append("callback",this.state.sign.callback);
+               formData.append("signature",this.state.sign.signature);
+               formData.append("OSSAccessKeyId",this.state.sign.OSSAccessKeyId);
+               formData.append('file', file);
+
+
+        console.log(formData)
+        this.setState({
+            uploading: true,
+        });
+    $.ajax({
+        url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
+        method: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: formData,
+        success: (e) => {
+            imgArr1=this.state.imgArr;
+            imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+            success.push(file.uid)
+            for(var i=0;i<imgArr1.length;i++){
+                if(i<=4){
+                    image.push(imgArr1[i])
+                }
+            }
+            this.setState({
+                uploading: false,
+            });
+             this.hideLoading();
+            this.setState({
+                imgArr:image
+            })
+            if (this.state.imgArr.length >=5) {
+                this.setState({
+                    open1: true
+                })
+
+            }
+            console.log("this.sate",this.state.imgArr)
+        },
+
+        error:(e) =>{
+            console.log("this.sate",this.state.imgArr)
+            }
+         });
+       }
     getJs1(){
+
+
         Api
             .getSign({bucket:'ihoss',dir:"PIC"})
             .then((res) => {
@@ -153,6 +221,7 @@ class Widget extends Component {
                         sign:sign,
                         expire:res.data.expire
                     })
+
                 }
 
             }, (e) => {
@@ -270,75 +339,7 @@ class Widget extends Component {
                 this.showPopup({ content: e.msg });
             });
     }
-    validate(imgList){
-        if(upload){
-            var datas = [];
-            var m=0;
-            for(var i=0;i<imgList.length;i++){
-                if(this.validateImage(imgList[i])){
-                    console.log(1);
-                    datas.push(imgList[i]);
-                    m=i+1;
-                }
-            }
-            if(m==imgList.length){
 
-
-                this.hideLoading();
-                if (datas.length >= 5) {
-                    this.setState({
-                        open1: true
-                    })
-                    var ms=[];
-                    for (var i = 0;i< 5; i++) {
-                        ms[i]=datas[i];
-                        m=i+1;
-                    }
-                    this.setState({
-                        imgArr: ms,
-                    })
-                } else {
-                    this.setState({
-                        imgArr: datas,
-                    })
-                }
-                console.log("imglen",this.state.imgArr);
-                console.log("ilien",imgList);
-
-                if(this.state.imgArr.length==imgList.length&&imgList.length!=0){
-                    upload=false;
-               }
-                clearInterval(interval1);
-                imgList=[];
-                datas=[];
-
-            }
-        }
-
-
-
-    }
-    handleChange = (info) => {
-        imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/' + uuList[0] + info.file.name);
-         console.log("upl",upload);
-        upload=true;
-
-            this.showLoading('上传中');
-            console.log("12");
-            interval1 = setInterval(() => this.validate(imgList), 1000);
-
-    }
-    validateImage(pathImg)
-    {
-        var ImgObj=new Image();
-        ImgObj.src= pathImg;
-        if(ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0))
-        {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     getJs(){
         Api
@@ -383,6 +384,7 @@ class Widget extends Component {
 
   }
 
+
     alertTxt(e){
         if(this.state.imgArr.length>=5){
              this.setState({
@@ -418,7 +420,7 @@ class Widget extends Component {
         for(var i=0;i<images.length;i++)
         {
             if(url!=images[i]){
-                s1.push(images[i])
+                s1.push(images[i]);
             }
         }
         var imgdata=[];
@@ -431,15 +433,20 @@ class Widget extends Component {
         this.setState({
             imgArr:s1
         })
-        if(this.state.imgArr.length<5){
+        this.setState({
+            fileList:[]
+        })
+        if (this.state.imgArr.length >=5) {
             this.setState({
-                open1:false
+                open1: true
             })
+
         }else{
             this.setState({
-                open1:true
+                open1: false
             })
         }
+
     }
     getJs() {
         console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
@@ -470,20 +477,30 @@ class Widget extends Component {
                 })
             });
     }
+    imgShow(file){
+        this.handleUpload(file)
+    }
+
     render() {
-        const {signature,sign,policy,callback,OSSAccessKeyId,toptip,imgArr,reasonList}=this.state
+        const {signature,sign,uploading,callback,OSSAccessKeyId,toptip,imgArr,reasonList}=this.state
         const { msg,open1 } = this.state;
         console.log(upload)
       const props = {
-          action: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
-          onChange: this.handleChange,
-          multiple: true,
-          data:{ ...sign,
-          key:this.randomName()+'${filename}'}
+          multiple:true,
+          beforeUpload: (file) => {
+              this.showLoading('上传中');
+              this.setState(({ fileList }) => ({
+                  fileList: [...fileList, file],
 
+              }));
+              this.imgShow(file);
+              return false;
+          },
+          fileList: this.state.fileList,
       };
       return (
         <div className="page-complain">
+
             <Toast icon="success-no-circle" show={this.state.showToast}>提交成功</Toast>
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
                 {msg}
@@ -527,10 +544,10 @@ class Widget extends Component {
                     <div className='img-choose-box'>
                         <div className='img-box3'>
                             <div className="img-item">
-                                <Upload disabled={open1}
-                                    {...props} fileList={this.state.fileList}>
+                                <Upload   disabled={open1}
+                                    {...props} >
                                     <div onClick={(e)=>{
-                                          this.alertTxt(e)
+                                           this.alertTxt(e)
                                         }}>
                                         <img src="../../../resources/images/add-img.png" />
                                     </div>

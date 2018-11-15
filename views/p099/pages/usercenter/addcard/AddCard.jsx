@@ -35,6 +35,7 @@ class Widget extends Component {
         patientType: '0',
         relationA:false,
         relationB:false,
+        kong:true,
         relationAll:'',
         showToast: false,
         showLoading: false,
@@ -121,6 +122,7 @@ class Widget extends Component {
         this.setState({
             hasErr:this.validator1(id)
         })
+
     }
     changeDefault(){
         this.setState({
@@ -139,7 +141,14 @@ class Widget extends Component {
                    this.hideLoading();
                      this.showToast();
                      const timer = setTimeout(() => {
-                         this.context.router.goBack();
+                         if(this.props.location.query.type==1){
+                             this.context.router.go(-2);
+                         }else{
+                             hashHistory.push({
+                                 pathname:'/usercenter/userlist'
+                             })
+                         }
+
                          clearTimeout(timer);
 
                      }, 2000);
@@ -305,6 +314,11 @@ class Widget extends Component {
                 patCardNo:value
             })
         }
+        if(this.state.patCardNo!=''&&this.state.idNo!=''&&this.state.patientName!=''){
+            this.setState({
+                kong:false,
+            })
+        }
     }
     showToast() {
         this.setState({showToast: true});
@@ -336,7 +350,7 @@ class Widget extends Component {
 
     }
     render() {
-    const {msg,patCardNo,idNo,patientName,toptip,hasErr,errorElement}=this.state;
+    const {msg,patCardNo,idNo,patientName,toptip,kong,errorElement}=this.state;
         return (
         <div>
             <Toast icon="success-no-circle" show={this.state.showToast}>绑定成功</Toast>
@@ -452,7 +466,7 @@ class Widget extends Component {
                     this.formSubmit()
                     }
                     }
-                    className={`binduser-btn_line ${hasErr ? 'o-disabled' : ''}`} >确定</button>
+                    className={`binduser-btn_line ${kong ? 'o-disabled' : ''}`} >确定</button>
             </div>
         </div>
         <div  className="tip1"

@@ -8,6 +8,9 @@ import * as Api from './newPhoneApi';
 import './style/index.scss';
 
 class Widget extends Component {
+    static contextTypes = {
+        router: React.PropTypes.object,
+    };
     constructor(props) {
         super(props);
         this.state = {
@@ -271,7 +274,7 @@ class Widget extends Component {
                     this.showToast();
                     const timer = setTimeout(() => {
                         clearTimeout(timer);
-                        hashHistory.push({
+                        this.context.router.replace({
                             pathname:'usercenter/home'
                        })
                     }, 2000);

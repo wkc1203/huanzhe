@@ -7,11 +7,14 @@ import { addressMap } from '../../../config/constant/constant';
 import hashHistory from 'react-router/lib/hashHistory';
 import * as Api from './confirmInfoApi';
 import 'style/index.scss';
-var imgArrs = [];
+var imgArr1 = [];
 var uuList = [];
 var interval1 = '';
+var nameList=[];
+var success=[];
 var maxLength = 0;
 var upload=true;
+var has=0;
 var imgList = [];
 class Widget extends Component {
     static contextTypes = {
@@ -137,7 +140,14 @@ class Widget extends Component {
             return m;
         }
     }
-
+    S4() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    }
+    guid() {
+        var m=this.S4()+this.S4()+"-"+this.S4()+"-"+this.S4()+"-"+this.S4()+"-"+this.S4()+this.S4()+this.S4();
+        nameList[0]=m;
+        return m;
+    }
     getJs() {
         console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
@@ -260,69 +270,72 @@ class Widget extends Component {
                 })
             });
     }
-validate(imgList){
-    if(upload){
+validate(){
     var datas = [];
+    var m2=[];
     var m=0;
-    for(var i=0;i<imgList.length;i++){
-        if(this.validateImage(imgList[i])){
-            console.log(1);
-             datas.push(imgList[i]);
-            m=i+1;
+        if(upload){
+            interval1 = setInterval(() =>{
+                if(upload){
+                    for(var i=0;i<imgList.length;i++){
+                        if(this.validateImage(imgList[i])){
+                            console.log("e",imgList.length)
+                            console.log(i,imgList[i]);
+                            datas.push(imgList[i]);
+                            if(i<=4){
+                                m2.push(imgList[i]);
+                                m++;
+                            }
+                            continue;
+                        }else{
+                            console.log('n')
+                        }
+
+                        console.log("在要"+i)
+                    }
+                    console.log(imgList,m2,this.state.imgArr)
+                    console.log(m2.length,maxLength,has)
+                    if(m2.length==m&&m!=0){
+                        console.log("yes",m2.length,m)
+                        clearInterval(interval1);
+                        this.hideLoading();
+                        this.setState({
+                            imgArr: m2,
+                        })
+                        upload=false;
+
+
+                    }
+                }
+
+            } , 2000);
+
         }
-    }
-    if(m==imgList.length){
-        clearInterval(interval1);
-        upload=false;
-        this.hideLoading();
-        if (datas.length >= 4) {
-            this.setState({
-                open1: true
-            })
-            var m2=[];
-            for (var i = 0;i< 4; i++) {
-                m2[i]=datas[i];
-                m=i+1;
-            }
 
-            this.setState({
-                imgArr: m2,
-            })
-        } else {
-            this.setState({
-                imgArr: datas,
 
-            })
 
-        }
-        if(this.state.imgArr.length==imgList.length&&imgList.length!=0){
-            upload=false;
-        }
-        imgList=[];
-        datas=[];
-
-    }}
 
 
 }
     handleChange = (info) => {
+        console.log("in");
         imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/' + uuList[0] + info.file.name);
+        maxLength=imgList.length;
         this.showLoading('上传中');
-        console.log("upl",upload);
+        console.log("upl",maxLength);
         upload=true;
-
-        interval1 = setInterval(() => this.validate(imgList), 1000);
-
-
+         this.validate(imgList);
     }
     validateImage(pathImg)
     {
         var ImgObj=new Image();
         ImgObj.src= pathImg;
         if(ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0))
-        {
+        {  has=has+1;
+            console.log("true",ImgObj.width)
             return true;
         } else {
+            console.log("false");
             return false;
         }
     }
@@ -571,39 +584,105 @@ validate(imgList){
                 s1.push(images[i])
             }
         }
-        var imgdata = [];
-        for (var j = 0; j < images.length; j++) {
-            if (url != imgList[j]) {
+        var imgdata=[];
+        for(var j=0;j<images.length;j++){
+            if(url!=imgList[j]){
                 imgdata.push(imgList[j])
             }
         }
-        imgList = imgdata;
+        imgList=imgdata;
         this.setState({
             imgArr: s1
+        });
+        this.setState({
+            fileList:[]
         })
-        if(this.state.imgArr.length<5){
+        if(this.state.imgArr.length>=4){
             this.setState({
-                open1:false
+                open1:true
             })
         }else{
             this.setState({
-                open1:true
+                open1:false
             })
         }
 
     }
 
+    imgShow(file){
+        this.handleUpload(file)
+    }
+    handleUpload(file){
+        const formData = new FormData();
+        var filename='';
+        var image=[];
+        console.log("fii",file)
+
+        filename=this.randomName() + this.guid()+file.name.substring(file.name.indexOf("."),file.name.length)
+        formData.append('key', filename);
+        formData.append("policy",this.state.sign.policy);
+        formData.append("callback",this.state.sign.callback);
+        formData.append("signature",this.state.sign.signature);
+        formData.append("OSSAccessKeyId",this.state.sign.OSSAccessKeyId);
+        formData.append('file', file);
+
+
+        console.log(formData)
+        this.setState({
+            uploading: true,
+        });
+        $.ajax({
+            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
+            success: (e) => {
+                imgArr1=this.state.imgArr;
+                imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+                success.push(file.uid)
+                for(var i=0;i<imgArr1.length;i++){
+                    if(i<=4){
+                        image.push(imgArr1[i])
+                    }
+                }
+                this.setState({
+                    uploading: false,
+                });
+                this.hideLoading();
+                this.setState({
+                    imgArr:image
+                })
+                if (this.state.imgArr.length >=5) {
+                    this.setState({
+                        open1: true
+                    })
+
+                }
+                console.log("this.sate",this.state.imgArr)
+            },
+
+            error:(e) =>{
+                console.log("this.sate",this.state.imgArr)
+            }
+        });
+    }
     render() {
         const {signature,policy,msg,callback,OSSAccessKeyId,open1,docInfo,cardList,consultList,imgArr,leftBindNum,
             selectName,sign,selectSex,selectBirthday,toptip}=this.state;
         const props = {
-            action: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
-            onChange: this.handleChange,
-            multiple: true,
-            data: {
-                ...sign,
-                key: this.randomName() + '${filename}'
-            }
+            multiple:true,
+            beforeUpload: (file) => {
+                this.showLoading('上传中');
+                this.setState(({ fileList }) => ({
+                    fileList: [...fileList, file],
+
+                }));
+                this.imgShow(file);
+                return false;
+            },
+            fileList: this.state.fileList,
         };
         return (
             <div className="page-confirm-info">
@@ -689,7 +768,7 @@ validate(imgList){
                                 >
                                 <div className="img-item">
                                     <Upload disabled={open1}
-                                        {...props} fileList={this.state.fileList}>
+                                        {...props} >
                                         <div onClick={(e)=>{
                                                   this.alertTxt(e)
                                                 }}>

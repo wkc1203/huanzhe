@@ -8,6 +8,9 @@ import * as Api from './userListApi';
 import './style/index.scss';
 
 class Widget extends Component {
+    static contextTypes = {
+        router: React.PropTypes.object,
+    };
   constructor(props) {
     super(props);
     this.state = {
@@ -131,7 +134,7 @@ class Widget extends Component {
                         .then((res) => {
                             this.hideLoading();
                             if(res.data.length > 0){
-                                hashHistory.push({
+                                this.context.router.push({
                                     pathname:'usercenter/samecard',
                                     query:{
                                         left:this.state.leftBindNum,
@@ -139,7 +142,7 @@ class Widget extends Component {
                                 })
 
                             }else{
-                                hashHistory.push({
+                                this.context.router.push({
                                     pathname:'usercenter/addcard',
                                     query:{
                                         type:0,

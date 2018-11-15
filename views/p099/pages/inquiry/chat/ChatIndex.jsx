@@ -5,14 +5,19 @@ import { addressMap } from '../../../config/constant/constant';
 import { Link } from 'react-router';
 import { Input,Upload,Anchor,Icon, Modal} from 'antd';
 const { TextArea } = Input;
-var uuList = [];
-var imgList = [];
+
 import * as Api from './chatIndexApi';
 import './style/index.scss';
 var interval = '';
 var interval1 = '';
 var interval2='';
 var upload=true;
+var uuList = [];
+var maxLength=0;
+var nameList=[];
+var success=[];
+var imgList = [];
+var imgArr1 = [];
 var opens = false;
 class Widget extends Component {
     constructor(props) {
@@ -86,6 +91,7 @@ class Widget extends Component {
             showLoading: false,
             toastTimer: null,
             loadingTimer: null,
+            imgArr:[],
             showIOS1: false,
             showIOS2: false,
             showAndroid1: false,
@@ -558,6 +564,10 @@ class Widget extends Component {
                     content: this.state.inputText,
                 });
                 this.hideLoading();
+                 this.setState({
+                     msg:'一次只能发送4张图片',
+                     showIOS1: true,
+                 })
                 this.setState({
                     inputText: ''
                 })
@@ -776,77 +786,8 @@ class Widget extends Component {
             return false;
         }
     }
-    validate(imgList){
-        var datas = [];
-        var m=0;
-        for(var i=0;i<imgList.length;i++){
-            if(this.validateImage(imgList[i])){
-                console.log(1);
-                datas.push(imgList[i]);
-                m=i+1;
-            }
-        }
-        if(m==imgList.length){
-            clearInterval(interval1);
-            this.hideLoading();
-            upload=false;
-            if (datas.length >= 4) {
-                this.setState({
-                    open1: true
-                })
-                for (var i = 0;i< 4; i++) {
-                    datas[i]=datas[i];
-                    m=i+1;
-                }
-                this.setState({
-                    imgArr: datas,
-                })
-                for(var j=0;j<this.state.imgArr.length;j++){
-                    this.send({
-                        inquiryId: this.state.inquiryId,
-                        operator: 'user',
-                        url:this.state.imgArr[j],
-                    });
-                }
-
-                this.setState({
-                    imgArr:[],
-                })
-                imgList=[];
-            } else {
-                this.setState({
-                    imgArr: datas,
-                    datas:[],
-                })
-                for(var j=0;j<this.state.imgArr.length;j++){
-                    this.send({
-                        inquiryId: this.state.inquiryId,
-                        operator: 'user',
-                        url:this.state.imgArr[j],
-                    });
-                }
-                this.setState({
-                    imgArr:[],
-                    datas:[],
-                })
-
-            }
-            clearInterval(interval1);
-            imgList=[];
-        }
 
 
-    }
-    handleChange = (info) => {
-        imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+uuList[0]+info.file.name)+"?x-oss-process=image/resize,w_105";
-        this.showLoading('发送中');
-
-        if(upload){
-            interval1 = setInterval(() => this.validate(imgList), 1000);
-
-        }        console.log(imgList);
-
-    }
     openModal() {
         this.setState({
             isShow: true
@@ -1080,22 +1021,105 @@ class Widget extends Component {
         }
     }
 
+    imgShow(file){
+        this.handleUpload(file)
+    }
+    S4() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    }
+    guid() {
+        var m=this.S4()+this.S4()+"-"+this.S4()+"-"+this.S4()+"-"+this.S4()+"-"+this.S4()+this.S4()+this.S4();
+        nameList[0]=m;
+        return m;
+    }
+    handleUpload(file){
+        const formData = new FormData();
+        var filename='';
+        var image=[];
+        console.log("fii",file)
 
+        filename=this.randomName() + this.guid()+file.name.substring(file.name.indexOf("."),file.name.length)
+        formData.append('key', filename);
+        formData.append("policy",this.state.sign.policy);
+        formData.append("callback",this.state.sign.callback);
+        formData.append("signature",this.state.sign.signature);
+        formData.append("OSSAccessKeyId",this.state.sign.OSSAccessKeyId);
+        formData.append('file', file);
+
+
+        console.log(formData)
+        this.setState({
+            uploading: true,
+        });
+        $.ajax({
+            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
+            success: (e) => {
+                imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+                console.log("ii",imgArr1)
+
+                    this.send({
+                        inquiryId: this.state.inquiryId,
+                        operator: 'user',
+                        url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
+                    });
+
+
+            },
+            error:(e) =>{
+                console.log("this.sate",this.state.imgArr)
+            }
+        });
+    }
     render() {
     const {isEvaluate,orderId,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,
         name,inquiryId,userId,showId,uId,patHisNo,score,txtNum,t1,t2,t3,t4,t5,timeShow,numEnd,pics,innerAudioContext,
         appraisalLabel,appraisal,pingShow,newScore,itemList,detail,payBack,isOk,newText ,isDuration,newItem,
         newTime,doctorName,open1,status,msg,endding,end,sign,signature,formData,policy,callback,OSSAccessKeyId,key,evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText}=this.state
         const props = {
-            action: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
-            onChange: this.handleChange,
-            multiple: true,
-            data: {
-                ...sign,
-                key: this.randomName() + '${filename}'
-            }
+            multiple:true,
+            beforeUpload: (file) => {
+                this.showLoading('发送中');
+                this.setState(({ fileList }) => ({
+                    fileList: [...fileList, file],
 
-        };
+                }));
+                if(this.state.fileList.length==maxLength&&this.state.fileList.length!=0){
+                    maxLength=0;
+                    this.setState({
+                        fileList:[]
+                    })
+                }else{
+                    maxLength++;
+                }
+
+
+                     console.log("fileList",maxLength,this.state.fileList)
+
+                     if(maxLength<=4){
+
+                          this.imgShow(file);
+                       /*   if(maxLength==this.state.fileList.length){
+                              this.setState({
+                                  fileList:[],
+                              })
+                              maxLength=0;
+                          }*/
+
+
+                     console.log("nn",maxLength)
+                 }else{
+                         maxLength=0;
+                         this.setState({fileList:[]})
+                     }
+
+                return false;
+
+        }}
         return (
             <div style={{height:'100%'}} className="chat">
                 <div className="container1"
@@ -1158,7 +1182,7 @@ class Widget extends Component {
                         {showPlus && <div className='bottom'>
 
                             {!endding && <Upload
-                                {...props} fileList={this.state.fileList}>
+                                {...props} >
                                 <div onClick={(e)=>{
                                                         this.alertTxt(e)
                                                         }}>

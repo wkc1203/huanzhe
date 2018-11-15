@@ -104,6 +104,20 @@
     }
 }
 .page-home {
+    .page-home .content .o-tab .msg-item:after {
+        content: ' ';
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        width: 9px;
+        height: 9px;
+        border-right: 2px solid #c7c7cc;
+        border-bottom: 2px solid #c7c7cc;
+        -webkit-transform: translate(-4px, -50%) rotate(-45deg);
+        -moz-transform: translate(-4px, -50%) rotate(-45deg);
+        -ms-transform: translate(-4px, -50%) rotate(-45deg);
+        transform: translate(-4px, -50%) rotate(-45deg);
+    }
     .tarbar{
         height:auto;
         width:100%;
@@ -385,8 +399,8 @@
                     top: 50%;
                     width: 9px;
                     height: 9px;
-                    border-right: 5px solid #c7c7cc;
-                    border-bottom: 5px solid #c7c7cc;
+                    border-right: 2px solid #c7c7cc;
+                    border-bottom: 2px solid #c7c7cc;
                     transform: translate(-4px, -50%) rotate(-45deg);
                 }
             }

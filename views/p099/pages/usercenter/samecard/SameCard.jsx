@@ -216,7 +216,7 @@ class Widget extends Component {
                             this.showToast();
                      const timer = setTimeout(() => {
                          clearTimeout(timer);
-                         this.context.router.goBack()
+                        this.context.router.goBack();
                      }, 2000);
                  }
              }, (e) => {
@@ -228,7 +228,7 @@ class Widget extends Component {
 
     }
     goNext(){
-        hashHistory.push({
+        this.context.router.push({
             pathname:'usercenter/addcard',
             query:{type:1}
         })

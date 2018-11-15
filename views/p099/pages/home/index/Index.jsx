@@ -12,6 +12,7 @@ class Widget extends Component {
     this.state = {
       hospInfo: {},
       isOpen:false,
+        msgList:[],
       docList:[],
         showToast: false,
         showLoading: false,
@@ -51,6 +52,7 @@ class Widget extends Component {
   componentDidMount() {
          this.selectDept('全部科室','');
         this.getJs();
+      this.getMsg();
   }
     componentWillUnmount() {
         // 离开页面时结束所有可能异步逻辑
@@ -75,6 +77,27 @@ class Widget extends Component {
             showAndroid1: false,
             showAndroid2: false,
         });
+    }
+     getMsg() {
+         Api
+             .getMsg()
+             .then((res) => {
+
+                 if(res.code==0){
+                        var s=[];
+                       for(var i=0;i<res.data.length;i++){
+                           if(i<2){
+                               s.push(res.data[i])
+                           }
+                       }
+                       this.setState({
+                           msgList:s || []
+                       })
+                 }
+             }, (e) => {
+
+             });
+
     }
     getJs(){
         Api
@@ -162,6 +185,12 @@ class Widget extends Component {
             })
         }
     }
+    switchInquiry() {
+        hashHistory.push({
+            pathname:'/inquiry/inquirylist'
+        })
+
+    }
     goDoctor(){
         hashHistory.push({
             pathname: '/consult/deptlist',
@@ -172,6 +201,7 @@ class Widget extends Component {
      const {
           isOpen,
          show,
+         msgList,
          docList,
          msg,
          }=this.state;
@@ -243,6 +273,28 @@ class Widget extends Component {
                   </div>
                 </div>
               </div>
+               {msgList.length>0&&<div >
+                   <div className='o-tab'
+                       onClick={()=>{
+                       this.switchInquiry()
+
+                       }}>
+                       <div className="msg-item">
+                           <img src="../../../resources/images/msg.png" />
+                       </div>
+                       <i/>
+                       <div>
+                          { msgList&&msgList.map((item,index)=>{
+                              return(
+                                  <div key={index}>
+                                      <span>{item.doctorName}医生回复了您。</span>
+                                  </div>
+                              )
+
+                          })}
+                       </div>
+                   </div>
+               </div>}
            </div>
              <div className='title1 rightTab'>专家推荐<div  onClick={()=>{
              this.goDoctor()
