@@ -1,0 +1,109 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+.wgt-empty-box {
+    text-align: center;
+    padding-top: 45px;
+    .hidden {
+        display: none;
+    }
+    .wgt-empty-img {
+        width: 125px;
+        height: 125px;
+        vertical-align: middle;
+    }
+    .wgt-empty-txt {
+        padding: 25px 15px;
+        font-size: 15px;
+        color: $hc-color-gray;
+    }
+}
+.m-tab {
+    background-color: #fff;
+    padding: 0 15%;
+    margin-bottom: 14px;
+    .tab-li {
+        &:after {
+            width: 1.5em;
+        }
+    }
+    .unit-tab {
+        position: relative;
+        display: flex;
+        background-color: #fff;
+
+        & > .unit-tab-li {
+            position: relative;
+            z-index: 1;
+            display: block;
+            flex: 1;
+            width: 0%;
+            font-size: 14px;
+            text-align: center;
+            color: $hc-color-title;
+            height: 47px;
+            line-height: 47px;
+            word-break: keep-all;
+            white-space: nowrap;
+            overflow: hidden;
+            user-select: none;
+            & > a {
+                display: block;
+                width: 100%;
+                height: 100%;
+                color: $hc-color-title;
+            }
+            &:after {
+                content: " ";
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                display: block;
+                width: 2.5em;
+                height: 3px;
+                background-color: $hc-color-primary;
+                transform: translateX(-50%) scaleX(0);
+                transition: all ease-out 0.2s 0.1s;
+            }
+            &.active {
+                color: $hc-color-primary;
+                &:after {
+                    transform: translateX(-50%) scale(1);
+                }
+                & > a {
+                    color: $hc-color-primary;
+                }
+            }
+        }
+    }
+}
+.item-box {
+    height: 100px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $hc-color-border;
+    padding: 0 15px;
+
+    .img-box {
+        width: 70px;
+        height: 70px;
+        img {
+            width: 70px;
+            height: 70px;
+        }
+    }
+    .list-box {
+        flex: 1;
+        padding-left: 10px;
+        .list-title {
+            font-size: 17px;
+            color: $hc-color-title;
+        }
+        .list-time {
+            font-size: 13px;
+            color: $hc-color-gray;
+        }
+    }
+
+}
