@@ -1,0 +1,14 @@
+import fetch from '../../../utils/fetch';
+
+export const getHisInfo = param => fetch.post('api/ehis/common/cache/get/branner_his', param);
+export const getPayInfo = (param) =>  fetch.post('/api/ehis/health/api/inquiry/pay', param);
+
+export const getConsultDet1 = (param) =>  fetch.post('/api/ehis/health/api/inquiry/prePay', param);
+
+export const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/getJsApiConfig', param);
+
+export const getPayInfo1 = (param) =>  fetch.post('/api/ehis/health/api/checkList/pay', param);
+
+export const getAddInfo = (param) =>  fetch.post('/api/ehis/health/api/subscribe/prePay', param);
+
+export const getSum = (param) =>  fetch.post('/api/ehis/health/api/pageview/savePageviewData', param);

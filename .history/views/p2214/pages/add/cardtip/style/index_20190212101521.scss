@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+.add-tip{
+    .main {
+        background:white;
+        div {
+            height: 40px;
+            line-height: 40px;
+            width: auto;
+            padding: 0 10px;
+            text-align: left;
+            font-size: 12px;
+            color: #333;
+            border-bottom: 1px solid #f2f2f2;
+            span {
+                font-weight: bold;
+
+            }
+            p{
+                line-height: 20px;
+                padding: 5px 0px;
+            }
+
+        }
+        .tip-content{
+            height:auto;
+        }
+    }
+    .tip-btn{
+        height: 50px;
+        margin:20px 10px;
+        .cancel{
+            width: 150px;
+            display: inline-block;
+            background: #cfcfcf;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: white;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            margin-right: 50px;
+            margin-left: 23px;
+        }
+        .confirm{
+            width: 140px;
+            display: inline-block;
+            background: #4cabcf;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: white;
+            border-radius: 5px;
+        }
+    }
+   
+}

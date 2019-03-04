@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+.add-tip{
+    .main {
+        background:white;
+        div {
+            height: 40px;
+            line-height: 40px;
+            width: auto;
+            padding: 0 10px;
+            text-align: left;
+            font-size: 12px;
+            color: #333;
+            border-bottom: 1px solid #f2f2f2;
+            span {
+                font-weight: bold;
+
+            }
+            p{
+                line-height: 20px;
+                padding: 5px 0px;
+            }
+
+        }
+        .tip-content{
+            height:auto;
+        }
+    }
+}

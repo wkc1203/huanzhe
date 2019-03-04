@@ -1,0 +1,112 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+.add-tip{
+    .modal{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background:rgba(0,0,0,0.6);
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+        .modal-body{
+            width: 75%;
+            box-sizing: border-box;
+            border-radius: 4px;
+            background: #fff;
+            margin-top: 50%;
+            .modal-title{
+                padding: 25px 0 8px;
+                font-size: 18px;
+                color: #000;
+                text-align: center;
+            }
+            .modal-content{
+                padding: 0 13px 15px;
+                overflow: auto;
+                font-size: 15px;
+                color: #888;
+                line-height: 1.5;
+                text-align: center;
+            }
+            .modal-footer{
+                border-top: 1px solid #E5E5E5;
+                display: flex;
+                >span{
+                    flex: 1;
+                    box-sizing: border-box;
+                    text-align: center;
+                    color: #000;
+                    font-size: 18px;
+                    height: 50px;
+                    line-height: 50px;
+                    width: auto;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    &:last-child{
+                        border-left: 1px solid #d2d2d2;
+                        color: rgb(77,171,199);
+                    }
+                }
+            }
+        }
+    }
+    .main {
+        background:white;
+        div {
+            height: 40px;
+            line-height: 40px;
+            width: auto;
+            padding: 0 10px;
+            text-align: left;
+            font-size: 12px;
+            color: #333;
+            border-bottom: 1px solid #f2f2f2;
+            span {
+                font-weight: bold;
+
+            }
+            p{
+                line-height: 20px;
+                padding: 5px 0px;
+            }
+
+        }
+        .tip-content{
+            height:auto;
+        }
+    }
+    .tip-btn{
+        height: 50px;
+        margin:20px 10px;
+        .cancel{
+            width: 150px;
+            display: inline-block;
+            background: #cfcfcf;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: white;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            margin-right: 50px;
+            margin-left: 10px;
+        }
+        .confirm{
+            width: 140px;
+            display: inline-block;
+            background: #4cabcf;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            color: white;
+            border-radius: 5px;
+        }
+    }
+   
+}
