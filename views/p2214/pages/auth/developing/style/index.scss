@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+
+.develop-page{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.m-develop{
+    flex: 1;
+    .develop-img{
+        text-align: center;
+        img{ 
+            width: 125px;
+                height: 125px;
+                vertical-align: middle;
+        }
+    }
+    .develop-txt{
+        text-align: center;
+        padding: 0 15px;
+        margin-top: 30px;
+        font-size: 15px;
+        color: $hc-color-text;
+    }
+}

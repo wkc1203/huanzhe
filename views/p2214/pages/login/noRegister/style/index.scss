@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+
+
+.noregister{
+    img{
+        width: 50%;
+        height: 50%;
+        margin: 100px 25% 0 25%;
+    }
+    p{
+        height: 40px;
+        line-height: 40px;
+        font-size: 15px;
+        text-align: center;
+        color: black;
+        span{
+            color:red;
+        }
+    }
+}

@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+
+.page1-pay {
+
+    .m-gif{
+        text-align: center;
+        padding-top: 40px;
+
+    }
+    .m-text{
+        font-size: 18px;
+        text-align: center;
+        color: $hc-color-title;
+        padding: 0 15px;
+        margin-top: 10px;
+    }
+    .m-time{
+        margin-top: 10px;
+        font-size: 17px;
+        text-align: center;
+        color: $hc-color-warn;
+        padding: 0 15px;
+    }
+    .m-tips{
+        opacity: 0.8;
+        font-size: 15px;
+        color: $hc-color-primary;
+        text-align: center;
+        padding: 0 15px;
+        margin-top: 150px;
+    }
+}

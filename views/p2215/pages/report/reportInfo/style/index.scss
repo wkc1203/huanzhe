@@ -1,0 +1,77 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.page-report-info {
+    .reportInfo{
+        margin-top: 44px;
+        .infoTop{
+            height: auto;
+            padding: 10px;
+            background: white;
+
+            p{
+                font-size: 14px;
+                font-weight: bold;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+            }
+            .qrCode{
+                height: 50px;
+            }
+        }
+        .infoBasic{
+            height: auto;
+            padding: 10px;
+            background: white;
+            div{
+            display: flex;
+            height: 35px;
+            line-height: 35px;
+            text-align: left;
+            p{
+                font-size:12px;
+                text-align: left;
+                &:first-child{
+                    flex: 1.2;
+                }
+                &:last-child{
+                    flex: 1;
+                }
+            }
+          }
+        }
+        .reportResult{
+           
+            p{
+                height: 34px;
+                font-size: 14px;
+                font-weight: bold;
+                color: #333;
+                display: flex;
+                align-items: flex-end;
+                padding: 10px 10px;
+             }
+             .resultInfo{
+                background: white;
+                height: 100%;
+                padding: 10px 10px 80px 10px;
+                .name{
+                    height: 30px;
+                    line-height: 30px;
+                    font-size: 14px;
+                    text-align: left;
+                
+                }
+                .number{
+                    font-size: 12px;
+                    color: #4dabc7;
+                }
+             }
+        }
+
+    }
+
+    
+}

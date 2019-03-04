@@ -1,0 +1,32 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.page-report-list {
+   .reportList{
+    height: auto;
+    margin-top: 44px;
+    .reportItem{
+        background: white;
+    margin-top: 10px;
+    height: 100%;  
+    text-align: left;
+    padding: 0px 10px;
+    .name{
+        font-size: 15px;
+    color: #333;
+    display: flex;
+    height: 40px;
+    line-height: 30px;
+    align-items: flex-end;
+    }
+    .time{
+        font-size: 12px;
+        color: #999;
+        height: 30px;
+        align-items: flex-start;
+        margin-bottom: 3px;
+    }
+    }
+   }
+}
