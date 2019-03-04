@@ -19,6 +19,13 @@
             }
             .qrCode{
                 height: 50px;
+                text-align: center;
+                svg{
+                    width:330px;
+                    height:55px;
+                    margin: 0 auto;
+                    display: block;
+                }
             }
         }
         .infoBasic{
@@ -34,7 +41,7 @@
                 font-size:12px;
                 text-align: left;
                 &:first-child{
-                    flex: 1.2;
+                    flex:1;
                 }
                 &:last-child{
                     flex: 1;
@@ -45,30 +52,60 @@
         .reportResult{
            
             p{
-                height: 34px;
-                font-size: 14px;
-                font-weight: bold;
+                height: 30px;
+                font-size: 12px;
+                line-height: 30px;
                 color: #333;
                 display: flex;
                 align-items: flex-end;
-                padding: 10px 10px;
+                padding: 0px 10px;
              }
              .resultInfo{
+                 margin-bottom:10px;
                 background: white;
                 height: 100%;
-                padding: 10px 10px 80px 10px;
-                .name{
-                    height: 30px;
-                    line-height: 30px;
+                padding: 10px 10px 10px 10px;
+                display:flex;
+                .basic{
+                    flex:2;
+                    .name{
+                        height: 30px;
+                        line-height: 30px;
+                        font-size: 14px;
+                        text-align: left;
+                    
+                    }
+                    .number{
+                        font-size: 12px;
+                        color: #4dabc7;
+                    }
+                }
+                .result{
+                    flex:1;
+                    height: 42px;
+                    text-align: right;
+                    line-height: 52px;
                     font-size: 14px;
-                    text-align: left;
+                    img{
+                        width: 8px;
+                        height: 16px;
+                        vertical-align: middle;
+                    }
+                }
                 
-                }
-                .number{
-                    font-size: 12px;
-                    color: #4dabc7;
-                }
              }
+             .resultInfo1{
+                margin-bottom:10px;
+               background: white;
+               height: 100%;
+               padding: 10px 10px 10px 10px;
+                div{
+                    font-size:14px;
+                    padding-bottom: 5px;
+                }              
+             
+               
+            }
         }
 
     }

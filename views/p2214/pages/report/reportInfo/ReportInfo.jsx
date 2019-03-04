@@ -4,6 +4,8 @@ import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
 import * as Api from './reportInfoApi';
 import './style/index.scss';
+import JsBarcode from 'jsbarcode';
+
 import hashHistory from 'react-router/lib/hashHistory';
 class Widget extends Component {
     static contextTypes = {
@@ -51,13 +53,44 @@ class Widget extends Component {
         patList: [],
         item1Show:true,//咨询显示
         item3Show:false,//检查单显示
+        report:'',
+        patient:'',
     }
   }
   componentDidMount() {
-      this.showLoading();
         this.getJs();
-      this.getCardList();
-      this.getOrderList();
+        this.setState({
+            report:JSON.parse(this.props.location.query.report),
+            patient:JSON.parse(this.props.location.query.patient),
+        })
+        window.scrollTo(0,0); 
+        var report=JSON.parse(this.props.location.query.report);
+         console.log(report)
+        if(report.type=='2'){
+            console.log(report.Exam_no)
+               //生成条形码
+         JsBarcode(this._barcodeSVG, report.Exam_no,
+            {
+                displayValue: false,  //  不显示原始值
+                textMargin:5,//设置条形码和文本之间的间距
+                fontSize:15,//设置文本的大小
+                width: 3  // 线条宽度
+            }
+        );
+        }
+        if(report.type=='1'){
+            console.log(report.Test_no)
+              //生成条形码
+         JsBarcode(this._barcodeSVG,report.Test_no,
+            {
+                displayValue: false,  //  不显示原始值
+                textMargin:5,//设置条形码和文本之间的间距
+                fontSize:15,//设置文本的大小
+                width: 3  // 线条宽度
+            }
+         )
+        }
+      
   }
     showToast() {
         this.setState({showToast: true});
@@ -211,16 +244,15 @@ class Widget extends Component {
     }
 
   render() {
-    const {item1Show,item2Show,item3Show,clickItem,isPatShow,orderList,patList,msg}=this.state
+    const {report,patient,item3Show,clickItem,isPatShow,orderList,patList,msg}=this.state
     return (
     <div className="container page-report-info">
         <div className="home" style={{position:'fixed',width:'100%',top:'0'}}><span className="jian"
                                     onClick={()=>{
-                                      this.context.router.push({
-                                       pathname:'usercenter/home'
-                                      })
+                                        
+                                            window.history.back();
                                       }}
-            ></span>订单管理
+            ></span>报告详情
         </div>
         <Toast icon="success-no-circle" show={this.state.showToast}>修改成功</Toast>
         <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
@@ -230,50 +262,87 @@ class Widget extends Component {
            <div className='infoTop'>
               <p>条形码（用于医院拿实体报告）</p>
                <div className='qrCode'>
-                 <img src="" alt=""/>
+               <svg ref={(ref)=>this._barcodeSVG = ref}></svg>
                </div>
            </div>
            <div className='infoBasic'>
                     <div>
-                    <p>姓名：张大大</p>
-                    <p>性别：男</p>
+                    <p>姓名 : {patient.patientName}</p>
+                    <p>性别 : {patient.patientSex=='M'?'男':'女'}</p>
                     </div>
                     <div>
-                        <p>出生日期：2018-09-12</p>
-                        <p>检查科室：血液分析</p>
+                        <p>出生日期 : {patient.birthday}</p>
+                        <p>检查科室 : {report.Performed_dept_name}</p>
                     </div>
-                    <div>
-                        <p>检查时间：2014-05-15 14：12</p>
-                        <p>标本类型：拇指血</p>
-                    </div>
-                    <div>
-                        <p>送检项目：血液分析</p>
-                        <p>发布时间：2017-06-18 14：52</p>
-                </div>
-                    <div>
-                        <p>样本编号：1452222</p>
-                        <p>流水号：125222</p>
-                </div>
-                    <div>
-                        <p>执行医生：国庆</p>
-                </div>
+                    {report.type=='1'&&<div>
+                        <p>检查时间 : {report.Requested_date_time}</p>
+                      
+                    </div>}
+                    {report.type=='2'&&<div>
+                        <p>检查时间 : {report.Req_date_time}</p>
+                      
+                    </div>}
+                   {report.type=='1'&&<div>
+                        <p>送检项目 : {report.Sheet_title}</p>
+                    </div>}
+                    {report.type=='2'&&<div>
+                    <p>送检项目 : {report.Exam_item}</p>
+                   </div>}
 
-              <div className='img'>
-              </div>
+                    {report.type=='1'&&<div>
+                        <p>发布时间 : {report.Results_rpt_date_time}</p>
+                    </div>}
+              
+                    {report.type=='2'&&<div>
+                        <p>流水号 : {report.Exam_no}</p>
+                    </div>}
+                    {report.type=='1'&&<div>
+                        <p>流水号 : {report.Test_no}</p>
+                    </div>}
+
+            
            </div>
            <div className='reportResult'>
-             <p>检查结果</p>
-             <div className='resultInfo'>
-               <div className='name'>
-                 白细胞
-               </div>
-               <div className='number'>
-                 参考值 4.0-1.0*12
-               </div>
-             </div>
+           {report.type=='1'&&<p>检验结果</p>}
+           {report.type=='2'&&<p>检查结果</p>}
+           {report.type=='1'&&report.report_result&&report.report_result.map((item,index)=>{
+            return(
+                <div className='resultInfo' key={index}>
+                   <div className='basic'>
+                        <div className='name'>
+                        {item.Report_item_name}
+                            </div>
+                            <div className='number'>
+                                参考值: {item.Normal_value_interval?item.Normal_value_interval:'暂无'} {item.Normal_value_interval?item.Units:''}
+                            </div>
+               
+                   </div>
+                    <div className='result'>
+                    {item.Abnormal_indicator=="↓"?<img
+                    src="./././resources/images/high.png"></img>:''}
+                    {item.Abnormal_indicator=="↑"?<img
+                    src="./././resources/images/below.png"></img>:''} {item.Result} {item.Units}  
+                    </div>
+                      
+                </div>
+            )
+        })}
+        {report.type=='2'&&report.report_result&&report.report_result.map((item,index)=>{
+            return(
+                <div className='resultInfo1' key={index}>
+                   {item.Exam_para&&item.Exam_para!=''&&<div>检查参数：{item.Exam_para}</div>}
+                   {item.Description&&item.Description!=''&&<div>检查所见：{item.Description}</div>}
+                   {item.Impression&&item.Impression!=''&&<div>印象：{item.Impression}</div>}
+                   {item.Memo&&item.Memo!=''&&<div>建议：{item.Memo}</div>}
+                      
+                </div>
+            )
+        })}    
+       
+              
+             
            </div>
-           
-        
+
         </div>  
     </div>
     );
