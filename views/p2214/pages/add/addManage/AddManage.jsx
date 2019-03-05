@@ -42,6 +42,7 @@ class Widget extends Component {
         loadingTimer: null,
         showIOS1: false,
             showIOS2: false,
+            showIOS3: false,
             showAndroid1: false,
             showAndroid2: false,
             style1: {
@@ -64,6 +65,14 @@ class Widget extends Component {
                         type: 'primary',
                         label: '确定',
                         onClick: this.hideDialog.bind(this)
+                    }
+                ]
+            },
+            style3: {
+                buttons: [
+                    {
+                        label: '立即完善',
+                        onClick: this.finishInfo.bind(this)
                     }
                 ]
             },
@@ -92,9 +101,20 @@ hideDialog() {
     this.setState({
         showIOS1: false,
         showIOS2: false,
+        showIOS3:false,
         showAndroid1: false,
         showAndroid2: false,
     });
+}
+finishInfo() {
+    this.setState({
+        showIOS1: false,
+        showIOS2: false,
+        showIOS3:false,
+        showAndroid1: false,
+        showAndroid2: false,
+    });
+    window.location.href='https://wx.cqkqinfo.com/wx3/p/03/p/patient_info_modify.cgi?cardNo='+this.state.info.orderCarNo+'&companyCode=netHospital&backUrl='+window.location.origin+'/views/p2214/#/usercenter/home'
 }
   componentDidMount() {
       this.getJs();
@@ -252,13 +272,24 @@ hideDialog() {
                         hospitalTradeno:res.data.hospitalTradeno,
                         hospitalUserId:res.data.hospitalUserId,
                     });
+                     //暂停   是res.data.memo
+               /*   if(res.data.memo='患者大于1岁，请登记患者本人身份证！'){
+                    this.setState({
+                        showIOS3:true,
+                    })
+                }  */
+
                     console.log("info",this.state.info)
                 }
             }, (e) => {
                  this.hideLoading();
-                this.setState({
-                    hasData:false,
-                })
+                
+                
+                    this.setState({
+                        hasData:false,
+                    })
+                 
+                
                 console.log("info",this.state.info)
             });
     }
@@ -405,6 +436,10 @@ hideDialog() {
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
                     show={this.state.showIOS1}>
                 {msg}
+            </Dialog>
+            <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons}
+                    show={this.state.showIOS3}>
+               请先完善资料，才能完成加号
             </Dialog>
             {hasData&&<div className="container">
                 {info.orederStatus!=='2'&&info.orederStatus=='0'&&info.isPay=='0'&&info.isVisit=='0'&&

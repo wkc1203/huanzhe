@@ -6,8 +6,10 @@ import { Link } from 'react-router';
 import { ImagePicker } from 'antd-mobile';
 import { Input,Upload,Anchor,Icon, Modal} from 'antd';
 const { TextArea } = Input;
+import hashHistory from 'react-router/lib/hashHistory';
 
 import * as Api from './chatIndexApi';
+import * as Utils from '../../../utils';
 import './style/index.scss';
 var interval = '';
 var interval1 = '';
@@ -20,7 +22,7 @@ var success=[];
 var imgList = [];
 var imgArr1 = [];
 var opens = false;
-import hashHistory from 'react-router/lib/hashHistory';
+var socket='';
 class Widget extends Component {
     static contextTypes = {
         router: React.PropTypes.object,
@@ -165,11 +167,10 @@ class Widget extends Component {
         document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height
         );
         
-         interval = setInterval(() => this.getChat(1), 1000);
+        /* interval = setInterval(() => this.getChat(1), 1000);
            this.setState({
-              interval:interval
-         })
-        
+                interval:interval
+         }) */
 
     }
 
@@ -202,18 +203,116 @@ class Widget extends Component {
                 })
             });
     }
+    componentWillMount(){
+        this.mounted = true;
+     
+    }
+    
     componentWillUnmount() {
         imgList=[];
-        this.setState({
-            imgArr:[],
-            imgArr1:[],
-        })
-        document.getElementsByTagName("body")[0].setAttribute("style", "position:inherit")
+        this.mounted = false;
+        if(this.mounted){
+            this.setState({
+                imgArr:[],
+                imgArr1:[],
+            })  
+        }
         clearInterval(this.state.interval);
         clearInterval(this.state.interval1);
-        clearInterval(this.state.interval2);  
+        clearInterval(this.state.interval2); 
+         console.log("ssstate",this.state.status);
+      /*   if(this.state.status=='0'||this.state.status=='1'){
+           console.log("socketa",socket);
+           socket.disconnect();
+           console.log("eeee",socket)
+        }     */  
+          document.getElementsByTagName("body")[0].setAttribute("style", "position:inherit")
+         
     }
-    /*将这毫秒数转为日期时间*/
+  
+    timestampFordate(timeStamp, type = 'Y-M-D H:I:S', auto = false){
+        let time = (timeStamp + '').length === 10 ? new Date(parseInt(timeStamp) * 1000) : new Date(parseInt(timeStamp));
+        let _year = time.getFullYear();
+        let _month = (time.getMonth() + 1) < 10 ? '0' + (time.getMonth() + 1) : (time.getMonth() + 1);
+        let _date = time.getDate() < 10 ? '0' + time.getDate() : time.getDate();
+        let _hours = time.getHours() < 10 ? '0' + time.getHours() : time.getHours();
+        let _minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+        let _secconds = time.getSeconds() < 10 ? '0' + time.getSeconds() : time.getSeconds();
+        let formatTime = '';
+        let distinctTime = new Date().getTime() - time.getTime();
+      
+        if (auto) {
+            if (distinctTime <= (1 * 60 * 1000)) {
+                // console.log('一分钟以内，以秒数计算');
+                let _s = Math.floor((distinctTime / 1000) % 60);
+                formatTime = _s + '秒前';
+            } else if (distinctTime <= (1 * 3600 * 1000)) {
+                // console.log('一小时以内,以分钟计算');
+                let _m = Math.floor((distinctTime / (60 * 1000)) % 60);
+                formatTime = _m + '分钟前';
+            } else if (distinctTime <= (24 * 3600 * 1000)) {
+                // console.log('一天以内，以小时计算');
+                let _h = Math.floor((distinctTime / (60 * 60 * 1000)) % 24);
+                formatTime = _h + '小时前';
+            } else if (distinctTime <= (30 * 24 * 3600 * 1000)) {
+                let _d = Math.floor((distinctTime / (24 * 60 * 60 * 1000)) % 30);
+                formatTime = _d + '天前';
+                // console.log('30天以内,以天数计算');
+            } else {
+                // 30天以外只显示年月日
+                formatTime = _year + '-' + _month + '-' + _date;
+            }
+        } else {
+      
+            switch (type) {
+                case 'Y-M-D H:I:S':
+                    formatTime = _year + '-' + _month + '-' + _date + ' ' + _hours + ':' + _minutes + ':' + _secconds;
+                    break;
+                case 'Y-M-D H:I:S zh':
+                    formatTime = _year + '年' + _month + '月' + _date + '日  ' + _hours + ':' + _minutes + ':' + _secconds;
+                    break;
+                case 'Y-M-D H:I':
+                    formatTime = _year + '-' + _month + '-' + _date + ' ' + _hours + ':' + _minutes;
+                    break;
+                case 'Y-M-D H':
+                    formatTime = _year + '-' + _month + '-' + _date + ' ' + _hours;
+                    break;
+                case 'Y-M-D':
+                    formatTime = _year + '-' + _month + '-' + _date;
+                    break;
+                case 'Y-M-D zh':
+                    formatTime = _year + '年' + _month + '月' + _date + '日';
+                    break;
+                case 'Y-M':
+                    formatTime = _year + '-' + _month;
+                    break;
+                case 'Y':
+                    formatTime = _year;
+                    break;
+                case 'M':
+                    formatTime = _month;
+                    break;
+                case 'D':
+                    formatTime = _date;
+                    break;
+                case 'H':
+                    formatTime = _hours;
+                    break;
+                case 'I':
+                    formatTime = _minutes;
+                    break;
+                case 'S':
+                    formatTime = _secconds;
+                    break;
+                default:
+                    formatTime = _year + '-' + _month + '-' + _date + ' ' + _hours + ':' + _minutes + ':' + _secconds;
+                    break;
+            }
+        }
+        // 返回格式化的日期字符串
+        return formatTime;
+      }
+          /*将这毫秒数转为日期时间*/
     dateTime(time) {
 // 首先把它换成("2018-03-22 02:24:51.000+0000") 然后截取到秒 再进行转换就可以了
         var newTime = time.replace("T", " ");
@@ -288,80 +387,105 @@ class Widget extends Component {
             .getChat({inquiryId: this.props.location.query.inquiryId, operator: 'user'})
             .then((res) => {
                 if (res.code == 0) {
-                    this.setState({
-                        patientName: res.data.inquiry.patientName,
-                        patCardNo: res.data.inquiry.patCardNo,
-                        userId: res.data.inquiry.userId,
-                        uId: res.data.inquiry.userId,
-                        orderId: res.data.inquiry.orderId,
-                        patHisNo: res.data.patient.patHisNo,
-                        status: res.data.inquiry.status,
-                        freeReport:res.data.inquiry.purposeType=='9'?true:false
-                    })
+                    if(this.mounted){
+                        this.setState({
+                            patientName: res.data.inquiry.patientName,
+                            patCardNo: res.data.inquiry.patCardNo,
+                            userId: res.data.inquiry.userId,
+                            uId: res.data.inquiry.userId,
+                            orderId: res.data.inquiry.orderId,
+                            patHisNo: res.data.patient.patHisNo,
+                            status: res.data.inquiry.status,
+                            freeReport:res.data.inquiry.purposeType=='9'?true:false
+                        })
+                    }
+                   
                     if(type==3){
                         this.getDocDet(res.data.inquiry.orderId);
                     }
                     if(res.data.inquiry.status!='0'&&res.data.inquiry.status!='1') {
                         this.getEvaluate(res.data.inquiry.orderId);
                     }
-                     if(this.state.freeReport){
-                        if(res.data.inquiry.finishTime){
-                            var dd = 172800000 + res.data.inquiry.finishTime;
+
+                     
+                      interval = setInterval(() => {
+                        if(this.state.freeReport){
+                            if(res.data.inquiry.finishTime){
+                                var dd = 172800000 + res.data.inquiry.finishTime;
+                                var d = new Date().getTime();
+                                if(this.mounted){
+                                this.setState({
+                                    timeShow: !!this.MillisecondToDate(dd - d).toString() ? this.MillisecondToDate(dd - d).toString() : '',
+                                    totalNum: 5
+                                })
+                            }
+                        }
+                           
+                        }else{
+                            var dd = 172800000 + res.data.inquiry.createTime;
                             var d = new Date().getTime();
+                            if(this.mounted){
                             this.setState({
                                 timeShow: !!this.MillisecondToDate(dd - d).toString() ? this.MillisecondToDate(dd - d).toString() : '',
                                 totalNum: 5
                             })
                         }
-                       
-                    }else{
-                        var dd = 172800000 + res.data.inquiry.createTime;
-                        var d = new Date().getTime();
-                        this.setState({
-                            timeShow: !!this.MillisecondToDate(dd - d).toString() ? this.MillisecondToDate(dd - d).toString() : '',
-                            totalNum: 5
-                        })
-                    }              
+                    }
+                      }, 1000);
+                      if(this.mounted){
+                    this.setState({
+                            interval:interval
+                    })   
+                }           
                           if (res.data.items.length > 0) {
+                            if(this.mounted){
                         this.setState({
                             isEvaluate: res.data.inquiry.status == '3',
                             totalNum: 5,
                             orderId: res.data.inquiry.orderId
                         })
                     }
+                }
                     var items = res.data.items;
                     for (var i = 0; i < items.length; i++) {
                         if (items[i].direction == 'TO_DOCTOR' && !!items[i].content && items[i].type == 'BIZ') {
                             var totalNum = this.state.totalNum;
                             totalNum--;
                             var numEnd = totalNum;
+                            if(this.mounted){
                             this.setState({
                                 totalNum: totalNum,
                                 numEnd: numEnd
                             })
                         }
                     }
+                    }
                     if (!this.state.endding && res.data.inquiry.status != '3' && res.data.inquiry.status != '2') {
                         if (this.state.numEnd <= 0) {
+                            if(this.mounted){
                             this.setState({
                                 numEnd: 0,
                                 endding: true,
                             })
                         }
                     }
+                    }
                     if (res.code == 0) {
-
+                        if(this.mounted){
                         this.setState({
                             list: res.data.items.reverse(),
                             fee: res.data.inquiry.totalFee,
                             orderId: res.data.inquiry.orderId,
                             doctorName: res.data.inquiry.doctorName,
                         })
+                    }
                         for(var j=0;j<this.state.list.length;j++){
                             if(this.state.list[j].direction=='TO_USER'&&this.state.list[j].type=='BIZ'){
+                                if(this.mounted){
                                 this.setState({
                                     noDoctor:true
                                 })
+                            }
                                 break;
                             }
                         };
@@ -370,18 +494,24 @@ class Widget extends Component {
                             var nowTime=new Date().getTime();
                             console.log("TIME",startTime,nowTime);
                              if(nowTime-startTime<=36000000){
+                                if(this.mounted){
                                  this.setState({
                                      canEnd:false
                                  })
+                                }
                              }else{
+                                if(this.mounted){
                                 this.setState({
                                     canEnd:true
                                 })
+                            }
                              }  
                         }else{
+                            if(this.mounted){
                             this.setState({
                                 canEnd:true
                             })
+                        }
                         }
                         console.log("list551",window.localStorage.getItem('first'));
                         if(this.state.canStop){
@@ -394,9 +524,11 @@ class Widget extends Component {
                                       match[i].play3=false;
                                   }
                               }
+                              if(this.mounted){
                            this.setState({
                                match:match
                            })
+                        }
                         
                        }
 
@@ -408,17 +540,21 @@ class Widget extends Component {
                                     var s=document.getElementsByClassName("content3")[0].scrollHeight;
                                     document.getElementsByClassName("content3")[0].scrollTop=500000;
                                     console.log(s,document.getElementsByClassName("content3")[0].scrollTop);
+                                    if(this.mounted){
                                     this.setState({
                                         inquiryList:res.data.items.length
                                     })
+                                }
                                     if(type==3){
                                         this.hideLoading();
                                     }
                                 }else{
+                                    if(this.mounted){
                                     this.setState({
                                         scroll:true
                                     })
                                 }
+                            }
                                 if (height < 500) {
                                     document.getElementsByTagName("body")[0].setAttribute("style", "position:fixed")
                                 } else {
@@ -430,20 +566,86 @@ class Widget extends Component {
                         },2000)
 
                         if (res.data.inquiry.refundStatus ==1) {
+                            if(this.mounted){
                             this.setState({
                                 payBack: false
                             })
                         }
+                        }
                         if (res.data.inquiry.status != 1 && res.data.inquiry.status != 0) {
+                            if(this.mounted){
                             this.setState({
                                 isEnd: true
                             })
-                            clearInterval(this.state.interval);
                         }
-                        
+                          //  clearInterval(this.state.interval);
+                        }else{
+                            console.log("sss1")
+                            
+                             var that=this; 
+                              if(type==3){
+                              //  socket = io.connect('wss://tih.cqkqinfo.com/?inquiryId=1551686053952&doctorId=doctor900');
+
+                               socket = io.connect("wss://tih.cqkqinfo.com/?inquiryId="+that.props.location.query.inquiryId+"&userId=user"+that.state.userId,{'reconnect': true });
+                                  console.log("socket1",socket);
+                                   
+                               socket.on('connect',function(data){ 
+                               })
+                               socket.on('inquiry_withdraw',function(data){ 
+                                that.getChat(1);
+                            })  
+                               socket.on("inquiry_message",function(data){
+                                    that.getChat(1)
+                                    /* var list=that.state.list;
+                                    var current=data;
+                                    var currentunixTimestamp =that.timestampFordate(current.createTime,'Y-m-d H:i:s',false);
+                                     var updateunixTimestamp =that.timestampFordate(current.updateTime,'Y-m-d H:i:s',false);
+                                     current.createTime=currentunixTimestamp;
+                                     current.updateTime=updateunixTimestamp;
+                                     console.log("cuurent",current)
+                                    list.push(current);
+                                    that.setState({
+                                        list:list   
+                                    })
+                                    if(that.state.canStop){
+                                        var match=that.state.list;
+                                          for(var i=0;i<match.length;i++){
+                                              if(match[i].voiceTime>0){
+                                                  match[i].stopPlay=true;
+                                                  match[i].play1=false;
+                                                  match[i].play2=false;
+                                                  match[i].play3=false;
+                                              }
+                                          }
+                                          that.setState({
+                                           match:match
+                                       })
+                                    
+                                   }
+                                    var s=document.getElementsByClassName("content3")[0].scrollHeight;
+                                     document.getElementsByClassName("content3")[0].scrollTop=500000;
+                                     console.log(s,document.getElementsByClassName("content3")[0].scrollTop);
+                                    console.log("datasocket",list); */
+                               })
+                              /*  socket.on("disconnect", function() {
+                                console.log("dddd")
+                             }); */
+                               socket.on("inquiry_close",function(data){
+                                    console.log("ccclosehaha")
+                                setTimeout(function(){
+                                      console.log(data);
+                                      if(data.inquiryId=that.state.inquiryId){
+                                        that.getChat();
+                                       // socket.disconnect();
+                                      }
+                                },1000)
+                           })
+                           
+                          }    
+                     }
                     }
                 }
-            }, (e) => {
+                        }, (e) => {
                 this.hideLoading();
                /* this.setState({
                     msg: e.msg,
@@ -453,17 +655,22 @@ class Widget extends Component {
     }
 
     showToast() {
+        if(this.mounted){
         this.setState({showToast: true});
-
+        }
         this.state.toastTimer = setTimeout(()=> {
+            if(this.mounted){
             this.setState({showToast: false});
+            }
         }, 2000);
     }
     showLoading() {
+        if(this.mounted){
         this.setState({showLoading: true});
-
+        }
         this.state.loadingTimer = setTimeout(()=> {
-            this.setState({showLoading: false});
+            if(this.mounted){
+            this.setState({showLoading: false});}
         }, 2000);
     }
 
@@ -628,15 +835,17 @@ class Widget extends Component {
         this.showLoading("发送中")
         if (!this.state.endding) {
             if (this.state.inputText != '') {
+                if(this.mounted){
                 this.setState({
                     msgText: this.state.msgText == null ? '' : null
-                })
+                })}
                 this.send({
                     inquiryId: this.state.inquiryId,
                     operator: 'user',
                     content: this.state.inputText,
                 });
                 this.hideLoading();
+                if(this.mounted){
                  this.setState({
                      msg:'一次只能发送4张图片',
                      showIOS1: true,
@@ -645,11 +854,14 @@ class Widget extends Component {
                     inputText: ''
                 })
             }
+            }
         } else {
             this.hideLoading();
+            if(this.mounted){
             this.setState({
                 isOk: true
             })
+        }
         }
     }
     /*发送信息*/
@@ -659,9 +871,11 @@ class Widget extends Component {
         window.scrollTo(0,0);
         if (!this.state.endding) {
             if (this.state.inputText != '') {
+                if(this.mounted){
                 this.setState({
                     msgText: this.state.msgText == null ? '' : null
                 })
+            }
                 this.send({
                     inquiryId: this.state.inquiryId,
                     operator: 'user',
@@ -670,9 +884,11 @@ class Widget extends Component {
                
             }
         } else {
+            if(this.mounted){
             this.setState({
                 isOk: true
             })
+        }
         }
     }
    /*获取焦点事件*/
@@ -699,25 +915,31 @@ class Widget extends Component {
         this.showLoading();
         Api.sendMsg(param)
             .then((res) => {
+                if(this.mounted){
                 this.setState({
                     isBtn: false,
                     inputText: '',
                 })
+            }
                 this.hideLoading();
                 if (res.code == 0) {
+                    if(this.mounted){
                     this.setState({
                         imgArr:[]
                     })
+                }
                      imgList=[];
                    this.getChat(2);
                 }
             }, (e) => {
                 this.getChat(2);
                 this.hideLoading();
+                if(this.mounted){
                 this.setState({
                     msg: e.msg,
                     showIOS1: true
                 })
+            }
             });
     }
    /*隐藏添加图片*/
@@ -1596,7 +1818,7 @@ class Widget extends Component {
                                         <div className='date'>{item.updateTime}</div>}
                                         {item.type == 'BIZ' && item.userIsShow == '0' &&item.doctorIsShow == '0'&&
                                         <div
-                                            className={`msg `} style={{textAlign:'center'}}>
+                                            className={`msg `} style={{textAlign:'center',color:'#ccc',background:'#f2f2f2'}}>
                                             医生撤回了一条消息
                                         </div>}
                                         {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' && item.voiceTime == 0 &&

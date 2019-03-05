@@ -101,6 +101,7 @@ class Widget extends Component {
                 this.sure();
             }
         }, (e) => {
+          
             this.setState({
                 msg:e.msg,
                 showIOS1: true
@@ -187,6 +188,7 @@ hideDialog() {
                         this.sure();
                   }
                }}
+
            >同意并预约</span>
        </div>
 
