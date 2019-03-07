@@ -1803,7 +1803,7 @@ class Widget extends Component {
                         onClick={()=>{
                             this.context.router.push({
                                 pathname:'usercenter/complain',
-                                query:{type:1,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId}
+                                query:{type:2,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId}
                             })
                             }}
                         />

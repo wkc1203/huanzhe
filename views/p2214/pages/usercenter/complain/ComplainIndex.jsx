@@ -46,10 +46,11 @@ class Widget extends Component {
             reasonList: [
                 {reason: '服务态度不好', id: 1},
                 {reason: '医生回答不及时', id: 2},
-              /*   {reason: '系统不稳定', id: 3}, */
-               /*  {reason: '价格不合理', id: 4}, */
+                 {reason: '系统不稳定', id: 3},
+                 {reason: '价格不合理', id: 4}, 
                 {reason: '其他', id: 5}
             ],
+        
             previewVisible: false,
             previewImage: '',
             sign:{},
@@ -215,9 +216,7 @@ class Widget extends Component {
                         msg:'提交成功'
                     })
                     setTimeout(() => {
-                        this.context.router.push({
-                            pathname:'/usercenter/home'
-                        })
+                        this.context.router.goBack();
                     },1000);
                 }
             }, (e) => {
@@ -357,6 +356,17 @@ class Widget extends Component {
 
     }
     componentDidMount() {
+        if(this.props.location.query.type==1||this.props.location.query.type==2){
+                var     reasonList2= [
+                    {reason: '服务态度不好', id: 1},
+                    {reason: '医生回答不及时', id: 2},
+                
+                    {reason: '其他', id: 5}
+                ];
+                this.setState({
+                    reasonList:reasonList2
+                })
+        }
         imgList=[];
         this.setState({
             imgArr:[],
@@ -738,9 +748,7 @@ isHasImg(url){
                 <div className="home"><span className="jian"
                                             onClick={()=>{
                                             console.log("5")
-                                      this.context.router.push({
-                                       pathname:'usercenter/home'
-                                      })
+                                      this.context.router.goBack()
                                       }}
                     ></span>投诉建议
                 </div>
