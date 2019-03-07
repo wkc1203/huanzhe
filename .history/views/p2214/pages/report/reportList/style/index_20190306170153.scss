@@ -1,0 +1,324 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.page-report-list {
+    .weui-dialog__hd {
+        padding: 0.5em 1.6em 0.5em;
+    }
+    .weui-dialog__bd {
+        padding: 0.3em 20px 0.8em;
+    }
+    
+    .modal1{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background:rgba(0,0,0,0.6);
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+        .modal-title {
+            padding: 25px 0 8px;
+            font-size: 18px;
+            color: $hc-color-title;
+            text-align: center;
+        }
+        .modal-body-protocol{
+            text-align: left;
+            width: 75%;
+            height:auto;
+            overflow: auto;
+            box-sizing: border-box;
+            border-radius: 4px;
+            background: #fff;
+            margin-left:12%;
+            margin-top:20%;
+            .modal-content-protocol {
+                padding: 0 14px 30px;
+                overflow: auto;
+                font-size: 16px;
+                color: $hc-color-gray;
+                line-height: 1.5;
+                text-align: left;
+                .content-title {
+                    color: $hc-color-title;
+                    line-height: 24px;
+                    font-size:17px;
+                    padding:10px 0;
+                }
+                .content-item {
+                    padding-bottom: 10px;
+
+                }
+                .content-end {
+                    text-align: right;
+                    color: $hc-color-text;
+                    font-size:17px;
+                }
+            }
+
+        }
+        .modal-footer{
+            border-top: 1px solid $hc-color-border;
+            display: flex;
+            position: relative;
+            top: -1%;
+            width:75%;
+            left:12%;
+            background-color:#fff;
+            .cutdown-time {
+                box-sizing: border-box;
+                text-align: center;
+                color: $hc-color-pink;
+                font-size: 18px;
+                height: 50px;
+                line-height: 50px;
+                width: 100%;
+            }
+        }
+        .modal-footer>span{
+            flex: 1;
+            box-sizing: border-box;
+            text-align: center;
+            color: $hc-color-title;
+            font-size: 18px;
+            height: 50px;
+            line-height: 50px;
+            width: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .modal-footer>span:last-child{
+            border-left: 1px solid #d2d2d2;
+            color: $hc-color-primary;
+        }
+        .modal-footer>.sure{
+            flex: 1;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 18px;
+            height: 50px;
+            line-height: 50px;
+            border-left: 1px solid #d2d2d2;
+            color: $hc-color-primary;
+            width: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+    }
+    .modal-tip1{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background:rgba(0,0,0,0.6);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .modal-title {
+            padding: 25px 0 8px;
+            font-size:18px;
+            color: $hc-color-title;
+            text-align: center;
+        }
+        .modal-body-tip{
+            text-align: left;
+            width: 75%;
+            overflow: auto;
+            box-sizing: border-box;
+            border-radius: 4px;
+            background: #fff;
+            .modal-content-tip {
+                padding: 0 14px 15px;
+                overflow: auto;
+                font-size: 15px;
+                color: $hc-color-gray;
+                line-height: 1.5;
+                text-align: center;
+                .content-item {
+                    padding-bottom: 10px;
+                }
+            }
+
+        }
+        .modal-footer-tip{
+            border-top: 1px solid $hc-color-border;
+            display: flex;
+            background-color:#fff;
+        }
+        .modal-footer-tip>span{
+            flex: 1;
+            box-sizing: border-box;
+            text-align: center;
+            color: $hc-color-primary;
+            font-size: 18px;
+            height: 50px;
+            line-height: 50px;
+            width: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+    .person{
+        margin-top: 44px;
+        display: flex;
+        padding: 0 50px 0 10px;
+        height: 45px;
+        line-height: 45px;
+        background: white;
+        font-size: 15px;
+        .active{
+            color: #4fabca;
+            position:relative;
+            .len2{
+                width: 48px;
+            }
+            .len3{
+                width: 60px;
+            }
+            .len4{
+                width:76px;
+            }
+            span{
+                width: 48px;
+                height: 2px;
+                left: 46px;
+                display: block;
+                bottom: 0px;
+                z-index: 1;
+                background: #4fabca;
+                position: absolute;
+            }
+        }
+        p{
+            flex: 1;
+        }
+    }
+   .reportList{
+    height: auto;
+    margin-top: 10px;
+    .reportItem{
+        background: white;
+    margin: 10px;
+    height: 100%;  
+    border-radius: 5px;
+    text-align: left;
+    .reportPersonTime{
+        padding: 0 10px;
+        height: 40px;
+        background: #4fabca;
+        color:white;
+        line-height: 40px;
+        display:flex;
+        border-top-left-radius: 5px;
+        font-size: 14px;
+        border-top-right-radius: 5px;
+        .time{
+            flex:1;
+            text-align: right;
+        }
+        .patient{
+            flex:1;
+            text-align: left;
+        }
+    }
+    .reportPerson{
+      
+        padding: 0 10px;
+        height: 40px;
+        position: relative;
+        .yes{
+            display: block;
+            top: 7px;
+            position: absolute;
+            right: 10px;
+            width: 84px;
+            font-size: 12px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            background: #4fabca;
+            border-radius: 5px;
+            color: white;;
+        }
+        .already{
+            display: block;
+            top: 7px;
+            position: absolute;
+            right: 10px;
+            width: 84px;
+            font-size: 12px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            background: #4fabca;
+            border-radius: 5px;
+            color: white;
+        }
+        .no{
+            display: block;
+            top: 7px;
+            position: absolute;
+            right: 10px;
+            width: 84px;
+            font-size: 12px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            background: #4fabca;
+            border-radius: 5px;
+            color: white;
+        }
+      
+        .time{
+            font-size: 14px;
+            color: #2c2c2c;
+            height:40px;
+            line-height: 40px;
+            align-items: flex-start;
+        }
+    }
+    .checkItem{
+        height: 40px;
+
+        padding: 0 10px;
+        line-height: 40px;
+        .name{
+            font-size: 13px;
+            color: #333;
+            display: flex;
+            height: 40px;
+            line-height: 40px;
+            align-items: flex-end;
+        }
+        .rightTab {
+            position: relative;
+            display: flex;
+       
+        &:after {
+             content: ' ';
+             position: absolute;
+             right: 0px;
+             top: 50%;
+             width: 7px;
+             height:7px;
+             border-right:2px solid #cfcfcf;
+             border-bottom: 2px solid #cfcfcf;
+             transform: translate(-4px, -50%) rotate(-45deg);
+         }
+        }
+    }
+
+    
+    }
+   }
+}
