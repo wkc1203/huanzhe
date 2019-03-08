@@ -11,32 +11,39 @@
     <meta name="x5-orientation" content="portrait">
     <meta name="msapplication-tap-highlight" content="no">
     <meta http-equiv="Access-Control-Allow-Origin" content="*" />
-    <title></title><link rel="stylesheet" href="/components_modules/common/common.css?v=fce6d1e">
-    <!--<script src="socket.io/socket.io.js"></script>-->
-    <!--<script src="moment.min.js"></script>-->
-    <!--<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>-->
-        <link rel="stylesheet" type="text/css" href="/views/p2214/pkg/aio.css?v=6d8b16f" />
+    <title></title>
+    <link rel="stylesheet" href="/components_modules/common/common.css"><!--ignore-->
+    <link rel="stylesheet" href="/components_modules/weui/weui.css">
+    <link rel="stylesheet" href="/components_modules/iconfont/iconfont.css">
+    <link rel="stylesheet" href="./resources/styles/common.scss">
+    <script src="socket.io/socket.io.js"></script>
+    <script src="moment.min.js"></script>
+ 
+    <script>
+      var systemOauthRedirect = (sessionStorage.getItem('systemOauthRedirect') || '').toString();
+      console.log(systemOauthRedirect);
+      if (systemOauthRedirect === '1') {
+          console.log("reload")
+          sessionStorage.removeItem('systemOauthRedirect');
+          location.reload();
+      }
+  </script>
+    <!--STYLE_PLACEHOLDER-->
 </head>
 <body ontouchstart style="background:#F2F2F2">
 <!-- livereload -->
 <div id="app"></div>
 <div id="J_title_iframe" style="width: 0;height: 0;overflow: hidden;"></div>
-<script src="/components_modules/common/common.js?v=093889c"></script>
+<script src="/components_modules/common/common.js"></script><!--ignore-->
+<script src="/components_modules/mod/mod.js" data-loader="true"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js"></script>
 
 <!--
 <script src="//smp.med.gzhc365.com/components_modules/vconsole/vconsole.min.js" data-loader="true"></script>
 -->
-<script data-loader="true" src="/components_modules/mod/mod.js?v=59cad02_1902141959"></script>
-<script type="text/javascript" src="/views/p2214/pkg/aio.js?v=ec71361"></script>
-<script>
-      var systemOauthRedirect = (sessionStorage.getItem('systemOauthRedirect') || '').toString();
-      if (systemOauthRedirect === '1') {
-          sessionStorage.removeItem('systemOauthRedirect');
-          location.reload();
-      }
-  </script>
-<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-<script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js"></script>
+<!--SCRIPT_PLACEHOLDER-->
+<script>require(['App.jsx'])</script><!--ignore-->
 <script>
  var _hmt = _hmt || [];
 (function() {
@@ -48,6 +55,5 @@
 
 
 </script>
-<script>require(['views/p2214/App.jsx'])</script>
 </body>
 </html>
