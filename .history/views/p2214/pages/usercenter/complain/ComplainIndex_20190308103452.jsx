@@ -216,10 +216,7 @@ class Widget extends Component {
                         msg:'提交成功'
                     })
                     setTimeout(() => {
-                       
-                            this.context.router.goBack();
-                        
-                      
+                        this.context.router.goBack();
                     },1000);
                 }
             }, (e) => {
@@ -359,7 +356,24 @@ class Widget extends Component {
 
     }
     componentDidMount() {
-        
+        if(!window.localStorage.userInfo){
+            if(window.location.origin=='https://tih.cqkqinfo.com'){
+                code='ff80808165b46560016817f20bbc00b3';
+          
+              }else{
+                code='ff80808165b46560016817f30cc500b4';
+              }
+              var storage=window.localStorage;
+              //加入缓存
+              storage.isOpenId=1;
+            
+              window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
+              // return false;
+                 var storage=window.localStorage;
+                 //加入缓存
+                 storage.url=window.location.href;
+               
+        }
         if(this.props.location.query.type==1||this.props.location.query.type==2){
                 var     reasonList2= [
                     {reason: '服务态度不好', id: 1},
@@ -752,9 +766,7 @@ isHasImg(url){
                 <div className="home"><span className="jian"
                                             onClick={()=>{
                                             console.log("5")
-                                            
-                                                this.context.router.goBack();
-                                            
+                                      this.context.router.goBack()
                                       }}
                     ></span>投诉建议
                 </div>

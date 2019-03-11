@@ -435,58 +435,17 @@ class Widget extends Component {
                             }
                           
                                   <p className='advice' onClick={()=>{
-                                    if(!window.localStorage.login_access_token){
-                                        var code;
-                                        if(window.location.origin=='https://tih.cqkqinfo.com'){
-                                            code='ff80808165b46560016817f20bbc00b3';
-                                      
-                                          }else{
-                                            code='ff80808165b46560016817f30cc500b4';
-                                          }
-                                          var storage=window.localStorage;
-                                          //加入缓存
-                                          storage.isOpenId=1;
-                                        
-                                          window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
-                                          // return false;
-                                             var storage=window.localStorage;
-                                             //加入缓存
-                                             storage.url=window.location.href;
-                                           
-                                    }else{
-                                        this.context.router.push({
-                                            pathname:'usercenter/complain',
-                                            query:{type:1,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.name,doctorId:docInfo.doctorId,resource:this.props.location.resource}
-                                        })
-                                    }
-                                   
+                                    this.context.router.push({
+                                        pathname:'usercenter/complain',
+                                        query:{type:1,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.name,doctorId:docInfo.doctorId,resource:this.props.location.resource}
+                                    })
                                     }}>投诉建议</p>
                                   <img   className='adviceimg'
                                     onClick={()=>{
-                                        if(!window.localStorage.login_access_token){
-                                            var code;
-                                            if(window.location.origin=='https://tih.cqkqinfo.com'){
-                                                code='ff80808165b46560016817f20bbc00b3';
-                                          
-                                              }else{
-                                                code='ff80808165b46560016817f30cc500b4';
-                                              }
-                                              var storage=window.localStorage;
-                                              //加入缓存
-                                              storage.isOpenId=1;
-                                            
-                                              window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
-                                              // return false;
-                                                 var storage=window.localStorage;
-                                                 //加入缓存
-                                                 storage.url=window.location.href;
-                                               
-                                        }else{
                                             this.context.router.push({
                                                 pathname:'usercenter/complain',
                                                 query:{type:1,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.name,doctorId:docInfo.doctorId,resource:this.props.location.resource}
                                             })
-                                        }
                                             }}
                                     src='./././resources/images/tousu.png'/>
                                

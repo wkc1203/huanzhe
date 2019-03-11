@@ -216,9 +216,11 @@ class Widget extends Component {
                         msg:'提交成功'
                     })
                     setTimeout(() => {
-                       
+                        if(this.props.location.query.type==1){
+                            window.location.href='https://tih.cqkqinfo.com/views/p2214/#/consult/deptdetail?deptId='+this.props.location.query.deptId+'&doctorId='+this.props.location.query.doctorId+'&resource='+this.props.location.query.resource
+                        }else{
                             this.context.router.goBack();
-                        
+                        }
                       
                     },1000);
                 }
