@@ -16,7 +16,7 @@ class Widget extends Component {
             deptList: [],
             isFunnel: true,
             searchFocus: false,
-            searchValue: '',
+            searchValue: '',  
             docList: [],
             doctorShow: false,
             searchList: [],
