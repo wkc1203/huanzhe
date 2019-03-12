@@ -65,6 +65,8 @@ class Widget extends Component {
                 inquiryPage:deptAllListStatus.inquiryPage
 
             })
+            console.log('height',window.localStorage.scrollYY,window.localStorage.scrollXX)
+            window.scrollTo(window.localStorage.scrollXX,window.localStorage.scrollYY);
         }else{
             window.localStorage.deptAllShow='1';
             this.getDocList('',1);
@@ -514,6 +516,8 @@ class Widget extends Component {
                                               key={index}
                                               onClick={()=>{
                                                   window.localStorage.deptAllShow='2';
+                                                  window.localStorage.scrollYY=window.scrollY;
+                                                  window.localStorage.scrollXX=window.scrollX;
                                                   this.context.router.push({
                                                     pathname:'/consult/deptlist',
                                                     query:{deptName:item.name,deptId:item.no,source:1}
@@ -533,6 +537,8 @@ class Widget extends Component {
                                             <div 
                                             onClick={()=>{
                                                 window.localStorage.deptAllShow='2';
+                                                window.localStorage.scrollYY=window.scrollY;
+                                                  window.localStorage.scrollXX=window.scrollX;
                                                 this.context.router.push({
                                                     pathname:'/consult/deptdetail',
                                                     query:{doctorId:item1.doctorId,deptId:item1.deptId,resource:2}
@@ -609,6 +615,8 @@ class Widget extends Component {
                             <div className="list-item"
                                onClick={()=>{
                                 window.localStorage.deptAllShow='2';
+                                window.localStorage.scrollYY=window.scrollY;
+                                                  window.localStorage.scrollXX=window.scrollX;
                                    this.context.router.push({
                                     pathname:'/consult/deptlist',
                                     query:{deptName:'全部科室',deptId:'',source:1}
@@ -622,6 +630,8 @@ class Widget extends Component {
                                           key={index}
                                           onClick={()=>{
                                             window.localStorage.deptAllShow='2';
+                                            window.localStorage.scrollYY=window.scrollY;
+                                                  window.localStorage.scrollXX=window.scrollX;
                                             this.context.router.push({
                                                 pathname:'/consult/deptlist',
                                                 query:{deptName:item.name,deptId:item.no,source:1}
