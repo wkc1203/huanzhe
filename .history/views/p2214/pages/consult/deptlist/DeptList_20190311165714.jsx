@@ -287,7 +287,7 @@ class Widget extends Component {
             this.showLoading();
          
             Api
-                .getInfo({numPerPage:10, deptId, vagueName: '',pageNum:page})
+                .getInfo({numPerPage:5, deptId, vagueName: '',pageNum:page})
                 .then((res) => {
                     this.hideLoading();
                      
@@ -403,7 +403,7 @@ class Widget extends Component {
          this.showLoading();
          console.log("yyy",this.state.inquiryPage,deptId,this.state.incurrent)
             Api
-            .getInfo({numPerPage:10,deptId:deptId||'', vagueName:value,pageNum:page })
+            .getInfo({numPerPage:5,deptId:deptId||'', vagueName:value,pageNum:page })
             .then((res) => {
                 if (res.code == 0 && res.data != null) {
                      this.hideLoading();

@@ -89,7 +89,7 @@ class Widget extends Component {
     }
     
     componentDidMount(){
-        if(window.localStorage.deptShow=='2'&&window.localStorage.deptListStatus){
+        if(window.localStorage.deptListStatus){
             var deptListStatus=JSON.parse(window.localStorage.deptListStatus);
             this.setState({
                 msg: deptListStatus.msg,
@@ -113,23 +113,11 @@ class Widget extends Component {
                 cur: deptListStatus.cur,
                 has: deptListStatus.has,
                 incur: deptListStatus.incurrent,
-                incurrent: deptListStatus.incurrent,
+                incurrent: deptListStatus.,
                 currentiInquiry: deptListStatus.currentiInquiry,
                 canAdd: deptListStatus.canAdd,//可以加载
 
             })
-        }else{
-            window.localStorage.deptShow='1';
-            var type = this.props.location.query.type || '';
-            if (type == 1) {
-                this.selectDept('全部科室', '',this.state.searchPage);
-            } else {
-                this.setState({
-                    deptId:this.props.location.query.deptId
-                })
-                console.log(this.state.deptId,this.props.location.query.deptId)
-                this.selectDept(this.props.location.query.deptName, this.props.location.query.deptId,this.state.searchPage)
-            }
         }
 
         
@@ -147,7 +135,16 @@ class Widget extends Component {
         }.bind(this), false);
       
           this.getJs();
-       
+        var type = this.props.location.query.type || '';
+        if (type == 1) {
+            this.selectDept('全部科室', '',this.state.searchPage);
+        } else {
+            this.setState({
+                deptId:this.props.location.query.deptId
+            })
+            console.log(this.state.deptId,this.props.location.query.deptId)
+            this.selectDept(this.props.location.query.deptName, this.props.location.query.deptId,this.state.searchPage)
+        }
     }
     
     componentWillUnmount(){
@@ -629,16 +626,11 @@ class Widget extends Component {
                             </div>}
                             {searchList.map((item1, index1)=> {
                                 return (
-                                    <div 
-                                     onClick={()=>{
-                                        window.localStorage.deptShow='2'; 
-                                        this.context.router.push({
+                                    <Link to={{
                                             pathname:'/consult/deptdetail',
                                             query:{doctorId:item1.doctorId,deptId:item1.deptId,resource:2}
 
-                                         })
-                                     }}
-                                   
+                                            }}
                                           key={index1}
                                           className='doc-item'>
                                         <div className="doc-info">
@@ -686,7 +678,7 @@ class Widget extends Component {
 
                                         </div>
 
-                                    </div>
+                                    </Link>
                                 )
                             }
                             )
@@ -703,16 +695,11 @@ class Widget extends Component {
                     </div>}
                     {docList.length > 0 && docList.map((item, index)=> {
                             return (
-                                <div 
-                                onClick={()=>{
-                                    window.localStorage.deptShow='2'; 
-                                    this.context.router.push({
-                                       pathname:'/consult/deptdetail',
-                                       query:{doctorId:item.doctorId,deptId:item.deptId,resource:2}
+                                <Link to={{
+                                            pathname:'/consult/deptdetail',
+                                            query:{doctorId:item.doctorId,deptId:item.deptId,resource:2}
 
-                                    })
-                                }}
-                               
+                                            }}
                                       key={index}
                                       className='doc-item'>
                                     <div className="doc-info">
@@ -762,7 +749,7 @@ class Widget extends Component {
 
                                     </div>
 
-                                </div>
+                                </Link>
                             )
                         }
                     )}

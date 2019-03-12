@@ -65,10 +65,6 @@ class Widget extends Component {
                 inquiryPage:deptAllListStatus.inquiryPage
 
             })
-        }else{
-            window.localStorage.deptAllShow='1';
-            this.getDocList('',1);
-            this.getDeptList();
         }
         const that = this; // 为解决不同context的问题
         let timeCount;
@@ -83,7 +79,8 @@ class Widget extends Component {
             timeCount = setTimeout(this.callback(), 5000);
         }.bind(this), false);
       
-      
+        this.getDocList('',1);
+        this.getDeptList();
         this.getJs();
     }
     sum(code,type){

@@ -57,7 +57,6 @@ class Widget extends Component {
   }
   componentDidMount() {
       window.localStorage.deptShow='1';
-      window.localStorage.deptAllShow='1';
      // window.location.reload();
       window.localStorage.back='0';
       

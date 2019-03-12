@@ -38,7 +38,7 @@ class Widget extends Component {
     }
     componentDidMount() {
         window.localStorage.deptShow='1';
-        if(window.localStorage.deptAllShow=='2'&&window.localStorage.deptAllListStatus){
+        if(window.localStorage.deptallShow=='2'&&window.localStorage.deptAllListStatus){
             var deptAllListStatus=JSON.parse(window.localStorage.deptAllListStatus);
             this.setState({
                 deptName:deptAllListStatus.deptName,
@@ -65,10 +65,6 @@ class Widget extends Component {
                 inquiryPage:deptAllListStatus.inquiryPage
 
             })
-        }else{
-            window.localStorage.deptAllShow='1';
-            this.getDocList('',1);
-            this.getDeptList();
         }
         const that = this; // 为解决不同context的问题
         let timeCount;
@@ -83,7 +79,8 @@ class Widget extends Component {
             timeCount = setTimeout(this.callback(), 5000);
         }.bind(this), false);
       
-      
+        this.getDocList('',1);
+        this.getDeptList();
         this.getJs();
     }
     sum(code,type){

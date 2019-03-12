@@ -89,7 +89,7 @@ class Widget extends Component {
     }
     
     componentDidMount(){
-        if(window.localStorage.deptShow=='2'&&window.localStorage.deptListStatus){
+        if(window.localStorage.deptListStatus){
             var deptListStatus=JSON.parse(window.localStorage.deptListStatus);
             this.setState({
                 msg: deptListStatus.msg,
@@ -118,18 +118,6 @@ class Widget extends Component {
                 canAdd: deptListStatus.canAdd,//可以加载
 
             })
-        }else{
-            window.localStorage.deptShow='1';
-            var type = this.props.location.query.type || '';
-            if (type == 1) {
-                this.selectDept('全部科室', '',this.state.searchPage);
-            } else {
-                this.setState({
-                    deptId:this.props.location.query.deptId
-                })
-                console.log(this.state.deptId,this.props.location.query.deptId)
-                this.selectDept(this.props.location.query.deptName, this.props.location.query.deptId,this.state.searchPage)
-            }
         }
 
         
@@ -147,7 +135,16 @@ class Widget extends Component {
         }.bind(this), false);
       
           this.getJs();
-       
+        var type = this.props.location.query.type || '';
+        if (type == 1) {
+            this.selectDept('全部科室', '',this.state.searchPage);
+        } else {
+            this.setState({
+                deptId:this.props.location.query.deptId
+            })
+            console.log(this.state.deptId,this.props.location.query.deptId)
+            this.selectDept(this.props.location.query.deptName, this.props.location.query.deptId,this.state.searchPage)
+        }
     }
     
     componentWillUnmount(){
@@ -631,8 +628,7 @@ class Widget extends Component {
                                 return (
                                     <div 
                                      onClick={()=>{
-                                        window.localStorage.deptShow='2'; 
-                                        this.context.router.push({
+                                         this.props.context.push({
                                             pathname:'/consult/deptdetail',
                                             query:{doctorId:item1.doctorId,deptId:item1.deptId,resource:2}
 
@@ -705,10 +701,9 @@ class Widget extends Component {
                             return (
                                 <div 
                                 onClick={()=>{
-                                    window.localStorage.deptShow='2'; 
-                                    this.context.router.push({
+                                    this.props.context.push({
                                        pathname:'/consult/deptdetail',
-                                       query:{doctorId:item.doctorId,deptId:item.deptId,resource:2}
+                                       query:{doctorId:item1.doctorId,deptId:item1.deptId,resource:2}
 
                                     })
                                 }}

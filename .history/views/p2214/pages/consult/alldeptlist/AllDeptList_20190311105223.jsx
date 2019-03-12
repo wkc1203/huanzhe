@@ -38,7 +38,7 @@ class Widget extends Component {
     }
     componentDidMount() {
         window.localStorage.deptShow='1';
-        if(window.localStorage.deptAllShow=='2'&&window.localStorage.deptAllListStatus){
+        if(window.localStorage.deptallShow=='2'&&window.localStorage.deptAllListStatus){
             var deptAllListStatus=JSON.parse(window.localStorage.deptAllListStatus);
             this.setState({
                 deptName:deptAllListStatus.deptName,
@@ -65,10 +65,6 @@ class Widget extends Component {
                 inquiryPage:deptAllListStatus.inquiryPage
 
             })
-        }else{
-            window.localStorage.deptAllShow='1';
-            this.getDocList('',1);
-            this.getDeptList();
         }
         const that = this; // 为解决不同context的问题
         let timeCount;
@@ -83,7 +79,8 @@ class Widget extends Component {
             timeCount = setTimeout(this.callback(), 5000);
         }.bind(this), false);
       
-      
+        this.getDocList('',1);
+        this.getDeptList();
         this.getJs();
     }
     sum(code,type){
@@ -513,7 +510,6 @@ class Widget extends Component {
                                         <div className="title1"
                                               key={index}
                                               onClick={()=>{
-                                                  window.localStorage.deptAllShow='2';
                                                   this.context.router.push({
                                                     pathname:'/consult/deptlist',
                                                     query:{deptName:item.name,deptId:item.no,source:1}
@@ -532,7 +528,6 @@ class Widget extends Component {
                                         return (
                                             <div 
                                             onClick={()=>{
-                                                window.localStorage.deptAllShow='2';
                                                 this.context.router.push({
                                                     pathname:'/consult/deptdetail',
                                                     query:{doctorId:item1.doctorId,deptId:item1.deptId,resource:2}
@@ -608,7 +603,6 @@ class Widget extends Component {
                         <div className="modal-dept-list">
                             <div className="list-item"
                                onClick={()=>{
-                                window.localStorage.deptAllShow='2';
                                    this.context.router.push({
                                     pathname:'/consult/deptlist',
                                     query:{deptName:'全部科室',deptId:'',source:1}
@@ -621,7 +615,6 @@ class Widget extends Component {
                                     <div className="list-item"
                                           key={index}
                                           onClick={()=>{
-                                            window.localStorage.deptAllShow='2';
                                             this.context.router.push({
                                                 pathname:'/consult/deptlist',
                                                 query:{deptName:item.name,deptId:item.no,source:1}
