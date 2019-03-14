@@ -490,7 +490,7 @@ class Widget extends Component {
                                 <div className="listitem-body">
                                     <input
                                         className={`m-content ${errorElement.idNo?'o-error':''}`} placeholder="请输入身份证号"
-                                        type="number"
+                                        type="text"
                                         id="idNo" value={idNo}
                                         onBlur={(e)=>{
                                             window.scrollTo(0,0);         

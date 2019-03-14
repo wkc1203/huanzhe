@@ -89,6 +89,20 @@ class Widget extends Component {
     }
     
     componentDidMount(){
+        const that = this; // 为解决不同context的问题
+        let timeCount;
+        
+        window.addEventListener('scroll', function () {
+            if (this.state.isLoadingMore) {
+                return ;
+            }
+            if (timeCount) {
+                clearTimeout(timeCount);
+            }
+            timeCount = setTimeout(this.callback(), 5000);
+        }.bind(this), false);
+      
+         this.getJs();
         if(window.localStorage.deptShow=='2'&&window.localStorage.deptListStatus){
             var deptListStatus=JSON.parse(window.localStorage.deptListStatus);
             this.setState({
@@ -118,6 +132,9 @@ class Widget extends Component {
                 canAdd: deptListStatus.canAdd,//可以加载
 
             })
+            console.log('height',window.localStorage.scrollY,window.localStorage.scrollX)
+            window.scrollTo(window.localStorage.scrollX,window.localStorage.scrollY);
+          
         }else{
             window.localStorage.deptShow='1';
             var type = this.props.location.query.type || '';
@@ -133,20 +150,7 @@ class Widget extends Component {
         }
 
         
-        const that = this; // 为解决不同context的问题
-        let timeCount;
         
-        window.addEventListener('scroll', function () {
-            if (this.state.isLoadingMore) {
-                return ;
-            }
-            if (timeCount) {
-                clearTimeout(timeCount);
-            }
-            timeCount = setTimeout(this.callback(), 5000);
-        }.bind(this), false);
-      
-          this.getJs();
        
     }
     
@@ -212,6 +216,7 @@ class Widget extends Component {
                     });
 
                 }
+               
             }, (e) => {
             });
     }
@@ -632,6 +637,8 @@ class Widget extends Component {
                                     <div 
                                      onClick={()=>{
                                         window.localStorage.deptShow='2'; 
+                                        window.localStorage.scrollY=window.scrollY;
+                                        window.localStorage.scrollX=window.scrollX;
                                         this.context.router.push({
                                             pathname:'/consult/deptdetail',
                                             query:{doctorId:item1.doctorId,deptId:item1.deptId,resource:2}
@@ -706,6 +713,8 @@ class Widget extends Component {
                                 <div 
                                 onClick={()=>{
                                     window.localStorage.deptShow='2'; 
+                                    window.localStorage.scrollY=window.scrollY;
+                                    window.localStorage.scrollX=window.scrollX;
                                     this.context.router.push({
                                        pathname:'/consult/deptdetail',
                                        query:{doctorId:item.doctorId,deptId:item.deptId,resource:2}
