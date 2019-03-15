@@ -64,20 +64,37 @@ class Widget extends Component {
                                       }}
               ></span>健康宣教
           </div>
-          <div className="m-tab">
-            <div className="unit-tab">
-              <div
-                  className="unit-tab-li tab-li active"
-                  >健康宣教
+          
+          <a  href='https://mp.weixin.qq.com/s?__biz=MzAxMjUyMzAzOA==&mid=2665292374&idx=3&sn=e8b552d2b906dbd8d400c550b3157db9&chksm=80990127b7ee8831fedc1ef6a673cf26cca7fc197848fe685494d7bf0b477e22f268711a7633&bizpsid=0&scene=126&subscene=0&ascene=3&devicetype=android-28&version=2700033b&nettype=cmnet&abtest_cookie=BAABAAoACwASABMABQAjlx4AVpkeANOZHgDcmR4A3pkeAAAA&lang=zh_CN&pass_ticket=gyJshHoa5YsqHSuwRy0QvameXUo91JijEdmSazjdmERz9oiHN2sv0pqqQPs95o3e&wx_header=1'>
+            <div className="item-box">
+             
+              <div className="list-box" style={{paddingRight:'10px',paddingLeft:'0px'}}>
+                <div className='list-title'>孩子"撕开肚皮"吃,竟吃成"小糖人" ?</div>
+                <div className='list-time' style={{paddingTop:'5px'}}>重医儿童医院</div>
               </div>
+              <div className="img-box">
+              <img src="./././resources/images/newsSencod.jpg" alt="医生头像"  style={{width:'80px'}}/>
+            </div>
+            </div>
+          </a>
+          <a  href='https://mp.weixin.qq.com/s?__biz=MzAxMjUyMzAzOA==&mid=2665292374&idx=4&sn=564f7baaa26cce6855fefaaff48eae0e&chksm=80990127b7ee88319b4168ebc76aa68e9d1a973ab43b3e5ed57552d90325ed85e21422c178bf&scene=4&subscene=126&ascene=0&devicetype=android-28&version=2700033b&nettype=cmnet&abtest_cookie=BAABAAoACwASABMABQAjlx4AVpkeANOZHgDcmR4A3pkeAAAA&lang=zh_CN&pass_ticket=gyJshHoa5YsqHSuwRy0QvameXUo91JijEdmSazjdmERz9oiHN2sv0pqqQPs95o3e&wx_header=1'>
+          <div className="item-box">
+            
+            <div className="list-box" style={{paddingRight:'10px',paddingLeft:'0px'}}>
+              <div className='list-title' style={{paddingBottom:'10px'}}>无辜的米花糖,惹祸啦!</div>
+              <div className='list-time' style={{paddingTop:'5px'}}>重医儿童医院</div>
+            </div>
+            <div className="img-box">
+              <img src="./././resources/images/newsFirst.jpg" alt="医生头像" />
             </div>
           </div>
-          <div className="wgt-empty-box">
+        </a>
+          {/* <div className="wgt-empty-box">
             <img className="wgt-empty-img" src="../../../resources/images/no-result.png" alt=""></img>
 
             <div className="wgt-empty-txt">暂未查询到相关信息
             </div>
-         </div>
+         </div> */}
           
         </div>
 

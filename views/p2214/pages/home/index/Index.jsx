@@ -488,7 +488,7 @@ class Widget extends Component {
              <Link
                  onClick={
                 ()=> {
-                 window.location.href='https://mp.weixin.qq.com/s/9x0x4bFJpKYeQUXY5ZC3Lw'
+                 window.location.href='https://mp.weixin.qq.com/s/QtsB23jZXQtem5HFDy-GVA'
              }}
                  >
                <div className='text'>
