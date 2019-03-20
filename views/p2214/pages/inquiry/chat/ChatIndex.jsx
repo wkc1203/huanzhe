@@ -33,7 +33,7 @@ class Widget extends Component {
             isEvaluate: false,
             orderId: '',
             list: [],
-            msgText: null,
+            msgText: '', 
             isShow: false,
             isEnd: false,
             docInfo: {},
@@ -138,6 +138,7 @@ class Widget extends Component {
             noDoctor:false,//医生是否回复
             isIos:false,
             freeReport:false,//是否是免费报告解读
+            hieghtMore:false,//发送按钮位置
 
         };
     }
@@ -516,7 +517,6 @@ class Widget extends Component {
                             })
                         }
                         }
-                        console.log("list551",window.localStorage.getItem('first'));
                         if(this.state.canStop){
                             var match=this.state.list;
                               for(var i=0;i<match.length;i++){
@@ -795,6 +795,21 @@ class Widget extends Component {
 
     /*显示发送按钮*/
     btnShow(e) {
+      
+        this.setState({
+            showPlus:false,
+            hieghtMore:false
+        })
+        console.log("input",this.state.msgText); 
+        if(this.state.msgText!=''){
+            this.setState({
+                isBtn:true
+            }) 
+        }else{
+            this.setState({
+                isBtn:false
+            }) 
+        }
       interval2 = setInterval(function() {
             document.body.scrollTop = document.body.scrollHeight
         }, 1000)
@@ -812,9 +827,8 @@ class Widget extends Component {
 
 
         },2000)
-        this.setState({
-            isBtn: true
-        })
+       
+        
     }
     /*显示加号*/
     btnHide(e) {
@@ -899,6 +913,28 @@ class Widget extends Component {
     }
    /*获取焦点事件*/
     input(e) {
+        this.setState({
+            inputText: e.target.value,
+            msgText: e.target.value,
+        })
+        if(e.target.value!=''){
+            this.setState({
+                isBtn:true
+            }) 
+        }else{
+            this.setState({
+                isBtn:false
+            }) 
+        }
+        if(parseInt(window.getComputedStyle(document.getElementById("inputText")).height.substring(0,window.getComputedStyle(document.getElementById("inputText")).height.length-2))>50){
+            this.setState({
+                hieghtMore:true
+            })
+        }else{
+            this.setState({
+                hieghtMore:false
+            })
+        }
         document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height
         );
         setTimeout((
@@ -906,14 +942,12 @@ class Widget extends Component {
         )=>{
             var s=document.getElementsByClassName("content3")[0].scrollHeight;
             document.getElementsByClassName("content3")[0].scrollTop=500000;
-            console.log(s,document.getElementsByClassName("content3")[0].scrollTop);
         },2000)
         e.stopPropagation();
         e.preventDefault();
-        this.setState({
-            inputText: e.target.value,
-            msgText: e.target.value,
-        })
+     
+       
+
     }
    /*发送*/
     send(param) {
@@ -969,23 +1003,29 @@ class Widget extends Component {
     }
    /*显示发送图片*/
     showPlus() {
-        document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height
-        );
-        setTimeout((
-
-        )=>{
-            var s=document.getElementsByClassName("content3")[0].scrollHeight;
-
-            document.getElementsByClassName("content3")[0].scrollTop=500000;
-            console.log(s,document.getElementsByClassName("content3")[0].scrollTop);
-
-
-
-        },2000)
-
         this.setState({
             showPlus: !this.state.showPlus
         })
+
+        if(!this.state.showPlus){
+            document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height
+            );
+            console.log("ss")
+                var s=document.getElementsByClassName("content3")[0].scrollHeight;
+    
+                document.getElementsByClassName("content3")[0].scrollTop=500000;
+                console.log(s,document.getElementsByClassName("content3")[0].scrollTop);
+        }else{
+            console.log("s1")
+            document.getElementById("txt").setAttribute("style", "padding-bottom:50px");
+            var s=document.getElementsByClassName("content3")[0].scrollHeight;
+    
+            document.getElementsByClassName("content3")[0].scrollTop=500000;
+            console.log(s,document.getElementsByClassName("content3")[0].scrollTop);
+        }
+        
+
+      
     }
    /*生成文件夹*/
     randomName(){
@@ -1699,7 +1739,7 @@ class Widget extends Component {
      
     render() {
     const {isEvaluate,files,freeReport,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,
-        name,match,userId,showId,uId,patHisNo,score,txtNum,t1,t2,t3,t4,t5,timeShow,numEnd,pics,innerAudioContext,
+        name,match,hieghtMore,showId,uId,patHisNo,score,txtNum,t1,t2,t3,t4,t5,timeShow,numEnd,pics,innerAudioContext,
         canEnd,appraisal,pingShow,newScore,itemList,detail,payBack,isOk,newText ,isDuration,newItem,
         newTime,doctorName,noDoctor,isIos,msg,endding,end,sign,signature,formData,policy,callback,OSSAccessKeyId,key,evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText}=this.state
 
@@ -1749,7 +1789,7 @@ class Widget extends Component {
                     </div>}
                     {!isEnd && <div className='operation-box'>
                         <div className='top'>
-                            <TextArea autosize rows="1" cols="3" value={msgText}
+                            <TextArea autosize rows="1" cols="3" value={msgText} id="inputText"
                                 
                                       onFocus={(e)=>{
                             this.btnShow(e)
@@ -1774,9 +1814,12 @@ class Widget extends Component {
                             <img src='../../../resources/images/plus.png' onClick={()=>{
                             this.showPlus()
 
-                            }}/>
+                            }}/>  
                             }
-                            {isBtn && <span className="addBtn" onClick={
+                            {isBtn&&!hieghtMore&& <span className="addBtn"
+                            style={{marginBottom:'6px'}} 
+                          
+                            onClick={
                                                     (e)=>{
                                                     e.stopPropagation();
                                                     e.preventDefault();
@@ -1785,8 +1828,20 @@ class Widget extends Component {
 
                                                     }
                                                     }>发送</span>}
+                        {isBtn&&hieghtMore&&<span className="addBtn"
+                        onClick={
+                                                (e)=>{
+                                                e.stopPropagation();
+                                                e.preventDefault();
+
+                                                this.sendMsg1(e)
+
+                                                }
+                                                }>发送</span>}
                         </div>
+
                         {showPlus && <div className='bottom'>
+                        <div>
                             {!isIos&&<ImagePicker
                             length="4"
                             files={files}
@@ -1797,13 +1852,16 @@ class Widget extends Component {
                             multiple={false}
                         />}
                         {!isIos&&<img src='../../../resources/images/tp.png'/>}
-
+                           
                                 {isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                         }}> 
                                     <img src='../../../resources/images/tp.png'/>
+                                     
                                  </div> }
-                <div style={{marginLeft:'14px'}}>
+                                 <p>图片</p>
+                                 </div> 
+                <div style={{marginLeft:'25px'}}>
                         <img src='../../../resources/images/jianyi.png'
                         onClick={()=>{
                             this.context.router.push({
@@ -1811,7 +1869,9 @@ class Widget extends Component {
                                 query:{type:2,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId}
                             })
                             }}
+
                         />
+                        <p>投诉建议</p>
                   </div>
                         </div>}
 

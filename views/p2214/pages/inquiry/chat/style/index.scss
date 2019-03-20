@@ -232,15 +232,20 @@
         }
         .bottom {
             display:flex;
-            align-items: center;
+            align-items: top;
             flex-wrap: wrap;
-            height: 90px;
+            height: 200px;
             box-sizing: border-box;
-            padding: 14px 15px 21px;
+            padding: 30px 15px 40px 25px;
             background: #f8f8f8;
             img{
-                width: 55px;
-                height: 55px;
+                width: 60px;
+                height: 60px;
+            }
+            p{
+                text-align: center;
+                margin-top: 8px;
+                font-size:12px;
             }
         }
     }
@@ -327,7 +332,7 @@
                 background: #D7D9DB;
                 border-radius: 8px;
                 padding: 5px 15px;
-                font-size: 13px;
+                font-size: 14px;
                 color: #fff;
             }
            > .date {
@@ -459,7 +464,7 @@
                 padding: 10px 14px;
                 background: #fff;
                 border-radius: 5px;
-                font-size: 15px;
+                font-size: 16px;
                 // max-width: 55%;
                 color: #505050;
                 white-space: normal;

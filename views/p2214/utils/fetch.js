@@ -50,7 +50,6 @@ export default {
 
 
     //   }
-      console.log("dada",data.code===77777)
         
       if(data.code===77777){
   
