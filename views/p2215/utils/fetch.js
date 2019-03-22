@@ -36,12 +36,12 @@ export default {
           var code='';
           //sessionStorage.setItem('systemOauthRedirect', 1);
           if(window.location.origin=='https://tih.cqkqinfo.com'){
-            code='ff808081683e587c01685eececfa0001';
+            code='ff808081697799170169a4062b660000';
           
           }else{
             code='ff808081683e587c01685eeb6a160000';
           }
-          var storage=window.localStorage;
+          var storage=window.localStorage; 
           //加入缓存
           storage.isOpenId=1;   
         

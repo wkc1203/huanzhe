@@ -503,6 +503,7 @@ class Widget extends Component {
     }
     /*提示信息*/
     submitData() {
+        
         let errMsg = !this.state.selectPatientId
             ? '请选择就诊人'
             : !this.state.consultationReason
@@ -617,6 +618,7 @@ class Widget extends Component {
                     this.hideLoading();
                     if (res.code==-2) {
                         console.log("1")
+                        window.scrollTo(0,0);
                         if(res.msg!=null&&res.msg!=''){
                             this.setState({
                                 inquiryId:res.msg||'',
@@ -625,7 +627,7 @@ class Widget extends Component {
                             })
                         }
 
-                        
+                         
                     }else{
                         console.log("2")
                         this.setState({

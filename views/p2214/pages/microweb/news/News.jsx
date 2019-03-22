@@ -64,13 +64,36 @@ class Widget extends Component {
                                       }}
               ></span>健康宣教
           </div>
-          
+          <a  href='https://mp.weixin.qq.com/s/NqYygP-WT1G291Ay4XihGw'>
+          <div className="item-box">
+           
+            <div className="list-box" style={{paddingRight:'10px',paddingLeft:'0px'}}>
+              <div className='list-title' style={{paddingBottom:'10px'}}>背诵唐诗的起跑线在哪里？</div>
+              <div className='list-time' style={{paddingTop:'5px'}}>重医儿童医院  <span style={{fontSize:'12px',paddingLeft:'5px'}}>2019年3月22日</span></div>
+            </div>
+            <div className="img-box">
+            <img src="./././resources/images/run.jpg" alt="医生头像"  style={{width:'80px'}}/>
+          </div>
+          </div>
+        </a>
+        <a  href='https://mp.weixin.qq.com/s/YsSP1lxo0z4-MOxw4cZDwg'>
+        <div className="item-box">
+         
+          <div className="list-box" style={{paddingRight:'10px',paddingLeft:'0px'}}>
+            <div className='list-title'>孩子“只吃不长”，小心被甲亢“大魔王”盯上！</div>
+            <div className='list-time' style={{paddingTop:'5px'}}>重医儿童医院  <span style={{fontSize:'12px',paddingLeft:'5px'}}>2019年3月22日</span></div>
+          </div>
+          <div className="img-box">
+          <img src="./././resources/images/tang.jpg" alt="医生头像"  style={{width:'80px'}}/>
+        </div>
+        </div>
+      </a>
           <a  href='https://mp.weixin.qq.com/s?__biz=MzAxMjUyMzAzOA==&mid=2665292374&idx=3&sn=e8b552d2b906dbd8d400c550b3157db9&chksm=80990127b7ee8831fedc1ef6a673cf26cca7fc197848fe685494d7bf0b477e22f268711a7633&bizpsid=0&scene=126&subscene=0&ascene=3&devicetype=android-28&version=2700033b&nettype=cmnet&abtest_cookie=BAABAAoACwASABMABQAjlx4AVpkeANOZHgDcmR4A3pkeAAAA&lang=zh_CN&pass_ticket=gyJshHoa5YsqHSuwRy0QvameXUo91JijEdmSazjdmERz9oiHN2sv0pqqQPs95o3e&wx_header=1'>
             <div className="item-box">
              
               <div className="list-box" style={{paddingRight:'10px',paddingLeft:'0px'}}>
                 <div className='list-title'>孩子"撕开肚皮"吃,竟吃成"小糖人" ?</div>
-                <div className='list-time' style={{paddingTop:'5px'}}>重医儿童医院</div>
+                <div className='list-time' style={{paddingTop:'5px'}}>重医儿童医院  <span style={{fontSize:'12px',paddingLeft:'5px'}}>2019年2月28日</span></div>
               </div>
               <div className="img-box">
               <img src="./././resources/images/newsSencod.jpg" alt="医生头像"  style={{width:'80px'}}/>
@@ -82,7 +105,7 @@ class Widget extends Component {
             
             <div className="list-box" style={{paddingRight:'10px',paddingLeft:'0px'}}>
               <div className='list-title' style={{paddingBottom:'10px'}}>无辜的米花糖,惹祸啦!</div>
-              <div className='list-time' style={{paddingTop:'5px'}}>重医儿童医院</div>
+              <div className='list-time' style={{paddingTop:'5px'}}>重医儿童医院  <span style={{fontSize:'12px',paddingLeft:'5px'}}>2019年2月28日</span></div>
             </div>
             <div className="img-box">
               <img src="./././resources/images/newsFirst.jpg" alt="医生头像" />

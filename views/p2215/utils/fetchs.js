@@ -26,6 +26,15 @@ export default {
   })
 .then(res => res.json())
     .then((data) => {
+   
+      if(data.code==77777){
+        
+       hashHistory.push({
+          pathname: '/auth/developing',
+          query:{msg:data.msg||'服务器维护中'}
+        }); 
+       
+      }
       if (data.code === 999) {
         //未授权
         var str =JSON.stringify(window.location);
@@ -33,9 +42,24 @@ export default {
           window.REDIRECT_CODE = 999;
           const { protocol, host, pathname, search, hash } = window.location;
           const returnUrl = encodeURIComponent(`${protocol}//${host}${pathname}?returnRandomParam=${Date.now()}&${search.replace(/(\?)|(returnRandomParam=\d*)/g, '')}${hash}`);
-          window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/ff80808165b465600167c9c8d0440098?scope=snsapi_userinfo";
+          var code1='';
+          if(window.location.origin=='https://tih.cqkqinfo.com'){
+            code1='ff808081683e587c01685eececfa0001';  
+      
+          }else{     
+            code1='ff808081683e587c01685eeb6a160000';
+          }
+          var storage=window.localStorage;   
+          //加入缓存
+          storage.isOpenId=1;
+        
+          window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code1+"?scope=snsapi_base";
+          // return false;
+             var storage=window.localStorage;
+             //加入缓存
+             storage.url=window.location.href;
            }
-      }
+      }  
       return new Promise((resolve, reject) => {
         if (data.code === 0) {
           resolve(data);
@@ -48,7 +72,7 @@ export default {
       if (!window.REDIRECT_CODE) { // 发生了重定向，解决ios授权等重定向时弹框问题
         return new Promise((resolve, reject) => {
           let data = {};
-          data.msg = 'network request failed.';
+          data.msg = '服务器异常';
           reject(data);
         });
       }

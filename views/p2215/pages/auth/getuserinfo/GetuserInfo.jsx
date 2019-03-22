@@ -19,77 +19,9 @@ class Widget extends Component {
         param:{},
     };
   }
-  componentWillUpdate (nextProps,nextState){
-      //alert("55555")
-  }
-  componentDidUpdate(prevProps,prevState){
-    //alert("44444")
-}
-shouldComponentUpdate(nextProps,nextState){
-    //alert("333333")
-}
-componentWillReceiveProps (nextProps){
- //window.location.reload(); 
- //alert("11"+window.location.href)
- ////alert("iso1112"+window.localStorage.getItem('isOpenId'))
- this.showLoading();
- this.getJs();
- 
- var str =JSON.stringify(window.location);
-//   //alert(window.localStorage.getItem('href'));
-//   if(window.localStorage.getItem('href')=='t'){
-//       var code='';
-//     if(window.location.origin=='https://tih.cqkqinfo.com'){
-//         code='ff80808165b465600168276e19d200e6';
-//       }else{
-//         code='ff80808165b46560016827701f7e00e7';
-//       }
+  
 
-//    ////alert("iso1111441111112"+window.localStorage.getItem('isOpenId'))
-//       var replaceUrl= "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
-//      // //alert(replaceUrl)
-//       window.localStorage.href='f';
-//       top.window.location.replace(replaceUrl);
 
-//   }
-// //alert("iso1112"+window.localStorage.getItem('isOpenId'))
-//this.goHref();
- if(str.indexOf('openId')!==-1){
-     var str1=str.substring(str.indexOf("openId") ,str.length)||'';
-     str =str1.substring(str1.indexOf("=") + 1,str1.indexOf("&"))||'';
-     console.log(str);
-     window.openId=str;
-     var storage=window.localStorage;
-     //写入b字段
-     storage.openId=str;
-     var id={openId:str};
-     this.setState({
-         param:id
-     })
-     ////alert("iso9"+str)
-     var isOpenId=window.localStorage.getItem('isOpenId');
-          //alert("is"+isOpenId)
-      if(isOpenId==2){
-       this.bindAnother({openid:str});
-
-     
-      }else{
-         this.getAuth(id);
-      }
-     
- }
-
-}
-componentWillMount (){
-    //alert("1111111")
-}
-  componentWillUnmount(){
-      ////alert(window.location.href);
-      ////alert("is"+window.localStorage.getItem('isOpenId'))
-  }
-  componentWillMount(){
-    ////alert("bb"+window.location.href);
-  }
   componentDidMount() {
     //window.location.reload(); 
       //alert("11"+window.location.href)
@@ -139,7 +71,7 @@ componentWillMount (){
               this.getAuth(id);
            }
           
-      }
+      } 
 
   }
     /*隐藏功能*/

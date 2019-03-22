@@ -26,8 +26,8 @@ export default {
   })
 .then(res => res.json())
     .then((data) => {
-      if(data.code=77777){
-  
+      if(data.code==77777){
+    
         hashHistory.push({
           pathname: '/auth/developing',
           query:{msg:data.msg||'服务器维护中'}

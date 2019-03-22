@@ -10,8 +10,8 @@ import * as Api from './loginApi';
 import 'style/index.scss';
 
 class Widget extends Component {
-    static contextTypes = {
-        router: React.PropTypes.object,
+    static contextTypes = { 
+        router: React.PropTypes.object, 
     };
   constructor(props) {
     super(props);
@@ -72,7 +72,7 @@ class Widget extends Component {
           account:window.localStorage.getItem('account'),
           accountType:window.localStorage.getItem('accountType'),
       })
-      this.getJs();
+      //this.getJs();
       var str =JSON.stringify(window.location);
       if(str.indexOf('openId')!==-1){
           str =str.substring(str.indexOf("=") + 1,str.indexOf("&"))||'';
@@ -85,11 +85,23 @@ class Widget extends Component {
           this.setState({
               openId:str
           })
-          this.getOpenId(id);
-      }else{
-          window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/ff80808165b4656001675d9712d70071?scope=snsapi_userinfo";
 
-      }
+
+          this.getOpenId(id);
+
+
+        }else{
+        var code='';
+        
+        if(window.location.origin=='https://tih.cqkqinfo.com'){
+            code='ff80808165b465600167c9c8d0440098';
+      
+          }else{
+            code='ff808081697799170169a42ff1cb0001';
+          }
+          window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
+
+      }     
   }
     /*隐藏功能*/
     getJs() {
@@ -226,12 +238,14 @@ class Widget extends Component {
         }, 2000);
     }
     hideDialog() {
+
         this.setState({
             showIOS1: false,
             showIOS2: false,
             showAndroid1: false,
             showAndroid2: false,
         });
+        console.log("hide")
     }
     render() {
         const {password,isPwd,success,msg,kong}=this.state;
@@ -293,3 +307,4 @@ class Widget extends Component {
     }
   }
   
+  export default Connect()(Widget);
