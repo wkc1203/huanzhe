@@ -96,7 +96,7 @@ class Widget extends Component {
             </div>
          </div> */}
           
-        </div>
+        </div>  
 
     );
   }

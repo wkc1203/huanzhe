@@ -2226,25 +2226,31 @@
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-     -moz-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-align: top;
+  -webkit-align-items: top;
+     -moz-box-align: top;
+      -ms-flex-align: top;
+          align-items: top;
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
-  height: 90px;
+  height: 200px;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
-  padding: 14px 15px 21px;
+  padding: 30px 15px 40px 25px;
   background: #f8f8f8;
 }
 
 .container1 .operation-box .bottom img {
-  width: 55px;
-  height: 55px;
+  width: 60px;
+  height: 60px;
+}
+
+.container1 .operation-box .bottom p {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 12px;
 }
 
 .container1 .header {
@@ -2354,7 +2360,7 @@
      -moz-border-radius: 8px;
           border-radius: 8px;
   padding: 5px 15px;
-  font-size: 13px;
+  font-size: 14px;
   color: #fff;
 }
 
@@ -2517,7 +2523,7 @@
   -webkit-border-radius: 5px;
      -moz-border-radius: 5px;
           border-radius: 5px;
-  font-size: 15px;
+  font-size: 16px;
   color: #505050;
   white-space: normal;
   word-wrap: break-word;
