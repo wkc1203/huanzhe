@@ -984,13 +984,13 @@ class Widget extends Component {
     }
    /*隐藏添加图片*/
     hidePlus() {
-        document.getElementById("txt").setAttribute("style", "padding-bottom:50px");
-
+        //document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height
+       // );
         setTimeout((
 
         )=>{
             var s=document.getElementsByClassName("content3")[0].scrollHeight;
- 
+
             document.getElementsByClassName("content3")[0].scrollTop=500000;
             console.log(s,document.getElementsByClassName("content3")[0].scrollTop);
 
@@ -1017,7 +1017,7 @@ class Widget extends Component {
                 console.log(s,document.getElementsByClassName("content3")[0].scrollTop);
         }else{
             console.log("s1")
-            document.getElementById("txt").setAttribute("style", "padding-bottom:50px");
+            document.getElementById("txt").setAttribute("style", "padding-bottom:30px");
             var s=document.getElementsByClassName("content3")[0].scrollHeight;
     
             document.getElementsByClassName("content3")[0].scrollTop=500000;
