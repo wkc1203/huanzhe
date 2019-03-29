@@ -1,0 +1,71 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.d-page{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    box-sizing: border-box;
+    overflow: scroll;
+        .letters-item {
+            font-size: 14px;
+            margin-left: 15px;
+            padding-top: 5px;
+            line-height: 30px;
+            height: 25px;
+            color: $hc-color-gray;
+        }
+        .item-box1 {
+            background-color: #fff;
+            font-size: 17px;
+            color: $hc-color-title;
+            border-bottom: 1px solid $hc-color-border;
+            .list-item,a {
+                margin: 0 30px 0 15px;
+                height: 44px;
+                color: $hc-color-title;
+                line-height: 44px;
+                width:auto;
+                display:block;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid $hc-color-border;
+                }
+            }
+        }
+        .right-list {
+        position: fixed;
+        right: 5px;
+        top: 44px;
+        width: 14px;
+        color: $hc-color-gray;
+        font-size: 11px;
+        text-align: center;
+        line-height: 14px;
+        .char-item {
+            height: 14px;
+            width: 14px;
+            margin-bottom: 8px;
+        }
+        .active {
+            width: 15px;
+            height: 15px;
+            background-color: $hc-color-primary;
+            color: #fff;
+            border-radius: 50%;
+        }
+
+    }
+    .no-data {
+        text-align: center;
+        padding-top: 100px;
+        font-size: 16px;
+        color: $hc-color-text;
+    }
+    .no-data img {
+        width: 125px;
+        height: 125px;
+        margin-bottom: 25px;
+    }
+}
