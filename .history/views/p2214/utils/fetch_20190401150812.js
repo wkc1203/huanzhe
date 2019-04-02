@@ -11,7 +11,7 @@ export default {
       hisId:2214,
       platformSource:3,
       platformId:2214,
-      login_access_token:window.localStorage.getItem('login_access_token')!='undefined'?window.localStorage.getItem('login_access_token'):'',
+      login_access_token:window.localStorage.getItem('login_access_token')?window.localStorage.getItem('login_access_token'):'',
 
 
     };

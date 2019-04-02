@@ -105,7 +105,6 @@ class Widget extends Component {
          this.getJs();
         if(window.localStorage.deptShow=='2'&&window.localStorage.deptListStatus){
             var deptListStatus=JSON.parse(window.localStorage.deptListStatus);
-            window.localStorage.login_access_token=window.localStorage.sessionId;
             this.setState({
                 msg: deptListStatus.msg,
                 searchFocus:  deptListStatus.searchFocus,
@@ -345,26 +344,12 @@ class Widget extends Component {
                           //  })
                        // }
                         console.log("current",currentPage,this.state.docList);
-                       
-                        if(res.data.sessionId.length>0&&!window.localStorage.login_access_token){
+                        if(res.data.sessionId.length>0&&window.localStorage.login_access_token!='undefined'){
                             this.setState({
                                 has:true
                             })
-                            window.localStorage.sessionId=res.data.sessionId;
-
                             window.localStorage.login_access_token=res.data.sessionId;
-                        }else{
-                            if(res.data.sessionId.length>0&&window.localStorage.login_access_token=='undefined'){
-                                this.setState({
-                                    has:true
-                                })
-                                window.localStorage.sessionId=res.data.sessionId;
-
-                                window.localStorage.login_access_token=res.data.sessionId;
-                            }
-
                         }
-
                        if(this.state.searchPage==1){
 
                         this.setState({
@@ -482,19 +467,7 @@ class Widget extends Component {
                         this.setState({
                             has:true
                         })
-                        window.localStorage.sessionId=res.data.sessionId;
-
                         window.localStorage.login_access_token=res.data.sessionId;
-                    }else{
-                        if(res.data.sessionId.length>0&&window.localStorage.login_access_token=='undefined'){
-                            this.setState({
-                                has:true
-                            })
-                            window.localStorage.sessionId=res.data.sessionId;
-
-                            window.localStorage.login_access_token=res.data.sessionId;
-                        }
-
                     }
                     
                 }
