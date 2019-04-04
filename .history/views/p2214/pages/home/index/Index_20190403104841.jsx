@@ -172,7 +172,7 @@ class Widget extends Component {
                         wx.updateTimelineShareData({ 
                             title: '重医儿童医院咨询平台', // 分享标题
                             link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                            imgUrl: 'http://ihoss.oss-cn-beijing.aliyuncs.com/PIC/hospital/logo-2214.png', // 分享图标
+                            imgUrl: window.location.origin+'/views/p2214/resources/images/chat.jpg', // 分享图标
                             success: function () {
                                
                             }

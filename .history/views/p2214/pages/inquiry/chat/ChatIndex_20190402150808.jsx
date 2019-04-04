@@ -383,25 +383,6 @@ class Widget extends Component {
         }
         return h + " : " + m + " : " + s;
     }
-    validateImage(url)
-    {    
-        var xmlHttp ;
-        if (window.ActiveXObject)
-         {
-          xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-         }
-         else if (window.XMLHttpRequest)
-         {
-          xmlHttp = new XMLHttpRequest();
-         } 
-        xmlHttp.open("Get",url,false);
-        xmlHttp.send();
-        console.log('status',xmlHttp.status)
-        if(xmlHttp.status==404)
-        return false;
-        else
-        return true;
-    }
     /*获取咨询信息*/
     getChat(type) {
 
@@ -954,7 +935,6 @@ class Widget extends Component {
                 this.setState({
                     isBtn: false,
                     inputText: '',
-                    showPlus:false,
                 })
             }
                 this.hideLoading();
@@ -1504,32 +1484,14 @@ class Widget extends Component {
             data: formData,
             success: (e) => {
                 imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-                var j;
-                      for( j=0;j<imgArr1.length;j++){
-                          if(imgArr1[j]=='https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename){
-                            that.hideLoading();
-                            break;
-                          }
-                          
-                      }
-                       console.log("jjj",j,imgArr1,imgArr1.length);
-                      if(j+1>=imgArr1.length){
-                        that.hideLoading();
-                        while(!that.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
-                            console.log("no")
-                        }
-                        that.send({
-                            inquiryId: that.state.inquiryId,
-                            operator: 'user',
-                            url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
-                        });
-                       
-                        that.setState({
-                            imgArr:imgArr1
-                        })
-                        console.log("imgarr",imgArr1)
-                      }
-                      
+                console.log("ii",imgArr1)
+
+                    this.send({
+                        inquiryId: this.state.inquiryId,
+                        operator: 'user',
+                        url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
+                    });
+
 
             },
             error:(e) =>{
@@ -1605,32 +1567,16 @@ class Widget extends Component {
                                             data: formData,
                                             success: (e) => {
                                                 imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-                    var j;
-                          for( j=0;j<imgArr1.length;j++){
-                              if(imgArr1[j]=='https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename){
-                                that.hideLoading();
-                                break;
-                              }
-                              
-                          }
-                           console.log("jjj",j,imgArr1,imgArr1.length);
-                          if(j+1>=imgArr1.length){
-                            that.hideLoading();
-                            while(!that.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
-                                console.log("no")
-                            }
-                            that.send({
-                                inquiryId: that.state.inquiryId,
-                                operator: 'user',
-                                url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
-                            });
-                           
-                            that.setState({
-                                imgArr:imgArr1
-                            })
-                            console.log("imgarr",imgArr1)
-                          }
-                          
+                                                that.send({
+                                                    inquiryId: that.state.inquiryId,
+                                                    operator: 'user',
+                                                    url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
+                                                });
+
+                                                that.hideLoading();
+                                                that.setState({
+                                                    imgArr:imgArr1,
+                                                })
                                             },
                                             error:(e) =>{
                                                 that.hideLoading();
@@ -1733,9 +1679,6 @@ class Widget extends Component {
                            console.log("jjj",j,imgArr1,imgArr1.length);
                           if(j+1>=imgArr1.length){
                             that.hideLoading();
-                            while(!this.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
-                                console.log("no")
-                            }
                             that.send({
                                 inquiryId: that.state.inquiryId,
                                 operator: 'user',
@@ -1952,8 +1895,9 @@ class Widget extends Component {
 
                                                                     }}
                                                 >
-                                                <i/><img 
-                                                  src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
+                                                <i/><img onerror={()=>{
+                                                    this.getChat()
+                                                }}  src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
                                             </div>}
                                             {item.url && item.action == 'add' && <div
                                                 className='image'
@@ -2022,7 +1966,9 @@ class Widget extends Component {
                                                                                     this.previewImg(item.url)
                                                                                     }}
                                                 >
-                                                <img src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
+                                                <img onerror={()=>{
+                                                    this.getChat()
+                                                }} src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
 
                                             </div>}
                                             {item.url && item.action == 'add' && <div
