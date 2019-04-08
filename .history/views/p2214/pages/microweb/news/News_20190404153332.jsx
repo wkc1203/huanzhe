@@ -94,7 +94,7 @@ class Widget extends Component {
               <div className='list-time' style={{paddingTop:'5px'}}>重医儿童医院  <span style={{fontSize:'12px',paddingLeft:'5px'}}>2019年3月29日</span></div>
             </div>
             <div className="img-box">
-            <img src="./././resources/images/20181229.jpg"   style={{width:'80px'}}/>
+            <img src="./././resources/images/2019330.jpg"   style={{width:'80px'}}/>
           </div>
           </div>
         </a>
@@ -170,7 +170,7 @@ class Widget extends Component {
               <div className='list-time' style={{paddingTop:'5px'}}>重医儿童医院  <span style={{fontSize:'12px',paddingLeft:'5px'}}>2018年12月29日</span></div>
             </div>
             <div className="img-box">
-              <img src="./././resources/images/2019330.jpg" />
+              <img src="./././resources/images/20181229.jpg" />
             </div>
           </div>
         </a>
