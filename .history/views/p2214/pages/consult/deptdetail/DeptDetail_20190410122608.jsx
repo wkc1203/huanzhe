@@ -75,7 +75,7 @@ class Widget extends Component {
         if(window.localStorage.login_access_token){
             window.localStorage.login_access_token1=window.localStorage.login_access_token;
         }
-        if(this.props.location.query.resource==5){
+        if(this.props.location.query.source==5){
             this.sum1(2,this.props.location.query.doctorId);
         }
         this.sum('doctor',1);

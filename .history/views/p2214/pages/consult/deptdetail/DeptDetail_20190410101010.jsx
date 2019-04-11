@@ -76,9 +76,9 @@ class Widget extends Component {
             window.localStorage.login_access_token1=window.localStorage.login_access_token;
         }
         if(this.props.location.query.resource==5){
-            this.sum1(2,this.props.location.query.doctorId);
+            this.sum('',2,this.props.location.query.doctorId);
         }
-        this.sum('doctor',1);
+            this.sum('doctor',1);
         
         
 
@@ -104,20 +104,6 @@ class Widget extends Component {
             hisId:'2214',
             code:code,
             type:type
-        })
-        .then((res) => {
-
-          
-        }, (e) => {
-
-        });
-    }
-    sum1(type,doctorId){
-        Api
-        .getSum({
-            hisId:'2214',
-            type:type,
-            doctorId:doctorId,
         })
         .then((res) => {
 

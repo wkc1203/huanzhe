@@ -383,7 +383,7 @@ class Widget extends Component {
          this.showLoading();
          var report;   
          Api
-             .getreportList({patientId:patientId})
+             .getreportList({patientId:'390'})
              .then((res) => {
                  if (res.code == 0) {
                       console.log("yy",patientId,res.data);

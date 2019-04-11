@@ -112,7 +112,7 @@ class Widget extends Component {
 
         });
     }
-    sum1(type,doctorId){
+    sum1(type,deptId){
         Api
         .getSum({
             hisId:'2214',

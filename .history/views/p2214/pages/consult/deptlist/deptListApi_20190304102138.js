@@ -9,4 +9,3 @@ export const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/
 
 export const getInfo = (param) => fetch.post('/api/ehis/health/api/doctor/page/v2', param);
 
-export const getSum = (param) =>  fetch.post('/api/ehis/health/api/pageview/savePageviewData', param);

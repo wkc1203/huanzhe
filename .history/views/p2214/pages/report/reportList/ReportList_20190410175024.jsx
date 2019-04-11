@@ -383,7 +383,7 @@ class Widget extends Component {
          this.showLoading();
          var report;   
          Api
-             .getreportList({patientId:patientId})
+             .getreportList({patientId:'390'})
              .then((res) => {
                  if (res.code == 0) {
                       console.log("yy",patientId,res.data);
@@ -709,7 +709,7 @@ class Widget extends Component {
                                 })
                         }
                   }}>报告解读</span>}
-                  {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&(item.allOnLineReportResult!==1||item.reportInterpretateFlag!=='1')&&<span className='no' onClick={()=>{
+                  {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&(item.allOnLineReportResult!=='1'||item.reportInterpretateFlag!=='1')&&<span className='no' onClick={()=>{
                    
               }}>报告解读</span>}
 

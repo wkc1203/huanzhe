@@ -381,7 +381,7 @@ class Widget extends Component {
     /*获取报告列表*/
     getreportList(patientId = '') {
          this.showLoading();
-         var report;   
+         var report;  
          Api
              .getreportList({patientId:patientId})
              .then((res) => {
@@ -696,7 +696,7 @@ class Widget extends Component {
                     </span> 
                     </p>
                     
-                    {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1'&&<span className='yes' onClick={()=>{
+                    {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&item.allOnLineReportResult=='1'&&item.reportInterpretateFlag=='1'&&<span className='yes' onClick={()=>{
                         //已出未解读
                         if(item.deptName.indexOf('全科')==-1){
                             this.inquiry(1,item.hisDoctorName,item.report[0].Visit_no)
@@ -709,7 +709,7 @@ class Widget extends Component {
                                 })
                         }
                   }}>报告解读</span>}
-                  {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&(item.allOnLineReportResult!==1||item.reportInterpretateFlag!=='1')&&<span className='no' onClick={()=>{
+                  {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&(item.allOnLineReportResult!=='1'||item.reportInterpretateFlag!=='1')&&<span className='no' onClick={()=>{
                    
               }}>报告解读</span>}
 

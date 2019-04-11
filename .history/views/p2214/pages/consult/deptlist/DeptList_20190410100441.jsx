@@ -105,7 +105,7 @@ class Widget extends Component {
     componentDidMount(){
         const that = this; // 为解决不同context的问题
         let timeCount;
-        if(this.props.location.query.source==5){
+        if(this.props.location.query.resource==5){
             this.sum(2,this.props.location.query.deptId);
         }
 
