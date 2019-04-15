@@ -381,10 +381,85 @@ class Widget extends Component {
     /*获取报告列表*/
     getreportList(patientId = '') {
          this.showLoading();
-         var report;   
-         Api
-             .getreportList({patientId:patientId})
-             .then((res) => {
+         var report; 
+         var res={
+            "code": 0,
+            "msg": null,
+            "data": [
+                {
+                    "allOnLineReportResult": 1,
+                    "deptName": "特需知名专家",
+                    "illnessDesc": "反复咳嗽1月",
+                    "doctorRealName": "彭东红",
+                    "hisDoctorName": "PDH",
+                    "inhospitalNo": "100889",
+                    "anamnesis": "",
+                    "advice": "",
+                    "inDate": "2019-04-12 07:34:53",
+                    "isAllUnknown": 0,
+                    "type": 2,
+                    "lastReportPrintDate": "2019-04-12 11:35:47",
+                    "bodyExam": "双肺呼吸音稍粗，双肺未闻及明显干湿罗音，咽部稍充血，扁桃体不大",
+                    "hasTimeOut": "0",
+                    "inquiryId": "0",  
+            "report": [               
+                 {
+                    "Patient_id": "0015246224",
+                    "Doctor_user_name": "PDH",
+                    "Visit_id": "",
+                    "Results_rpt_date_time": "2019-04-12 10:16:40",
+                    "Test_no": "1190412014595",
+                    "Patient_age": "8月25天",
+                    "Doctor_name": "彭东红",
+                    "Visit_date": "2019-04-12 07:34:53",
+                    "type": "1",
+                    "Patient_name": "杜彧哲",
+                    "Sheet_title": "血液分析/CRP(门)",
+                    "Company_code": "nt_hospital",
+                    "Patient_sex": "男",
+                    "Project_code": "nt_hospital",
+                    "Order_dept_name": "特需知名专家",
+                    "Hospital_userid": "oHnSPs8lgpqrgaIhsHuyVpFB2BbU_4024977019",
+                    "On_line": "Y",
+                    "Visit_no": "100889",
+                    "Performed_dept_name": "临检中心",
+                    "Requested_date_time": "2019-04-12 10:01:25"
+                },
+                {
+                    "Patient_id": "0015246224",
+                    "Doctor_user_name": "PDH",
+                    "Visit_id": "",
+                    "Exam_class": "放射",
+                    "Visit_date": "2019-04-12 07:34:53",
+                    "type": "2",
+                    "Patient_name": "杜彧哲",
+                    "Company_code": "nt_hospital",
+                    "Patient_sex": "男",
+                    "Req_date_time": "2019-04-12 10:01:29",
+                    "Exam_item_no": "1",
+                    "Exam_item": "胸部正位片",
+                    "Exam_sub_class": "胸部摄影",
+                    "Project_code": "nt_hospital",
+                    "Order_dept_name": "特需知名专家",
+                    "Report_date_time": "2019-04-12 11:35:47",
+                    "Hospital_userid": "oHnSPs8lgpqrgaIhsHuyVpFB2BbU_4024977019",
+                    "On_line": "Y",
+                    "Req_physician": "彭东红",
+                    "Visit_no": "100889",
+                    "Performed_dept":"s",
+                }
+            ],
+            "diagnosisDesc": "百日咳综合征",
+            "medHistory": "反复咳嗽1月，院外住院治疗，好转出院，",
+            "reportInterpretateFlag": "1"
+        }
+    ]
+}
+
+
+         //Api
+            // .getreportList({patientId:patientId})
+           //  .then((res) => {
                  if (res.code == 0) {
                       console.log("yy",patientId,res.data);
                       this.hideLoading();
@@ -438,10 +513,10 @@ class Widget extends Component {
                       }
                       
                  }
-             }, e=> {
+           //  }, e=> {
                 this.hideLoading();
             
-             });
+            // });
 
 
     }
@@ -710,11 +785,7 @@ class Widget extends Component {
                         }
                   }}>报告解读</span>}
                   {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&(item.allOnLineReportResult!==1||item.reportInterpretateFlag!=='1')&&<span className='no' onClick={()=>{
-                    this.setState({
-                        showIOS1:true,
-                        timeout:false, 
-                        msg:'请到线下咨询开单医生'
-                    })
+                   
               }}>报告解读</span>}
 
                   {item.inquiryId=='0'&&item.hasTimeOut=='1'&&<span className='no' onClick={()=>{

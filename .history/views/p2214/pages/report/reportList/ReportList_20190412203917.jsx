@@ -712,7 +712,7 @@ class Widget extends Component {
                   {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&(item.allOnLineReportResult!==1||item.reportInterpretateFlag!=='1')&&<span className='no' onClick={()=>{
                     this.setState({
                         showIOS1:true,
-                        timeout:false, 
+                        timeout:false,
                         msg:'请到线下咨询开单医生'
                     })
               }}>报告解读</span>}
