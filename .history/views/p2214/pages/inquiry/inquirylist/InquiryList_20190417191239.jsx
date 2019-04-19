@@ -58,6 +58,7 @@ class Widget extends Component {
     }
 
     getJs() {
+        console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
             .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
             .then((res) => {
@@ -103,10 +104,27 @@ class Widget extends Component {
                 })
             });
     }
-   
+    showToast() {
+        this.setState({showToast: true});
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
 
-    hideDialog(){
-        Utils.hideDialog();
+    showLoading() {
+        this.setState({showLoading: true});
+        this.state.loadingTimer = setTimeout(()=> {
+            this.setState({showLoading: false});
+        }, 2000);
+    }
+
+    hideDialog() {
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
     }
    /*获取咨询列表*/
     getInquiryList() {
@@ -179,8 +197,10 @@ class Widget extends Component {
                                     </div>
                                     {(item.status == '0' || item.status == '1') &&
                                     <div className="status-inquiry"> 咨询中</div>}
-                                    {(item.status == '3' || item.status == '2') &&
+                                    {(item.status == '3' || item.status == '2')  && item.refundStatus=='0'&&
                                     <div className="status-inquiry complete">已完成</div>}
+                                    { (item.status == '3' || item.status == '2') && item.refundStatus=='1'&&
+                                    <div className="status-inquiry complete">有退费</div> }
                                 </div>
                                 <div className="msg-item">
                                     <div className='msg-box'>

@@ -97,34 +97,55 @@ class Widget extends Component {
     }
   }
   componentDidMount() {
+    if(!window.localStorage.login_access_token){
+        var code;
+        if(window.location.origin=='https://tih.cqkqinfo.com'){
+            code='ff80808165b46560016817f20bbc00b3';
+      
+          }else{
+            code='ff80808165b46560016817f30cc500b4';
+          }
+          var storage=window.localStorage;
+          //加入缓存
+          storage.isOpenId=1;
+        
+          window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
+          // return false;
+             var storage=window.localStorage;
+             //加入缓存
+             storage.url=window.location.href; 
+           
+    }else{
         this.getJs();
-         if(window.localStorage.goChat==1&&window.localStorage.reportStatus){
-             var report=JSON.parse(window.localStorage.reportStatus);
+        if(window.localStorage.goChat==1&&window.localStorage.reportStatus){
+            var report=JSON.parse(window.localStorage.reportStatus);
 
-             this.setState({
-                patientName: report.patientName,
-                isPatShow: report.isPatShow,
-                reportList: report.reportList,
-                showToast:report.showToast,
-                showLoading:report.showLoading,
-                toastTimer: report.toastTimer,
-                loadingTimer: report.loadingTimer,
-                showAndroid1: report.showAndroid1,
-                showAndroid2: report.showAndroid2,
+            this.setState({
+               patientName: report.patientName,
+               isPatShow: report.isPatShow,
+               reportList: report.reportList,
+               showToast:report.showToast,
+               showLoading:report.showLoading,
+               toastTimer: report.toastTimer,
+               loadingTimer: report.loadingTimer,
+               showAndroid1: report.showAndroid1,
+               showAndroid2: report.showAndroid2,
 
-                msg:report.msg,
-                clickItem:report.clickItem,
-                patList:report.patList,
-                item1Show:report.item1Show,//咨询显示
-                item3Show:report.item3Show,//检查单显示
-                currentName:report.currentName,
-                currentId:report.currentId,
-                currentPatient:report.currentPatient
-             })
-             console.log("rrport",report);
-         }else{
-            this.getCardList();  
-         }
+               msg:report.msg,
+               clickItem:report.clickItem,
+               patList:report.patList,
+               item1Show:report.item1Show,//咨询显示
+               item3Show:report.item3Show,//检查单显示
+               currentName:report.currentName,
+               currentId:report.currentId,
+               currentPatient:report.currentPatient
+            })
+            console.log("rrport",report);
+        }else{
+           this.getCardList();  
+        }
+    }
+        
         
     
     
@@ -186,23 +207,54 @@ class Widget extends Component {
        .createOrder(params)
        .then((res) => {
             if(res.code==0){
+                     
                 this.hideLoading();
                 console.log(res);
                 this.context.router.push({
                     pathname:'inquiry/chat',
                     query:{inquiryId:res.data.id,resource:'report'}
                 })
+            }else{
+                this.hideLoading();
+                if (res.code==-2) {
+                    console.log("1")
+                    if(res.msg!=null&&res.msg!=''){
+                        this.setState({
+                            msg:'当前咨询完成后，才能对医生发起新的咨询',
+                            showIOS3:true
+                        })
+                    }
+                }else{
+                    this.setState({
+                        msg: res.msg,
+                        showIOS3: true
+                    })
+                }
+
             }
+
+                    
+                
             }, e=> {
            this.hideLoading();
-           if(e.msg.length>5){
-            this.setState({
-                inquiryId:e.msg||'',
-                msg:'当前咨询完成后，才能对医生发起新的咨询',
-                showIOS3:true
-            })
-           }
-         
+                if (e.code==-2) {
+                if(e.msg!=null&&e.msg!=''){
+                    this.setState({
+                        inquiryId:e.msg||'',
+                        msg:'当前咨询完成后，才能对医生发起新的咨询',
+                        showIOS3:true
+                    })
+                }
+
+                
+            }else{
+                console.log("2")
+                this.setState({
+                    msg: e.msg,
+                    showIOS1: true
+                })
+            }
+           
        });
    }
     showToast() {
@@ -320,16 +372,29 @@ class Widget extends Component {
                   }
                   }, e=> {
 
-                 this.setState({
-                     msg:e.msg,
-                     showIOS1:true
-                 })
+                    var code;
+                    if(window.location.origin=='https://tih.cqkqinfo.com'){
+                        code='ff80808165b46560016817f20bbc00b3';
+                  
+                      }else{
+                        code='ff80808165b46560016817f30cc500b4';
+                      }
+                      var storage=window.localStorage;
+                      //加入缓存
+                      storage.isOpenId=1;
+                    
+                      window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
+                      // return false;
+                         var storage=window.localStorage;
+                         //加入缓存
+                         storage.url=window.location.href;
              });
     }
     /*获取报告列表*/
     getreportList(patientId = '') {
          this.showLoading();
-         var report;
+         //390
+         var report;   
          Api
              .getreportList({patientId:patientId})
              .then((res) => {
@@ -440,29 +505,28 @@ class Widget extends Component {
             this.hideLoading();
             if (res.code == 0) {
                 
-                if(this.state.timeout){
-                    this.setState({
-                        showIOS1:true,
-                        timeout:true,
-                        msg:'对不起，您已超过了报告解读的有效期'
-                    })
-                }else{
-                 //成功 跳转
-                   
-                 //建立咨询
-                 this.setState({
-                    doctor:res.data
-                })
-                this.setState({
-                   isShowProtocol:true,
-                   visitNo:visitNo,
-                   hisDoctorName:hisDoctorName,
-               })
-
-                }
                
+               // if(res.data.freeReport==1){
+                          //成功 跳转
+                   
+                    //建立咨询
+                    this.setState({
+                        doctor:res.data
+                    })
+                    this.setState({
+                    isShowProtocol:true,
+                    visitNo:visitNo,
+                    hisDoctorName:hisDoctorName,
+                })
+            /*  }else{
+               this.setState({
+                   showIOS1:true,
+                    msg:'对不起，该医生当前在线报告解读人数过多，请稍后再试或到线下咨询开单医生。',
                 
-                console.log(res)
+                })
+              }     */   
+                
+
             }else{
                 this.hideLoading();
                 this.setState({
@@ -508,7 +572,7 @@ class Widget extends Component {
         if(type==4){
             this.setState({
                 showIOS1:true,
-                msg:'对不起，您的报告已被绑定此就诊人的其他账户申请解读，您可在发起此报告解读的账号上查看解读详情',
+                msg:'对不起，您的报告已被绑定此就诊人的其他账号申请解读，您可在发起此报告解读的账号上查看解读详情',
                 
             })
         }
@@ -548,19 +612,19 @@ class Widget extends Component {
                         <div className='modal-content-protocol'>
                             <div className="content">
                                 <div className="content-item">
-                                    1、每次就诊报告结果发布后，患者均有。
-                                    <span className="f-color-red">一次机会向开单医生申请报告解读
-                                    </span>。
+                                    1、每次就诊报告结果发布后，患者均有
+                                    <span className="f-color-red">一次机会向开单医生申请免费报告解读
+                                    </span>，请确保您已拿到全部报告结果。
                                 </div>
                                 <div className="content-item">
-                                    2、报告解读有效期自医生开单当日起，
-                                    <span className="f-color-red">可在7天内向开单医生申请报告解读，逾期无效
+                                    2、报告解读有效期自所有线上能出结果的最后一个报告发布时间起，
+                                    <span className="f-color-red">72小时内可向开单医生申请报告解读，逾期无效
                                     </span>。
                                </div>
                                <div className="content-item">
-                                 3、因部分报告结果无法通过手机查看，进行报告解读前请确保所有报告均已拿到结果，
-                                        <span className="f-color-red">纸质报告可通过上传照片
-                                        </span>的方式进行解读，线上报告无需上传资料。
+                                 3、因部分报告结果无法通过手机查看，请及时到线下获取纸质报告结果，
+                                        <span className="f-color-red">纸质报告可通过上传照片的方式进行解读
+                                        </span>，线上报告无需上传资料。
                                </div>
                             </div>  
                         </div>
@@ -645,28 +709,45 @@ class Widget extends Component {
                     </span> 
                     </p>
                     
-                    {item.inquiryId=='0'&&<span className='yes' onClick={()=>{
+                    {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1'&&<span className='yes' onClick={()=>{
                         //已出未解读
-                       /*  if(item.deptName.indexOf('全科')!=-1){ */
-                           // if(item.hasTimeOut=='1'){
-                                this.setState({
-                                    timeout:false,
-                                    inDate:item.inDate
-                                })
-                          //  }
+                        //if(item.deptName.indexOf('全科')!==-1){
                             this.inquiry(1,item.hisDoctorName,item.report[0].Visit_no)
-                       /*  }else{
+                        /* }else{
                             
-                                this.setState({ 
+                                this.setState({
                                     showIOS1:true,
                                     timeout:false,
                                     msg:'该科室暂不支持在线解读报告'
                                 })
-                            
                         } */
-                        
-                        
                   }}>报告解读</span>}
+                  {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&(item.allOnLineReportResult!==1||item.reportInterpretateFlag!=='1')&&<span className='no' onClick={()=>{
+                     if(item.allOnLineReportResult!==1){
+                        this.setState({
+                            showIOS1:true,
+                            timeout:false, 
+                            msg:'对不起，您的报告还未全部出结果。'
+                        })
+                     }else{
+                        this.setState({
+                            showIOS1:true,
+                            timeout:false, 
+                            msg:'对不起，本次就诊医生暂未开启在线免费报告解读，请到线下咨询开单医生。'
+                        })
+                     }
+                   
+              }}>报告解读</span>}
+
+                  {item.inquiryId=='0'&&item.hasTimeOut=='1'&&<span className='no' onClick={()=>{
+                    this.setState({
+                        showIOS1:true,
+                        timeout:true,
+                        msg:'对不起，您已超过了在线报告解读的有效期，请到线下咨询开单医生。'
+                    })
+                    
+                    
+               }}>报告解读</span>}
                     {item.inquiryId.length>2&&item.myself=='1'&&<span className='already' onClick={()=>{
                           //已解读是自己
                           this.inquiry(2,item.hisDoctorName,item.inquiryId)
@@ -698,15 +779,23 @@ class Widget extends Component {
                                     query:{report:JSON.stringify(item1),patient:JSON.stringify(currentPatient)}
                                 })
                             }}>
-                                <span style={{fontSize:'14px'}}>检查项：</span> <span style={{fontSize:'14px'}}>{item1.type=='1'?item1.Sheet_title+'  ':item1.Exam_item+'  '  }   </span>   
-                                {item1.type=='1'&&<span style={{fontSize:'14px',color:'#4dabc7'}}>{item1.Results_rpt_date_time?'(已出结果)':''}</span>}
-                                {item1.type=='2'&&<span style={{fontSize:'14px',color:'#4dabc7'}}>{item1.Report_date_time?'(已出结果)':''}</span>}
+                                <span style={{fontSize:'14px'}}>检查项：</span> 
+                                <span style={{fontSize:'14px'}} className='report-item'>
+                                {item1.type=='1'?item1.Sheet_title+'  ':item1.Exam_item+'  '  }  
+                                 </span> 
+                                {item1.type=='1'&&!item1.Results_rpt_date_time&&item1.On_line=='Y'&&<span style={{fontSize:'14px',color:'#FF6600'}}>(待出结果)</span>}
+                                {item1.type=='1'&&!item1.Results_rpt_date_time&&item1.On_line!=='Y'&&<span style={{fontSize:'14px',color:'#ff0000'}}>(线下取结果)</span>}
+                                {item1.type=='1'&&item1.Results_rpt_date_time&&<span style={{fontSize:'14px',color:'#4dabc7'}}>(已出结果)</span>}
 
                              </p>}
                              {item1.type=='1'&&!item1.Results_rpt_date_time&&<p className='name ' >
-                                <span style={{fontSize:'14px'}}>检查项：</span> <span style={{fontSize:'14px'}}>{item1.type=='1'?item1.Sheet_title+'  ':item1.Exam_item+'  '  }   </span>   
-                                {item1.type=='1'&&<span style={{fontSize:'14px',color:'#4dabc7'}}>{item1.Results_rpt_date_time?'(已出结果)':''}</span>}
-                                {item1.type=='2'&&<span style={{fontSize:'14px',color:'#4dabc7'}}>{item1.Report_date_time?'(已出结果)':''}</span>}
+                                <span style={{fontSize:'14px'}}>检查项：</span>
+                                <span style={{fontSize:'14px'}} className='report-item'>
+                                {item1.type=='1'?item1.Sheet_title+'  ':item1.Exam_item+'  '  }  
+                                 </span> 
+                                {item1.type=='1'&&!item1.Results_rpt_date_time&&item1.On_line=='Y'&&<span  style={{fontSize:'14px',color:'#FF6600'}}>(待出结果)</span>}
+                                {item1.type=='1'&&!item1.Results_rpt_date_time&&item1.On_line!=='Y'&&<span  style={{fontSize:'14px',color:'#ff0000'}}>(线下取结果)</span>}
+                                {item1.type=='1'&&item1.Results_rpt_date_time&&<span  style={{fontSize:'14px',color:'#4dabc7'}}>(已出结果)</span>}
 
                              </p>}
 
@@ -717,15 +806,23 @@ class Widget extends Component {
                                     query:{report:JSON.stringify(item1),patient:JSON.stringify(currentPatient)}
                                 })
                             }}>
-                                <span style={{fontSize:'14px'}}>检查项：</span> <span style={{fontSize:'14px'}}>{item1.type=='1'?item1.Sheet_title+'  ':item1.Exam_item+'  '  }   </span>   
-                                {item1.type=='1'&&<span style={{fontSize:'14px',color:'#4dabc7'}}>{item1.Results_rpt_date_time?'(已出结果)':''}</span>}
-                                {item1.type=='2'&&<span style={{fontSize:'14px',color:'#4dabc7'}}>{item1.Report_date_time?'(已出结果)':''}</span>}
+                                <span style={{fontSize:'14px'}}>检查项：</span> 
+                                <span style={{fontSize:'14px'}} className='report-item'>
+                                {item1.type=='1'?item1.Sheet_title+'  ':item1.Exam_item+'  '  }  
+                                 </span> 
+                                {item1.type=='2'&&!item1.Report_date_time&&item1.On_line=='Y'&&<span style={{fontSize:'14px',color:'#FF6600'}}>(待出结果)</span>}
+                                {item1.type=='2'&&!item1.Report_date_time&&item1.On_line!=='Y'&&<span style={{fontSize:'14px',color:'#ff0000'}}>(线下取结果)</span>}
+                                {item1.type=='2'&&item1.Report_date_time&&<span style={{fontSize:'14px',color:'#4dabc7'}}>(已出结果)</span>}
 
                              </p>}
                              {item1.type=='2'&&!item1.Report_date_time&&<p className='name ' >
-                                <span style={{fontSize:'14px'}}>检查项：</span> <span style={{fontSize:'14px'}}>{item1.type=='1'?item1.Sheet_title+'  ':item1.Exam_item+'  '  }   </span>   
-                                {item1.type=='1'&&<span style={{fontSize:'14px',color:'#4dabc7'}}>{item1.Results_rpt_date_time?'(已出结果)':''}</span>}
-                                {item1.type=='2'&&<span style={{fontSize:'14px',color:'#4dabc7'}}>{item1.Report_date_time?'(已出结果)':''}</span>}
+                                <span style={{fontSize:'14px'}}>检查项：</span> 
+                                <span style={{fontSize:'14px'}} className='report-item'>
+                                {item1.type=='1'?item1.Sheet_title+'  ':item1.Exam_item+'  '  }  
+                                 </span>   
+                                {item1.type=='2'&&!item1.Report_date_time&&item1.On_line=='Y'&&<span style={{fontSize:'14px',color:'#FF6600'}}>(待出结果)</span>}
+                                {item1.type=='2'&&!item1.Report_date_time&&item1.On_line!=='Y'&&<span style={{fontSize:'14px',color:'#ff0000'}}>(线下取结果)</span>}
+                                {item1.type=='2'&&item1.Report_date_time&&<span style={{fontSize:'14px',color:'#4dabc7'}}>(已出结果)</span>}
 
                              </p>}
 

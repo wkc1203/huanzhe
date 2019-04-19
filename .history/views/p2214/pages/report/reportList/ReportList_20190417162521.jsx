@@ -113,7 +113,7 @@ class Widget extends Component {
           // return false;
              var storage=window.localStorage;
              //加入缓存
-             storage.url=window.location.href; 
+             storage.url=window.location.href;
            
     }else{
         this.getJs();
@@ -372,22 +372,10 @@ class Widget extends Component {
                   }
                   }, e=> {
 
-                    var code;
-                    if(window.location.origin=='https://tih.cqkqinfo.com'){
-                        code='ff80808165b46560016817f20bbc00b3';
-                  
-                      }else{
-                        code='ff80808165b46560016817f30cc500b4';
-                      }
-                      var storage=window.localStorage;
-                      //加入缓存
-                      storage.isOpenId=1;
-                    
-                      window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
-                      // return false;
-                         var storage=window.localStorage;
-                         //加入缓存
-                         storage.url=window.location.href;
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
              });
     }
     /*获取报告列表*/

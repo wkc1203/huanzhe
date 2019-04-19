@@ -197,8 +197,10 @@ class Widget extends Component {
                                     </div>
                                     {(item.status == '0' || item.status == '1') &&
                                     <div className="status-inquiry"> 咨询中</div>}
-                                    {(item.status == '3' || item.status == '2') &&
+                                    {(item.status == '3' || item.status == '2') && item.refundStatus=='0'&&
                                     <div className="status-inquiry complete">已完成</div>}
+                                    {(item.status == '3' || item.status == '2') && item.refundStatus=='1'&&
+                                    <div className="status-inquiry complete">有退费</div>}
                                 </div>
                                 <div className="msg-item">
                                     <div className='msg-box'>

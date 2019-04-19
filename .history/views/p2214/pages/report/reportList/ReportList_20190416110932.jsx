@@ -113,7 +113,7 @@ class Widget extends Component {
           // return false;
              var storage=window.localStorage;
              //加入缓存
-             storage.url=window.location.href; 
+             storage.url=window.location.href;
            
     }else{
         this.getJs();
@@ -372,31 +372,18 @@ class Widget extends Component {
                   }
                   }, e=> {
 
-                    var code;
-                    if(window.location.origin=='https://tih.cqkqinfo.com'){
-                        code='ff80808165b46560016817f20bbc00b3';
-                  
-                      }else{
-                        code='ff80808165b46560016817f30cc500b4';
-                      }
-                      var storage=window.localStorage;
-                      //加入缓存
-                      storage.isOpenId=1;
-                    
-                      window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
-                      // return false;
-                         var storage=window.localStorage;
-                         //加入缓存
-                         storage.url=window.location.href;
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
              });
     }
     /*获取报告列表*/
     getreportList(patientId = '') {
          this.showLoading();
-         //390
          var report;   
          Api
-             .getreportList({patientId:patientId})
+             .getreportList({patientId:'390'})
              .then((res) => {
                  if (res.code == 0) {
                       console.log("yy",patientId,res.data);
@@ -723,20 +710,11 @@ class Widget extends Component {
                         } */
                   }}>报告解读</span>}
                   {item.inquiryId=='0'&&item.hasTimeOut!=='1'&&(item.allOnLineReportResult!==1||item.reportInterpretateFlag!=='1')&&<span className='no' onClick={()=>{
-                     if(item.allOnLineReportResult!==1){
-                        this.setState({
-                            showIOS1:true,
-                            timeout:false, 
-                            msg:'对不起，您的报告还未全部出结果。'
-                        })
-                     }else{
-                        this.setState({
-                            showIOS1:true,
-                            timeout:false, 
-                            msg:'对不起，本次就诊医生暂未开启在线免费报告解读，请到线下咨询开单医生。'
-                        })
-                     }
-                   
+                    this.setState({
+                        showIOS1:true,
+                        timeout:false, 
+                        msg:'请到线下咨询开单医生'
+                    })
               }}>报告解读</span>}
 
                   {item.inquiryId=='0'&&item.hasTimeOut=='1'&&<span className='no' onClick={()=>{
