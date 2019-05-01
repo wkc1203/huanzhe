@@ -553,7 +553,7 @@ class Widget extends Component {
                 <div className="open">
                 <img    
                 src='./././resources/images/doctor-open.png'/>
-                  <span> 您好，很高兴为您服务！</span>
+                  <span> 大家好，很高兴能够入驻重医儿童医院互联网</span>
                 </div>
                 <div className='content'>
                     <div className='d-tab'>
