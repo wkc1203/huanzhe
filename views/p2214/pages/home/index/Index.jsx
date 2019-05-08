@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import {Carousel} from 'antd-mobile';
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
@@ -14,6 +15,7 @@ class Widget extends Component {
     super(props);
     this.state = {
       hospInfo: {},
+      hasMsg:false,
       isOpen:false,
       doc:false,
         msgList:[],
@@ -111,27 +113,28 @@ class Widget extends Component {
         });
     }
     /*获取未读条数*/
-     getMsg() {
-         Api
-             .getMsg()
-             .then((res) => {
-
-                 if(res.code==0&&res.data!=null){
-                        var s=[];
-                       for(var i=0;i<res.data.length;i++){
-                           if(i<2){
-                               s.push(res.data[i])
-                           }
+    getMsg() {
+        console.log("ha1s",this.state.hasMsg)
+        Api
+            .getMsg()
+            .then((res) => {
+                if(res.code==0&&res.data!=null){
+                       if(res.data.length>0){
+                            for(var i=0;i<res.data.length;i++)
+                             if(res.data[i].userReaded=='0'){
+                                this.setState({
+                                    hasMsg:true
+                                })
+                             }
+                          
                        }
-                       this.setState({
-                           msgList:s || []
-                       })
-                 }
-             }, (e) => {
+                     
+                }
+            }, (e) => {
 
-             });
+            });
 
-    }
+   }
     getStatus() {     
         Api
             .getStatus()
@@ -326,6 +329,7 @@ class Widget extends Component {
          doc,
          img,
          msg,
+         hasMsg,
          }=this.state;
     return (
         /*首页*/
@@ -340,7 +344,7 @@ class Widget extends Component {
          
           {<div className="header" >
            <img
-           src="../../../resources/images/head-img.png"
+           src="./././resources/images/index-banner.png"
                alt=""
                />
          </div>}
@@ -356,76 +360,50 @@ class Widget extends Component {
                   })
               }}
                   >
-                  <div>
                      <div className="icon">
                        <img
-                           src="../../../resources/images/inquiry-bg.png"
+                           src="./././resources/images/index-inquiry-doctor.png"
                            alt=""
                            />
                      </div>
-                     <div className="text">
-                       <div>图文咨询 <span style={{color:'grey',fontSize:'13px'}}>(试运行)</span></div>
-                       <div>医生将在24小时内回复</div>
-                     </div>
+                    
+                       <div className='text1 text-acitve'>医生咨询 </div>
+                       <div className='text2'>健康问题问医生</div>
+                     
                   </div>
+                <div className="d-tab" onClick={()=>{
+                this.switchOpen(1)
+                }}>
+                    <div className="icon">
+                      <img
+                          src="./././resources/images/index-drug.png"
+                          alt=""
+                          />
+                    </div>
+                  
+                      <div className='text1'>用药咨询</div>
+                      <div className='text2'>合理用药问药师</div>
+                   
                 </div>
                 <div className="d-tab" onClick={()=>{
                 this.switchOpen(1)
                 }}>
-                  <div>
-                    <div className="icon">
-                      <img
-                          src="../../../resources/images/video.png"
-                          alt=""
-                          />
-                    </div>
-                    <div className='text'>
-                      <div>视频咨询</div>
-                      <div>一对一视频咨询</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-tab" onClick={()=>{
-                this.switchOpen(1)
-                }}>
-                  <div>
-                    <div className="icon">
-                      <img
-                          src="../../../resources/images/phone.png"
-                          alt=""
-                          />
-                    </div>
-                    <div className='text'>
-                      <div>电话咨询</div>
-                      <div>一对一电话咨询</div>
-                    </div>
-                  </div>
+                    
+                        <div className="icon">
+                        <img
+                            src="./././resources/images/index-nurse.png"
+                            alt=""
+                            />
+                      </div>
+                      <div className='text1'>护理咨询</div>
+                      <div className='text2'>健康护理问护士</div>
                 </div>
               </div>
-               {msgList.length>0&&<div >
-                   <div className='o-tab'
-                       onClick={()=>{
-                       this.switchInquiry()
-
-                       }}>
-                       <div className="msg-item">
-                           <img src="../../../resources/images/msg.png" />
-                       </div>
-                       <i/>
-                       <div>
-                          { msgList&&msgList.map((item,index)=>{
-                              return(
-                                  <div key={index}>
-                                      <span>{item.doctorName}医生回复了您。</span>
-                                  </div>
-                              )
-
-                          })}
-                       </div>
-                   </div>
-               </div>}
            </div>
-             <div className='title1 rightTab'>专家推荐<div  onClick={()=>{
+             <div className='title1 rightTab'><img
+             src="./././resources/images/index-more.png"
+             alt=""
+             />专家推荐<div  onClick={()=>{
              this.goDoctor()
              }}>更多</div></div>
              <div className='doctor'>
@@ -444,7 +422,7 @@ class Widget extends Component {
                          {
                              doc&&docList.map((item, index) => {
                                  return (
-                                     <div key={index} style={{paddingTop:'15px'}}>
+                                     <div key={index} >
                                          <Link  to={{
                                          pathname:'consult/deptdetail',
                                          query:{doctorId:item.doctorId,deptId:item.deptId,resource:1}
@@ -452,7 +430,7 @@ class Widget extends Component {
                                          }}>
                                              <img src={item.image&&item.image.indexOf("ihoss")=='-1'?item.image:item.image+"?x-oss-process=image/resize,w_105"}></img>
                                              <div className="txt1">{item.name}</div>
-                                             <div className="txt2">{item.deptName} {item.level}</div>
+                                             <div className="txt2">{item.deptName}</div>
                                          </Link>
                                      </div>
                                  );
@@ -461,49 +439,81 @@ class Widget extends Component {
                      </div>
                  </div>
              </div>
-           <div className='titleh'>常用服务</div>
+              <div className='index-banner'>
+              
+              <Carousel autoplay={true}
+              infinite={true}
+              dots={true}
+              effect={'fade'}
+                >
+            <div><img    src="./././resources/images/index-search.png" alt=""
+              onClick={()=>{
+                this.context.router.push({
+                    pathname: '/consult/alldeptlist'
+                })
+              }}
+            
+            /></div>
+            <div><img    src="./././resources/images/index-report.png" alt=""
+            onClick={()=>{
+                this.context.router.push({
+                    pathname: '/report/reportlist'
+                })
+              }}
+            /></div>
+        
+            </Carousel>
+              </div>
+           <div className='titleh'>
+            <img
+            src="./././resources/images/index-title-icon.png"
+            alt=""
+            />更多服务</div>
            <div className='b-tab'>
              <Link
                  to={{ pathname: '/microweb/deptlist' }}
                  >
+                <div className='icon'>
+                 <img
+                     src="./././resources/images/index-dept.png"
+                     alt=""
+                     />
+               </div>
                <div className='text'>
                  <div>科室介绍</div>
                  <div>了解医院科室</div>
                </div>
-               <div className='icon'>
-                 <img
-                     src="../../../resources/images/dept-info.png"
-                     alt=""
-                     />
-               </div>
+               
              </Link>
              <Link
                  to={{ pathname: '/microweb/deptlistfordoc' }}
                  >
+                <div className='icon'>
+                 <img
+                     src="./././resources/images/index-doctor.png"
+                     alt=""
+                     />
+               </div>
                <div className='text'>
                  <div>专家介绍</div>
                  <div>了解专家信息</div>
                </div>
-               <div className='icon'>
-                 <img
-                     src="../../../resources/images/master.png"
-                     alt=""
-                     />
-               </div>
+               
              </Link>
              <Link
                  to={{ pathname: '/microweb/news' }}
                  >
+                <div className='icon'>
+                 <img
+                     src="./././resources/images/index-advice.png"
+                     alt=""
+                     />
+               </div>
                <div className='text'>
                  <div>健康宣教</div>
                  <div>儿童护理知识</div>
                </div>
-               <div className='icon'>
-                 <img
-                     src="../../../resources/images/conduct.png"
-                     alt=""
-                     />
-               </div>
+               
              </Link>
              <Link
                  onClick={
@@ -511,49 +521,64 @@ class Widget extends Component {
                  window.location.href='https://mp.weixin.qq.com/s/QtsB23jZXQtem5HFDy-GVA'
              }}
                  >
+                <div className='icon'>
+                 <img
+                     src="./././resources/images/index-inform.png"
+                     alt=""
+                     />
+               </div>
                <div className='text'>
                  <div>咨询公告</div>
                  <div>查看最新公告</div>
                </div>
-               <div className='icon'>
-                 <img
-                     src="../../../resources/images/news.png"
-                     alt=""
-                     />
-               </div>
+               
              </Link>
            </div>
          </div>}
-          {isOpen&&<div className='modal-tip'>
-              <div className='modal-body-tip'>
-                  <div className='modal-title'>温馨提示</div>
-                  <div className='modal-content-tip'>
-                          <div className="content-item">该功能正在努力建设中</div>
-                  </div>
-                  <div className='modal-footer-tip' onClick={
-                  ()=>{
-                  this.switchOpen(2)
-                  }
-                  }>
-                      <span >我知道了</span>
-                  </div>
-              </div>
-          </div>
+          {isOpen&&<div className='modal-tip1' onClick={(e)=>{
+            this.setState({
+                isOpen:false
+            })
+            }}>
+
+            <div className='modal-body-tip'  onClick={(e)=>{
+                e.stopPropagation()
+                }}>
+                <div className='modal-content-tip'>
+                    
+                        <div className="content-item">正在努力建设中...</div>
+                    
+                     <div className="img">
+                       <img  src="./././resources/images/no-open.png" alt=""></img>
+
+                     </div>
+                     <div className="btn-close">
+                                 <p onClick={(e)=>{
+                                    this.setState({
+                                        isOpen:false
+                                    })
+                                    }}>确定</p>
+                              </div>
+                </div>
+                
+            </div>
+        </div>
           }
           <div className="tarbar">
               <div  >
                   <img
-                      src="../../../resources/images/index-active.png"
+                      src="./././resources/images/index-active.png"
                       />
                   <div style={{color:'#4FABCA'}}>首页</div>
               </div>
-              <div onClick={
+              <div className='inquiry'
+               onClick={
                  ()=>{
                 this.toNext(2)
                  }
-              }>
+              }>  {hasMsg&&<span></span>}
                   <img
-                      src="../../../resources/images/inquiry.png"/>
+                      src="./././resources/images/inquiry.png"/>
                   <div>咨询会话</div>
               </div>
               <div onClick={
@@ -563,7 +588,7 @@ class Widget extends Component {
                  }
               }>
                   <img
-                      src="../../../resources/images/my.png"/>
+                      src="./././resources/images/my.png"/>
                   <div>我的</div>
               </div>
           </div>

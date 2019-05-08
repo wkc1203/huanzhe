@@ -90,7 +90,7 @@ class Widget extends Component {
                 {reason: '咨询', id: 1},
                 {reason: '复诊', id: 2},
                 {reason: '报告解读', id: 3},
-                {reason: '加号', id: 4},
+               /*  {reason: '加号', id: 4}, */
                 {reason: '其他', id: 8},
             ],
             imgArr: [],

@@ -13,7 +13,20 @@
     align-items:center;
     text-align:center;
     font-size:14px;
-    color: #797979;
+    color: #999;
+     .inquiry{
+        position: relative;
+        span{
+            width: 7px;
+            position: absolute;
+            height: 7px;
+            left: 53%;
+            top: 5px;
+            border-radius: 50%;
+            display: block;
+            background: #ea6ea4;
+        }
+    }
     div,a{
         flex:1;
         .num{
@@ -30,8 +43,8 @@
 
         }
         img{
-            height:22px;
-            width:22px;
+            height:23px;
+            width:23px;
             padding:5px 0 0 0;
 
         }
@@ -214,8 +227,7 @@
     border-radius: 2px;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.02);
 
-    .function-list{
-    }
+  
     .list-item{
         position: relative;
         &:after{

@@ -14,7 +14,20 @@
     align-items:center;
     text-align:center;
     font-size:14px;
-    color: #797979;
+    color: #999;
+    .inquiry{
+        position: relative;
+        span{
+            width: 7px;
+            position: absolute;
+            height: 7px;
+            left: 53%;
+            top: 5px;
+            border-radius: 50%;
+            display: block;
+            background: #ea6ea4;
+        }
+    }
     div{
         flex:1;
         .num{
@@ -31,8 +44,8 @@
 
         }
         image{
-            height:22px;
-            width:22x;
+            height:23px;
+            width:23px;
             padding:5px 0 0 0;
 
         }

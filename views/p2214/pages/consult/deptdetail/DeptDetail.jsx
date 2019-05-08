@@ -476,57 +476,22 @@ class Widget extends Component {
                         })
                     }
                         }}
-                src='./././resources/images/tousu.png'/>
-                <p className='advice' onClick={()=>{
-                    if(!window.localStorage.login_access_token){
-                        var code;
-                        if(window.location.origin=='https://tih.cqkqinfo.com'){
-                            code='ff80808165b46560016817f20bbc00b3';
-                      
-                          }else{
-                            code='ff80808165b46560016817f30cc500b4';
-                          }
-                          var storage=window.localStorage;
-                          //加入缓存
-                          storage.isOpenId=1;
-                        
-                          window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
-                          // return false;
-                             var storage=window.localStorage;
-                             //加入缓存
-                             storage.url=window.location.href;
-                           
-                    }else{
-                        this.context.router.push({
-                            pathname:'usercenter/complain',
-                            query:{type:1,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.name,doctorId:docInfo.doctorId,resource:this.props.location.resource}
-                        })
-                    }
-                   
-                    }}>建议</p>
+                src='./././resources/images/doctor-advise.png'/>
+               
                     {!isFavorite && <img   className='advice1img'  
                     onClick={()=>{
                         console.log("2")
                             this.switchCollect(isFavorite)
                             }}
-                    src='./././resources/images/collect-none1.png'/>}
+                    src='./././resources/images/doctor-collet-no.png'/>}
                 {isFavorite && <img    className='advice1img'  
                     onClick={()=>{
                         console.log("1")
                             this.switchCollect(isFavorite)
                             }}
-                    src='./././resources/images/collect-active1.png'/>}
-                    {isFavorite &&<p className='advice1'  onClick={()=>{
-                        console.log("1")
-                            this.switchCollect(isFavorite)
-                            }}
-                             style={{right:'37px'}}>已收藏</p>}
-                    {!isFavorite &&<p className='advice1' 
-                    onClick={()=>{
-                        console.log("2")
-                            this.switchCollect(isFavorite)
-                            }}
-                    >收藏</p>}
+                    src='./././resources/images/doctor-collet.png'/>}
+                    
+                  
                     <div className='doctor2'>
 
                  
@@ -535,7 +500,7 @@ class Widget extends Component {
                         <div className='text1-box'>
                         
                             <div>
-                            <a style={{fontWeight:'bold',fontSize:'15px',paddingRight:'15px'}}>{docInfo.name}</a>  
+                            <a style={{fontWeight:'bold',fontSize:'16px',paddingRight:'15px'}}>{docInfo.name}</a>  
                             {
                              /*  docInfo.inquirys && docInfo.inquirys.map((item, index)=> {
                                     return (
@@ -559,9 +524,9 @@ class Widget extends Component {
                                 
                                 
 
-                                <div> <a >{docInfo.deptName} | {docInfo.level}</a></div>
+                            <div style={{fontSize:'12px'}}> <a >{docInfo.deptName} | {docInfo.level}</a></div>
                            
-                            <div>{docInfo.hisName}</div>
+                            <div style={{fontSize:'13px'}}>{docInfo.hisName}</div>
                 
 
                         </div>
@@ -585,9 +550,14 @@ class Widget extends Component {
                     </div>
                 </div>
                 </div>
-              
+                <div className="open">
+                <img    
+                src='./././resources/images/doctor-open.png'/>
+                  <span> 您好，很高兴为您服务！</span>
+                </div>
                 <div className='content'>
                     <div className='d-tab'>
+                       <div className="main-func">
                         { docInfo.inquirys && docInfo.inquirys.map((item1, index1)=> {
                             return (
                                 <div key={index1}
@@ -598,11 +568,10 @@ class Widget extends Component {
                                             }
                                      className={` ${item1.type=='1'&&item1.isOnDuty=='1'&&item1.isFull=='0'?'inquity-item':'disNo'}`}>
                                     <div className='icon'>
-                                        <img src="../../../resources/images/inquiry-bg.png"/>
+                                        <img src="./././resources/images/doctor-picture.png"/>
                                     </div>
                                     <div className='text'>
                                         <div>图文咨询</div>
-                                        <div>使用图片、文字等咨询医生</div>
                                     </div>
                                     <div className='des-fee'>￥{(item1.remune / 100).toFixed(2)}<span>/次</span></div>
                                 </div>
@@ -612,37 +581,45 @@ class Widget extends Component {
                                 return (
                                     <div
                                         key={index2}
-                                        className={`${item2.type=='1'&&(item2.isOnDuty=='0'||item2.isFull=='1')?'inquity-item':'disNo'}`}>
+                                        className={`${item2.type=='1'&&item2.isFull=='1'&&item2.isOnDuty!=='0'?'inquity-item':'disNo'}`}>
 
-                                        <div className='icon'>
-                                            <img src="../../../resources/images/inquiry-gray.png"/>
+                                        <div className='icon no-data2'>
+                                            <span>已满</span>
+                                            <img src="./././resources/images/doctor-picture.png"/>
                                         </div>
                                         <div className='text'>
+                                            
                                             <div>
                                                 <text className="f-color-gray">图文咨询</text>
                                             </div>
-                                            <div>使用图片、文字等咨询医生</div>
                                         </div>
                                         <div className='des'>￥{(item2.remune / 100).toFixed(2)}<span>/次</span></div>
                                     </div>
                                 )
                             }
                         )}
+                        { docInfo.inquirys && docInfo.inquirys.map((item2, index2)=> {
+                            return (
+                                <div
+                                    key={index2}
+                                    className={`${item2.type=='1'&&item2.isOnDuty=='0'&&item2.isFull!=='1'?'inquity-item':'disNo'}`}>
 
-                        <div className="inquity-item"
-                             onClick={
-                                ()=>{
-                                this.switchTip(1)
-                                }
-                                }>
-                            <div className='icon'>
-                                <img src='../../../resources/images/video.png'/>
-                            </div>
-                            <div className='text'>
-                                <div>视频咨询</div>
-                                <div>一对一视频咨询</div>
-                            </div>
-                        </div>
+                                    <div className='icon no-data1'>
+                                    <span>离线</span>
+                                        <img src="./././resources/images/doctor-picture.png"/>
+                                    </div>
+                                    <div className='text'>
+                                        <div>
+                                            <text className="f-color-gray">图文咨询</text>
+                                        </div>
+                                    </div>
+                                    <div className='des'>￥{(item2.remune / 100).toFixed(2)}<span>/次</span></div>
+                                </div>
+                            )
+                        }
+                    )}
+
+                        
                         <div className="inquity-item"
                              onClick={
                                     ()=>{
@@ -650,31 +627,156 @@ class Widget extends Component {
                                     }
                                     }>
                             <div className='icon'>
-                                <img src='../../../resources/images/phone.png'/>
+                                <img src='./././resources/images/doctor-phone.png'/>
+                            </div>
+                            <div className='text grey'>
+                                <div className='grey'>电话咨询</div>
+                            </div>
+                            <div className='des-fee grey'>￥0.01<span>/次</span></div>
+
+                        </div>
+                        <div className="inquity-item"
+                             onClick={
+                                ()=>{
+                                this.switchTip(1)
+                                }
+                                }>
+                            <div className='icon'>
+                                <img src='./././resources/images/doctor-vedio.png'/>
+                            </div>
+                            <div className='text grey'>
+                                <div className='grey'>视频咨询</div>
+                            </div>
+                            <div className='des-fee grey'>￥0.01<span>/次</span></div>
+                        </div>
+                        </div>
+                        <div className="main-func1">
+
+                        {/*  docInfo.inquirys && docInfo.inquirys.map((item2, index2)=> {
+                            return (
+                                <div
+                                    key={index2}
+                                    className={`${item2.type=='1'&&item2.isFull=='1'&&item2.isOnDuty!=='0'?'inquity-item':'disNo'}`}>
+
+                                    <div className='icon no-data2'>
+                                        <span>已满</span>
+                                        <img src='./././resources/images/doctor-add.png'/>
+                                    </div>
+                                   
+                                    <div className='text grey'>
+                                        <div >申请加号</div>
+                                    </div>
+                                <div className='des-fee grey'>申请门诊加号</div>
+                            </div>
+                            )
+                        }
+                    ) */}
+                    { /* docInfo.inquirys && docInfo.inquirys.map((item2, index2)=> {
+                        return (
+                            <div
+                                key={index2}
+                                className={`${item2.type=='1'&&item2.isOnDuty=='0'&&item2.isFull!=='1'?'inquity-item':'disNo'}`}>
+                                <div className='icon no-data1'>
+                                <span>离线</span>
+                                <img src='./././resources/images/doctor-add.png'/>
+                                </div>
+                                <div className='text grey'>
+                                    <div >申请加号</div>
+                                </div>
+                                <div className='des-fee grey'>申请门诊加号</div>
+                            </div>
+                        )
+                    }
+                 ) */}
+                 { /* docInfo.inquirys && docInfo.inquirys.map((item1, index1)=> {
+                    return (
+                        <div key={index1}
+                             onClick={
+                                    ()=>{
+                                        this.jumpConfirminfo(item1.remune)
+                                    }
+                                    }
+                             className={` ${item1.type=='1'&&item1.isOnDuty=='1'&&item1.isFull=='0'?'inquity-item':'disNo'}`}>
+                            <div className='icon'>
+                                <img src='./././resources/images/doctor-add.png'/>
+                                </div>
+                                <div className='text grey'>
+                                    <div >申请加号</div>
+                                </div>
+                                <div className='des-fee grey'>申请门诊加号</div>
+                            </div>
+                    )
+                }) */}
+                        <div className="inquity-item"
+                             onClick={
+                                    ()=>{
+                                    this.switchTip(1)
+                                    }
+                                    }>
+                            <div className='icon'>
+                                <img src='./././resources/images/doctor-report.png'/>
                             </div>
                             <div className='text'>
-                                <div>电话咨询</div>
-                                <div>一对一电话咨询</div>
+                                <div >报告解读</div>
                             </div>
+                            <div className='des-fee grey'>免费报告解读</div>
+
                         </div>
+                        <div className="inquity-item"
+                             style={{flex:'1.2'}}
+                             onClick={
+                                ()=>{
+                                this.switchTip(1)
+                                }
+                                }>
+                            <div className='icon'>
+                                <img src='./././resources/images/doctor-check.png'/>
+                            </div>
+                            <div className='text '>
+                                <div >检验检查</div>
+                            </div>
+                            <div className='des-fee grey'>在线申请检验检查</div>
+                        </div>
+                        <div className="inquity-item"
+                             onClick={
+                                ()=>{
+                                this.switchTip(1)
+                                }
+                                }>
+                            <div className='icon'>
+                                <img src='./././resources/images/doctor-illness.png'/>
+                            </div>
+                            <div className='text'>
+                                <div >慢病/处方</div>
+                            </div>
+                            <div className='des-fee grey'>在线申请处方</div>
+                        </div>
+                        </div>
+                        
                     </div>
+                    
                     <div className='doc-intro'>
                         <div>
+                        <img src='./././resources/images/doctor-special.png'/>
+
                             擅长领域
                         </div>
                         <div className="ski-des">
                             {docInfo.specialty || '暂无描述'}
                         </div>
-
+ 
                     </div>
                     <div className='doc-intro'>
                         <div>
+                        <img src='./././resources/images/doctor-intro.png'/>
+
                             医生介绍
                         </div>
                         <div className="ski-des">
                             {docInfo.introduction || '暂无介绍'}
                         </div>
                     </div>
+                    
                 </div>
                 <div className='evaluate'>
                     <div className='eva-title'>
@@ -687,36 +789,36 @@ class Widget extends Component {
                                 <div>{item3.nameStr}
 
                                     {item3.score<1&&
-                                    <img src="../../../resources/images/star.png"
+                                    <img src="./././resources/images/star.png"
                                          alt=""/>}
                                     { item3.score>=1 &&
-                                    <img src="../../../resources/images/star-active.png"
+                                    <img src="./././resources/images/star-active.png"
                                          alt=""/>}
                                     { item3.score<2 &&
-                                    <img src="../../../resources/images/star.png"
+                                    <img src="./././resources/images/star.png"
                                          alt=""/>}
                                     {item3.score>= 2 &&
-                                    <img src="../../../resources/images/star-active.png"
+                                    <img src="./././resources/images/star-active.png"
                                          alt=""/>}
 
                                     { item3.score<3  &&
-                                    <img src="../../../resources/images/star.png"
+                                    <img src="./././resources/images/star.png"
                                          alt=""/>}
                                     {  item3.score>= 3&&
-                                    <img src="../../../resources/images/star-active.png"
+                                    <img src="./././resources/images/star-active.png"
                                          alt=""/>}
 
                                     { item3.score< 4&&
-                                    <img src="../../../resources/images/star.png"
+                                    <img src="./././resources/images/star.png"
                                          alt=""/>}
                                     { item3.score>=4&&
-                                    <img src="../../../resources/images/star-active.png"
+                                    <img src="./././resources/images/star-active.png"
                                          alt=""/>}
                                     {item3.score<5&&
-                                    <img src="../../../resources/images/star.png"
+                                    <img src="./././resources/images/star.png"
                                          alt=""/>}
                                     {item3.score>= 5&&
-                                    <img src="../../../resources/images/star-active.png"
+                                    <img src="./././resources/images/star-active.png"
                                          alt=""/>}
 
                                     <span>{item3.createTimeStr}</span></div>
@@ -743,7 +845,7 @@ class Widget extends Component {
                     })}
                     {evaluate.length <= 0 &&
                     <div className="wgt-empty-box">
-                        <img className="wgt-empty-img" src="../../../resources/images/no-result.png" alt=""></img>
+                        <img className="wgt-empty-img" src="./././resources/images/no-result.png" alt=""></img>
 
                         <div className="wgt-empty-txt">暂未查询到相关信息
                         </div>
@@ -789,23 +891,30 @@ class Widget extends Component {
                 </div>}
 
 
-                {isShowTip && <div className='modal-tip1'>
+                {isShowTip && <div className='modal-tip1' onClick={(e)=>{
+                    this.setState({
+                        isShowTip:false
+                    })
+                    }}>
 
-                    <div className='modal-body-tip'>
-                        <div className='modal-title'>温馨提示</div>
+                    <div className='modal-body-tip'  onClick={(e)=>{
+                        e.stopPropagation()
+                        }}>
                         <div className='modal-content-tip'>
-                            <div className="content">
-                                <div className="content-item">该功能正在努力建设中</div>
-                            </div>
+                                <div className="content-item">正在努力建设中...</div>
+                             <div className="img">
+                               <img  src="./././resources/images/no-open.png" alt=""></img>
+
+                             </div>
+                              <div className="btn-close">
+                                 <p onClick={(e)=>{
+                                    this.setState({
+                                        isShowTip:false
+                                    })
+                                    }}>确定</p>
+                              </div>
                         </div>
-                        <div className='modal-footer-tip'>
-                            <span
-                                onClick={()=>{
-                            this.switchTip(0)
-                            }}>
-                                我知道了
-                            </span>
-                        </div>
+                        
                     </div>
                 </div>}
             </div>

@@ -21,3 +21,4 @@ export const validate = param => fetch.post('/api/ehis/user/msg/checkValicode', 
 export const checkTime = param => fetch.post('/api/ehis/user/personal/userCheckMsgFlag', param);
 
 
+export const getMsg = (param) => fetch.post('/api/ehis/health/api/inquiry/message', param);

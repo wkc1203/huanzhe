@@ -13,6 +13,7 @@ class Widget extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            hasMsg:false,
             msgList: [],
             quiryNum: 0,
             showToast: false,
@@ -51,12 +52,36 @@ class Widget extends Component {
         };
     }
     componentDidMount() {
+        this.getMsg();
         this.getInquiryList();
 
-
-  this.getJs();
+        console.log("ha1s1",this.state.hasMsg)
+       this.getJs();
+     
     }
+    /*获取未读条数*/
+    getMsg() {
+        console.log("ha1s",this.state.hasMsg)
+        Api
+            .getMsg()
+            .then((res) => {
+                if(res.code==0&&res.data!=null){
+                       if(res.data.length>0){
+                            for(var i=0;i<res.data.length;i++)
+                             if(res.data[i].userReaded=='0'){
+                                this.setState({
+                                    hasMsg:true
+                                })
+                             }
+                          
+                       }
+                     
+                }
+            }, (e) => {
 
+            });
+
+   }
     getJs() {
         console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
@@ -87,23 +112,7 @@ class Widget extends Component {
             });
     }
 
-    getMsg() {
-        Api
-            .getMsg()
-            .then((res) => {
-                if (res.code == 0 && res.data != null) {
-                    this.setState({
-                        quiryNum: res.data.length
-                    })
-                }
-            }, (e) => {
-                this.hideLoading();
-                this.setState({
-                    msg: e.msg,
-                    showIOS1: true
-                })
-            });
-    }
+   
     showToast() {
         this.setState({showToast: true});
         this.state.toastTimer = setTimeout(()=> {
@@ -170,7 +179,7 @@ class Widget extends Component {
         }
     }
     render() {
-        const {msgList,msg}=this.state
+        const {msgList,msg,hasMsg}=this.state
         return (
             <div className="container page-inquiry-list">
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
@@ -240,16 +249,18 @@ class Widget extends Component {
                             />
                         <div >首页</div>
                     </div>
-                    <div >
+                    <div className='inquiry' >
+                    {hasMsg&&<span></span>}
                         <img
                             src="../../../resources/images/inquiry-active.png"/>
                         <div style={{color:'#4FABCA'}}>咨询会话</div>
                     </div>
-                    <div onClick={
+                    <div  onClick={
                             ()=>{
                             this.toNext(3)
                             }
                             }>
+                           
                         <img
                             src="../../../resources/images/my.png"/>
                         <div>我的</div>

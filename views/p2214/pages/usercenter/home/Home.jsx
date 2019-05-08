@@ -14,6 +14,7 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
+     hasMsg:false,
       noResult: {
         msg: '暂未获取到相关信息',
         show: false,
@@ -102,6 +103,7 @@ class Widget extends Component {
   
 
   componentDidMount() {
+      this.getMsg();
       window.localStorage.goChat=2;
       this.hasReigister();    
         this.getJs();
@@ -125,6 +127,29 @@ class Widget extends Component {
   componentWillUnmount() {
 
   }
+  /*获取未读条数*/
+  getMsg() {
+    console.log("ha1s",this.state.hasMsg)
+    Api
+        .getMsg()
+        .then((res) => {
+            if(res.code==0&&res.data!=null){
+                   if(res.data.length>0){
+                        for(var i=0;i<res.data.length;i++)
+                         if(res.data[i].userReaded=='0'){
+                            this.setState({
+                                hasMsg:true
+                            })
+                         }
+                      
+                   }
+                 
+            }
+        }, (e) => {
+
+        });
+
+}
   addPerson(param){
     Api
         .sameCard(param)
@@ -554,7 +579,7 @@ getCardList() {
             });
     }
   render() {
-    const {phone,mobile,phoneShow,userInfo,codeUrl,cardShow,msg,leftTime,isSendValidate,isShow,patNum,defaultUser,leftBindNum,validatePass,userId}=this.state;
+    const {phone,mobile,phoneShow,userInfo,codeUrl,cardShow,msg,leftTime,isSendValidate,isShow,patNum,defaultUser,leftBindNum,validatePass,userId,hasMsg}=this.state;
     return (
         <div className="h-page">
            <div className='toas'>
@@ -806,11 +831,12 @@ getCardList() {
                   />
               <div >首页</div>
             </div>
-            <div  onClick={
+            <div className='inquiry'  onClick={
               ()=> {
                 this.toNext(2);
               }
             }>
+            {hasMsg&&<span></span>}
               <img
                   src="../../../resources/images/inquiry.png"/>
               <div>咨询会话</div>
