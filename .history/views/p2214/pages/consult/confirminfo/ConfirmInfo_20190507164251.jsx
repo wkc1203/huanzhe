@@ -1,8 +1,10 @@
+
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import {Upload, Modal,Button,Spin, Alert } from 'antd';
 import {  Toptips,Switch,Dialog,Toast,Icon } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
+import { ImagePicker } from 'antd-mobile';
 import { addressMap } from '../../../config/constant/constant';
 import hashHistory from 'react-router/lib/hashHistory';
 import * as Api from './confirmInfoApi';
@@ -26,6 +28,7 @@ class Widget extends Component {
         this.state = {
             hospInfo: {},
             consultationReason: '',
+            consultationId:'',
             content: '',
             upLoadImg: [],
             doctorId: '',
@@ -39,6 +42,7 @@ class Widget extends Component {
             loadingTimer: null,
             showIOS1: false,
             showIOS2: false,
+            showIOS3: false,
             showAndroid1: false,
             showAndroid2: false,
             cardShow:false,
@@ -66,13 +70,28 @@ class Widget extends Component {
                     }
                 ]
             },
+            style3: {
+                title: '提示',
+                buttons: [
+                    {
+                        type: 'default',
+                        label: '取消',
+                        onClick: this.hideDialog.bind(this)
+                    },
+                    {
+                        type: 'primary',
+                        label: '继续咨询',
+                        onClick: this.goInquiry.bind(this)
+                    }
+                ]
+            },
             msg: '',
             consultList: [
                 {reason: '咨询', id: 1},
                 {reason: '复诊', id: 2},
                 {reason: '报告解读', id: 3},
-                {reason: '加号', id: 4},
-                {reason: '其他', id: 5},
+                {/* reason: '加号', id: 4 */},
+                {reason: '其他', id: 8},
             ],
             imgArr: [],
             expire:'',
@@ -91,6 +110,8 @@ class Widget extends Component {
             callback: "",
             OSSAccessKeyId: "",
             key: "",
+            intervals:'',
+            files:[],
             name: "",
             fileList: [],
             uploading: false,
@@ -98,11 +119,21 @@ class Widget extends Component {
             open: false,
             open1: false,
             cardType:1,
+            inquiryId:'',       
+            patCardNo:'',
             cardNo:'0014492503',
+            isIos:false,
         };
     }
 
     componentDidMount() {
+        this.sum('inquiry_img',1);
+        imgList=[];
+        var ua = navigator.userAgent.toLowerCase();//获取浏览器的userAgent,并转化为小写——注：userAgent是用户可以修改的
+        var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
+        this.setState({
+            isIos:isIos
+        });
         document.getElementById("home").scrollIntoView();
           this.getJs();
         this.getJs1();
@@ -132,10 +163,67 @@ class Widget extends Component {
 
     }
     componentWillUnmount() {
+        imgList=[];
          this.setState({
             imgArr:[]
          })
         clearInterval(interval1);
+    }
+    sum(code,type){
+        Api
+        .getSum({
+            hisId:'2214',
+            code:code,
+            type:type
+        })
+        .then((res) => {
+
+          
+        }, (e) => {
+
+        });
+    }
+        checkInquiry(remune){
+        Api
+            .isRegister() 
+            .then((res) => {
+                if (res.code == 0) {
+                    Api
+                    .checkHasInquiry({
+                        hisId:2214,
+                        doctorId:this.state.doctorId||"",
+                        deptId:this.state.deptId||"",
+                        userId:JSON.parse(window.localStorage.userInfo).id||""
+                    })
+                    .then((res1) => {
+                        if (res1.code == 0) {
+                            if(res1.data.inquiryId!=null&&res1.data.inquiryId!=''){
+                                this.setState({
+                                    inquiryId:res1.data.inquiryId||'',
+                                    msg:'当前咨询完成后，才能对医生发起新的咨询',
+                                    showIOS3:true
+                                })
+                            }else{
+                                this.jumpConfirminfo(remune);
+                            }
+    
+                            
+                        }
+                    }, es=> {
+                        this.setState({
+                            msg:es.msg,
+                            showIOS1:true
+                        })
+                    });
+                }
+            }, e=> {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+        
+     
     }
     /*文件目录*/
     randomName(){
@@ -220,7 +308,7 @@ class Widget extends Component {
                         timestamp: res.data.timestamp, // 必填，生成签名的时间戳
                         nonceStr: res.data.noncestr, // 必填，生成签名的随机串
                         signature: res.data.signature,// 必填，签名
-                        jsApiList: ['chooseImage','getLocalImgData','hideMenuItems', 'showMenuItems','previewImage','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
+                        jsApiList: ['previewImage','chooseImage','getLocalImgData','hideMenuItems', 'showMenuItems','uploadImage','downloadImage'] // 必填，需要使用的JS接口列表
                     });
                     wx.ready(function () {
 //批量隐藏功能
@@ -262,11 +350,25 @@ class Widget extends Component {
         })
 
     }
+    goInquiry(){
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showIOS3:false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
+        this.context.router.push({
+            pathname:'/inquiry/chat',
+            query:{inquiryId:this.state.inquiryId}
+        })
+    }
    /*提示*/
     hideDialog() {
         this.setState({
             showIOS1: false,
             showIOS2: false,
+            showIOS3: false,
             showAndroid1: false,
             showAndroid2: false,
         });
@@ -350,6 +452,7 @@ class Widget extends Component {
                         this.setState({
                             leftBindNum: res.data.leftBindNum,
                             cardList: cardList,
+                            patCardNo:cardList[0].patCardNo,
                             selectName: cardList[0].patientName,
                             selectSex: cardList[0].patientSex == 'M' ? '男' : '女',
                             selectBirthday: cardList[0].birthday,
@@ -400,6 +503,7 @@ class Widget extends Component {
     }
     /*提示信息*/
     submitData() {
+        
         let errMsg = !this.state.selectPatientId
             ? '请选择就诊人'
             : !this.state.consultationReason
@@ -434,7 +538,11 @@ class Widget extends Component {
                 patientName: this.state.selectName,
                 content: this.state.content,
                 patientId: this.state.selectPatientId,
+                patCardNo:this.state.patCardNo,
                 purpose: this.state.consultationReason,
+                purposeType:this.state.consultationId,
+                hisId:2214,
+                userId:JSON.parse(window.localStorage.userInfo).id||""
             };
             this.createOrder(params);
         } else {
@@ -463,13 +571,36 @@ class Widget extends Component {
                 totalFee: this.state.totalFee,
                 type: '1',
                 pics: pics,
+                hisId:2214,
+                userId:JSON.parse(window.localStorage.userInfo).id||"",
                 patientName: this.state.selectName,
                 content: this.state.content,
+                patCardNo:this.state.patCardNo,
                 patientId: this.state.selectPatientId,
                 purpose: this.state.consultationReason,
+                purposeType:this.state.consultationId,
             };
             this.createOrder(params);
         }
+    }
+    isHasImg(url){
+        var xmlHttp ;
+        if (window.ActiveXObject)
+         {
+          xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+         }
+         else if (window.XMLHttpRequest)
+         {
+          xmlHttp = new XMLHttpRequest();
+         } 
+        xmlHttp.open("Get",url,false);
+        xmlHttp.send();
+        if(xmlHttp.status==404)
+        return false;
+        else
+        return true;
+
+    
     }
    /*创建订单*/
     createOrder(params) {
@@ -485,17 +616,44 @@ class Widget extends Component {
                    top.window.location.replace(replaceUrl);
                 }else{
                     this.hideLoading();
-                    this.setState({
-                        msg: res.msg,
-                        showIOS1: true
-                    })
+                    if (res.code==-2) {
+                        console.log("1")
+                        window.scrollTo(0,0);
+                        if(res.msg!=null&&res.msg!=''){
+                            this.setState({
+                                inquiryId:res.msg||'',
+                                msg:'当前咨询完成后，才能对医生发起新的咨询',
+                                showIOS3:true
+                            })
+                        }
+                    }else{
+                        this.setState({
+                            msg: res.msg,
+                            showIOS1: true
+                        })
+                    }
                 }
             }, (e) => {
                 this.hideLoading();
-                this.setState({
-                    msg: e.msg,
-                    showIOS1: true
-                })
+                if (e.code==-2) {
+                    if(e.msg!=null&&e.msg!=''){
+                        this.setState({
+                            inquiryId:e.msg||'',
+                            msg:'当前咨询完成后，才能对医生发起新的咨询',
+                            showIOS3:true
+                        })
+                    }
+
+                    
+                }else{
+                    console.log("2")
+                    this.setState({
+                        msg: e.msg,
+                        showIOS1: true
+                    })
+                }
+              
+            
             });
     }
    /*切换就诊人*/
@@ -508,6 +666,7 @@ class Widget extends Component {
             if (item.active) {
                 this.setState({
                     selectName: item.patientName,
+                    patCardNo:item.patCardNo,
                     selectSex: item.patientSex == 'F' ? '女' : '男',
                     selectBirthday: item.birthday,
                     selectPatientId: item.patientId
@@ -567,32 +726,42 @@ class Widget extends Component {
                 return item;
             });
             var consultationReason;
+            var consultationId;
             consultList.map(item => {
                 if (item.active) {
                     consultationReason = item.reason;
+                    consultationId=item.id;
                 }
             });
             this.setState({
                 consultationReason: consultationReason,
+                consultationId:consultationId,
                 consultList: consultList
             })
         }
     }
     /*放大图片*/
     previewImg(url) {
-        event.stopPropagation();
-        event.preventDefault();
+   
+       // event.stopPropagation();
+        //event.preventDefault();
         const arr = [];
         this.state.imgArr.map(item => {
+
             if (item) {
                 arr.push(item);
             }
         });
-        wx.previewImage({
-            current: url, // 当前显示图片的http链接
-            urls: arr // 需要预览的图片http链接列表
-        });
+      
+       
+            wx.previewImage({
+                current: url, // 当前显示图片的http链接
+                urls: arr // 需要预览的图片http链接列表
+            });
+         
+    
     }
+    
     /*保存内容*/
     saveContent(e) {
         this.setState({
@@ -650,13 +819,10 @@ class Widget extends Component {
         var  mime ='';
         var bytes;
 
-        if(isIos){
+    
             mime = arr[0].match(/:(.*?);/)[1] || 'image/png';
-            bytes = window.atob(arr[1]);
-        }else{
-            mime='image/png';
-            bytes = window.atob(urlData);
-        }
+           bytes = window.atob(arr[1]);
+        
 
         // 去掉url的头，并转化为byte
 
@@ -687,9 +853,8 @@ class Widget extends Component {
         wx.chooseImage({
             count: 4, // 默认9
             sizeType: ['original'], // 可以指定是原图还是压缩图，默认二者都有
-            sourceType: ['album'], // 可以指定来源是相册还是相机，默认二者都有
+            sourceType: ['album','camera'], // 可以指定来源是相册还是相机，默认二者都有
             success: function (res) {
-                alert(JSON.stringify(res))
                 that.showLoading('上传中');
                 var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                 var m=[];
@@ -701,148 +866,82 @@ class Widget extends Component {
                 }else{
                     for(var i=0;i<localIds.length;i++){
                         var ua = navigator.userAgent.toLowerCase();
-                        if (ua.match(/iphone/i) == "micromessenger") {
-                             
-                               var ios = true;
-                        } else {
-                                var ios = false;
-                        };
-                        wx.showToast({
-                            title: '成功11',
-                            icon: 'success',
-                            duration: 2000
-                            });
-                        if (ios || window.__wxjs_is_wkwebview) {
-                            wx.getLocalImgData({
-                                localId: localIds[i], // 图片的localID
-                                success: function (res) {
-                                    var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                                    const formData = new FormData();
-                                    var filename='';
-                                    var image=[];
-                                    var myDate = new Date();
-                                    var ossPath='PIC/';
-                                    var fileRandName=Date.now();
-                                    var year=myDate.getFullYear();
-                                    var month;
-                                    var day;
-                                    if(myDate.getMonth()+1<10) {
-                                        var  m=myDate.getMonth()+1;
-                                        month = '0'+m;
-                                    }else{
-                                        month=myDate.getMonth()+1;
-                                    }
-                                    if(myDate.getDate()<10){
-                                        var d=myDate.getDate()+1;
-                                        day='0'+d;
-                                    }else{
-                                        day=myDate.getDate();
-                                    }
-                                    var date=new Date().getTime();
-                                    var m=ossPath+year+'/'+month+'/'+day+"/";
-                                    var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
-                                    var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
-                                    var filename=that.randomName()+uuid+'.png';
-    
-                                    formData.append('key',filename);
-                                    formData.append("policy",sign.policy);
-                                    formData.append("callback",sign.callback);
-                                    formData.append("signature",sign.signature);
-                                    formData.append("OSSAccessKeyId",sign.OSSAccessKeyId);
-                                    formData.append('file', that.base64ToBlob(localData));
-                                   
-                                    $.ajax({
-                                        url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
-                                        method: 'POST',
-                                        processData: false,
-                                        contentType: false,
-                                        cache: false,
-                                        data: formData,
-                                        success: (e) => {
-                                            that.hideLoading();
-                                            imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-                                            that.setState({
-                                                imgArr:imgList
-                                            })
-                                           
-                                        },
-                                        error:(e) =>{
-                                            that.hideLoading();
-                                            console.log("this.sate",that.state.imgArr)
-                                        }
-                                    });
-    
-                                }
-                            });
-                        }else{
-                            wx.showToast({
-                                title: '成功11',
-                                icon: 'success',
-                                duration: 2000
-                                })
-                            const formData = new FormData();
-                            var filename='';
-                            var image=[];
-                            var myDate = new Date();
-                            var ossPath='PIC/';
-                            var fileRandName=Date.now();
-                            var year=myDate.getFullYear();
-                            var month;
-                            var day;
-                            if(myDate.getMonth()+1<10) {
-                                var  m=myDate.getMonth()+1;
-                                month = '0'+m;
-                            }else{
-                                month=myDate.getMonth()+1;
-                            }
-                            if(myDate.getDate()<10){
-                                var d=myDate.getDate()+1;
-                                day='0'+d;
-                            }else{
-                                day=myDate.getDate();
-                            }
-                            var date=new Date().getTime();
-                            var m=ossPath+year+'/'+month+'/'+day+"/";
-                            var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
-                            var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
-                            var filename=that.randomName()+uuid+'.png';
+                        var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
 
-                            formData.append('key',filename);
-                            formData.append("policy",sign.policy);
-                            formData.append("callback",sign.callback);
-                            formData.append("signature",sign.signature);
-                            formData.append("OSSAccessKeyId",sign.OSSAccessKeyId);
-                            formData.append('file', that.base64ToBlob(localIds[i]));
-                           
-                            $.ajax({
-                                url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
-                                method: 'POST',
-                                processData: false,
-                                contentType: false,
-                                cache: false,
-                                data: formData,
-                                success: (e) => {
-                                    that.hideLoading();
-                                    imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-                                    that.setState({
-                                        imgArr:imgList
-                                    })
-                                   
-                                },
-                                error:(e) =>{
-                                    that.hideLoading();
-                                    console.log("this.sate",that.state.imgArr)
-                                }
-                            });
-                        }
                         
+                        wx.getLocalImgData({
+                            localId: localIds[i], // 图片的localID
+                            success: function (res) {
+                                var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                if (isIos) { // 如果是IOS，需要去掉前缀
+                                    localData = res.localData.replace(/^.*?base64,/, 'data:image/jpg;base64,');
+                                  
+                                }else {
+                                    localData = res.localData.replace(/^.*?base64,/, 'data:image/jpg;base64,');
+                                }
+                                const formData = new FormData();
+                                var filename='';
+                                var image=[];
+                                var myDate = new Date();
+                                var ossPath='PIC/';
+                                var fileRandName=Date.now();
+                                var year=myDate.getFullYear();
+                                var month;
+                                var day;
+                                if(myDate.getMonth()+1<10) {
+                                    var  m=myDate.getMonth()+1;
+                                    month = '0'+m;
+                                }else{
+                                    month=myDate.getMonth()+1;
+                                }
+                                if(myDate.getDate()<10){
+                                    var d=myDate.getDate()+1;
+                                    day='0'+d;
+                                }else{
+                                    day=myDate.getDate();
+                                }
+                                var date=new Date().getTime();
+                                var m=ossPath+year+'/'+month+'/'+day+"/";
+                                var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
+                                var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
+                                var filename=that.randomName()+uuid+'.png';
+    
+                                formData.append('key',filename);
+                                formData.append("policy",sign.policy);
+                                formData.append("callback",sign.callback);
+                                formData.append("signature",sign.signature);
+                                formData.append("OSSAccessKeyId",sign.OSSAccessKeyId); 
+                                formData.append('file',that.base64ToBlob(localData));
+                               
+                                $.ajax({
+                                    url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
+                                    method: 'POST',
+                                    processData: false,
+                                    contentType: false,
+                                    cache: false,
+                                    data: formData,
+                                    success: (e) => {
+                                        that.hideLoading();
+                                        imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+                                        that.setState({
+                                            imgArr:imgList
+                                        })
+                                       
+                                    },
+                                    error:(e) =>{
+                                        that.hideLoading();
+                                        console.log("this.sate",that.state.imgArr)
+                                    }
+                                });
+
+                            }
+                        });
                     }
                 }
 
 
             },
             error:(res)=>{
-              alert(JSON.stringify(res))
             }
 
 
@@ -854,9 +953,117 @@ class Widget extends Component {
 
 
 }
+onChange = (files, type, index) => {
+    this.setState({
+        files,
+      });
+      var that=this;
+      var sign=that.state.sign;
+    console.log("length:"+that.state.imgArr)
+    if(that.state.imgArr.length>=4){
+
+        that.setState({
+        msg:'最多只能上传四张图片',
+        showIOS1:true,
+        })
+    }else{
+    console.log(files, type, index);
+    that.showLoading('上传中');
+    for(var i=0;i<files.length;i++){
+        console.log(this.state.imgList)
+        const formData = new FormData();
+        var filename='';
+        var image=[];
+        var myDate = new Date();
+        var ossPath='PIC/';
+        var fileRandName=Date.now();
+        var year=myDate.getFullYear();
+        var month;
+        var day;
+        if(myDate.getMonth()+1<10) {
+            var  m=myDate.getMonth()+1;
+            month = '0'+m;
+        }else{
+            month=myDate.getMonth()+1;
+        }
+        if(myDate.getDate()<10){
+            var d=myDate.getDate()+1;
+            day='0'+d;
+        }else{
+            day=myDate.getDate();
+        }
+        var date=new Date().getTime();
+        var m=ossPath+year+'/'+month+'/'+day+"/";
+        var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
+        var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
+        var filename=that.randomName()+uuid+'.png';
+
+        formData.append('key',filename);
+        formData.append("policy",sign.policy);
+        formData.append("callback",sign.callback);
+        formData.append("signature",sign.signature);
+        formData.append("OSSAccessKeyId",sign.OSSAccessKeyId); 
+        formData.append('file',that.base64ToBlob(files[i].url));
+        $.ajax({
+            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
+            success: (e) => {
+               
+                imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+               // alert("us")
+                //alert(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename));
+                if(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
+                    that.hideLoading();
+                that.setState({
+                        imgArr:Array.from(new Set(imgList))
+                    });
+                }else{
+                   var  intervals = setInterval(() => this.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,imgList), 500);
+                   this.setState({
+                       intervals:intervals
+                   })
+                    
+                }
+               
+              
+               
+            },
+            error:(e) =>{
+                that.hideLoading();
+            }
+        });
+    }
+}
+  };
+  isHas(url,imgList){
+
+      var that=this;
+    if(that.isHasImg(url)){
+        clearInterval(this.state.intervals);
+        that.hideLoading();
+        that.setState({
+            imgArr:Array.from(new Set(imgList))
+        });
+    }
+  }
+  onAddImageClick = () => {
+    this.setState({
+      files: this.state.files.concat({
+        url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
+        id: '3',
+      }),
+    });
+  };
+  onTabChange = (key) => {
+    console.log(key);
+  };
     render() {
         const {signature,codeUrl,cardShow,policy,msg,callback,OSSAccessKeyId,open1,docInfo,cardList,consultList,imgArr,leftBindNum,
-            selectName,sign,selectSex,selectBirthday,toptip}=this.state;
+            selectName,isIos,sign,selectSex,selectBirthday,toptip,files}=this.state;
 
         return (
             <div className="page-confirm-info">
@@ -883,6 +1090,9 @@ class Widget extends Component {
                     {msg}
                 </Dialog>
                 <Dialog type="ios" title={this.state.style2.title} buttons={this.state.style2.buttons} show={this.state.showIOS2}>
+                </Dialog>
+                <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={this.state.showIOS3}>
+                你还有对当前医生的咨询未完成
                 </Dialog>
                 {cardShow && <div className='modal'
                                   onClick={(e)=>{
@@ -919,7 +1129,7 @@ class Widget extends Component {
                 {!!toptip && <div className="hc-toptip">{toptip}</div>}
                 <div className="doc-item" id="head">
                     <div className="doc-info">
-                        {docInfo.image && <img className="doc-img" src={docInfo.image} alt="医生头像"/>}
+                        {docInfo.image && <img className="doc-img" src={docInfo.image&&docInfo.image.indexOf("ihoss")=='-1'?docInfo.image:docInfo.image+"?x-oss-process=image/resize,w_105"} alt="医生头像"/>}
                         {!docInfo.image &&
                         <img className="doc-img" src='../../../resources/images/doc.png' alt="医生头像"/>}
                         <div className="text2-box">
@@ -960,7 +1170,9 @@ class Widget extends Component {
                     </div>
                 </div>
                 <div className="reason">
-                    <div className="reason-title">本次咨询目的</div>
+                    <div className="reason-title" onClick={()=>{
+                        this.display()
+                    }}>本次咨询目的</div>
                     <div className="item-box1">
                         { consultList && consultList.map((item, index)=> {
                             return (
@@ -992,11 +1204,27 @@ class Widget extends Component {
                             <div className='img-box'
                                 >
                                 <div className="img-item">
-                                        <div onClick={(e)=>{
+                                {!isIos&&<ImagePicker
+                                length="4"
+                                files={files}
+                                onChange={this.onChange}
+                                onImageClick={(index, fs) => console.log(index, fs)}
+                                selectable={true}
+                               
+                                multiple={false}
+                              />
+                            
+                            }
+                            {!isIos&&<img src="../../../resources/images/add-img.png"/> }
+                           
+                                        {isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
-                                                }}>
+                                                }}> 
+                                            
+
                                             <img src="../../../resources/images/add-img.png"/>
-                                        </div>
+                                       </div>}
+
                                 </div>
                             </div>
                             {imgArr && imgArr.map((item, index)=> {
@@ -1013,7 +1241,7 @@ class Widget extends Component {
                                                     }}
                                                 />
                                             <div>
-                                                <img src={item}
+                                                <img  src={item&&item.indexOf("ihoss")=='-1'?item:item+"?x-oss-process=image/resize,w_105"}
                                                      onClick={()=>{
                                                         this.previewImg(item)
                                                         }}/>

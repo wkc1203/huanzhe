@@ -652,7 +652,7 @@ class Widget extends Component {
                         </div>
                         <div className="main-func1">
 
-                        { docInfo.inquirys && docInfo.inquirys.map((item2, index2)=> {
+                        {/*  docInfo.inquirys && docInfo.inquirys.map((item2, index2)=> {
                             return (
                                 <div
                                     key={index2}
@@ -670,8 +670,8 @@ class Widget extends Component {
                             </div>
                             )
                         }
-                    )}
-                    { docInfo.inquirys && docInfo.inquirys.map((item2, index2)=> {
+                    ) */}
+                    { /* docInfo.inquirys && docInfo.inquirys.map((item2, index2)=> {
                         return (
                             <div
                                 key={index2}
@@ -687,8 +687,8 @@ class Widget extends Component {
                             </div>
                         )
                     }
-                 )}
-                 { docInfo.inquirys && docInfo.inquirys.map((item1, index1)=> {
+                 ) */}
+                 { /* docInfo.inquirys && docInfo.inquirys.map((item1, index1)=> {
                     return (
                         <div key={index1}
                              onClick={
@@ -706,7 +706,7 @@ class Widget extends Component {
                                 <div className='des-fee grey'>申请门诊加号</div>
                             </div>
                     )
-                })}
+                }) */}
                         <div className="inquity-item"
                              onClick={
                                     ()=>{
