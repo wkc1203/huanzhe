@@ -13,7 +13,6 @@ class Widget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            hasMsg:false,
             msgList: [],
             quiryNum: 0,
             showToast: false,
@@ -52,36 +51,12 @@ class Widget extends Component {
         };
     }
     componentDidMount() {
-        this.getMsg();
         this.getInquiryList();
 
-        console.log("ha1s1",this.state.hasMsg)
-       this.getJs();
-     
+
+  this.getJs();
     }
-    /*获取未读条数*/
-    getMsg() {
-        console.log("ha1s",this.state.hasMsg)
-        Api
-            .getMsg()
-            .then((res) => {
-                if(res.code==0&&res.data!=null){
-                       if(res.data.length>0){
-                            for(var i=0;i<res.data.length;i++)
-                             if(res.data[i].userReaded=='0'){
-                                this.setState({
-                                    hasMsg:true
-                                })
-                             }
-                          
-                       }
-                     
-                }
-            }, (e) => {
 
-            });
-
-   }
     getJs() {
         console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
         Api
@@ -112,7 +87,23 @@ class Widget extends Component {
             });
     }
 
-   
+    getMsg() {
+        Api
+            .getMsg()
+            .then((res) => {
+                if (res.code == 0 && res.data != null) {
+                    this.setState({
+                        quiryNum: res.data.length
+                    })
+                }
+            }, (e) => {
+                this.hideLoading();
+                this.setState({
+                    msg: e.msg,
+                    showIOS1: true
+                })
+            });
+    }
     showToast() {
         this.setState({showToast: true});
         this.state.toastTimer = setTimeout(()=> {
@@ -179,7 +170,7 @@ class Widget extends Component {
         }
     }
     render() {
-        const {msgList,msg,hasMsg}=this.state
+        const {msgList,msg}=this.state
         return (
             <div className="container page-inquiry-list">
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
@@ -206,14 +197,14 @@ class Widget extends Component {
                                     </div>
                                     {(item.status == '0' || item.status == '1') &&
                                     <div className="status-inquiry"> 咨询中</div>}
-                                    {(item.status == '3' || item.status == '2')  && item.refundStatus!=='1'&&
+                                    {(item.status == '3' || item.status == '2') &&item.refundStatus == '0'&&
                                     <div className="status-inquiry complete">已完成</div>}
-                                    { (item.status == '3' || item.status == '2') && item.refundStatus=='1'&&
-                                    <div className="status-inquiry complete">有退费</div> }
+                                    {(item.status == '3' || item.status == '2') &&item.refundStatus == '1'&&
+                                    <div className="status-inquiry complete">有退费</div>}
                                 </div>
                                 <div className="msg-item">
                                     <div className='msg-box'>
-                                        <div className='msg-text'>{item.content ? item.content : '[图片]'}</div>
+                                        <div className='msg-text'>{item.content ? item.content.indexOf('checkItem')!=-1?'[检查单]':item.content: '[图片]'}</div>
                                         {item.userReaded == '0' && <div className="read-status">未读</div>}
                                     </div>
                                     <div className="msg-date">{item.createDate}</div>
@@ -249,18 +240,16 @@ class Widget extends Component {
                             />
                         <div >首页</div>
                     </div>
-                    <div className='inquiry' >
-                    {hasMsg&&<span></span>}
+                    <div >
                         <img
                             src="../../../resources/images/inquiry-active.png"/>
                         <div style={{color:'#4FABCA'}}>咨询会话</div>
                     </div>
-                    <div  onClick={
+                    <div onClick={
                             ()=>{
                             this.toNext(3)
                             }
                             }>
-                           
                         <img
                             src="../../../resources/images/my.png"/>
                         <div>我的</div>

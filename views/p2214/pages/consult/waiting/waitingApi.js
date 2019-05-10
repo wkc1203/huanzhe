@@ -12,5 +12,5 @@ export const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/
 
 export const orderStatus = (param) => fetch.post('/api/ehis/health/api/inquiry/getOrderStatus', param, false);
 
-export const getStatus = (param) => fetch.post('/api/ehis/health/api/checkList/getOrderStatus', param);
 
+export const getStatus = (param) => fetch.post('/api/ehis/health/api/inquiry/getOrderStatus', param, false);

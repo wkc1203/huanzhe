@@ -1,6 +1,7 @@
 import fetch from '../../../utils/fetch';
 
 export const getHisInfo = param => fetch.post('api/ehis/common/cache/get/branner_his', param);
+
 export const getPayInfo = (param) =>  fetch.post('/api/ehis/health/api/inquiry/pay', param);
 
 export const getConsultDet1 = (param) =>  fetch.post('/api/ehis/health/api/inquiry/prePay', param);
@@ -12,3 +13,20 @@ export const getPayInfo1 = (param) =>  fetch.post('/api/ehis/health/api/checkLis
 export const getAddInfo = (param) =>  fetch.post('/api/ehis/health/api/subscribe/prePay', param);
 
 export const getSum = (param) =>  fetch.post('/api/ehis/health/api/pageview/savePageviewData', param);
+
+export const getCheckInfo = (param) =>  fetch.post('/api/ehis/health/api/onlineCheckList/prePay', param);
+
+export const orderStatus = (param) => fetch.post('/api/ehis/health/api/inquiry/getOrderStatus', param, false);
+
+
+export const getInfo = (param) => fetch.post('/api/ehis/health/api/subscribe/getSubscribeDetailsByOrder', param);
+
+
+export const prePay = param => fetch.post('/api/ehis/health/api/onlineCheckList/hisOrderCreate', param);
+
+export const getInfo1 = (param) => fetch.post('/api/ehis/health/api/subscribe/getSubscribeDetails', param);
+
+export const getCheckDetail = (param) => fetch.post('/api/ehis/health/api/onlineCheckList/getById', param);
+
+export const update = (param) => fetch.post('/api/ehis/health/api/onlineCheckList/updateOnlineCheckList', param);
+

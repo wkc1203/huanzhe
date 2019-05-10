@@ -383,25 +383,6 @@ class Widget extends Component {
         }
         return h + " : " + m + " : " + s;
     }
-    validateImage(url)
-    {    
-        var xmlHttp ;
-        if (window.ActiveXObject)
-         {
-          xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-         }
-         else if (window.XMLHttpRequest)
-         {
-          xmlHttp = new XMLHttpRequest();
-         } 
-        xmlHttp.open("Get",url,false);
-        xmlHttp.send();
-        console.log('status',xmlHttp.status)
-        if(xmlHttp.status==404)
-        return false;
-        else
-        return true;
-    }
     /*获取咨询信息*/
     getChat(type) {
 
@@ -484,7 +465,7 @@ class Widget extends Component {
                 }
                     var items = res.data.items;
                     for (var i = 0; i < items.length; i++) {
-                        if (items[i].direction == 'TO_DOCTOR' && !!items[i].content && items[i].type == 'BIZ') {
+                        if (items[i].direction == 'TO_DOCTOR' && !!items[i].content && items[i].type == 'BIZ'&&items[i].content.indexOf('checkItem')==-1) {
                             var totalNum = this.state.totalNum;
                             totalNum--;
                             var numEnd = totalNum;
@@ -515,6 +496,31 @@ class Widget extends Component {
                             doctorName: res.data.inquiry.doctorName,
                         })
                     }
+                    var list=res.data.items;
+                    for(var index=0;index<list.length;index++){
+                        console.log(!!list[index].action)
+      
+                      if(!!list[index].action&&list[index].action=='addChecklist'&&list[index].content!=''){
+                           
+                          var cont=list[index].content.replace(/'/g, '"');
+                          list[index].checkContent=JSON.parse(cont);
+                          var s='';
+                          for(var i=0;i<JSON.parse(cont).checkItem.length;i++){
+                              if(i==0){
+                                s=s+JSON.parse(cont).checkItem[i];
+                              }else{
+                                s=s+' 、'+JSON.parse(cont).checkItem[i]
+                              }  
+                          }  
+                          list[index].checkContent.checkItem=s;
+                      }
+                  }
+                  this.setState({
+                    list: list,
+                  
+                  })
+                  console.log("llist",this.state.list)
+
                         for(var j=0;j<this.state.list.length;j++){
                             if(this.state.list[j].direction=='TO_USER'&&this.state.list[j].type=='BIZ'){
                                 if(this.mounted){
@@ -954,7 +960,6 @@ class Widget extends Component {
                 this.setState({
                     isBtn: false,
                     inputText: '',
-                    showPlus:false,
                 })
             }
                 this.hideLoading();
@@ -1504,32 +1509,19 @@ class Widget extends Component {
             data: formData,
             success: (e) => {
                 imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-                var j;
-                      for( j=0;j<imgArr1.length;j++){
-                          if(imgArr1[j]=='https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename){
-                            that.hideLoading();
-                            break;
-                          }
-                          
-                      }
-                       console.log("jjj",j,imgArr1,imgArr1.length);
-                      if(j+1>=imgArr1.length){
-                        that.hideLoading();
-                        while(!that.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
-                            console.log("no")
-                        }
-                        that.send({
-                            inquiryId: that.state.inquiryId,
-                            operator: 'user',
-                            url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
-                        });
-                       
-                        that.setState({
-                            imgArr:imgArr1
-                        })
-                        console.log("imgarr",imgArr1)
-                      }
-                      
+                console.log("ii",imgArr1)
+                var flag=this.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+                console.log("flag",flag)
+
+                while(!this.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
+                    console.log("no")
+                }
+                    this.send({
+                        inquiryId: this.state.inquiryId,
+                        operator: 'user',
+                        url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
+                    });
+
 
             },
             error:(e) =>{
@@ -1605,32 +1597,22 @@ class Widget extends Component {
                                             data: formData,
                                             success: (e) => {
                                                 imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-                    var j;
-                          for( j=0;j<imgArr1.length;j++){
-                              if(imgArr1[j]=='https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename){
-                                that.hideLoading();
-                                break;
-                              }
-                              
-                          }
-                           console.log("jjj",j,imgArr1,imgArr1.length);
-                          if(j+1>=imgArr1.length){
-                            that.hideLoading();
-                            while(!that.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
-                                console.log("no")
-                            }
-                            that.send({
-                                inquiryId: that.state.inquiryId,
-                                operator: 'user',
-                                url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
-                            });
-                           
-                            that.setState({
-                                imgArr:imgArr1
-                            })
-                            console.log("imgarr",imgArr1)
-                          }
-                          
+                                                var flag=this.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+                                                console.log("flag",flag)
+
+                                                while(!this.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
+                                                    console.log("no")
+                                                }
+                                                that.send({
+                                                    inquiryId: that.state.inquiryId,
+                                                    operator: 'user',
+                                                    url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
+                                                });
+
+                                                that.hideLoading();
+                                                that.setState({
+                                                    imgArr:imgArr1,
+                                                })
                                             },
                                             error:(e) =>{
                                                 that.hideLoading();
@@ -1667,6 +1649,25 @@ class Widget extends Component {
            pathname:'add/addManage',
            query:{id:id,source:1,orderIdStr:this.state.orderId,inquiryId:this.state.inquiryId,status:this.state.status,doctorName:this.state.doctorName}
        })
+    }
+     validateImage(url)
+    {    
+        var xmlHttp ;
+        if (window.ActiveXObject)
+         {
+          xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+         }
+         else if (window.XMLHttpRequest)
+         {
+          xmlHttp = new XMLHttpRequest();
+         } 
+        xmlHttp.open("Get",url,false);
+        xmlHttp.send();
+        console.log('status',xmlHttp.status)
+        if(xmlHttp.status==404)
+        return false;
+        else
+        return true;
     }
     onChange = (files, type, index) => {
         this.setState({
@@ -1731,11 +1732,14 @@ class Widget extends Component {
                               
                           }
                            console.log("jjj",j,imgArr1,imgArr1.length);
+                           var flag=this.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+                           console.log("flag",flag)
+
+                           while(!this.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
+                               console.log("no")
+                           }
                           if(j+1>=imgArr1.length){
                             that.hideLoading();
-                            while(!this.validateImage('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
-                                console.log("no")
-                            }
                             that.send({
                                 inquiryId: that.state.inquiryId,
                                 operator: 'user',
@@ -1871,39 +1875,45 @@ class Widget extends Component {
                                                 }>发送</span>}
                         </div>
 
-                        {showPlus && <div className='bottom'>
-                        <div>
-                            {!isIos&&<ImagePicker
-                            length="4"
-                            files={files}
-                            onChange={this.onChange}
-                            onImageClick={(index, fs) => console.log(index, fs)}
-                            selectable={true}
-                        
-                            multiple={false}
-                        />}
-                        {!isIos&&<img src='../../../resources/images/tp.png'/>}
+                        {showPlus && 
+                         <div className='bottom'>
+                            <div className='allow'>
+                                {!isIos&&<ImagePicker
+                                length="4"
+                                files={files}
+                                onChange={this.onChange}
+                                onImageClick={(index, fs) => console.log(index, fs)}
+                                selectable={true} 
+                            
+                                multiple={false}
+                               />}
+                               {!isIos&&<div className='img'>
+                                   <img src='./././resources/images/plusImg.png'/>
+                                </div>}
                            
-                                {isIos&&<div onClick={(e)=>{
+                                {isIos&&
+                                <div className='img'  onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                         }}> 
-                                    <img src='../../../resources/images/tp.png'/>
+                                    <img src='./././resources/images/plusImg.png'/>
                                      
-                                 </div> }
-                                 <p>图片</p>
-                                 </div> 
-                <div style={{marginLeft:'25px'}}>
-                        <img src='../../../resources/images/jianyi.png'
-                        onClick={()=>{
-                            this.context.router.push({
-                                pathname:'usercenter/complain',
-                                query:{type:2,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId}
-                            })
-                            }}
+                                 </div>}
+                                 <p className='text'>图片</p>
+                            </div> 
+                            <div className='allow'>
+                              <div className='img'>
+                                    <img src='./././resources/images/plusSample.png'
+                                    onClick={()=>{
+                                        this.context.router.push({
+                                            pathname:'usercenter/complain',
+                                            query:{type:2,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId}
+                                        })
+                                        }}
 
-                        />
-                        <p>投诉建议</p>
-                  </div>
+                                    />
+                                </div>
+                                <p className='text'>投诉建议</p>
+                            </div>
                         </div>}
 
                     </div>}
@@ -1944,16 +1954,43 @@ class Widget extends Component {
                                             <div className='img'>
                                                 <span style={{fontSize:'10px'}}> {doctorName}</span>
                                             </div>
-                                            {item.content && <div className='text'>{item.content}</div>}
-                                            {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' &&item.url && item.action !== 'add' &&item.action !== 'addcheck'&& <div
+                                            {item.content &&item.action !== 'addChecklist'&& 
+                                                <div className='text'>
+                                                {item.content}
+                                                <span className='angle'></span>
+                                            </div>}
+                                            {item.content &&item.action == 'addChecklist'&&
+                                               <div className='text' 
+                                               onClick={()=>{
+                                                this.context.router.push({
+                                                    pathname:'/ordermng/checkdetail',
+                                                    query:{id:item.actionTrigger}
+                                                   })
+                                             }}
+                                               style={{width:'280px',height:'auto',background:'white'}} >
+                                                <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
+                                                    <div className='check-info'>
+                                                       <div className='check-img'>
+                                                       <img  src="./././resources/images/chat-check.png"/>
+                                                       </div>
+                                                       <div className='info'>
+                                                           <p className='fee'>￥{!!item.checkContent&&item.checkContent.price}</p>
+                                                           <p className='context'>{!!item.checkContent&&item.checkContent.checkItem}</p>
+                                                       </div>
+                                                    </div>
+                                                    <p className='search'
+                                                    
+                                                    >查看详情</p>
+                                                    </div>}
+                                            {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' &&item.url && item.action !== 'add' &&item.action !== 'addChecklist'&& <div
                                                 className='image'
                                                 onClick={()=>{
                                                                     this.previewImg(item.url)
 
                                                                     }}
                                                 >
-                                                <i/><img 
-                                                  src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
+                                                <i/><img  
+                                                src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
                                             </div>}
                                             {item.url && item.action == 'add' && <div
                                                 className='image'
@@ -1964,7 +2001,7 @@ class Widget extends Component {
                                                 >
                                                 <i/><img src={item.url} style={{width:'223px',height:'86px',maxWidth:'223px'}}/>
                                             </div>}
-                                            {item.url && item.action == 'addcheck' && <div
+                                            {item.url && item.action == 'addChecklist' && <div
                                             className='image'
                                         
                                             >
@@ -2017,12 +2054,13 @@ class Widget extends Component {
                                         {item.type == 'BIZ' &&item.direction == 'TO_DOCTOR'&&item.userIsShow== '1'&&
                                         <div id="s" className='right'>
                                             <div className='flex'></div>
-                                            {item.url && item.action !== 'add' &&item.action !== 'addcheck' &&  <div className='image'
+                                            {item.url && item.action !== 'add' &&item.action !== 'addChecklist' &&  <div className='image'
                                                                                        onClick={()=>{
                                                                                     this.previewImg(item.url)
-                                                                                    }}
+                                                                                     }}
                                                 >
-                                                <img src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
+                                                <img  
+                                                 src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
 
                                             </div>}
                                             {item.url && item.action == 'add' && <div
@@ -2035,7 +2073,7 @@ class Widget extends Component {
                                                 <img src={item.url} style={{width:'223px',height:'86px',maxWidth:'223px'}}/>
 
                                                 </div>}
-                                                {item.url && item.action == 'addcheck' && <div
+                                                {/* item.url && item.action == 'addChecklist' && <div
                                                 className='image'
                                             
                                                 >
@@ -2045,14 +2083,37 @@ class Widget extends Component {
                                                 <img 
                                                      style={{width:'223px',height:'86px',maxWidth:'223px'}}
                                                 src={item.url}/></Link>
-                                            </div>}
-                                            {item.content && <div className='text'>
-                                                {item.content}
+                                            </div> */}
+                                            {item.content &&item.action !== 'addChecklist' && <div className='text'>
+                                            {item.content}
+                                            <span className='angle'></span>
+                                                
                                             </div>}  
+                                            { item.content &&item.action == 'addChecklist' && <div className='text' 
+                                            onClick={()=>{
+                                                this.context.router.push({
+                                                    pathname:'/ordermng/checkdetail',
+                                                    query:{id:item.actionTrigger}
+                                                   })
+                                             }}
+                                            style={{width:'280px',height:'auto',background:'white'}} >
+                                            <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
+                                                    <div className='check-info'>
+                                                       <div className='check-img'>
+                                                       <img  src="./././resources/images/chat-check.png"/>
+                                                       </div>
+                                                       <div className='info'>
+                                                           <p className='fee'>￥{!!item.checkContent&&item.checkContent.price}</p>
+                                                           <p className='context'>{!!item.checkContent&&item.checkContent.checkItem}</p>
+                                                       </div>
+                                                    </div>
+                                                    <p className='search'
+                                                     
+                                                    >查看详情</p> </div>}
                                             <div className='img'>
                                                 <img src={userInfo.headImage||'./././resources/images/defautImg.png'}/>
-                                            </div>
-                                        </div>}
+                                            </div> 
+                                        </div>} 
                                     </div>
                                 )
                             })}
