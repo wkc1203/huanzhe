@@ -216,9 +216,10 @@ class Widget extends Component {
         <div className="container page-order-detail">
             <div className="home "><span className="jian"
                                         onClick={()=>{
-                                      this.context.router.push({
-                                       pathname:'ordermng/orderlist'
-                                      })
+                                            this.context.router.push({
+                                                pathname:'ordermng/orderlist',
+                                                query:{userId:this.props.location.query.userId,busType:'consult'}
+                                            });
                                       }}
                 ></span>咨询订单
             </div>

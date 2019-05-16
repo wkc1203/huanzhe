@@ -5,7 +5,7 @@ export const getOrderList = (param) => fetch.post('/api/ehis/order/getorderlistB
 
 export const getCardList = (param) => fetch.post('/api/ehis/user/personal/getpatientslist', param);
 export const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/getJsApiConfig', param);
-export const getcheckList = (param) => fetch.post('/api/ehis/health/api/checkList/page', param);
+export const getcheckList = (param) => fetch.post('/api/ehis/health/api/onlineCheckList/page', param);
 
 export const getUploadToken = (param) => fetch.post('/api/qiniu/fileUploadToken', param);
 

@@ -149,19 +149,21 @@
         display:none;
     }
     .time{
-        color:#333;
-        font-size:15px;
+        color:white;
+        font-size:13px;
         >span{
-            color:#4dabc7;
-            font-size:13px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
         }
     }
     .num{
-        color:#333;
-        font-size:15px;
+        color:white;
+        font-size:13px;
         >span{
-            color:#4dabc7;
-            font-size:13px;
+            color:white;
+            font-weight: bold;
+            font-size:12px;
         }
     }
     .header1{
@@ -232,20 +234,36 @@
         }
         .bottom {
             display:flex;
-            align-items: top;
+            align-items: center;
             flex-wrap: wrap;
             height: 200px;
             box-sizing: border-box;
-            padding: 30px 15px 40px 25px;
+            padding: 0px 15px 50px 25px;
             background: #f8f8f8;
-            img{
-                width: 60px;
-                height: 60px;
+            >div{
+                width:65px;
+                margin-right:23px;
+                font-size:12px;
             }
-            p{
+           
+            .img{
+                width: 63px;
+                height: 63px;
+                background:white;
+                border-radius:10px;
+                img{
+                    width:35px ;
+                    height:35px;
+                    display:flex;
+                    text-align:center;
+                    margin:0 auto;   
+                    padding:14px 0;
+
+                }
+            }
+            .text{
                 text-align: center;
                 margin-top: 8px;
-                font-size:12px;
             }
         }
     }
@@ -253,9 +271,9 @@
         height: 44px;
         display: flex;
         align-items: center;
-        font-size: 13px;
+        font-size: 13px;  
         color: #888;
-        background: #fff;
+        background: linear-gradient(to  right, #3abfd3, #50abca);
         position: relative;
         width:100%;
         box-shadow:0 2px 4px 0 rgba(0,0,0,0.07);
@@ -265,18 +283,21 @@
             padding-left:10px;
             flex: 1;
             >span,a{
+                background: #ea6ea4;
                 display: inline-block;
                 margin-left: 50%;
                 border-radius:3px;
-                border:1px solid #4FABCA;
-                line-height: 25px;
+                line-height: 29px;
                 font-size: 13px;
-                color: #4FABCA;
-                padding: 0 8px;
+                height: 29px;
+                width: 80px;
+                text-align: center;
+                border-radius: 5px;
+                color: white;
+                padding: 0;
             }
             .endGrey{
                 color:white;
-                border:1px solid white;
                 background: #cfcfcf;
             }
         }
@@ -336,7 +357,6 @@
                 color: #fff;
             }
            > .date {
-                margin-bottom: 10px;
                 text-align: center;
                 font-size: 14px;
                 color: #B2B2B2;
@@ -470,6 +490,59 @@
                 white-space: normal;
                 word-wrap: break-word;
                 word-break:break-all;
+                .doctort{
+                    font-size: 15px;
+                }
+                .search{
+                    padding-top: 11px;
+                    color: #4cabcf;
+                    font-size: 13px;
+                    text-align: center;
+                }
+                .check-info{
+                    display: flex;
+                    background: rgb(228,247,249);
+                    border-radius: 5px;
+                    margin-top: 12px;
+                    .check-img{
+                        border-top-left-radius: 5px;
+                        border-bottom-left-radius: 5px;
+                        margin: 0 auto;
+                        flex: 0.7;
+                        background: linear-gradient(to bottom, rgb(170,227,339), rgb(216,249,253));
+                        align-items: center;
+                        img{
+                            width: 36px;
+                            padding-left: 20%;
+                            height: 28px;
+                            padding-top: 35%;
+                            margin: 0 auto;
+                        }
+                    }
+                    .info{
+                        flex: 2;
+                        padding-left: 6px;
+                        .fee{
+                            font-size: 15px;
+                            color: #ea6ea2;
+                            padding-top: 5px;
+                            font-weight: bold;
+                        }
+                        .context{
+                            font-size: 12px;
+                            color: #666;
+
+                            padding-bottom: 5px;
+
+                            height:30px;
+                             line-height: 30px;
+                             text-align: left;
+                             overflow: hidden;
+                             text-overflow: ellipsis;
+                             //white-space: nowrap;
+                        }
+                    }
+                }
 
             }
 
@@ -514,6 +587,18 @@
         .left{
             padding:5px 0;
             .text{
+                position:relative;
+                .angle{  
+                        position:absolute;
+                        top:10px;
+                        left:-39px; 
+                        width: 20px; 
+                        height: 0;
+                        border-width: 10px;
+                        border-style: solid;
+                        border-color: transparent #fff transparent transparent;
+                        transform: rotate(360deg); /*顺时针旋转90°*/
+                }
                 i {
                     border: 10px solid transparent;
                     border-right-color: #fff;
@@ -530,8 +615,22 @@
                 margin-right: 0;
             }
             .text {
-                background: #ECFAFF;
-                color: #000;
+                background: rgb(187,235,244);
+               position:relative;
+                color: #000;        
+                .angle{
+                        width: 20px; 
+                        height: 0;
+                        transform: rotate(180deg);
+                    position: absolute;
+                    right: -39px; 
+                    top: 15px;
+
+                        border-width: 10px;
+                        border-style: solid;
+                        border-color: transparent #bbebf4 transparent transparent;
+                        transform: rotate(180deg); /*顺时针旋转90°*/
+                }
                 >i {
                     border: 10px solid transparent;
                     border-left-color: #ECFAFF;

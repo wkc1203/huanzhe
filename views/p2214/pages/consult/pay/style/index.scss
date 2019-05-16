@@ -6,49 +6,63 @@
 .page1-pay {
 
     .fee-box {
-        height: 134px;
+        height: 124px;
         background-color: #fff;
-        margin-bottom: 10px;
+        margin: 5px 10px;
+        border-radius: 5px;
         .warm-tip1 {
-            height: 30px;
-            background-color: #ECFAFF;
-            color: $hc-color-primary;
-            font-size: 15px;
+            height: 22px;
+            background-color: #ea6ea4;
+            color: white;
+            font-size: 11px;
             text-align: center;
-            line-height: 30px;
+            line-height: 22px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
         }
         .fee-item{
             height: 104px;
-            font-size: 34px;
-            color: #FF613B;
+            font-size: 30px;
+            color: #ea6ea4;
             text-align: center;
-            padding-top: 15px;
+            font-weight:bold;
             .des-fee {
-                font-size: 14px;
-                color: #989898;
+                font-size: 11px;
+                color: #666;
+                padding-left: 6px;
             }
         }
     }
     .mm-list {
-        padding: 15px 0;
-        margin-top: 10px;
+        padding:0;
+        margin: 0 10px 5px;
+        border-radius:5px;
         background-color: #fff;
-        .title {
-            padding-left: 15px;
-        }
+       
         .list {
-            padding-top: 8px;
+            padding: 0 10px;
             .list-item {
-                padding: 8px 15px;
-                font-size: 15px;
+                padding: 0;
+                font-size: 13px;
+                height: 44px;
+                line-height: 44px;
                 display: flex;
                 align-items: center;
+                position:relative;
+                img{
+                    width:16px;
+                    height:16px;
+                    position:absolute;
+                    left:0;
+                    top:13px;
+                }
                 .item-label {
-                    color: $hc-color-gray;
+                    color:#666;
                     min-width: 5em;
+                    padding-left:25px;
                 }
                 .item-value {
-                    color: $hc-color-title;
+                    color: #333;
                     flex: 1;
                     word-wrap: break-word;
                     white-space: pre-wrap;
@@ -58,6 +72,10 @@
                 }
 
             }
+            .list-item:not(:last-child){
+                border-bottom:1px solid #ccc;
+            }
+
         }
     }
     .list-tit {
@@ -66,21 +84,25 @@
         font-size: 14px;
         color: $hc-color-title;
     }
-
+     .warm{
+        font-size: 11px;
+        padding: 6px 20px;
+        color: #4cabcf;
+     }
     .btn{
-        margin: 30px auto;
+        margin: 30px 10px;
         .submit-btn {
             background-color: $hc-color-primary;
             color: #fff;
             border:none;
             font-size: 18px;
-            height: 47px;
-            margin:  20px auto;
+            height: 49px;
+            margin:  0; 
             position:relative;
             display:block;
-            width:332px;
-            padding-left:14px;
-            padding-right:14px;
+            width:100%;
+            padding-left:0;
+            padding-right:0;
             box-sizing:border-box;
             text-align:center;
             text-decoration:none;
