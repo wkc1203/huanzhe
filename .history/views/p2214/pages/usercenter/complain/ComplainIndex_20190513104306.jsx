@@ -520,13 +520,13 @@ class Widget extends Component {
         var  mime ='';
         var bytes;
 
-      //  if(isIos){
+       if(isIos){
              mime = arr[0].match(/:(.*?);/)[1] || 'image/png';
             bytes = window.atob(arr[1]);
-       // }else{
-         //   mime='image/png';
-         //   bytes = window.atob(urlData);
-       // }
+       }else{
+           mime='image/png';
+            bytes = window.atob(urlData);
+       }
         // 去掉url的头，并转化为byte
         // 处理异常,将ascii码小于0的转换为大于0
         var ab = new ArrayBuffer(bytes.length);
