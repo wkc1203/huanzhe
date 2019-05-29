@@ -1,0 +1,650 @@
+import React, { Component } from 'react';
+import { Link } from 'react-router';
+import hashHistory from 'react-router/lib/hashHistory';
+import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
+
+import Connect from '../../../components/connect/Connect';
+import { addressMap } from '../../../config/constant/constant';
+import * as Utils from '../../../utils/utils';
+import * as Api from './payApi';
+import 'style/index.scss';
+
+class Widget extends Component {
+    static contextTypes = {
+        router: React.PropTypes.object,
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            orderInfo: {},
+            orderInfo1: {},
+            orderId: '',
+            inquiryId: '',
+            showToast: false,
+            showLoading: false,
+            toastTimer: null,
+            loadingTimer: null,
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+            hrefUrl:'',
+            style1: {
+                buttons: [
+                    {
+                        label: '确定',
+                        onClick: Utils.hideDialog.bind(this)
+                    }
+                ]
+            },
+            style2: {
+                title: '提示',
+                buttons: [
+                    {
+                        type: 'default',
+                        label: '放弃付款',
+                        onClick: this.delete.bind(this)
+                    },
+                    {
+                        type: 'primary',
+                        label: '付款',
+                        onClick: this.sure.bind(this)
+                    }
+                ]
+            },
+            msg:'',
+            // 剩余时间大于0
+            leftTimeFlag: false,
+            // 剩余支付时间
+            leftTime: '00:00',
+            totalFee: 0,
+            go:0,
+            appId:'',
+            addInfo:'',
+            payData:{},
+            checkDetail:'',
+
+        };
+    }
+
+    componentDidMount() {
+        
+        if(!!window.localStorage.openId){
+            this.sum('inquiry_pay',1);
+         }else{
+             var code='';
+            if(window.location.origin=='https://tih.cqkqinfo.com'){
+                code='ff80808165b46560016817f20bbc00b3';
+          
+              }else{
+                code='ff80808165b46560016817f30cc500b4';
+              }
+              var storage=window.localStorage;
+              //加入缓存
+              storage.isOpenId=1;
+            
+              window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
+              // return false;
+                 var storage=window.localStorage;
+                 //加入缓存
+                 storage.url=window.location.href;
+             
+         }
+         Utils.getJsByHide();
+        this.setState({
+            orderId:this.props.location.query.orderId,
+            inquiryId:this.props.location.query.inquiryId,
+            totalFee:this.props.location.query.totalFee||0,
+
+        })
+        const orderId =this.props.location.query.orderId;
+        //if(!this.props.location.query.patientName){
+         //   this.getConsultDet(orderId);
+        //} 
+        console.log("ds",this.props.location.query);
+        if(this.props.location.query.source){
+             if(this.props.location.query.source=='check'){
+                this.getDetail();
+                console.log("check")
+               // this.getCheckPay();
+             }else{
+                    this.getAddPay(this.props.location.query.orderId);
+             }
+           
+        }else{
+            console.log("log2");
+            this.getConsultDet(orderId);
+        }
+
+
+    }
+    
+ 
+    showToast() {
+        this.setState({showToast: true});
+
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({showToast: false});
+        }, 2000);
+    }
+    delete(){
+           this.hideDialog();
+           this.context.router.goBack();
+    }
+    sure(){
+        this.hideDialog();
+        this.confirmPay()
+    }
+    sum(code,type){
+        Api
+        .getSum({
+            hisId:'2214',
+            code:code,
+            type:type,
+            openId:window.localStorage.openId
+        })
+        .then((res) => {
+
+          
+        }, (e) => {
+
+        });
+    }
+     
+    /*支付*/
+    confirmPay() {
+        if(this.props.location.query.source){
+            if(this.props.location.query.status=='1'){
+                this.prePay();
+             // window.location.href=this.state.orderInfo1.payUrl;
+           }else{
+               if(!!this.state.addInfo&&this.state.addInfo.isPay=='1'){
+                   this.prePay();
+               }else{
+                   window.location.href=this.state.orderInfo1.payUrl;
+               }
+           }
+        }else{
+            window.location.href=this.state.orderInfo.payUrl;
+        }
+    }
+    getAddPay(orderId) {
+      
+            Api
+            .getAddInfo({
+                orderId: orderId,
+                source:this.props.location.query.source,
+                hospitalUserId:this.props.location.query.hospitalUserId,
+                hospitalTradeno:this.props.location.query.hospitalTradeno,
+               
+            })
+            .then((res) => {
+                if (res.code == 0) {
+                    this.setState({
+                        orderInfo:res.data,
+                        totalFee:res.data.totalFee||0
+                    })
+
+                }
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+    
+    }
+    
+   
+    getAddPay1(id) {
+      
+      Api
+      .getAddInfo({
+          source:'1',
+          hospitalUserId:this.props.location.query.hospitalUserId,
+          hospitalTradeno:id,
+         
+      })
+      .then((res) => {
+          if (res.code == 0) {
+              this.setState({
+                  orderInfo1:res.data,
+                  totalFee1:res.data.totalFee||0
+              })
+          }
+      }, (e) => {
+          this.setState({
+              msg:e.msg,
+              showIOS1:true
+          })
+      });
+
+}
+    getCheckPay(id) {
+      
+        Api
+        .getCheckInfo({
+            orderId: id,
+            hisId:'2214',
+            source:'1'
+           
+        })
+        .then((res) => {
+            if (res.code == 0) {
+                this.setState({
+                    orderInfo1:res.data,
+                    totalFee:res.data.totalFee||0
+                })
+                window.location.href=res.data.payUrl;
+                 
+            }
+        }, (e) => {
+            this.setState({
+                msg:e.msg,
+                showIOS1:true
+            })
+        });
+
+}
+
+    /*倒计时*/
+    getLeftTime(time = 0) {
+        if (time <= 0) {
+            this.state.leftTimer && clearInterval(this.state.leftTimer);
+            this.setState({
+                leftTimeFlag:false,
+                leftTime:'00:00',
+            })
+            return;
+        }
+
+        const minute = `00${Math.floor(time / 60)}`.substr(-2);
+        const second = `00${Math.floor(time % 60)}`.substr(-2);
+        this.setState({
+            leftTimeFlag:true,
+            leftTime:`${minute}:${second}`,
+        })
+        var leftTimer=this.state.leftTimer;
+        leftTimer = setTimeout(() => {
+            this.getLeftTime(--time);
+        }, 1000);
+        this.setState({
+            leftTimer:leftTimer
+        })
+    }
+    orderStatus(orderId) {
+        Api
+            .orderStatus({orderId:orderId})
+            .then((res) => {
+                
+
+            }, (e) => {
+                
+            });
+
+
+    }
+     /*获取订单信息*/
+    getConsultDet(orderId) {
+        Api
+            .getConsultDet1({orderId:orderId})
+            .then((res) => {
+                if (res.code == 0 && res.data != null) {
+                    this.setState({
+                        orderInfo:res.data,
+                    })
+                    //window.location.href=window.location.href+"&deptId="+res.data.deptId+"&doctorId="+res.data.doctorId;
+                    this.getLeftTime(res.data.leftPayTime || 0);
+
+                }
+
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+
+
+    }
+    getDetail() {
+        Api
+            .getCheckDetail({
+                id:this.props.location.query.checkId,
+                hisId:'2214'
+            })
+            .then((res) => {
+                if (res.code == 0) {
+                     this.setState({
+                       checkDetail:res.data,
+                       addInfo:JSON.parse(res.data.subscribeInfo)
+
+                     })
+                     var add=JSON.parse(res.data.subscribeInfo);
+                     console.log("check1",add);
+                     console.log()
+                        if(add.hasPay!=='0'){
+                               
+                        }else{
+                            this.getAddPay1(res.data.subscribeOrderNo);
+                        }
+                        
+                     console.log("dd",this.state.checkDetail)
+                }
+            }, e=> {
+            });
+   }
+   getDetail1() {
+    Api
+        .getCheckDetail({
+            id:this.props.location.query.checkId,
+            hisId:'2214'
+        })
+        .then((res) => {
+            if (res.code == 0) {
+                 this.setState({
+                   checkDetail:res.data,
+                 })
+                
+                 
+                 console.log("dd",this.state.checkDetail)
+            }
+        }, e=> {
+        });
+}
+    prePay(){
+        /* 
+        this.context.router.push({
+                    pathname:'consult/pay',
+                    query:{id:checkDetail.id,source:'check',orderId:checkDetail.orderStr,userId:checkDetail.userId}
+                }) */
+
+                Api
+             .prePay({
+                 id:this.props.location.query.checkId,
+                 patientId:this.props.location.query.patientId,
+                 hisId:'2214'
+             })
+             .then((res) => {
+                 
+                 if(res.code==0){
+                    this.getCheckPay(this.state.checkDetail.orderStr)
+                    
+                        
+                 }
+             }, e=> {
+                 this.setState({
+                     msg:e.msg,
+                     showIOS1:true
+                 })
+             });
+
+    }
+
+
+    render() {
+        const {orderInfo1,orderInfo,msg,addInfo,checkDetail,leftTimeFlag,leftTime,totalFee}=this.state;
+        return (
+            <div className='page1-pay'>
+                <div className="home"><span className="jian"
+                                            onClick={()=>{
+                                                 if(this.props.location.query.source){
+                                                   
+                                                       
+                                                    this.context.router.push({
+                                                        pathname:'ordermng/checkdetail',
+                                                        query:{id:this.props.location.query.checkId,
+                
+                                                        }
+                                                        })
+                                                      
+ 
+                                                }else{  
+                                                    if(this.props.location.query.card==1){
+                                                        this.context.router.push({
+                                                    pathname:'ordermng/orderdetail',
+                                                    query:{orderId:this.props.location.query.orderId,
+            
+                                                    }
+                                                    })
+                                                        }else{
+                                                                this.context.router.push({
+                                                    pathname:'consult/confirminfo',
+                                                    query:{doctorId:this.props.location.query.doctorId,
+                                                    deptId:this.props.location.query.deptId,
+                                                    totalFee:this.props.location.query.totalFee
+                                                    }
+                                                    })
+                                                        }
+                                                
+                                                    }
+
+                                      }}
+                    ></span>收银台
+                </div>
+                <a href={this.state.hrefUrl} id="a"></a>
+                <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                    {msg}
+                </Dialog>
+                <Dialog type="ios" title={this.state.style2.title} buttons={this.state.style2.buttons}
+                        show={this.state.showIOS2}>
+                    请于今日内完成支付。若未支付，订单将会自动取消，您将无法就诊
+                </Dialog>
+                <div className='fee-box'>
+                    {leftTimeFlag&&
+                    <div className="warm-tip1">
+                        {leftTime!='0'&&<div className="lefttime">请在 {leftTime}秒内完成支付</div>}
+                    </div>}
+                    {this.props.location.query.source&&
+                        <div className="warm-tip1">
+                        <div className="lefttime">请在今日23：15前完成支付</div>
+                    </div>}
+                    
+
+                    {this.props.location.query.source!="check"&&<div className='fee-item'>
+                        <div className='des-fee'>支付金额（元）</div>
+                        <span style={{fontSize:'18px'}}>￥</span>{(totalFee/100).toFixed(2)||'0:00'}
+                        {/*{{WxsUtils.formatMoney(totalFee,100)}}*/}
+                    </div>}
+                    {this.props.location.query.source=="check"&&addInfo.hasPay=='0'&&(checkDetail.status=='0'||checkDetail.status=='1')&&<div className='fee-item'>
+                        <div className='des-fee'>待缴费金额（元）</div>
+                        
+                        <span style={{fontSize:'18px'}}>￥</span>{(addInfo.hasPay!=='0')?(checkDetail.totalFee/100).toFixed(2)||'0.00':((addInfo.totalFee*1)+(checkDetail.totalFee/100))}
+
+                        {/*{{WxsUtils.formatMoney(totalFee,100)}}*/}
+                    </div>}
+                    {this.props.location.query.source=="check"&&addInfo.hasPay!=='0'&&(checkDetail.status=='0'||checkDetail.status=='1')&&<div className='fee-item'>
+                    <div className='des-fee'>待缴费金额（元）</div>
+                    
+                    <span style={{fontSize:'18px'}}>￥</span>{(addInfo.hasPay!=='0')?(checkDetail.totalFee/100).toFixed(2)||'0.00':((addInfo.totalFee*1)+(checkDetail.totalFee/100))}
+
+                    {/*{{WxsUtils.formatMoney(totalFee,100)}}*/}
+                </div>}
+                    {this.props.location.query.source=="check"&&(checkDetail.status!='0'&&checkDetail.status!='1')&&<div className='fee-item'>
+                    <div className='des-fee'>待缴费金额（元）</div>
+                    
+                    <span style={{fontSize:'18px'}}>￥</span>0.00
+
+                    {/*{{WxsUtils.formatMoney(totalFee,100)}}*/}
+                </div>}
+                   
+
+                </div>
+              {this.props.location.query.source!="check"&&<div className="mm-list">
+                    <div className="content">
+                        <div className="list">
+                            <div className="list-item">
+                                <div className="item-label">
+                                  <img src="./././resources/images/pay-doctor.png"/>医生姓名
+                                </div>
+                                <div className="item-value">{orderInfo.doctorName}</div>
+                            </div>
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay-dept.png"/>
+                                科室名称
+                                </div>
+                                <div className="item-value">{orderInfo.deptName}</div>
+                            </div>
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay-type.png"/>
+                                业务类型
+                                </div>
+                                <div className="item-value">{orderInfo.typeName}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
+                {this.props.location.query.source!="check"&&<div className="mm-list">
+                    <div className="content">
+                        <div className="list">
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay-patient.png"/>
+                                就诊人
+                                </div>
+                                <div className="item-value">{orderInfo.patientName}</div>
+                            </div>
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay-card.png"/>
+                                就诊卡号</div>
+                                <div className="item-value">{orderInfo.patCardNo}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
+    
+                {this.props.location.query.source=="check"&&!!checkDetail&&!!checkDetail.doctorName&&<div className="mm-list">
+                    <div className="content">
+                        <div className="list">
+                            <div className="list-item">
+                                <div className="item-label">
+                                  <img src="./././resources/images/pay-doctor.png"/>医生姓名
+                                </div>
+                                <div className="item-value">{checkDetail.doctorName}</div>
+                            </div>
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay-dept.png"/>
+                                科室名称
+                                </div>
+                                <div className="item-value">{checkDetail.deptName}</div>
+                            </div>
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay-patient.png"/>
+                                就诊人
+                                </div>
+                                <div className="item-value">{checkDetail.patientName}</div>
+                            </div>
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay-card.png"/>
+                                就诊卡号</div>
+                                <div className="item-value">{checkDetail.patCardNo}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>}
+                {this.props.location.query.source=="check"&&<div className="mm-list">
+                    <div className="content">
+                        <div className="list">
+                            
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay-type.png"/>
+                                业务类型
+                                </div>
+                                <div className="item-value">网络门诊</div>
+                            </div>
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay_fee.png"/>
+                                金额
+                                </div>
+                                {<div className="item-value">￥{(!!addInfo.totalFee?addInfo.totalFee:'')||'0.00'}</div>}
+
+                                </div>
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay_jin.png"/>
+                                支付状态
+                                </div>
+                                <div className="item-value">{(addInfo.hasPay!=='0')?'已支付':'未支付'}</div> 
+                            </div>
+
+                        </div>
+                    </div>
+                </div>}
+                {this.props.location.query.source=="check"&&<div className="mm-list">
+                    <div className="content">
+                        <div className="list">
+                            
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay-type.png"/>
+                                业务类型
+                                </div>
+                                <div className="item-value">检验检查</div>
+                            </div>
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay_fee.png"/>
+                                金额
+                                </div>
+                                {this.props.location.query.status!=='1'&&<div className="item-value">￥{(checkDetail.totalFee/100).toFixed(2)||'0.00'}</div>}
+
+                                {this.props.location.query.status=='1'&&<div className="item-value">￥{((!!this.props.location.query.checkFee?this.props.location.query.checkFee:checkDetail.totalFee)/100).toFixed(2)||'0:00'}</div>}
+                            </div>
+                            <div className="list-item">
+                                <div className="item-label">
+                                <img src="./././resources/images/pay_jin.png"/>
+                                支付状态
+                                </div>
+                                <div className="item-value">{(checkDetail.status=='0'||checkDetail.status=='1')?'未支付':'已过期'}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>}
+
+                 {this.props.location.query.source&&<p className='warm'>注：
+                 {(checkDetail.status=='0'||checkDetail.status=='1')&&addInfo.hasPay=='0'&&<span style={{color:'red'}}>
+                 因此处存在两种业务类型缴费，所以您需要分两次完成支付，网络门诊费支付后将不支持退款。
+                 </span>}
+                 请于今日内完成支付，若未支付，订单将会自动取消
+                 </p>}
+
+                {<div className='btn'>
+                    {orderInfo.canPayFlag == 1 &&this.props.location.query.source!=="check"&&
+                    <button  className="submit-btn" onClick={()=>{
+                 this.confirmPay()
+
+                 }}>
+                        立即支付
+                    </button>}
+
+                    {orderInfo.canPayFlag != 1&&!this.props.location.query.source=="check"&&
+                    <button disabled  className="submit-btn" >
+                        立即支付
+                    </button>}
+                    {this.props.location.query.source=="check"&&(checkDetail.status=='0'||checkDetail.status=='1')&&
+                    <button  className="submit-btn" onClick={()=>{
+                 this.confirmPay()
+
+                 }}>
+                        立即支付
+                    </button>}
+                    <div className="empty-box"></div>
+                </div>}
+            
+            </div>
+        );
+    }
+}
+
+export default Connect()(Widget);
