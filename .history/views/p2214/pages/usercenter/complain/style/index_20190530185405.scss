@@ -4,7 +4,19 @@
 
 
 .page-complain{
-    
+    .am-image-picker{
+        input{
+            position: absolute;
+            top: 15px;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width:69px;
+            height:69px;
+            opacity: 0;
+            overflow: visible;
+        }
+    }
     .ant-upload-list{
         display:none;
     }
@@ -126,9 +138,7 @@
             .img-box3 {
                 height: 61px;
                 margin: 15px 16px 0 0;
-                .fileinput-button {
-
-                }
+                
 
                 .img-item {
                     position: relative;
