@@ -409,11 +409,11 @@ class Widget extends Component {
                     </div>}
                     {this.props.location.query.source=="check"&&addInfo.hasPay=='0'&&(checkDetail.status=='0'||checkDetail.status=='1')&&<div className='fee-item'>
                         <div className='des-fee'>待缴费金额（元）</div>
-                        <span style={{fontSize:'18px'}}>￥</span>{(addInfo.hasPay!=='0')?(checkDetail.totalFee/100).toFixed(2)||'0.00':((addInfo.totalFee*1)+(checkDetail.totalFee/100))}
+                        <span style={{fontSize:'18px'}}>￥</span>{(addInfo.hasPay!=='0')?(checkDetail.totalFee/100)||'0.00':((addInfo.totalFee*1)+(checkDetail.totalFee/100)).toFixed(2)}
                     </div>}
                     {this.props.location.query.source=="check"&&addInfo.hasPay!=='0'&&(checkDetail.status=='0'||checkDetail.status=='1')&&<div className='fee-item'>
                     <div className='des-fee'>待缴费金额（元）</div>
-                    <span style={{fontSize:'18px'}}>￥</span>{(addInfo.hasPay!=='0')?(checkDetail.totalFee/100).toFixed(2)||'0.00':((addInfo.totalFee*1)+(checkDetail.totalFee/100))}
+                    <span style={{fontSize:'18px'}}>￥</span>{(addInfo.hasPay!=='0')?(checkDetail.totalFee/100)||'0.00':((addInfo.totalFee*1)+(checkDetail.totalFee/100)).toFixed(2)}
                 </div>}
                     {this.props.location.query.source=="check"&&(checkDetail.status!='0'&&checkDetail.status!='1')&&<div className='fee-item'>
                     <div className='des-fee'>待缴费金额（元）</div>

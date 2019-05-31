@@ -814,13 +814,10 @@ class Widget extends Component {
         var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
         var  mime ='';
         var bytes;
-        if(isIos){
+        
             mime = arr[0].match(/:(.*?);/)[1] || 'image/png';
            bytes = window.atob(arr[1]);
-      }else{
-          mime='image/png';
-           bytes = window.atob(urlData);
-      }
+      
         // 去掉url的头，并转化为byte
         // 处理异常,将ascii码小于0的转换为大于0
         var ab = new ArrayBuffer(bytes.length);
@@ -934,19 +931,25 @@ class Widget extends Component {
     });
 } 
 }
-onChange = (files, type, index) => {
+
+onChange = (files,file,index) => {
+   
+    var that=this;
+    if(that.state.imgArr.length>=4){
+
+    that.setState({
+    msg:'一次最多只能上传四张图片',  
+    showIOS1:true,
+    })
+}else{
+    if(!!file){
+     console.log(files,file,index)
     this.setState({
         files,
       });
       var that=this;
       var sign=that.state.sign;
-    if(that.state.imgArr.length>=4){
-        that.setState({
-        msg:'最多只能上传四张图片',
-        showIOS1:true,
-        })
-    }else{
-    console.log(files, type, index);
+    
     that.showLoading('上传中');
     for(var i=0;i<files.length;i++){
         console.log(this.state.imgList)
@@ -971,7 +974,14 @@ onChange = (files, type, index) => {
         }else{
             day=myDate.getDate();
         }
-        var date=new Date().getTime();
+    
+                var base64='';
+        var that=this;
+                var reader = new FileReader();//创建一个字符流对象
+            reader.readAsDataURL(files[i]);//读取本地图片
+            reader.onload = function(e) {
+               base64=this.result;
+               var date=new Date().getTime();
         var m=ossPath+year+'/'+month+'/'+day+"/";
         var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
         var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
@@ -981,44 +991,55 @@ onChange = (files, type, index) => {
         formData.append("callback",sign.callback);
         formData.append("signature",sign.signature);
         formData.append("OSSAccessKeyId",sign.OSSAccessKeyId); 
-        formData.append('file',that.base64ToBlob(files[i].url));
+        formData.append('file',that.base64ToBlob(base64)); 
         $.ajax({
-            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
+            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com', 
             method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
             data: formData,
             success: (e) => {
+               
                 imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-                 if(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
+               // alert("us")
+                //alert(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename));
+                if(that.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
                     that.hideLoading();
                 that.setState({
                         imgArr:Array.from(new Set(imgList))
                     });
                 }else{
-                   var  intervals = setInterval(() => this.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,imgList), 500);
-                   this.setState({
+                   var  intervals = setInterval(() => that.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,imgList), 500);
+                   that.setState({
                        intervals:intervals
                    })
+                    
                 }
+               
+              
+               
             },
             error:(e) =>{
                 that.hideLoading();
             }
         });
-    }
+            };
+        
+        }
+}
 }
   };
-  isHas(url,imgList){
-      var that=this;
-    if(that.isHasImg(url)){
-        clearInterval(this.state.intervals);
-        that.hideLoading();
-        that.setState({
-            imgArr:Array.from(new Set(imgList))
-        });
-    }
+  
+  getBase64Image(){
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+    var dataURL = canvas.toDataURL("image/"+ext);
+    return dataURL;
   }
   onAddImageClick = () => {
     this.setState({
@@ -1186,13 +1207,21 @@ onChange = (files, type, index) => {
                             <div className='img-box'
                                 >
                                 <div className="img-item">
-                               
-                          
-                                        {<div onClick={(e)=>{
+                                {!isIos&&
+                                 <input type="file" id="file"  onChange={(e) => {           
+                                            this.onChange(e.target.files,e.target.files[0],0)
+                                        }} accept="image/*" />
+                                        } 
+                            {!isIos&&<img src="../../../resources/images/add-img.png"/> }
+                           
+                                        {isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                 }}> 
+                                            
+
                                             <img src="../../../resources/images/add-img.png"/>
                                        </div>}
+
                                 </div>
                             </div>
                             {imgArr && imgArr.map((item, index)=> {

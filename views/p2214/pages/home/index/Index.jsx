@@ -91,16 +91,15 @@ class Widget extends Component {
         // 离开页面时结束所有可能异步逻辑
     }
     show(){
-        var that=this;
         wx.ready(function () {
             wx.chooseImage({
                 count: 4, // 默认9
-                sizeType: ['original','compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sizeType: ['original','compress'], // 可以指定是原图还是压缩图，默认二者都有
                 sourceType: ['album','camera'], // 可以指定来源是相册还是相机，默认二者都有
                 success: function (res) {
                    // that.showLoading('上传中');
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    that.setState({
+                  this.setState({
                       img:localIds[0]
                   })
                 }
@@ -192,7 +191,7 @@ class Widget extends Component {
     }
      getDocList(deptId = '') {
         Api
-            .getInfo({numPerPage: 10, deptId, vagueName: '',pageNum:1})
+            .getInfo({numPerPage: 10, deptId, vagueName: '',pageNum:1 })
             .then((res) => {
                 this.setState({
                     show:true,
@@ -200,24 +199,17 @@ class Widget extends Component {
                  if(res.code==0&&res.data!=null){
                      
                      var docList=[];
-                      var data=[];
-                      for(var i=0;i<res.data.doctors.length;i++){
-                       
-                              data.push(res.data.doctors[i])
-                         
-                      }
-                     if(data.length>=5){
+                     if(res.data.doctors.length>=5){
                         for(var i=0;i<5;i++){
-
-                            docList.push(data[i]);
+                            docList.push(res.data.doctors[i]);
                         }
                         this.setState({
                             docList:docList,
                             doc:true,
                         });
                      }else{
-                        for(var i=0;i<data.length-1;i++){
-                            docList.push(data[i]);
+                        for(var i=0;i<res.data.doctors.length-1;i++){
+                            docList.push(res.data.doctors[i]);
                         }
                         this.setState({
                             docList:docList,
@@ -274,10 +266,9 @@ class Widget extends Component {
     return (
         /*首页*/
       <div className="page-home ">
-            {/* img&&<img src={img}  /> */}
-          {/* <div onClick={()=>{
-              this.show()
-          }}>测试选择图片</div> */}
+            {/* img&&<img src={img}  />  <input type="file" id="file" class="filepath" onchange="changepic(this)" accept="image/*" />*/}
+            
+
           <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
               {msg}
           </Dialog>
@@ -319,7 +310,7 @@ class Widget extends Component {
                       <div className='text2'>合理用药问药师</div>
                 </div>
                 <div className="d-tab" onClick={()=>{
-                    this.switchOpen(1)
+                this.switchOpen(1)
                 }}>
                         <div className="icon">
                         <img
@@ -327,7 +318,7 @@ class Widget extends Component {
                             alt=""
                             />
                       </div>
-                      <div className='text1 '>护理咨询</div>
+                      <div className='text1'>护理咨询</div>
                       <div className='text2'>健康护理问护士</div>
                 </div>
               </div>

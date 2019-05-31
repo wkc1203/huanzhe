@@ -140,6 +140,7 @@ class Widget extends Component {
             reportInfo:[],
             visitNo:'',
             apply:false,
+            hasApply:false,
             currentDoctor:true,
         };
     }
@@ -174,11 +175,11 @@ class Widget extends Component {
         })
         console.log("ccc",this.state.currentDoctor);
         
-            Api.getDoctor({hisDoctorName:this.state.reportInfo.hisDoctorName})
+            Api.getDoctor({hospitalUserName:this.state.reportInfo.hisDoctorName})
         .then((res) => {
             if (res.code == 0 && res.data != null) {
                 if(this.mounted){
-                  this.setState({docInfo: res.data.doctor});
+                  this.setState({docInfo: res.data});
                     
                     }
                     this.getCardList();
@@ -231,7 +232,8 @@ class Widget extends Component {
         .then((res) => {
              if(res.code==0){
                  this.hideLoading();
-                 console.log(res);
+                 this.setState({hasApply:true})
+                   console.log(res);
                   this.getreportList(this.state.selectPatientId);
              }else{
                  this.hideLoading();
@@ -337,6 +339,7 @@ class Widget extends Component {
         this.showLoading();
         //390
         var report;   
+        console.log("his",this.state.docInfo)
         Api
             .getreportList({patientId:id,hisDoctorName:this.state.docInfo&&this.state.docInfo.hisDoctorName?this.state.docInfo.hisDoctorName:''})
             .then((res) => {
@@ -385,7 +388,7 @@ class Widget extends Component {
                         if(!currentDoctor){
 
                             for(var i=0;i<data.length;i++){
-                                if(this.state.docInfo.hisDoctorName!==data[i].hisDoctorName&&!!data[i].doctorRealName){                               
+                                if(this.state.docInfo.hisDoctorName!==data[i].hisDoctorName&&!!data[i].doctorRealName&&(!!data[i].inquiryId&&data[i].inquiryId=='0')){                               
                                               this.setState({
                                                   reportInfo:data[i],
                                                   has:true, 
@@ -858,6 +861,7 @@ class Widget extends Component {
         })  
         this.getreportList(id); 
     }
+
     /*是否注册*/
     isRegister() {
         this.showLoading();
@@ -987,13 +991,10 @@ class Widget extends Component {
         var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
         var  mime ='';
         var bytes;
-        if(isIos){
+        
             mime = arr[0].match(/:(.*?);/)[1] || 'image/png';
            bytes = window.atob(arr[1]);
-      }else{
-          mime='image/png';
-           bytes = window.atob(urlData);
-      }
+      
         // 去掉url的头，并转化为byte
         // 处理异常,将ascii码小于0的转换为大于0
         var ab = new ArrayBuffer(bytes.length);
@@ -1104,37 +1105,25 @@ class Widget extends Component {
     });
 } 
 }
-add(){
-    if(this.mounted ){
-        
-        if(this.state.has){
-                //情况1
-                this.addQuiry();
-                
-        }else{
-            this.setState({
-                msg:' 对不起，您暂不具备向该医生发起免费报告解读申请的条件。是否需要向该医生发起付费报告解读。',
-                showIOS2:true,
-            })
 
-        }
-        
-        
-    }
-}
-onChange = (files, type, index) => {
+onChange = (files,file,index) => {
+   
+    var that=this;
+    if(that.state.imgArr.length>=4){
+
+    that.setState({
+    msg:'一次最多只能上传四张图片',  
+    showIOS1:true,
+    })
+}else{
+    if(!!file){
+     console.log(files,!!file,index)
     this.setState({
         files,
       });
       var that=this;
       var sign=that.state.sign;
-    if(that.state.imgArr.length>=4){
-        that.setState({
-        msg:'最多只能上传四张图片',
-        showIOS1:true,
-        })
-    }else{
-    console.log(files, type, index);
+    
     that.showLoading('上传中');
     for(var i=0;i<files.length;i++){
         console.log(this.state.imgList)
@@ -1159,7 +1148,14 @@ onChange = (files, type, index) => {
         }else{
             day=myDate.getDate();
         }
-        var date=new Date().getTime();
+    
+                var base64='';
+        var that=this;
+                var reader = new FileReader();//创建一个字符流对象
+            reader.readAsDataURL(files[i]);//读取本地图片
+            reader.onload = function(e) {
+               base64=this.result;
+               var date=new Date().getTime();
         var m=ossPath+year+'/'+month+'/'+day+"/";
         var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
         var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
@@ -1169,35 +1165,76 @@ onChange = (files, type, index) => {
         formData.append("callback",sign.callback);
         formData.append("signature",sign.signature);
         formData.append("OSSAccessKeyId",sign.OSSAccessKeyId); 
-        formData.append('file',that.base64ToBlob(files[i].url));
+        formData.append('file',that.base64ToBlob(base64)); 
         $.ajax({
-            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
+            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com', 
             method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
             data: formData,
             success: (e) => {
+               
                 imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-                 if(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
+               // alert("us")
+                //alert(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename));
+                if(that.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
                     that.hideLoading();
                 that.setState({
                         imgArr:Array.from(new Set(imgList))
                     });
                 }else{
-                   var  intervals = setInterval(() => this.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,imgList), 500);
-                   this.setState({
+                   var  intervals = setInterval(() => that.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,imgList), 500);
+                   that.setState({
                        intervals:intervals
                    })
+                    
                 }
+               
+              
+               
             },
             error:(e) =>{
                 that.hideLoading();
             }
         });
+            };
     }
+    
+}
 }
   };
+  
+  getBase64Image(){
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+    var dataURL = canvas.toDataURL("image/"+ext);
+    return dataURL;
+  }
+add(){
+    if(this.mounted ){
+        
+        if(this.state.has){
+                //情况1
+                this.addQuiry();
+
+                
+        }else{
+            this.setState({
+                msg:' 对不起，您暂不具备向该医生发起免费报告解读申请的条件。是否需要向该医生发起付费报告解读。',
+                showIOS2:true,
+            })
+
+        }
+        
+        
+    }
+}
+
   isHas(url,imgList){
       var that=this;
     if(that.isHasImg(url)){
@@ -1221,7 +1258,7 @@ onChange = (files, type, index) => {
   };
     render() {
         const {report,apply,codeUrl,cardShow,policy,msg,callback,OSSAccessKeyId,open1,docInfo,cardList,consultList,imgArr,leftBindNum,
-            selectName,isIos,sign,selectSex,selectBirthday,toptip,files,reportInfo}=this.state;
+            selectName,isIos,sign,selectSex,selectBirthday,toptip,files,reportInfo,hasApply}=this.state;
         return (
             <div className="page-confirm-info">
                 <div className="home" id="home"><span className="jian"
@@ -1354,13 +1391,21 @@ onChange = (files, type, index) => {
                             <div className='img-box'
                                 >
                                 <div className="img-item">
-                               
-                          
-                                        {<div onClick={(e)=>{
+                                {!isIos&&
+                                 <input type="file" id="file"  onChange={(e) => {           
+                                            this.onChange(e.target.files,e.target.files[0],0)
+                                        }} accept="image/*" />
+                                        } 
+                            {!isIos&&<img src="../../../resources/images/add-img.png"/> }
+                           
+                                        {isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                 }}> 
+                                            
+
                                             <img src="../../../resources/images/add-img.png"/>
                                        </div>}
+
                                 </div>
                             </div>
                             {imgArr && imgArr.map((item, index)=> {
@@ -1413,7 +1458,7 @@ onChange = (files, type, index) => {
                         提交申请
                     </button>
                 </div>}
-                {!report&&apply&&reportInfo.inquiry.status=='4'&&<div className="btn">
+                {!report&&apply&&(reportInfo.inquiry.status=='4'||hasApply)&&<div className="btn">
                     <button className="submit-btn1" style={{background:'rgba(106, 179, 204, 0.46)'}}
                             
                         >

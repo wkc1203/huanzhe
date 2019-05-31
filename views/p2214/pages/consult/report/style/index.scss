@@ -327,6 +327,16 @@
                 width: 69px;
                 height:69px;
                 border: 1px dotted #B4B4B4;
+                position: relative;
+                input{
+                    width: 69px;
+                    height: 69px;
+                    opacity: 0;
+                    display: inline;
+                position: absolute;
+                    left: 0;
+                z-index: 100;
+                }
                 img{
                     width: 40px;
                     height: 40px;

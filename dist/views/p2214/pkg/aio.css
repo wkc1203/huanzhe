@@ -1505,6 +1505,23 @@
   -webkit-border-radius: 10px;
      -moz-border-radius: 10px;
           border-radius: 10px;
+  position: relative;
+}
+
+.container1 .operation-box .bottom .img input {
+  width: 63px;
+  height: 63px;
+  opacity: 0;
+  display: inline;
+  position: absolute;
+  left: 0;
+  z-index: 100;
+}
+
+.container1 .operation-box .bottom .img .imgs {
+  position: absolute;
+  top: 0px;
+  left: 14px;
 }
 
 .container1 .operation-box .bottom .img img {
@@ -4911,6 +4928,17 @@
   width: 69px;
   height: 69px;
   border: 1px dotted #B4B4B4;
+  position: relative;
+}
+
+.page-confirm-info .img-choose-box .img-box .img-item input {
+  width: 69px;
+  height: 69px;
+  opacity: 0;
+  display: inline;
+  position: absolute;
+  left: 0;
+  z-index: 100;
 }
 
 .page-confirm-info .img-choose-box .img-box .img-item img {

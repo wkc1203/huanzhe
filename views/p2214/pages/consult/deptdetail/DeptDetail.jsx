@@ -393,7 +393,8 @@ class Widget extends Component {
     render() {
         const {docInfo,isShowTip,msg,footShow,isShowProtocol,isFavorite,evaluate,currentPage,pageCount,
             totalCount,totalFee,leftTime,toastTitle,type}=this.state;
-            console.log("doc",docInfo)
+            console.log('33333')
+            console.log("doc11",docInfo)
         return (
             <div className="page-dept-detail container1">
                 <div className="home" id="home"><span className="jian"
