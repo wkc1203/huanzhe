@@ -128,7 +128,7 @@ class Widget extends Component {
                     {show&&<div className='barcode'>
                     <svg ref={(ref)=>this._barcodeSVG = ref}></svg>              
                   </div>}
-                 
+                  {!!check.Test_no&&<p className='show'>拿报告时出示</p>}
             </div>            
                 <div className='check-basic'>
                    {(!!check.Test_no||!!check.Patient_id)&&<div className='check-item'>

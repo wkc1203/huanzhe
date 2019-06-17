@@ -933,6 +933,7 @@ class Widget extends Component {
 }
 
 onChange = (files,file,index) => {
+    alert("u",JSON.stringify(files));
    
     var that=this;
     if(that.state.imgArr.length>=4){

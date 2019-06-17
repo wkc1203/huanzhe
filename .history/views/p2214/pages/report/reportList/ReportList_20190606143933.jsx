@@ -315,7 +315,7 @@ class Widget extends Component {
          //390
          var report;   
          Api
-             .getreportList({patientId:patientId,source:!!this.props.location.source?this.props.location.source:''})
+             .getreportList({patientId:patientId,source:this.props.location.source})
              .then((res) => {
                  if (res.code == 0) {
                       this.hideLoading();

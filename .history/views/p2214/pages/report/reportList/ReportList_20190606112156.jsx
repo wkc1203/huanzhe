@@ -315,7 +315,7 @@ class Widget extends Component {
          //390
          var report;   
          Api
-             .getreportList({patientId:patientId,source:!!this.props.location.source?this.props.location.source:''})
+             .getreportList({patientId:patientId})
              .then((res) => {
                  if (res.code == 0) {
                       this.hideLoading();
@@ -576,7 +576,7 @@ class Widget extends Component {
         }
         <div className='reportList'>
         {reportList&&reportList.length>0&&reportList.map((item,index)=>{
-            console.log((item.inquiryId=='0'&&item.hasTimeOut!=='1'&&item.getTime=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1')||(item.inquiryId=='0'&&item.getTime!=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1'))
+            console.log(item.inquiryId=='0'&&item.hasTimeOut!=='1'&&item.getTime=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1')
             console.log(item.inquiryId,item.hasTimeOut,item.getTime,item.allOnLineReportResult,item.reportInterpretateFlag)
             return(
                 <div className='reportItem'  key={index}> 
@@ -594,7 +594,7 @@ class Widget extends Component {
                     医生：{item.doctorRealName}
                     </span> 
                     </p>
-                    {((item.inquiryId=='0'&&item.hasTimeOut!=='1'&&item.getTime=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1')||(item.inquiryId=='0'&&item.getTime!=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1'))&&<span className='yes' onClick={()=>{
+                    {(item.inquiryId=='0'&&item.hasTimeOut!=='1'&&item.getTime=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1')||(item.inquiryId=='0'&&item.getTime!=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1')&&<span className='yes' onClick={()=>{
                             this.inquiry(1,item.hisDoctorName,item.report[0].Visit_no)
                   }}>报告解读</span>}
                   {(item.inquiryId=='0'&&item.getTime!=='1'&&((item.allOnLineReportResult!==1||item.reportInterpretateFlag!=='1'))||(item.inquiryId=='0'&&item.hasTimeOut!=='1'&&item.getTime=='1'&&(item.allOnLineReportResult!==1||item.reportInterpretateFlag!=='1')))&&<span className='no' onClick={()=>{

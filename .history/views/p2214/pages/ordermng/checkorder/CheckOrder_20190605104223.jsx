@@ -128,18 +128,15 @@ class Widget extends Component {
                     {show&&<div className='barcode'>
                     <svg ref={(ref)=>this._barcodeSVG = ref}></svg>              
                   </div>}
-                 
+                  {!!check.Test_no&&<p className='show'>拿报告时出示</p>}
             </div>            
                 <div className='check-basic'>
                    {(!!check.Test_no||!!check.Patient_id)&&<div className='check-item'>
-                    {!!check.Test_no&&<p>申请序号：<span>{!!check.Test_no?check.Test_no:''}</span></p>}
+                    {!!check.Test_no&&<p>申请序号：<span>{!!check.Test_no?check.Test_no:''}{!!check.Performed_hospital_code?check.Performed_hospital_code=='0001'?'(渝中本部)':'(礼嘉院区)':''}</span></p>}
                     {!!check.Patient_id&&<p>ID号：<span>{!!check.Patient_id?check.Patient_id:''}</span></p>}
                     </div>}
                     <div className='check-item'>
-                    {!!check.orderDept&&<p>执行科室：<span>{!!check.orderDept?check.orderDept:''}{!!check.Performed_hospital_code?check.Performed_hospital_code=='0001'?'(渝中本部)':'(礼嘉院区)':''}</span></p>}
-             
-                    </div> 
-                    <div className='check-item'>
+                    {!!check.orderDept&&<p>执行科室：<span>{!!check.orderDept?check.orderDept:''}</span></p>}
                     <p>申请科室：<span>{case1.deptName}</span></p>
                     </div> 
                     {!!check.Visit_no&&<div className='check-item'>

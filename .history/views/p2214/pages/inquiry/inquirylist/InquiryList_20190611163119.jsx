@@ -3,7 +3,8 @@ import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
 import { Link } from 'react-router';
-import * as Api from './inquiryListApi';
+import * as Api from '../../../components/Api/Api';
+import * as Utils from '../../../utils/utils';
 import './style/index.scss';
 import hashHistory from 'react-router/lib/hashHistory';
 class Widget extends Component {
@@ -13,7 +14,6 @@ class Widget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            hasMsg:false,
             msgList: [],
             quiryNum: 0,
             showToast: false,
@@ -29,7 +29,7 @@ class Widget extends Component {
                 buttons: [
                     {
                         label: '确定',
-                        onClick: this.hideDialog.bind(this)
+                        onClick: Utils.hideDialog.bind(this)
                     }
                 ]
             },
@@ -39,12 +39,12 @@ class Widget extends Component {
                     {
                         type: 'default',
                         label: '取消',
-                        onClick: this.hideDialog.bind(this)
+                        onClick: Utils.hideDialog.bind(this)
                     },
                     {
                         type: 'primary',
                         label: '确定',
-                        onClick: this.hideDialog.bind(this)
+                        onClick: Utils.hideDialog.bind(this)
                     }
                 ]
             },
@@ -52,88 +52,32 @@ class Widget extends Component {
         };
     }
     componentDidMount() {
-        this.getMsg();
+      
         this.getInquiryList();
-
-        console.log("ha1s1",this.state.hasMsg)
-       this.getJs();
-     
+        Utils.getJsByHide();
     }
-    /*获取未读条数*/
     getMsg() {
-        console.log("ha1s",this.state.hasMsg)
         Api
             .getMsg()
             .then((res) => {
-                if(res.code==0&&res.data!=null){
-                       if(res.data.length>0){
-                            for(var i=0;i<res.data.length;i++)
-                             if(res.data[i].userReaded=='0'){
-                                this.setState({
-                                    hasMsg:true
-                                })
-                             }
-                          
-                       }
-                     
+                if (res.code == 0 && res.data != null) {
+                    this.setState({
+                        quiryNum: res.data.length
+                    })
                 }
             }, (e) => {
-
-            });
-
-   }
-    getJs() {
-        console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
-        Api
-            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
-            .then((res) => {
-                if (res.code == 0) {
-//写入b字段
-                    wx.config({
-                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId: res.data.appId, // 必填，公众号的唯一标识
-                        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
-                        signature: res.data.signature,// 必填，签名
-                        jsApiList: ['hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
-                    });
-                    wx.ready(function () {
-//批量隐藏功能
-                       wx.hideMenuItems({
-                            menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
-                        });
-                    });
-                }
-            }, (e) => {
+                this.hideLoading();
                 this.setState({
                     msg: e.msg,
                     showIOS1: true
                 })
             });
     }
-
-   
     showToast() {
         this.setState({showToast: true});
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
         }, 2000);
-    }
-
-    showLoading() {
-        this.setState({showLoading: true});
-        this.state.loadingTimer = setTimeout(()=> {
-            this.setState({showLoading: false});
-        }, 2000);
-    }
-
-    hideDialog() {
-        this.setState({
-            showIOS1: false,
-            showIOS2: false,
-            showAndroid1: false,
-            showAndroid2: false,
-        });
     }
    /*获取咨询列表*/
     getInquiryList() {
@@ -143,11 +87,15 @@ class Widget extends Component {
             .then((res) => {
                 if (res.code == 0) {
                     this.hideLoading();
-
+                    var data=[];
+                    for(var i=0;i<res.data.length;i++){
+                        if(res.data[i].status!='4'&&res.data[i].status!='5'){
+                            data.push(res.data[i])
+                        }
+                    }
                     this.setState({
-                        msgList: res.data
+                        msgList: data
                     })
-
                     if(this.props.location.query.inquiryId&&this.props.location.query.s!=1){
                         window.location.href=window.location.href+"&s=1";
                         this.context.router.push({
@@ -165,7 +113,6 @@ class Widget extends Component {
                 this.hideLoading();
             });
     }
-
     toNext(type) {
         if (type == 1) {
             this.context.router.replace({
@@ -179,7 +126,7 @@ class Widget extends Component {
         }
     }
     render() {
-        const {msgList,msg,hasMsg}=this.state
+        const {msgList,msg}=this.state
         return (
             <div className="container page-inquiry-list">
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
@@ -188,17 +135,58 @@ class Widget extends Component {
                 </Dialog>
                 {msgList && msgList.map((item, index)=> {
                     return (
-                        <div className='doc-item' key={index}>
-                            <Link
-                                to={{
-                                        pathname:'inquiry/chat',
+                        <div className='doc-item' key={index} onClick={()=>{
+                            this.context.router.push({
+                                pathname:'inquiry/chat',
+                                        query:{inquiryId:item.id,orderId:item.orderIdStr,name:item.doctorName,status:item.status}
+                                        
+                            })
+                        }}>
+                            <div className="doc-imgs">
+                                <img className="doc-img2"
+                                src={(!!item.doctor&&!!item.doctor.image?item.doctor.image:'./././resources/images/doc.png') || '../../../resources/images/doc.png'}
+                                alt="医生头像"/>
+                            </div>
+                            <div className="chat-info">
+                                 <div className="dName">
+                                       <p className="name">{item.doctorName}</p>
+                                       <p className="time">{item.createDate}</p>
+                                 </div>
+                                 <div className="dDept">
+                                   {item.deptName} {item.doctor.level ? '|' : ''} {item.doctor.level}
+                                 </div>
+                                 <div className="dPat">
+                                    就诊人：{item.patientName}  |  图文咨询 
+                                 </div>
+                                 <div className="content-text">
+                                 {item.content ? item.content.indexOf('checkItem')!=-1?'[检查单]':item.content: '[图片]'}
+                                 </div>
+                                 {(item.status == '0' || item.status == '1') &&item.userReaded !== '0' &&
+                                <div className="status-inquiry" style={{color:'white',background:'#4cabcf',border:'none'}}> 咨询中</div>}
+                                {item.status == '3' &&item.refundStatus == '0'&&
+                                item.userReaded !== '0' &&
+                                <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>已完成</div>}
+                                {(item.status == '3' || item.status == '2') &&item.refundStatus == '1'&&
+                                item.userReaded !== '0' &&
+                                <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>有退费</div>}
+                                {item.status == '2' &&item.refundStatus!=1&&item.userReaded !== '0' &&
+                                <div className="status-inquiry " onClick={()=>{
+                                    this.context.router.push({
+                                        pathname:'/ordermng/evaluate',
+                                        query:{orderId:item.orderIdStr}
+                                    })
+                                }}>评价</div>}
+
+                                {item.userReaded == '0' && <div className="status-inquiry read-status" style={{color:'white',background:'#ea6ea4',border:'none'}}>未读</div>}
+                            </div>
+                           {/* <Link
+                                to={{ pathname:'inquiry/chat',
                                         query:{inquiryId:item.id,orderId:item.orderIdStr,name:item.doctorName,status:item.status}
                                         }}>
                                 <div className="doc-info">
                                     <img className="doc-img2"
                                          src={(!!item.doctor&&!!item.doctor.image?item.doctor.image:'./././resources/images/doc.png') || '../../../resources/images/doc.png'}
                                          alt="医生头像"/>
-
                                     <div className="text-box">
                                         <div className='doc-name'>{item.doctorName}</div>
                                         {item.doctor && <div
@@ -206,20 +194,20 @@ class Widget extends Component {
                                     </div>
                                     {(item.status == '0' || item.status == '1') &&
                                     <div className="status-inquiry"> 咨询中</div>}
-                                    {(item.status == '3' || item.status == '2')  && item.refundStatus!=='1'&&
+                                    {(item.status == '3' || item.status == '2') &&item.refundStatus == '0'&&
                                     <div className="status-inquiry complete">已完成</div>}
-                                    { (item.status == '3' || item.status == '2') && item.refundStatus=='1'&&
-                                    <div className="status-inquiry complete">有退费</div> }
+                                    {(item.status == '3' || item.status == '2') &&item.refundStatus == '1'&&
+                                    <div className="status-inquiry complete">有退费</div>}
                                 </div>
                                 <div className="msg-item">
                                     <div className='msg-box'>
-                                        <div className='msg-text'>{item.content ? item.content : '[图片]'}</div>
+                                        <div className='msg-text'>{item.content ? item.content.indexOf('checkItem')!=-1?'[检查单]':item.content: '[图片]'}</div>
                                         {item.userReaded == '0' && <div className="read-status">未读</div>}
                                     </div>
                                     <div className="msg-date">{item.createDate}</div>
                                 </div>
-                            </Link>
-                            <div className="oper-box">
+                            </Link> */}
+                           {/* <div className="oper-box">
                                 <div>
                                     图文咨询 | 就诊人：{item.patientName}
                                 </div>
@@ -231,7 +219,7 @@ class Widget extends Component {
                                                 }}
                                         >评价</Link>
                                 </div>}
-                            </div>
+                                            </div> */}
                         </div>)
                 })}
                 {msgList.length <= 0 && <div className='no-data'>
@@ -239,28 +227,16 @@ class Widget extends Component {
                     <div>暂未查询到相关信息</div>
                 </div>}
                 <div className="tarbar">
-                    <div onClick={
-                                ()=>{
-                                this.toNext(1)
-                                }
-                                }>
-                        <img
-                            src="../../../resources/images/index.png"
-                            />
-                        <div >首页</div>
+                    <div onClick={()=>{this.toNext(1)} }>
+                        <img src="../../../resources/images/index.png"/>
+                        <div>首页</div>
                     </div>
-                    <div className='inquiry' >
-                    {hasMsg&&<span></span>}
+                    <div>
                         <img
                             src="../../../resources/images/inquiry-active.png"/>
                         <div style={{color:'#4FABCA'}}>咨询会话</div>
                     </div>
-                    <div  onClick={
-                            ()=>{
-                            this.toNext(3)
-                            }
-                            }>
-                           
+                    <div onClick={()=>{ this.toNext(3)}}>
                         <img
                             src="../../../resources/images/my.png"/>
                         <div>我的</div>
@@ -270,5 +246,4 @@ class Widget extends Component {
         );
     }
 }
-
 export default Connect()(Widget);

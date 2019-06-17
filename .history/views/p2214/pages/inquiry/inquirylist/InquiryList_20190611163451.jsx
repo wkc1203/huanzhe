@@ -152,7 +152,7 @@ class Widget extends Component {
                             <div className="chat-info">
                                  <div className="dName">
                                        <p className="name">{item.doctorName}</p>
-                                       <p className="time">{item.createDate.substring(0,16)}</p>
+                                       <p className="time">{item.createDate}</p>
                                  </div>
                                  <div className="dDept">
                                    {item.deptName} {item.doctor.level ? '|' : ''} {item.doctor.level}
@@ -166,7 +166,7 @@ class Widget extends Component {
                                  {(item.status == '0' || item.status == '1') &&item.userReaded !== '0' &&
                                 <div className="status-inquiry" style={{color:'white',background:'#4cabcf',border:'none'}}> 咨询中</div>}
                                 {item.status == '3' &&item.refundStatus == '0'&&
-                                
+                                item.userReaded !== '0' &&
                                 <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>已完成</div>}
                                 {(item.status == '3' || item.status == '2') &&item.refundStatus == '1'&&
                                 item.userReaded !== '0' &&
@@ -181,7 +181,7 @@ class Widget extends Component {
                                     })
                                 }}>评价</div>}
 
-                                {item.userReaded == '0' &&(item.status == '0' || item.status == '1') && <div className="status-inquiry read-status" style={{color:'white',background:'#ea6ea4',border:'none'}}>未读</div>}
+                                {item.userReaded == '0' && <div className="status-inquiry read-status" style={{color:'white',background:'#ea6ea4',border:'none'}}>未读</div>}
                             </div>
                            {/* <Link
                                 to={{ pathname:'inquiry/chat',

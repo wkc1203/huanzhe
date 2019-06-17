@@ -383,12 +383,12 @@ class Widget extends Component {
           </div>}
           <div className='submit-btn'>
         {!!checkDetail&&(checkDetail.status=='7')&& <p className='cancel'>已退款</p> }
-              {!!checkDetail&&(checkDetail.status=='4'||checkDetail.status=='3')&& <p className='cancel'>已取消</p> }
+              {!!checkDetail&&(checkDetail.status=='2'||checkDetail.status=='32')&& <p className='cancel'>已取消</p> }
               {!!checkDetail&&(checkDetail.status=='5')&& <p className='cancel' style={{color:'#f57f17'}}>支付异常</p> }
               {!!checkDetail&&(checkDetail.status=='6')&& <p className='cancel' style={{color:'red'}}>支付失败</p> }
               {!!checkDetail&&(checkDetail.status=='5')&& <p className='infos'>对不起，由于系统网络原因导致本次缴费异常，我们将在3个工作日内为您及时处理。</p> }
               {!!checkDetail&&(checkDetail.status=='6')&& <p className='infos'>对不起，由于系统网络原因导致本次缴费失败，我们将在3个工作日内为您及时处理。</p> }
-              {!!checkDetail&&(checkDetail.status=='2')&& <p className='infos' style={{textAlign:'left'}}>在线检验检查费用目前暂不支持线上退费，如需退费请到医院缴费窗口咨询。</p> }
+              {!!checkDetail&&(checkDetail.status=='3')&& <p className='infos'>在线检验检查费用目前暂不支持线上退费，如需退费请到医院缴费窗口咨询。</p> }
               {!!checkDetail&&(checkDetail.status=='1'||checkDetail.status=='0')&&phone.length>=11&&<p className='sure' onClick={()=>{
                 if(!!this.state.checkDetail.addInfo.hasPay&&this.state.checkDetail.addInfo.hasPay=='1'){
                     this.context.router.push({ 

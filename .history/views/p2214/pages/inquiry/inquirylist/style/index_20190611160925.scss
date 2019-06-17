@@ -50,27 +50,24 @@
     }
     .doc-imgs{
        img{
-        width: 66px;
+        width: 77px;
         border-radius: 10px;
-        margin-top:40%;
-        height: 66px;
+        height: 77px;
        }
     }
     .chat-info{
         flex: 1;
         padding-left: 14px;
-        position: relative;
+        position:relative;
         .status-inquiry{
             position: absolute;
             right: 0;
             top: 30%;
             width: 60px;
             text-align: center;
-            font-size:13px;
-         
             line-height: 23px;
             height: 23px;
-            color: #8cdaf7;
+            color: #4cabcf;
             border-radius: 10px;
             border: 1px solid #4cabcf;
         }
@@ -97,7 +94,6 @@
         }
         .dPat{
             font-size: 15px;
-            color: #333;
             margin-top: 5px;
         }
         .content-text{
@@ -107,8 +103,6 @@
             text-overflow: ellipsis;
             word-break:break-all;
             white-space: nowrap;
-            width: 220px; 
-            font-size:13px;
         }
     }
     .doc-info {

@@ -152,7 +152,7 @@ class Widget extends Component {
                             <div className="chat-info">
                                  <div className="dName">
                                        <p className="name">{item.doctorName}</p>
-                                       <p className="time">{item.createDate.substring(0,16)}</p>
+                                       <p className="time">{item.createDate}</p>
                                  </div>
                                  <div className="dDept">
                                    {item.deptName} {item.doctor.level ? '|' : ''} {item.doctor.level}

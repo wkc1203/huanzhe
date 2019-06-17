@@ -135,54 +135,7 @@ class Widget extends Component {
                 </Dialog>
                 {msgList && msgList.map((item, index)=> {
                     return (
-                        <div className='doc-item' key={index} onClick={(e)=>{
-                            e.stopPropagation();
-                            e.preventDefault();
-                            this.context.router.push({
-                                pathname:'inquiry/chat',
-                                        query:{inquiryId:item.id,orderId:item.orderIdStr,name:item.doctorName,status:item.status}
-                                        
-                            })
-                        }}>
-                            <div className="doc-imgs">
-                                <img className="doc-img2"
-                                src={(!!item.doctor&&!!item.doctor.image?item.doctor.image:'./././resources/images/doc.png') || '../../../resources/images/doc.png'}
-                                alt="医生头像"/>
-                            </div>
-                            <div className="chat-info">
-                                 <div className="dName">
-                                       <p className="name">{item.doctorName}</p>
-                                       <p className="time">{item.createDate.substring(0,16)}</p>
-                                 </div>
-                                 <div className="dDept">
-                                   {item.deptName} {item.doctor.level ? '|' : ''} {item.doctor.level}
-                                 </div>
-                                 <div className="dPat">
-                                    就诊人：{item.patientName}  |  图文咨询 
-                                 </div>
-                                 <div className="content-text">
-                                 {item.content ? item.content.indexOf('checkItem')!=-1?'[检查单]':item.content: '[图片]'}
-                                 </div>
-                                 {(item.status == '0' || item.status == '1') &&item.userReaded !== '0' &&
-                                <div className="status-inquiry" style={{color:'white',background:'#4cabcf',border:'none'}}> 咨询中</div>}
-                                {item.status == '3' &&item.refundStatus == '0'&&
-                                
-                                <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>已完成</div>}
-                                {(item.status == '3' || item.status == '2') &&item.refundStatus == '1'&&
-                                item.userReaded !== '0' &&
-                                <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>有退费</div>}
-                                {item.status == '2' &&item.refundStatus!=1&&item.userReaded !== '0' &&
-                                <div className="status-inquiry " onClick={(e)=>{
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    this.context.router.push({
-                                        pathname:'/ordermng/evaluate',
-                                        query:{orderId:item.orderIdStr}
-                                    })
-                                }}>评价</div>}
-
-                                {item.userReaded == '0' &&(item.status == '0' || item.status == '1') && <div className="status-inquiry read-status" style={{color:'white',background:'#ea6ea4',border:'none'}}>未读</div>}
-                            </div>
+                        <div className='doc-item' key={index}>
                            {/* <Link
                                 to={{ pathname:'inquiry/chat',
                                         query:{inquiryId:item.id,orderId:item.orderIdStr,name:item.doctorName,status:item.status}
