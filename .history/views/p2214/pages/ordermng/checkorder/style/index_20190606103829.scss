@@ -1,0 +1,218 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.page-check-order {
+    background: #4cabcf;
+    padding-bottom:40px;
+
+    .weui-icon-waiting {
+        font-size: 23px;
+        color: white;
+    }
+    .weui-icon-success,.weui-icon-wating,.weui-icon-info {
+        font-size: 30px;
+        color: white;
+        ::before{
+            display: inline-block;
+             margin-left: 0;
+            margin-right: .2em;
+        }
+    }
+    .main-content{
+        border-radius:5px;
+        background:white;
+        margin:10px;
+        padding: 0 10px;
+        position:relative;
+        .left{
+            position: absolute;
+            height: 20px;
+            top: 157px;
+            left:  -10px;
+            border-radius: 50%;
+            background: #4cabcf;
+            width: 20px;
+        }
+        .right{
+            top:157px;  
+            border-radius: 50%;
+            right: -10px;
+            background: #4cabcf;
+            position: absolute;
+            height: 20px;
+            width: 20px;
+        }
+        .check-title{
+            padding: 0 10px;
+            .hospital{
+                font-size: 18px;
+                font-weight: bold;
+                color: #333;
+                text-align: center;
+                padding-top: 18px;
+            }
+            .sub-title{
+                font-size: 14px;
+                color: #333;
+                text-align: center;
+                padding-top: 6px;
+
+            }
+            
+            .barcode{
+                padding-top: 14px;
+                padding-bottom: 10px;
+                svg{
+                    height: 90px;
+                    width: 230px;
+                    margin: 0 auto;
+                    display: block;
+                }
+            }
+            .show{
+                font-size: 11px;
+                color: #4cabcf;
+                padding-top: 9px;
+                text-align: center;
+                padding-bottom: 15px;
+                border-bottom: 1px dashed #ccc;
+
+            }
+
+            
+        }
+        .check-basic{
+            height:auto;
+            padding: 10px  0;
+            border-bottom:1px solid  #ccc;
+            .check-item{
+                font-size:14px;
+                display: flex;
+                height: 30px;
+                line-height: 30px;
+                p{
+                    flex:1;
+                    text-overflow: ellipsis;
+                    word-break: break-all;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    color:#666;
+                    
+                    span{
+                        color:#333;
+                    }
+
+                }
+                p:first-child{
+                    text-overflow: ellipsis;
+                    word-break: break-all;
+                    white-space: nowrap;
+                    flex:1.5;
+                }
+                
+            }
+            
+        }
+        .person-info{
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            .person-item{
+                display:flex;
+                font-size:14px;
+                text-align: left;
+                height: 30px;
+                line-height: 30px;
+
+                p{
+                    flex:1;
+                    color:#666;
+                    span{
+                        color:#333;
+                    }
+
+                }
+            }
+            
+        }
+        .sample{
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            p{
+                font-size:14px;
+                color:#666;
+                height: auto;
+                line-height:30px;
+                text-align: left;
+                span{
+                    color:#333;
+                }
+            }
+        }
+        .info-item{
+             p{
+                height: 34px;
+                line-height: 34px;
+                text-align: left;
+                font-size: 14px;
+                color: #666;
+                padding: 0 10px;
+             }
+             .bg-blue{
+                 background:rgb(236,247,251);
+             }
+             padding-top: 9px;
+             padding-bottom: 20px;
+          }
+        .alarm{
+            padding-bottom: 15px;
+            .title{
+                font-size: 14px;
+                font-weight: bold;
+                height: 15px;
+                line-height: 20px;
+                margin: 0 0 10px;
+            }
+            .content{
+                font-size:14px;
+                color:#666;
+            }
+        }
+        .doctor{
+            padding-bottom:10px;
+            padding-top: 16px;
+     border-top: 1px solid #ccc; 
+            .name{
+                p{
+                    height:30px;
+                    line-height: 30px;
+                    
+                    font-size:14px;
+                    color:#666;
+                    span{
+                        color:#333;
+                    }
+                }
+            }
+            .time{
+                display: flex;
+                height:30px;
+                line-height: 30px;
+                p{
+                    flex:1;
+                    font-size:14px;
+                    color:#666;
+                    span{
+                        color:#333;
+                    }
+                }
+                p:last-child{
+                    text-align: right;
+                }
+            }
+        }
+    }
+   
+    
+  
+}

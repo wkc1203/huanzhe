@@ -3118,6 +3118,7 @@
 
 .page-check-order .main-content .check-title .barcode svg {
   height: 90px;
+  width: 230px;
   margin: 0 auto;
   display: block;
 }
@@ -3265,7 +3266,7 @@
 }
 
 .page-check-order .main-content .doctor .name p {
-  height: 30px;
+  height: auto;
   line-height: 30px;
   font-size: 14px;
   color: #666;
@@ -3281,7 +3282,7 @@
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;
-  height: 30px;
+  height: auto;
   line-height: 30px;
 }
 
@@ -16384,6 +16385,7 @@ html, body {
   background: #f2f2f2;
   height: 100%;
   -webkit-overflow-scrolling: touch;
+  margin: 0 auto;
   -webkit-tap-highlight-color: transparent;
 }
 

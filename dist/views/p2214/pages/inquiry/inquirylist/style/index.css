@@ -55,8 +55,101 @@
 
 .page-inquiry-list .doc-item {
   max-height: 206px;
-  margin-bottom: 10px;
+  margin: 5px 10px;
+  -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+          border-radius: 10px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 10px;
   background-color: #fff;
+}
+
+.page-inquiry-list .doc-imgs img {
+  width: 66px;
+  -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+          border-radius: 10px;
+  margin-top: 40%;
+  height: 66px;
+}
+
+.page-inquiry-list .chat-info {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+     -moz-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding-left: 14px;
+  position: relative;
+}
+
+.page-inquiry-list .chat-info .status-inquiry {
+  position: absolute;
+  right: 0;
+  top: 30%;
+  width: 60px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 23px;
+  height: 23px;
+  color: #8cdaf7;
+  -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+          border-radius: 10px;
+  border: 1px solid #4cabcf;
+}
+
+.page-inquiry-list .chat-info .dName {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.page-inquiry-list .chat-info .dName .name {
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+.page-inquiry-list .chat-info .dName .time {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+     -moz-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  font-size: 13px;
+  color: #666;
+  padding-top: 4px;
+  text-align: right;
+}
+
+.page-inquiry-list .chat-info .dDept {
+  margin-top: 10px;
+  font-size: 15px;
+  color: #333;
+}
+
+.page-inquiry-list .chat-info .dPat {
+  font-size: 15px;
+  color: #333;
+  margin-top: 5px;
+}
+
+.page-inquiry-list .chat-info .content-text {
+  margin-top: 10px;
+  color: #353535;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
+  width: 220px;
+  font-size: 13px;
 }
 
 .page-inquiry-list .doc-info {
