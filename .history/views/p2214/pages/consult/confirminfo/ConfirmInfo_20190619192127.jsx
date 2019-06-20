@@ -1218,7 +1218,7 @@ onChange = (files,file,index) => {
                                                 }}> 
                                             <img src="../../../resources/images/add-img.png"/>
                                        </div>}
-                                </div>  
+                                </div>
                             </div>
                             {imgArr && imgArr.map((item, index)=> {
                                 return (

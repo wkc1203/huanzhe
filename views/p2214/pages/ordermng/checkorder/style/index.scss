@@ -184,7 +184,7 @@
      border-top: 1px solid #ccc; 
             .name{
                 p{
-                    height:30px;
+                    height:auto;
                     line-height: 30px;
                     
                     font-size:14px;
@@ -196,7 +196,7 @@
             }
             .time{
                 display: flex;
-                height:30px;
+                height:auto;
                 line-height: 30px;
                 p{
                     flex:1;

@@ -831,6 +831,7 @@ class Widget extends Component {
         });
     }
     choose(sign){
+       
       
         
     var that=this;
@@ -924,7 +925,7 @@ class Widget extends Component {
                 }
             },
             error:(res)=>{
-               
+                alert(res)
             }
         });
     });
@@ -932,7 +933,8 @@ class Widget extends Component {
 }
 
 onChange = (files,file,index) => {
-    console.log(files)
+    alert("ewe")
+    alert("u",file);
    
     var that=this;
     if(that.state.imgArr.length>=4){
@@ -1208,17 +1210,21 @@ onChange = (files,file,index) => {
                                 >
                                 <div className="img-item">
                                 {!isIos&&
-                                 <input type="file" id="file"   onChange={(e) => {  
-                                           this.onChange(e.target.files,e.target.files[0],0)
+                                 <input type="file" id="file"  onChange={(e) => {           
+                                            this.onChange(e.target.files,e.target.files[0],0)
                                         }} accept="image/*" />
                                         } 
                             {!isIos&&<img src="../../../resources/images/add-img.png"/> }
+                           
                                         {isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                 }}> 
+                                            
+
                                             <img src="../../../resources/images/add-img.png"/>
                                        </div>}
-                                </div>  
+
+                                </div>
                             </div>
                             {imgArr && imgArr.map((item, index)=> {
                                 return (

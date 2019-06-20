@@ -831,10 +831,12 @@ class Widget extends Component {
         });
     }
     choose(sign){
+       alert("yyy")
       
         
     var that=this;
     if(that.state.imgArr.length>=4){
+        alert("1")
         if(this.mounted){
             that.setState({
             msg:'一次最多只能上传四张图片',
@@ -842,6 +844,7 @@ class Widget extends Component {
             })
         }
 }else{
+    alert("2")
     wx.ready(function () {
         wx.chooseImage({
             count: 4, // 默认9
@@ -924,7 +927,7 @@ class Widget extends Component {
                 }
             },
             error:(res)=>{
-               
+                alert(res)
             }
         });
     });
@@ -932,7 +935,9 @@ class Widget extends Component {
 }
 
 onChange = (files,file,index) => {
+    alert("ewe");
     console.log(files)
+    alert("u",files);
    
     var that=this;
     if(that.state.imgArr.length>=4){
@@ -1207,18 +1212,26 @@ onChange = (files,file,index) => {
                             <div className='img-box'
                                 >
                                 <div className="img-item">
-                                {!isIos&&
-                                 <input type="file" id="file"   onChange={(e) => {  
-                                           this.onChange(e.target.files,e.target.files[0],0)
+                                {isIos&&
+                                   
+                                 <input type="file" id="file" onClick={()=>{
+                                    alert("ew")
+                                }}  onChange={(e) => {  
+                                           alert("2121")         
+                                           // this.onChange(e.target.files,e.target.files[0],0)
                                         }} accept="image/*" />
                                         } 
-                            {!isIos&&<img src="../../../resources/images/add-img.png"/> }
-                                        {isIos&&<div onClick={(e)=>{
+                            {isIos&&<img src="../../../resources/images/add-img.png"/> }
+                           
+                                        {!isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                 }}> 
+                                            
+
                                             <img src="../../../resources/images/add-img.png"/>
                                        </div>}
-                                </div>  
+
+                                </div>
                             </div>
                             {imgArr && imgArr.map((item, index)=> {
                                 return (

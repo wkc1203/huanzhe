@@ -64,7 +64,8 @@
                 padding-top: 14px;
                 padding-bottom: 10px;
                 svg{
-                    height:90px;
+                    height: 90px;
+                    width: 230px;
                     margin: 0 auto;
                     display: block;
                 }
@@ -92,13 +93,21 @@
                 line-height: 30px;
                 p{
                     flex:1;
+                    text-overflow: ellipsis;
+                    word-break: break-all;
+                    white-space: nowrap;
+                    overflow: hidden;
                     color:#666;
+                    
                     span{
                         color:#333;
                     }
 
                 }
                 p:first-child{
+                    text-overflow: ellipsis;
+                    word-break: break-all;
+                    white-space: nowrap;
                     flex:1.5;
                 }
                 
@@ -175,7 +184,7 @@
      border-top: 1px solid #ccc; 
             .name{
                 p{
-                    height:30px;
+                    height:auto;
                     line-height: 30px;
                     
                     font-size:14px;
@@ -187,7 +196,7 @@
             }
             .time{
                 display: flex;
-                height:30px;
+                height:auto;
                 line-height: 30px;
                 p{
                     flex:1;

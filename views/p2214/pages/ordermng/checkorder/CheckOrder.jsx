@@ -184,11 +184,13 @@ class Widget extends Component {
                 <div className='doctor'>
                 <div className="name">
                 <p >医生：<span>{case1.doctorName}</span></p>
+                <p >位置：{!!check.location&&<span>{!!check.location&&check.location}</span>}</p>
                 </div>    
                 <div className='time'>
                     {!!check.Req_date&&<p>日期：<span>{!!check.Req_date&&check.Req_date}</span></p>}
                     <p></p>
-                </div>                   
+                </div>
+
                 </div>
               </div>
         </div>

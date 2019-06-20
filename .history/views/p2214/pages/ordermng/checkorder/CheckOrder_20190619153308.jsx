@@ -2,7 +2,7 @@
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
-import * as Api from './checkOrderApi';
+import * as Utils from '../../../utils/utils';
 const QRCode = require('qrcode.react');
 import JsBarcode from 'jsbarcode';
 import './style/index.scss';
@@ -33,7 +33,7 @@ class Widget extends Component {
             buttons: [
                 {
                     label: '确定',
-                    onClick: this.hideDialog.bind(this)
+                    onClick: Utils.hideDialog.bind(this)
                 }
             ]
         },
@@ -43,12 +43,12 @@ class Widget extends Component {
                 {
                     type: 'default',
                     label: '取消',
-                    onClick: this.hideDialog.bind(this)
+                    onClick: Utils.hideDialog.bind(this)
                 },
                 {
                     type: 'primary',
                     label: '确定',
-                    onClick: this.hideDialog.bind(this)
+                    onClick: Utils.hideDialog.bind(this)
                 }
             ]
         },
@@ -61,14 +61,14 @@ class Widget extends Component {
     };
   }
   componentDidMount() {
-      //  this.getJs();
+       //隐藏分享等按钮
+       Utils.getJsByHide();
       this.setState({
         check:JSON.parse(this.props.location.query.check),
         case1:JSON.parse(this.props.location.query.case)
       })
       var diagnosis1=JSON.parse(this.props.location.query.case).mainDiagnosis;
       var de=diagnosis1.split('|');
-       console.log("dede",de);
         var txt1=de[0];
         var txt2=de[1];
         var txt3=de[2];
@@ -77,16 +77,14 @@ class Widget extends Component {
         this.setState({
             mainDiagnosis:mainDiagnosis
         })
-      console.log("33",this.state.check,JSON.parse(this.props.location.query.check).Test_no)
         //生成条形码
-        if(!!JSON.parse(this.props.location.query.check)&&JSON.parse(this.props.location.query.check).Test_no){
-           
+        if(!!JSON.parse(this.props.location.query.check)&&JSON.parse(this.props.location.query.check).Test_no){          
             JsBarcode(this._barcodeSVG, '*'+JSON.parse(this.props.location.query.check).Test_no+'*',
             {
                 displayValue: true,  //  不显示原始值
-                textMargin:4,//设置条形码和文本之间的间距
-                fontSize:15,//设置文本的大小
-                width: 2  // 线条宽度
+                textMargin:5,//设置条形码和文本之间的间距
+                fontSize:18,//设置文本的大小
+                width:2,//设置条之间的宽度
             }
         );
         }else{
@@ -94,15 +92,9 @@ class Widget extends Component {
                 show:false
             })
         }
-        console.log(this.state.check,JSON.parse(this.props.location.query.check))
-
-       
-
-     
      this.setState({
          orderId:this.props.location.query.orderId
      })
-     // this.getOrderDet();
   }
     showToast() {
         this.setState({showToast: true});
@@ -110,57 +102,10 @@ class Widget extends Component {
             this.setState({showToast: false});
         }, 2000);
     }
-
-    showLoading() {
-        this.setState({showLoading: true});
-        this.state.loadingTimer = setTimeout(()=> {
-            this.setState({showLoading: false});
-        }, 2000);
-    }
-    hideDialog() {
-        this.setState({
-            showIOS1: false,
-            showIOS2: false,
-            showAndroid1: false,
-            showAndroid2: false,
-        });
-    }
-    getJs() {
-        console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
-        Api
-            .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
-            .then((res) => {
-                if (res.code == 0) {
-//写入b字段
-                    wx.config({
-                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId: res.data.appId, // 必填，公众号的唯一标识
-                        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
-                        nonceStr: res.data.noncestr, // 必填，生成签名的随机串
-                        signature: res.data.signature,// 必填，签名
-                        jsApiList: ['hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
-                    });
-                    wx.ready(function () {
-//批量隐藏功能
-                        wx.hideMenuItems({
-                            menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
-                        });
-                    });
-                }
-            }, (e) => {
-                this.setState({
-                    msg: e.msg,
-                    showIOS1: true
-                })
-            });
-    }
   componentWillUnmount() {
     // 离开页面时结束所有可能异步逻辑
       this.state.leftTimer && clearInterval(this.state.leftTimer);
-
   }
-   
-
   render() {
     const {msg,check,case1,mainDiagnosis,show,leftTime}=this.state
     return (
@@ -176,32 +121,30 @@ class Widget extends Component {
                 {msg}
             </Dialog>
             <div className='main-content'>
-
             <div className='check-title'>
-                 <p className='hospital'>重庆医科大学儿童医院</p>
+                 <p className='hospital'>重庆医科大学附属儿童医院</p>
                   {check.type=='inspect'&&<p className='sub-title'>化验申请单</p>}
-                  {check.type=='check'&&<p className='sub-title'>检查申请单</p>}    
-                  
+                  {check.type=='check'&&<p className='sub-title'>检查申请单</p>}                
                     {show&&<div className='barcode'>
-                    <svg ref={(ref)=>this._barcodeSVG = ref}></svg>
-               
+                    <svg ref={(ref)=>this._barcodeSVG = ref}></svg>              
                   </div>}
-                  {!!check.Test_no&&<p className='show'>拿报告时出示</p>}
-            </div>
-             
+                 
+            </div>            
                 <div className='check-basic'>
                    {(!!check.Test_no||!!check.Patient_id)&&<div className='check-item'>
                     {!!check.Test_no&&<p>申请序号：<span>{!!check.Test_no?check.Test_no:''}</span></p>}
                     {!!check.Patient_id&&<p>ID号：<span>{!!check.Patient_id?check.Patient_id:''}</span></p>}
                     </div>}
                     <div className='check-item'>
-                    {!!check.orderDept&&<p>执行科室：<span>{!!check.orderDept?check.orderDept:''}</span></p>}
+                    {!!check.orderDept&&<p>执行科室：<span>{!!check.orderDept?check.orderDept:''}{!!check.Performed_hospital_code?check.Performed_hospital_code=='0001'?'(渝中本部)':'(礼嘉院区)':''}</span></p>}
+             
+                    </div> 
+                    <div className='check-item'>
                     <p>申请科室：<span>{case1.deptName}</span></p>
-                    </div>
+                    </div> 
                     {!!check.Visit_no&&<div className='check-item'>
                      <p>开单序号：<span>{!!check.Visit_no?check.Visit_no:''}</span></p>
-                    </div>}
-                    
+                    </div>}                    
                 </div>
                 <span className='left'></span>
                 <span className='right'></span>
@@ -214,13 +157,11 @@ class Widget extends Component {
                         <p>年龄：<span>{case1.patientAge}</span></p>
                         <p>性别：<span style={{paddingRight:'10px'}}>{case1.patientSex=='M'?'男':'女'}</span> {!!case1.patientWeight&&<span>体重：{!!case1.patientWeight?case1.patientWeight:''} {!!case1.weightUnit?case1.weightUnit:''}</span>}</p>
                     </div>
-
                 </div>
                 {check.type=='inspect'&&<div className='sample'>
                 <p>标本：<span>{!!check.speciman.Speciman_name?check.speciman.Speciman_name:''}</span></p>
                 <p>标本说明：<span>{!!check.speciman.detail?check.speciman.detail:''}</span></p>
                 <p>金额：<span>{!!check.Total_charges?check.Total_charges:''}</span></p>
-
                 </div>}
                 {check.type=='check'&&<div className='sample'>
                 <p>类别：<span>{!!check.Exam_class?check.Exam_class:''}</span></p>
@@ -229,31 +170,25 @@ class Widget extends Component {
                 <p>体征：<span>{!!case1.examination?case1.examination:''}</span></p>
                 <p>主要诊断：<span>{!!mainDiagnosis?mainDiagnosis:''}</span></p>
                 <p>金额：￥<span>{!!check.Total_charges?check.Total_charges:''}</span></p>
-
                 </div>}
-
                 {check.type=='inspect'&&!!check.Lab_sheet_item&&<div className='info-item'>
-                        <p className='bg-blue'>{!!check.Lab_sheet_item?check.Lab_sheet_item:''}</p>
-                     
+                        <p className='bg-blue'>{!!check.Lab_sheet_item?check.Lab_sheet_item:''}</p>                    
                 </div>}
                 {((check.type=='check'&&!!check&&!!check.item[0].Exam_attention)||(check.type=='inspect'&&!!check.Lab_attention))&&<div className='alarm'>
                     <p className="title">
                             注意事项：
                     </p>
                     {check.type=='check'&&<p className='content' >{!!check.item[0].Exam_attention?check.item[0].Exam_attention:''}</p>}
-                    {check.type=='inspect'&&<p className='content' >{!!check.Lab_attention?check.Lab_attention:''}</p>}
-                    
+                    {check.type=='inspect'&&<p className='content' >{!!check.Lab_attention?check.Lab_attention:''}</p>}                    
                 </div>}
                 <div className='doctor'>
                 <div className="name">
                 <p >医生：<span>{case1.doctorName}</span></p>
-
                 </div>    
                 <div className='time'>
                     {!!check.Req_date&&<p>日期：<span>{!!check.Req_date&&check.Req_date}</span></p>}
-                    <p></p>
-                </div>
-                    
+                    <p>{!!check.location&&<span>{!!check.location&&check.location}</span>}</p>
+                </div>                   
                 </div>
               </div>
         </div>
