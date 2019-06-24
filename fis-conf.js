@@ -7,7 +7,6 @@ fis.set('component.dir', 'components_modules');
 fis.set('project.fileType.text', 'ts,es,es6');
 fis.set('project.ignore', ['package.json', '.git/**', '.svn/**', '.idea/**', '.vscode/**', 'output/**', 'dist/**', 'node_modules/**',]);
 // fis.set("project.watch.usePolling", true);
-
 var _config = {
   ftp: {
     host: '192.168.11.100',
@@ -22,7 +21,6 @@ var _config = {
   hasView: true,
   sourceMaps: false
 };
-
 var query = '?v=a0123456789b';
 fis.match('**', { query: query });
 var nowTime = new Date();
@@ -32,35 +30,29 @@ var nowDay = nowTime.getDate();
 var nowHour = ('00' + nowTime.getHours()).substr(-2);
 var nowMinute = ('00' + nowTime.getMinutes()).substr(-2);
 var timeStamp = '' + nowYear + nowMonth + nowDay + nowHour + nowMinute;
-
 var __dir_flag = _config.media.split("_")[0] || '',
   __dir_name = _config.media.split("_")[1] || '',
   __opt_name = _config.media.split("_")[2] || '',
   __skin_name = _config.media.split("_")[3] || '';
-
 if (__dir_flag == "dir") {
   fis.match('/node_modules/**', {
     isMod: true,
     useSameNameRequire: true
   });
-
   fis.unhook('components');
   fis.hook('node_modules', {
     shimBuffer: false
   });
-
   fis.set('project.files', [
     '/views/' + __dir_name + '/index.html',
     '/mock/**',
     '/media/**',
     'server.conf',
   ]);
-
   fis.match('**.html', {
     useMap: true,
     parser: fis.plugin('html-uri')
   });
-
   fis.match('**.{sass,scss}', {
     parser: fis.plugin('node-sass'),
     rExt: '.css'
@@ -69,13 +61,11 @@ if (__dir_flag == "dir") {
     parser: fis.plugin('less-2.x'),
     rExt: '.css'
   });
-
   fis.match('**.{scss,less,css}', {
     preprocessor: fis.plugin('cssprefixer', {
       "browsers": ["FireFox > 1", "Chrome > 1", "ie >= 7"]
     })
   });
-
 // 4. 添加css和image加载支持
   fis.match('*.{js,jsx,ts,tsx,es,es6}', {
     preprocessor: [
@@ -85,38 +75,36 @@ if (__dir_flag == "dir") {
       })
     ]
   });
-
 // 1. 配置需要模块化的文件
   fis.match('**.{es6,jsx,js}', {
     isMod: true
   });
-
   fis.hook('commonjs', {
     baseUrl: '/',
     packages: [],
     paths: {},
     extList: ['', '.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.tsx', '.js', '.jsx', '.json', '.es6', '.es']
   });
-
   fis.match('/views/' + __dir_name + '/**.{js,es6,jsx}', {
     parser: fis.plugin('babel-imweb', {
       sourceMaps: _config.sourceMaps
     }),
     rExt: '.js'
   });
-
   fis.match('/components_modules/**.{js,es6,jsx}', {
     parser: fis.plugin('babel-imweb', {
       sourceMaps: _config.sourceMaps
     }),
     rExt: '.js'
   });
-
   fis.match('**/{require,mod}.js', {
     parser: false,
     isMod: false
   }, true);
-
+  fis.match('/components_modules/common/*.js', {
+    parser: false,
+    isMod: false
+  }, true);
   fis.match('::packager', {
     postpackager: [
       fis.plugin('loader', {
@@ -126,8 +114,12 @@ if (__dir_flag == "dir") {
           css: '/views/' + __dir_name + '/pkg/aio' + __opt_name + '.css',
           js: '/views/' + __dir_name + '/pkg/aio' + __opt_name + '.js',
           sourceMap: _config.sourceMaps,
-          includeAsyncs: true //是否包含异步依赖。
-        }
+          includeAsyncs: true, //是否包含异步依赖。
+          attrs:function (orignAttr, url) {
+            if (orignAttr.match(/javascript/)) return orignAttr + ' crossorigin="anonymous"';
+            return orignAttr;
+          }
+        },
       }),
       fis.plugin('query-x', {
         placeholder: query, // 这里传入占位符
@@ -140,7 +132,6 @@ if (__dir_flag == "dir") {
       })
     ],
   });
-
   fis.match('/views/' + __dir_name + '/**.map', {
     release: _config.path + '/views/' + __dir_name + '/sourcemaps/$&'
   });
@@ -176,7 +167,6 @@ if (__dir_flag == "dir") {
       fis.plugin('local-deliver', { to: 'dist/' })
     ]
   });
-
   if (__skin_name == 'prod') {
     fis.match('**', {
       domain: _config.prodDomain,
@@ -209,7 +199,6 @@ if (__dir_flag == "dir") {
       })
     });
   }
-
 } else {
   fis.match('**.nothisext', {
     release: '$&',

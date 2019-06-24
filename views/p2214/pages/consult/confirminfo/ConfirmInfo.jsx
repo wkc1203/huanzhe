@@ -174,7 +174,7 @@ class Widget extends Component {
         var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
        if(this.mounted){
         this.setState({
-            isIos:isIos
+            isIos:isIos 
         });
        }
        

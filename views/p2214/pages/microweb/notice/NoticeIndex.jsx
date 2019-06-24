@@ -1,89 +1,809 @@
 ﻿import React, { Component } from 'react';
-import { Button, Toptips } from 'react-weui';
+import { Link } from 'react-router';
+import { Upload } from 'antd';
+import { Button, Toptips,Switch,Dialog,Toast,Icon } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
-import Link from 'react-router/lib/Link';
-
+import { ImagePicker } from 'antd-mobile';
+import * as Utils from '../../../utils/utils';
+import { addressMap } from '../../../config/constant/constant';
 import * as Api from '../../../components/Api/Api';
-import './style/index.scss';
 import hashHistory from 'react-router/lib/hashHistory';
+import 'style/index.scss';
+var imgArr1=[];
+var uuList=[];
+var nameList=[];
+var maxLength=0;
+var imgList=[];
+var success=[];
+var interval1='';
+var upload=true;
+var files = new Array();
 class Widget extends Component {
-  static contextTypes = {
-    router: React.PropTypes.object,
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
+    static contextTypes = {
+        router: React.PropTypes.object,
     };
-  }
-  componentDidMount() {
-          this.getJs();
-  }
-  getJs(){
-    Api
-        .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#"))})
-        .then((res) => {
-          console.log(res);
-          if(res.code==0){
-            //写入b字段
-            wx.config({
-              debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-              appId:res.data.appId, // 必填，公众号的唯一标识
-              timestamp:res.data.timestamp, // 必填，生成签名的时间戳
-              nonceStr:res.data.noncestr, // 必填，生成签名的随机串
-              signature:res.data.signature,// 必填，签名
-              jsApiList: ['hideMenuItems','showMenuItems'] // 必填，需要使用的JS接口列表
-            });
-            wx.ready(function(){
-              // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-              wx.showMenuItems({
-                menuList: ["menuItem:copyUrl","menuItem:openWithQQBrowser","menuItem:share:appMessage", "menuItem:share:timeline"
-                  ,"menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:QZone",
-                  "menuItem:openWithSafari"] // 要显示的菜单项，所有menu项见附录3
-              });
-            });
-
-          }
-        }, (e) => {
+    constructor(props) {
+        super(props);
+        this.state = {
+            signature:"",
+            uuIdList:[],
+            policy:"",
+            callback:"",
+            OSSAccessKeyId:"",
+            key:"",
+            name:"",
+            upLoadImg: [],
+            isUploadAll: false,
+            toptip: '',
+            content: '',
+            pics:'',
+            reason: '',
+            intervals:'',
+            imgArr:[],
+            imgArr1:[],
+            expire:'',
+            reasonList: [
+                {reason: '服务态度不好', id: 1},
+                {reason: '医生回答不及时', id: 2},
+                 {reason: '系统不稳定', id: 3},
+                 {reason: '价格不合理', id: 4}, 
+                {reason: '其他', id: 5}
+            ],
+            previewVisible: false,
+            previewImage: '',
+            sign:{},
+            fileList:[],
+            uploading: false,
+            formData:{},
+            open:false,
+            showToast: false,
+            showLoading: false,
+            toastTimer: null,
+            loadingTimer: null,
+            showIOS1: false,
+            showIOS2: false,
+            showAndroid1: false,
+            showAndroid2: false,
+            style1: {
+                buttons: [
+                    {
+                        label: '确定',
+                        onClick: Utils.hideDialog.bind(this)
+                    }
+                ]
+            },
+            style2: {
+                title: '提示',
+                buttons: [
+                    {
+                        type: 'default',
+                        label: '取消',
+                        onClick: Utils.hideDialog.bind(this)
+                    },
+                    {
+                        type: 'primary',
+                        label: '确定',
+                        onClick: Utils.hideDialog.bind(this)
+                    }
+                ]
+            },
+            msg:'',
+            files:[],
+            isIos:false,
+        };
+    }
+    S4() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    }
+    /*获取uuid*/
+    guid() {
+        var m=this.S4()+this.S4()+"-"+this.S4()+"-"+this.S4()+"-"+this.S4()+"-"+this.S4()+this.S4()+this.S4();
+        nameList[0]=m;
+        return m;
+    }
+    /*上传图片*/
+    handleUpload(file){
+        const formData = new FormData();
+        var filename='';
+        var image=[];
+        console.log("fii",file)
+        filename=this.randomName() + this.guid()+file.name.substring(file.name.indexOf("."),file.name.length)
+        formData.append('key', filename);
+        formData.append("policy",this.state.sign.policy);
+        formData.append("callback",this.state.sign.callback);
+        formData.append("signature",this.state.sign.signature);
+        formData.append("OSSAccessKeyId",this.state.sign.OSSAccessKeyId);
+        formData.append('file', file);
+        console.log(formData)
+        this.setState({
+            uploading: true,
         });
+        $.ajax({
+            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
+            success: (e) => {
+                imgArr1=this.state.imgArr;
+                imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+                success.push(file.uid)
+                for(var i=0;i<imgArr1.length;i++){
+                    if(i<=4){
+                        image.push(imgArr1[i])
+                    }
+                }
+                this.setState({
+                    uploading: false,
+                });
+                this.hideLoading();
+                this.setState({
+                    imgArr:image
+                })
+                if (this.state.imgArr.length >=5) {
+                    this.setState({
+                        open1: true
+                    })
+                }
+                console.log("this.sate",this.state.imgArr)
+            },
+            error:(e) =>{
+                console.log("this.sate",this.state.imgArr)
+            }
+        });
+    }
+    /*获取签名*/
+    getJs1(){
+        Api
+            .getSign({bucket:'ihoss',dir:"PIC"})
+            .then((res) => {
+                if(res.code==0){
+                    this.hideLoading();
+                    const sign={
+                        signature: res.data.sign,
+                        policy: res.data.policy,
+                        callback: res.data.callback,
+                        OSSAccessKeyId: res.data.accessId,
+                    };
+                    this.setState({
+                        sign:sign,
+                        expire:res.data.expire
+                    })
+                }
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+    }
+    /*提交*/
+    complain(param) {
+        Api
+            .complain(param)
+            .then((res) => {
+                if(res.code==0){
+                    Utils.showToast.bind(this);
+                    this.setState({
+                        msg:'提交成功'
+                    })
+                    setTimeout(() => {
+                            this.context.router.goBack();
+                    },1000);
+                }
+            }, (e) => {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+    }
+    /*提交数据*/
+    submitData() {
+        let errMsg = !this.state.reason
+            ? '请选择投诉原因'
+            : this.state.content.length > 100 ? '描述不能多于100个字' : '';
+        if (errMsg) {
+            this.setState({
+                toptip:errMsg
+            })
+            this.toptip = errMsg;
+            setTimeout(() => {
+                this.setState({
+                    toptip: ''
+                })
+            }, 2000);
+            return;
+        }
+        const imgArr1 =this.state.imgArr;
+        var len = imgArr1.length;
+        if (len == 0) { 
+            if(this.props.location.query.deptName){
+                const params = {
+                    complaintsCert: this.state.pics,
+                    complaintsContent: this.state.content,
+                    complaintsReason: this.state.reason,
+                    deptName:this.props.location.query.deptName,
+                    deptId:this.props.location.query.deptId,
+                    doctorName:this.props.location.query.doctorName,
+                    doctorId:this.props.location.query.doctorId,
+                };
+                this.complain(params);
+            }else{
+                const params = {
+                    complaintsCert: this.state.pics,
+                    complaintsContent: this.state.content,
+                    complaintsReason: this.state.reason,
+                };
+                this.complain(params);
+            }
+        } else {
+            var pics='';
+            if(imgArr1.length>1){
+                for(var i=0;i<imgArr1.length;i++){
+                    if(i!=imgArr1.length-1){
+                        pics=pics+imgArr1[i]+',';
+                    }else{
+                        pics=pics+imgArr1[i];
+                    }
+                }
+            }else{
+                pics=imgArr1[0];
+            }
+            this.setState({
+                pics:pics
+            })
+            if(this.props.location.query.deptName){
+                const params = {
+                    complaintsCert: pics,
+                    complaintsContent: this.state.content,
+                    complaintsReason: this.state.reason,
+                    deptName:this.props.location.query.deptName,
+                    deptId:this.props.location.query.deptId,
+                    doctorName:this.props.location.query.doctorName,
+                    doctorId:this.props.location.query.doctorId,
+                };
+                this.complain(params);
+            }else{
+                const params = {
+                    complaintsCert: pics,
+                    complaintsContent: this.state.content,
+                    complaintsReason: this.state.reason,
+                };
+                this.complain(params);
+            }
+        }
+    }
+    /*保存数据*/
+    saveContent(e) {
+        this.setState({
+            content:e.target.value
+        })
+    }
+    /*选择原因*/
+    changeStatus(id) {
+        var reasonList = this.state.reasonList.map(item => {
+            if (item.id == id) {
+                item.active = true;
+            } else {
+                item.active = false;
+            }
+            return item;
+        });
+        var reason;
+        reasonList.map(item => {
+            if (item.active) {
+                reason = item.reason;
+            }
+        });
+        this.setState({
+            reason:reason,
+            reasonList:reasonList
+        })
+    }
+   /*预览图片*/
+    previewImg(url){
+        event.stopPropagation();
+        event.preventDefault();
+        const arr = [];
+        this.state.imgArr.map(item => {
+            if (item) {
+                arr.push(item);
+            }
+        });
+        wx.previewImage({
+            current: url, // 当前显示图片的http链接
+            urls: arr // 需要预览的图片http链接列表
+        });
+    }
+    componentDidMount() {
+        if(this.props.location.query.type==1||this.props.location.query.type==2){
+                var     reasonList2= [
+                    {reason: '服务态度不好', id: 1},
+                    {reason: '医生回答不及时', id: 2},
+                    {reason: '其他', id: 5}
+                ];
+                this.setState({
+                    reasonList:reasonList2
+                })
+        }
+        imgList=[];
+        this.setState({
+            imgArr:[],
+            imgArr1:[],
+        })
+        var ua = navigator.userAgent.toLowerCase();//获取浏览器的userAgent,并转化为小写——注：userAgent是用户可以修改的
+        var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
+        this.setState({
+            isIos:isIos
+        });
+         //隐藏分享等按钮
+      this.getJsByHide();
+        this.getJs1();
+    }
+     getJsByHide() {
+      //需要隐藏微信分享按钮的页面调用
+     
+          Api.getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
+          .then((res) => {
+
+              if (res.code == 0) {
+                console.log("i111111",res.data)
+      
+    //写入b字段
+                  wx.config({
+                      debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                      appId: res.data.appId, // 必填，公众号的唯一标识
+                      timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+                      nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+                      signature: res.data.signature,// 必填，签名
+                      jsApiList: ['chooseImage','getLocalImgData','hideMenuItems', 'showMenuItems','previewImage','uploadImage','downloadImage','hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
+                  });
+                  wx.ready(function () {
+    //批量隐藏功能
+                      wx.hideMenuItems({
+                          menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+                      });
+                  });
+                  wx.error(function(res){
+                    alert(JSON.stringify(res))
+                    // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+                });
+              }
+          }, (e) => {
+             
+          });
+    }
+   /*判断是否可以上传图片*/
+    alertTxt(e){
+        if(this.state.imgArr.length>=5){
+            this.setState({
+                open1:true
+            })
+            this.setState({
+                open:false
+            })
+            this.setState({
+                msg:'最多只能上传5张图片',
+                showIOS1:true,
+            })
+        }else{
+            upload=true;
+            this.setState({
+                open:true
+            })
+            this.setState({
+                open1:false
+            })
+            this.getJs1();
+        }
+    }
+    componentWillUnmount() {
+        imgList=[];
+        this.setState({
+            imgArr:[],
+            imgArr1:[],
+        })      
+    }
+    /*删除图片*/
+    deleteImg(url){
+        event.stopPropagation();
+        event.preventDefault();
+        var images=this.state.imgArr;
+        var imgForm=[];
+        for(var i=0;i<images.length;i++)
+        {
+            if(url!=images[i]){
+                imgForm.push(images[i]);
+            }
+        }
+        var imgData=[];
+        for(var j=0;j<images.length;j++){
+            if(url!=imgList[j]){
+                imgData.push(imgList[j])
+            }
+        }
+        imgList=imgData;
+        this.setState({
+            imgArr:imgForm
+        })
+        this.setState({
+            fileList:[]
+        })
+        if (this.state.imgArr.length >=5) {
+            this.setState({
+                open1: true
+            })
+        }else{
+            this.setState({
+                open1: false
+            })
+        }
+    }
+    imgShow(file){
+        this.handleUpload(file)
+    }
+    /*上传图片文件夹名称*/
+    randomName(){
+        var myDate = new Date();
+        var ossPath='PIC/';
+        var year=myDate.getFullYear();
+        var month;
+        var day;
+        if(myDate.getMonth()+1<10) {
+            var  m=myDate.getMonth()+1;
+            month = '0'+m;
+        }else{
+            month=myDate.getMonth()+1;
+        }
+        if(myDate.getDate()<10){
+            var d=myDate.getDate()+1;
+            day='0'+d;
+        }else{
+            day=myDate.getDate();
+        }
+        var time=ossPath+year+'/'+month+'/'+day+"/";
+        uuList[0]=time;
+        return  time;
+    }
+    /*图片base64格式转换*/
+    base64ToBlob(urlData) {
+        var arr = urlData.split(',');
+        var ua = navigator.userAgent.toLowerCase();//获取浏览器的userAgent,并转化为小写——注：userAgent是用户可以修改的
+        var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
+        var  mime ='';
+        var bytes; 
+        
+            mime = arr[0].match(/:(.*?);/)[1] || 'image/png';
+           bytes = window.atob(arr[1]); 
+      
+        // 去掉url的头，并转化为byte
+        // 处理异常,将ascii码小于0的转换为大于0
+        var ab = new ArrayBuffer(bytes.length);
+        // 生成视图（直接针对内存）：8位无符号整数，长度1个字节
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i);
+        }
+        return new Blob([ab], {
+            type: mime
+        });
+    }
+    /*选择上传图片*/
+    choose(sign){
+        var that=this;
+        if(that.state.imgArr.length>=5){
+            that.setState({
+                msg:'一次最多只能上传五张图片',
+                showIOS1:true,
+            })
+        }else{
+            wx.ready(function () {
+                wx.chooseImage({
+                    count: 5, // 默认9
+                    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                    success: function (res) {
+                        that.showLoading('上传中');
+                        var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        var length=that.state.imgArr.length;
+                         length+=localIds.length;
+                        if(length > 5){
+                            that.hideLoading();
+                            this.setState({
+                                msg:'一次最多只能上传四张图片'
+                            })
+                            that.showToast();
+                        }else{
+                            for(var i=0;i<localIds.length;i++){
+                                wx.getLocalImgData({
+                                    localId: localIds[i], // 图片的localID
+                                    success: function (res) {
+                                        var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                        const formData = new FormData();
+                                        var uuidItem=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
+                                        var uuid=uuidItem+uuidItem+"-"+uuidItem+"-"+uuidItem+"-"+uuidItem+"-"+uuidItem+uuidItem+uuidItem;
+                                        var filename=that.randomName()+uuid+'.png';
+                                        formData.append('key',filename);
+                                        formData.append("policy",sign.policy);
+                                        formData.append("callback",sign.callback);
+                                        formData.append("signature",sign.signature);
+                                        formData.append("OSSAccessKeyId",sign.OSSAccessKeyId);
+                                        formData.append('file', that.base64ToBlob(localData));
+                                        $.ajax({
+                                            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
+                                            method: 'POST',
+                                            processData: false,
+                                            contentType: false,
+                                            cache: false,
+                                            data: formData,
+                                            success: (e) => {
+                                                that.hideLoading();
+                                                imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+                                                that.setState({
+                                                    imgArr:imgList
+                                                })
+                                            },
+                                            error:(e) =>{
+                                                that.hideLoading();
+                                                console.log("this.sate",that.state.imgArr)
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+        }
+    }
+    
+onChange = (files,file,index) => {
+   
+    var that=this;
+    if(that.state.imgArr.length>=5){
+
+    that.setState({
+    msg:'一次最多只能上传五张图片',  
+    showIOS1:true,
+    })
+}else{
+    if(!!file){
+     console.log(files,file,index)
+    this.setState({
+        files,
+      });
+      var that=this;
+      var sign=that.state.sign;
+    
+    that.showLoading('上传中');
+    for(var i=0;i<files.length;i++){
+        console.log(this.state.imgList)
+        const formData = new FormData();
+        var filename='';
+        var image=[];
+        var myDate = new Date();
+        var ossPath='PIC/';
+        var fileRandName=Date.now();
+        var year=myDate.getFullYear();
+        var month;
+        var day;
+        if(myDate.getMonth()+1<10) {
+            var  m=myDate.getMonth()+1;
+            month = '0'+m;
+        }else{
+            month=myDate.getMonth()+1;
+        }
+        if(myDate.getDate()<10){
+            var d=myDate.getDate()+1;
+            day='0'+d;
+        }else{
+            day=myDate.getDate();
+        }
+    
+                var base64='';
+        var that=this;
+                var reader = new FileReader();//创建一个字符流对象
+            reader.readAsDataURL(files[i]);//读取本地图片
+            reader.onload = function(e) {
+               base64=this.result;
+               var date=new Date().getTime();
+        var m=ossPath+year+'/'+month+'/'+day+"/";
+        var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
+        var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
+        var filename=that.randomName()+uuid+'.png';
+        formData.append('key',filename);
+        formData.append("policy",sign.policy);
+        formData.append("callback",sign.callback);
+        formData.append("signature",sign.signature);
+        formData.append("OSSAccessKeyId",sign.OSSAccessKeyId); 
+        formData.append('file',that.base64ToBlob(base64)); 
+        $.ajax({
+            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com', 
+            method: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
+            success: (e) => {
+               
+                imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+               // alert("us")
+                //alert(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename));
+                if(that.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
+                    that.hideLoading();
+                that.setState({
+                        imgArr:Array.from(new Set(imgList))
+                    });
+                }else{
+                   var  intervals = setInterval(() => that.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,imgList), 500);
+                   that.setState({
+                       intervals:intervals
+                   })
+                    
+                }
+               
+              
+               
+            },
+            error:(e) =>{
+                that.hideLoading();
+            }
+        });
+            };
+    }
+    
+}
+}
+  };
+  isHas(url,imgList){
+
+      var that=this;
+    if(that.isHasImg(url)){
+        clearInterval(this.state.intervals);
+        that.hideLoading();
+        that.setState({
+            imgArr:Array.from(new Set(imgList))
+        });
+    }
   }
-  componentWillUnmount() {
-    // 离开页面时结束所有可能异步逻辑
+  getBase64Image(){
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+    var dataURL = canvas.toDataURL("image/"+ext);
+    return dataURL;
   }
-  render() {
-    return (
-        <div className="page-artical">
-          <div className="home"><span className="jian"
-                                      onClick={()=>{
-                                      this.context.router.push({
-                                       pathname:'microweb/news'
-                                      })
+isHasImg(url){
+    var xmlHttp ;
+    if (window.ActiveXObject)
+     {
+      xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+     }
+     else if (window.XMLHttpRequest)
+     {
+      xmlHttp = new XMLHttpRequest();
+     } 
+    xmlHttp.open("Get",url,false);
+    xmlHttp.send();
+    if(xmlHttp.status==404)
+    return false;
+    else
+    return true;
+}
+  onAddImageClick = () => {
+    this.setState({
+      files: this.state.files.concat({
+        url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
+        id: '3',
+      }),
+    });
+  };
+  onTabChange = (key) => {
+    console.log(key);
+  };
+    render() {
+        const {toptip,imgArr,reasonList,files,isIos}=this.state
+        const { msg} = this.state;
+        return (
+            <div className="page-complain">
+                <div className="home"><span className="jian"
+                                            onClick={()=>{
+                                   this.context.router.goBack();
                                       }}
-              ></span>
-          </div>新闻公告
-          <div className="artical-title">2018年“两江国际儿科论坛”在重庆隆重举行！</div>
-          <div className="artical-time">时间：2018-07-03</div>
-          <div className="artical-content">
-            <div className="content-item">2018年6月22日上午8点，由重庆医科大学附属儿童医院、儿科药学杂志、中华医学会儿科学分会、西部儿科发展联盟联合主办的“2018两江国际儿科论坛”在重庆渝州国宾馆隆重开幕。</div>
-            <div className="content-item">论坛汇集国内外顶尖专家，来自中国科学院徐涛院士、美国、英国等国内外的14名知名院士专家，以及儿童医院院长，1000多名儿科代表参加会议，围绕“儿童健康——新时代，新问题，新思路”的主题展开讨论，共同交流儿科领域研究的最新成果。</div>
-            <div className="content-item">国家卫生健康委科教司规划处刘桂生处长、重庆市卫计委副主任傅仲学、上海交通大学医学院附属新华医院孙锟教授、重庆医科大学校长黄爱龙教授等出席会议。</div>
-            <div className="content-item">开幕式由重医儿童医院党委书记董志主持。</div>
-            <div className="content-item">大会主席、重医儿童医院李秋院长发表热情洋溢的致辞，她代表儿童医院对各位领导、专家、学者等表示热烈欢迎。她概述医院的简介，重医儿童医院在全国最佳医院排行榜中位居全国儿童医院第三位，在中国医院科技影响力排行榜中居儿科学第三位，科研产出居全国儿童医院前列。</div>
-            <div className="content-item">本次论坛旨在搭建儿科重要疾病病因、病理机制和精准医疗交流的平台，邀请到国内外知名院士专家作精彩报告。大会还将关注儿童肾脏、儿童神经、青春期、儿童感染、儿外科疾病和儿科护理等相关问题，并同时召开城际儿科会。为国内外儿科同行提供相互学习、共同提高的一次盛会，必将促进我国儿科、尤其西部儿科事业的发展。</div>
-            <div className="content-item">国家卫生健康委科教司规划处刘桂生处长讲话，他指出儿童健康是全民健康的基础，是经济社会可持续发展的重要保障。党中央、国务院和国家卫健委高度重视儿童健康事业，十九大报告中，提出健康中国的战略。习近平总书记再次强调，儿童健康事关家庭幸福和民族的未来，要加强儿童医疗卫生服务改革与发展，加强儿科医务人员培养和队伍建设，对卫生健康领域做出新的部署。</div>
-            <div className="content-item">重医儿童医院为西部地区乃至全国的儿童健康事业的发展做出了重要贡献，希望专家们在本次论坛交流中，发现科技创新、人才培养中的问题，探讨分析原因，为破解问题提出真知灼见，共同推动儿童健康事业的发展，推动健康中国目标的实现。</div>
-            <div className="content-item">中国医师协会儿科分会会长、上海交通大学医学院附属新华医院孙锟教授发言，他代表中国医师协会儿科分会向大会召开表示热烈祝贺。重医儿童医院一直立足重庆，服务西部，面向全国，为西部儿科事业作出杰出贡献。</div>
-            <div className="content-item">重医儿童医院重视继续教育工作、规范化培训工作，是全国儿科唯一的住院医师规范化培训示范基地，为全国儿科医生的培养作出积极贡献。同时，长期坚持不懈抓学术研究和学术交流，众多专家活跃在全国学术讲台上。重医儿童医院的两江国际儿科论坛，已成为国内儿科届非常响亮的品牌，每年都会吸引国内外知名专家参会，加强交流，提升学术共识，共同为中国的儿科事业做出贡献。</div>
-            <div className="content-item">重庆市卫计委傅仲学副主任讲话，重庆市紧紧围绕习近平总书记为重庆提出的“两点定位”和“两地”“两高”的目标，“四个扎实”要求，把人民健康放在优先发展的战略地位，扎实推动“健康中国”战略重庆实践。为促进儿童安全和健康全面发展，市卫计委着力完善儿童健康体系，加强儿科队伍建设，全力推动儿科事业发展。</div>
-            <div className="content-item">重医儿童医院作为综合性儿童医疗机构排头兵，极大促进了西部儿科事业的发展与繁荣。希望专家多分享儿科前沿知识，希望重庆儿科医务人员虚心学习，紧跟国际儿科发展潮流，共同为促进我国儿科事业发展做出贡献。</div>
-            <div className="content-item">重庆医科大学黄爱龙校长讲话，他代表重庆医科大学，对各位来宾表示诚挚欢迎，向论坛的召开表示热烈祝贺！学校一直将儿科学人才培养放在显要位置。学校对儿科学的高度重视，以及一代代儿院人的不懈奋斗，儿童医院的医教研工作一直走在全国前列，人才培养规模全国第一，培养质量全国领先。</div>
-            <div className="content-item">今年的论坛，汇集国内外顶尖的专家学者，交流前沿研究成果、分享先进诊疗技术，促进国际交流与合作，提高临床研究水平和科研创新能力，希望国内外专家学者共同努力，将“两江国际儿科论坛”办成国内外有影响力的学术活动品牌和特色的学术交流平台。</div>
-            <div className="content-item">论坛上，国家卫生健康委科教司规划处刘桂生处长，中国科学院徐涛院士、英国伦敦大学学院阮雄中教授、上海交通大学医学院附属新华医院孙锟教授、重庆医科大学附属儿童医院赵晓东教授等国内知名教授，以及美国Robot Mak教授、英国Kjell Tullus、、新加坡Yap Hui Kim教授等，聚焦国内外前沿最新医学科研成果，紧跟国际儿科医学研究方向和潮流，带来了精彩演讲。</div>
-            <div className="content-item">本次论坛设一个主旨论坛及7个分论坛（儿科城际学术会议暨西部儿科论坛、儿童肾脏疾病分论坛、儿童神经疾病分论坛、青春期疾病分论坛、儿童感染性疾病分论坛、小儿外科疾病分论坛、儿童护理分论坛）。</div>
-            <div className="content-item">“两江国际儿科论坛”是由重医儿童医院创建的一个定期、开放性的国际学术会议交流平台，以平等合作、互利共赢、共同发展为主旨，推动中国儿科与世界一流大学、研究机构和医院的交流、协同与合作，不断提高儿科临床研究和科技创新的能力，全面推动儿科医学的发展，已经成为中国儿科极具影响力的学术论坛之一。</div>
-            <div className="content-item">为适应新形势下医疗改革的需要，弥补和解决当前中西部儿科医学发展中的短板和问题，共同推进中西部儿童健康的全面发展，重医儿童医院举办2018两江国际儿科论坛，将携手国内外儿科同道，为推进儿科医学科学的发展做出新的更大的贡献。</div>
-          </div>
-        </div>
-    );
-  }
+                    ></span>投诉建议
+                </div>
+                <Toast icon="success-no-circle" show={this.state.showToast}>{msg}</Toast>
+                <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                    {msg}
+                </Dialog>
+                <div className="clearfix">
+                </div>
+                {toptip
+                &&<div className="hc-toptip" >{toptip}</div>}
+                <div className="header">
+                    <img src="../../..//resources/images/complain-bg.png" />
+                    <div className="header-title">感谢您为我们服务提供的宝贵意见</div>
+                </div>
+                <div className="complain-reason">
+                    <div className="reason-title">
+                        请选择原因
+                    </div>
+                    <div className="reason-box">
+                        {reasonList&&reasonList.map((item,index)=>{
+                            return(
+                                <div  key={index}
+                                      onClick={()=>{
+                              this.changeStatus(item.id)
+                               }}
+                                      className={`reason-item ${item.active ? 'active' : ''}`}>{item.reason}</div>
+                            )
+                        })}
+                    </div>
+                </div>
+                <div className="complain-suggest">
+                    <div className="suggest-title">请输入投诉或建议的内容</div>
+                    <div className="area-box">
+                    <textarea   placeholder="请输入"
+                                onChange={(e)=>{
+                      this.saveContent(e)
+
+                        }}/>
+                    </div>
+                </div>
+                <div className="image-box">
+                    <div className="img-title">请上传图片，最多5张，每张不超过2M</div>
+                   
+                        <div className='img-choose-box'>
+                            <div className='img-box3'
+                                >
+                                <div className="img-item">
+                              
+                                        <div onClick={(e)=>{
+                                                   this.choose(this.state.sign)
+                                                }}> 
+                                            <img src="../../../resources/images/add-img.png"/>
+                                       </div>
+
+                                </div>
+                            </div>
+                        {imgArr&&imgArr.map((item,index)=>{
+                            return(
+                                <div className='img-box3' key={index}>
+                                    <div className='img-add' >   <Icon value="clear"                                                                    onClick={
+                                  ()=>{
+                                 this.deleteImg(item)
+                                  }} />
+                                        <div>
+                                            {!!item&&<img
+                                                src={item.indexOf("ihoss")=='-1'?item:item+"?x-oss-process=image/resize,w_105"}
+                                                onClick={()=>{
+                       this.previewImg(item)
+                        }}/>}
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+                <div className='btn'>
+                    <button  className="submit-btn"
+                             onClick={()=>{
+                    this.submitData()
+                    }}
+                        >
+                        提交
+                    </button>
+                </div>
+                <div className="empty-box"></div>
+            </div>
+        );
+    }
 }
 export default Connect()(Widget);

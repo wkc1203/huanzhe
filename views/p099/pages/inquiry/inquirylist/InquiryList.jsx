@@ -180,7 +180,7 @@ this.getJs();
                                     <div className="text-box">
                                         <div className='doc-name'>{item.doctorName}</div>
                                         {item.doctor && <div
-                                            className='doc-des'>{item.deptName} {item.doctor.level ? '|' : ''} {item.doctor.level}</div>}
+                                            className='doc-des'>{item.deptName} {!!item.doctor&&!!item.doctor.level ? '|' : ''} {!!item.doctor&&!!item.doctor.level?item.doctor.level:''}</div>}
 
                                     </div>
                                     {(item.status == '0' || item.status == '1') &&

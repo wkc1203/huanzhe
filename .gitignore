@@ -1,0 +1,16 @@
+# Created by .ignore support plugin (hsz.mobi)
+# test merge
+/output
+/dist
+/views
+.DS_Store
+/.idea
+/.history
+.idea
+**/META-INF
+gitlab-token.js
+*.iml
+npm-debug.log
+node_modules
+.history
+/.vscode

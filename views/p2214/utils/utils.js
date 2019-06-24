@@ -154,7 +154,6 @@ export function sum(code,type){
 export function getJsByHide() {
   //需要隐藏微信分享按钮的页面调用
   console.log(window.location.href.substring(0,window.location.href.indexOf("#")-1))
-  
       getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#")-1)})
       .then((res) => {
           if (res.code == 0) {

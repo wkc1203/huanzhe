@@ -15,7 +15,7 @@ class Widget extends Component {
     this.state = {
         patientName: '全部就诊人',
         isPatShow: false,
-        reportList: [],
+        reportList:'1',
         showToast: false,
         showToast1: false,
         showLoading: false,
@@ -131,7 +131,7 @@ class Widget extends Component {
                 this.setState({
                     mobile:mobile
                 })
-                this.checkTime();
+               
                  var storage=window.localStorage;
                  //写入b字段
                  storage.userInfo=JSON.stringify(res.data);
@@ -151,7 +151,8 @@ hideDialog() {
     });
 }
   componentDidMount() {
-      this.getCardList1()
+      this.getCardList();
+      this.getUser();
      
     if(!window.localStorage.login_access_token){
         var code;
@@ -345,6 +346,7 @@ hideDialog() {
    }
     //获取就诊人列表
      getCardList() {
+         this.showLoading();
          Api
              .getCardList()
              .then((res) => {
@@ -363,12 +365,14 @@ hideDialog() {
                           }
                       }
                       console.log(cardList)
+                      this.hideLoading();
                       this.getreportList(cardList[0].patientId);
                       this.setState({
                         patList:cardList
                       })
                   }
                   }, e=> {
+                      this.hideLoading();
                     var code;
                     if(window.location.origin=='https://tih.cqkqinfo.com'){
                         code='ff80808165b46560016817f20bbc00b3';
@@ -437,7 +441,7 @@ hideDialog() {
                                 }
                         }
                         this.setState({
-                          reportList:report||'',
+                          reportList:report||[],
                        })
                       }else{
                         this.setState({
@@ -447,6 +451,16 @@ hideDialog() {
                  }
              }, e=> {
                 this.hideLoading();
+                if(e.code=='-2'){
+                    this.setState({
+                        phoneShow:true
+                     })
+                }else{
+                    this.setState({
+                        reportList:[]
+                     })
+                }
+                
              });
     }
      formatDate(value) {
@@ -780,7 +794,7 @@ hideDialog() {
                     </div>}
                 </div>} 
         {patList.length>0&&<div className='person'>
-            <p>就诊人：</p>   
+              
             {patList&&patList.length>0&&patList.map((item,index)=>{
                 return(
                     <p
@@ -793,10 +807,9 @@ hideDialog() {
                                 this.getList(index);
                             }
                 }}
-                        className={`${item.active?'active':''}`} style={{fontWeight:'bold',flex:2,textAlign:'center'}}>
+                        className={`${item.active?'active':''}`} style={{fontWeight:'bold',textAlign:'center'}}>
                         {item.patientName}
-                        {patList.length==2&&<span className={`${item.patientName.length<=2?'len2':item.patientName.length==3?'len3':'len4'}`}></span>}
-                        {patList.length==1&&<span style={{left:'41%'}} className={`${item.patientName.length<=2?'len2':item.patientName.length==3?'len3':'len4'}`}></span>}
+                       <span ></span>
 
                         </p>
                 )
@@ -804,7 +817,7 @@ hideDialog() {
         </div>
         }
         <div className='reportList'>
-        {reportList&&reportList.length>0&&reportList.map((item,index)=>{
+        {reportList&&reportList!='1'&&reportList.length>0&&reportList.map((item,index)=>{
             console.log((item.inquiryId=='0'&&item.hasTimeOut!=='1'&&item.getTime=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1')||(item.inquiryId=='0'&&item.getTime!=='1'&&item.allOnLineReportResult==1&&item.reportInterpretateFlag=='1'))
             console.log(item.inquiryId,item.hasTimeOut,item.getTime,item.allOnLineReportResult,item.reportInterpretateFlag)
             return(
@@ -922,7 +935,7 @@ hideDialog() {
             )
         })}   
         </div>
-        {reportList&&reportList.length<=0&&
+        {reportList&&reportList.length<=0&&reportList!='1'&&
             <div  className='no-data'>
               <img src='../../../resources/images/no-result.png'/>
               <div>暂未查询到相关信息</div>

@@ -14,7 +14,7 @@ class Widget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            msgList: [],
+            msgList: '1',
             quiryNum: 0,
             showToast: false,
             showLoading: false,
@@ -90,8 +90,9 @@ class Widget extends Component {
         Api
             .getInquiryList()
             .then((res) => {
-                if (res.code == 0) {
-                    this.hideLoading();
+                this.hideLoading();
+                if (res.code == 0&&res.data.length>0) {
+                    
                     var data=[];
                     for(var i=0;i<res.data.length;i++){
                         if(res.data[i].status!='4'&&res.data[i].status!='5'){
@@ -113,9 +114,16 @@ class Widget extends Component {
                             }
                         })
                     }
+                }else{
+                    this.setState({
+                        msgList: []
+                    })
                 }
             }, (e) => {
                 this.hideLoading();
+                this.setState({
+                    msgList: []
+                })
             });
     }
     toNext(type) {
@@ -138,7 +146,7 @@ class Widget extends Component {
                         show={this.state.showIOS1}>
                     {msg}
                 </Dialog>
-                {msgList && msgList.map((item, index)=> {
+                {msgList&&msgList.length>0&&msgList!='1' && msgList.map((item, index)=> {
                     return (
                         <div className='doc-item' key={index} onClick={(e)=>{
                             e.stopPropagation();
@@ -160,7 +168,7 @@ class Widget extends Component {
                                        <p className="time">{item.createDate.substring(0,16)}</p>
                                  </div>
                                  <div className="dDept">
-                                   {item.deptName} {item.doctor.level ? '|' : ''} {item.doctor.level}
+                                   {item.deptName} {!!item.doctor&&!!item.doctor.level ? '|' : ''} {!!item.doctor&&!!item.doctor.level?item.doctor.level:''}
                                  </div>
                                  <div className="dPat">
                                     就诊人：{item.patientName}  |  图文咨询 
@@ -231,7 +239,7 @@ class Widget extends Component {
                                             </div> */}
                         </div>)
                 })}
-                {msgList.length <= 0 && <div className='no-data'>
+                {msgList.length <= 0 &&msgList!='1'&& <div className='no-data'>
                     <img src='../../../resources/images/no-result.png'/>
                     <div>暂未查询到相关信息</div>
                 </div>}

@@ -440,11 +440,14 @@ class Widget extends Component {
         var ua = navigator.userAgent.toLowerCase();//获取浏览器的userAgent,并转化为小写——注：userAgent是用户可以修改的
         var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
         var  mime ='';
-        var bytes; 
-        
+        var bytes;
+        if(isIos){
             mime = arr[0].match(/:(.*?);/)[1] || 'image/png';
-           bytes = window.atob(arr[1]); 
-      
+           bytes = window.atob(arr[1]);
+      }else{
+          mime='image/png';
+           bytes = window.atob(urlData);
+      }
         // 去掉url的头，并转化为byte
         // 处理异常,将ascii码小于0的转换为大于0
         var ab = new ArrayBuffer(bytes.length);
@@ -526,28 +529,21 @@ class Widget extends Component {
             });
         }
     }
-    
-onChange = (files,file,index) => {
-   
-    var that=this;
-    if(that.state.imgArr.length>=5){
-
-    that.setState({
-    msg:'一次最多只能上传五张图片',  
-    showIOS1:true,
-    })
-}else{
-    if(!!file){
-     console.log(files,file,index)
+onChange = (files, type, index) => {
     this.setState({
         files,
       });
       var that=this;
       var sign=that.state.sign;
-    
+    console.log("length:"+that.state.imgArr)
+    if(that.state.imgArr.length>=5){
+        that.setState({
+        msg:'最多只能上传四张图片',
+        showIOS1:true,
+        })
+    }else{
     that.showLoading('上传中');
     for(var i=0;i<files.length;i++){
-        console.log(this.state.imgList)
         const formData = new FormData();
         var filename='';
         var image=[];
@@ -569,14 +565,7 @@ onChange = (files,file,index) => {
         }else{
             day=myDate.getDate();
         }
-    
-                var base64='';
-        var that=this;
-                var reader = new FileReader();//创建一个字符流对象
-            reader.readAsDataURL(files[i]);//读取本地图片
-            reader.onload = function(e) {
-               base64=this.result;
-               var date=new Date().getTime();
+        var date=new Date().getTime();
         var m=ossPath+year+'/'+month+'/'+day+"/";
         var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
         var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
@@ -586,66 +575,45 @@ onChange = (files,file,index) => {
         formData.append("callback",sign.callback);
         formData.append("signature",sign.signature);
         formData.append("OSSAccessKeyId",sign.OSSAccessKeyId); 
-        formData.append('file',that.base64ToBlob(base64)); 
+        formData.append('file',that.base64ToBlob(files[i].url));
         $.ajax({
-            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com', 
+            url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
             method: 'POST',
             processData: false,
             contentType: false,
             cache: false,
             data: formData,
             success: (e) => {
-               
                 imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-               // alert("us")
-                //alert(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename));
-                if(that.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
+              if(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
                     that.hideLoading();
                 that.setState({
                         imgArr:Array.from(new Set(imgList))
                     });
                 }else{
-                   var  intervals = setInterval(() => that.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,imgList), 500);
-                   that.setState({
+                   var  intervals = setInterval(() => this.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,imgList), 500);
+                   this.setState({
                        intervals:intervals
                    })
-                    
                 }
-               
-              
-               
             },
             error:(e) =>{
                 that.hideLoading();
             }
         });
-            };
     }
-    
-}
 }
   };
   isHas(url,imgList){
-
-      var that=this;
-    if(that.isHasImg(url)){
-        clearInterval(this.state.intervals);
-        that.hideLoading();
-        that.setState({
-            imgArr:Array.from(new Set(imgList))
-        });
-    }
+    var that=this;
+  if(that.isHasImg(url)){
+      clearInterval(this.state.intervals);
+      that.hideLoading();
+      that.setState({
+          imgArr:Array.from(new Set(imgList))
+      });
   }
-  getBase64Image(){
-    var canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, img.width, img.height);
-    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
-    var dataURL = canvas.toDataURL("image/"+ext);
-    return dataURL;
-  }
+}
 isHasImg(url){
     var xmlHttp ;
     if (window.ActiveXObject)
@@ -725,28 +693,16 @@ isHasImg(url){
                 </div>
                 <div className="image-box">
                     <div className="img-title">请上传图片，最多5张，每张不超过2M</div>
-                   
-                        <div className='img-choose-box'>
-                            <div className='img-box3'
-                                >
-                                <div className="img-item">
-                                {!isIos&&
-                                 <input type="file" id="file"  onChange={(e) => {           
-                                            this.onChange(e.target.files,e.target.files[0],0)
-                                        }} accept="image/*" />
-                                        } 
-                            {!isIos&&<img src="../../../resources/images/add-img.png"/> }
-                           
-                                        {isIos&&<div onClick={(e)=>{
-                                                   this.choose(this.state.sign)
-                                                }}> 
-                                            
-
-                                            <img src="../../../resources/images/add-img.png"/>
-                                       </div>}
-
-                                </div>
+                    <div className='img-choose-box'>
+                        <div className='img-box3'>
+                            <div className="img-item">
+                            <div onClick={(e)=>{
+                                           this.choose(this.state.sign)
+                                        }}>
+                                        <img src="../../../resources/images/add-img.png" />
+                                    </div> 
                             </div>
+                        </div>
                         {imgArr&&imgArr.map((item,index)=>{
                             return(
                                 <div className='img-box3' key={index}>

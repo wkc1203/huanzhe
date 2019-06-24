@@ -385,7 +385,7 @@
     .person{
         margin-top: 44px;
         display: flex;
-        padding: 0 50px 0 10px;
+        padding: 0 10px 0 10px;
         height: 45px;
         line-height: 45px;
         background: white;
@@ -393,21 +393,11 @@
         .active{
             color: #4fabca;
             position:relative;
-            .len2{
-                width: 48px;
-            }
-            .len3{
-                width: 60px;
-                left:33px;
-            }
-            .len4{
-                width:76px;
-                left:24px;
-            }
+           
             span{
-                width: 48px;
+                width: 40%;
                 height: 2px;
-                left: 40px;
+                left: 30%;
                 display: block;
                 bottom: 0px;
                 z-index: 1;

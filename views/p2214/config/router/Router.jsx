@@ -65,6 +65,7 @@ import MDeptList from '../../pages/microweb/deptlist/DeptList';
 import DeptListForDoc from '../../pages/microweb/deptlistfordoc/DeptlistForDoc';
 import MDoctorInfo from '../../pages/microweb/doctorinfo/DoctorInfo';
 import News from '../../pages/microweb/news/News';
+import Notice from '../../pages/microweb/notice/NoticeIndex';
 import ArticleIndex from '../../pages/microweb/article/ArticleIndex';
 /**
  * 个人中心
@@ -159,6 +160,8 @@ class Routers extends React.Component {
             <Route path="/microweb/deptlistfordoc" component={DeptListForDoc} title='重医儿童医院咨询平台' />
             <Route path="/microweb/doctorinfo" component={MDoctorInfo} title='重医儿童医院咨询平台' />
             <Route path="/microweb/news" component={News} title='重医儿童医院咨询平台' />
+            <Route path="/microweb/notice" component={Notice} title='重医儿童医院咨询平台' />
+
             <Route path="/microweb/article" component={ArticleIndex} title='重医儿童医院咨询平台' />
           </Route>
           {/* 权限 */}

@@ -20,7 +20,7 @@ class Widget extends Component {
     this.state = { 
         patientName: '全部就诊人',
         isPatShow: false,
-        orderList: [],
+        orderList:'1',
         showToast: false,
         showLoading: false,
         toastTimer: null,
@@ -29,7 +29,7 @@ class Widget extends Component {
         showIOS2: false,
         showAndroid1: false,
         showAndroid2: false,
-        manageList:[],
+        manageList:'1',
         style1: {
             buttons: [
                 {
@@ -55,11 +55,11 @@ class Widget extends Component {
         },
         msg:'',
         clickItem:555,
-        patList: [],
+        patList:'',
         item1Show:true,//咨询显示
         item2Show:false,//加号显示
         item3Show:false,//检查单显示
-        checkList:[],//查检单列表
+        checkList:'1',//查检单列表
         patCard:'',
         searchPage:1, 
         isLoadingMore: false,
@@ -152,6 +152,9 @@ class Widget extends Component {
                              searchPage:555
                          })
                      }
+                     this.setState({
+                        checkList:[]
+                    })
                    console.log("red",res);
                    var checkList=res.data.recordList;
                    for(var i=0;i<checkList.length;i++){
@@ -162,8 +165,15 @@ class Widget extends Component {
                 })
                 }else{
                     this.hideLoading();
+                    this.setState({
+                        checkList: []
+                    })
                 }
             }, e=> {
+                this.hideLoading();
+                this.setState({
+                    checkList: []
+                })
                 this.setState({
                     msg:e.msg,
                     showIOS1:true
@@ -212,17 +222,21 @@ class Widget extends Component {
          Api
              .getOrderListByCard({patCardNo:patCardNo,type:'inquiry'})
              .then((res) => {
-                 if (res.code == 0) {
-                      this.hideLoading();
+                this.hideLoading();
+                 if (res.code == 0&&res.data.length>0) {
+                    
                      const objStatus = { '-1': '待付款', '0': '咨询中', '1': '咨询中', '3': '已完成' };
                      var items = res.data.map((item, index) => {
                          item.statusName = objStatus[item.status];
                          return item;
                      });
                      this.setState({ orderList: items});
+                 }else{
+                    this.setState({ orderList: []});
                  }
              }, e=> {
                  this.hideLoading();
+                 this.setState({ orderList: []});
                  this.setState({
                      msg:e.msg,
                      showIOS1:true
@@ -230,48 +244,59 @@ class Widget extends Component {
              });
     }
   getList(id){
-    this.showLoading();
    if(this.state.manageList.length>=1){
        this.setState({
            manageList:[]
        })
    }
    if(id=='全部'){
-       this.setState({
-           manageList:[]
-       })
+       
        Api
            .getRegister({userId:this.state.userId,type:'subscribe'})
            .then((res) => {
                if(res.code==0){
+                this.hideLoading();
                    if(res.data!=null){
-                       this.hideLoading();
+                    
                        this.setState({
                            manageList:res.data
                        })
                    }
+               }else{
+                this.setState({
+                    manageList:[]
+                })
                }
            }, (e) => {
                this.hideLoading();
+               this.setState({
+                manageList:[]
+            })
            });
    }else{
-       this.setState({
-           manageList:[]
-       })
+       
        Api
            .getRegister({userId:this.state.userId, orderCarNo:id,type:'subscribe'})
            .then((res) => {
+              this.hideLoading();
                if(res.code==0){
                    if(res.data!=null){
-                       this.hideLoading();
+                      
                        this.setState({
                            manageList:res.data
                        })
                        console.log(this.state.manageList)
+                   }else{
+                    this.setState({
+                        manageList:[]
+                    })
                    }
                }
            }, (e) => {
                this.hideLoading();
+                this.setState({
+                    manageList:[]
+                })
            });
    }
 }
@@ -328,14 +353,12 @@ switchStatus3(type,index){
     }
  }
   getAddCardList() {
+    this.showLoading();
     Api
         .getCardList()
         .then((res) => {
-            this.hideLoading();
             if(res.code==0){
-                this.setState({
-                    pList:res.data.cardList
-                })
+                
                 var list=res.data.cardList;
                 for (var i = 0; i < list.length; i++) {
                     list[i].active = false;
@@ -361,6 +384,7 @@ switchStatus3(type,index){
             })
 }
 if(type==2){
+    
     this.getAddCardList();
     this.setState({
         item2Show:true,
@@ -379,7 +403,7 @@ if(type==3){
 }
 }
   render() {
-    const {checkList,manageList,item1Show,item2Show,item3Show,clickItem,isPatShow,orderList,patList,msg}=this.state
+    const {checkList,manageList,item1Show,item2Show,item3Show,clickItem,isPatShow,orderList,patList,msg}=this.state;
     return (
     <div className="container page-order-list">
         <div className="home" style={{position:'fixed',width:'100%',top:'0'}}>
@@ -471,14 +495,14 @@ if(type==3){
                     })}
                 </div>
             </div>}
-                {manageList&&manageList.map((item,index)=>{
+                {manageList.length>0&&manageList!='1'&&manageList&&manageList.map((item,index)=>{
                    return(
                        <div className="doctorInfo" key={index}>
                          <Add {...item}/>
                        </div>
                    ) })
                 }
-                {manageList.length<1&&<div  style={{marginTop:'25%'}}>
+                {manageList.length<=0&&manageList!='1'&&<div  style={{marginTop:'25%'}}>
                     <img src="../../../resources/images/noData.png"
                          style={{marginTop:'25%',marginLeft:'35%',width:'112px',height:'112px',margin:'0 auto',display:'block'}}></img>
                     <div className='return' >
@@ -534,7 +558,7 @@ if(type==3){
                     })}
                 </div>
             </div>}
-            {orderList&&orderList.map((item,index)=>{
+            {!!orderList&&orderList.length>0&&orderList!='1'&&orderList.map((item,index)=>{
                return(
                    <div className='doc-item' key={index}>
                         <Inquiry  {...item} />
@@ -542,7 +566,7 @@ if(type==3){
                    </div>
                )
             })}
-            {orderList.length <= 0&&<NoResult  msg='暂未查询到相关信息'/>
+            {orderList.length <= 0&&orderList!='1'&&<NoResult  msg='暂未查询到相关信息'/>
             }
          </div>}
         {item3Show&&
@@ -599,9 +623,9 @@ if(type==3){
                     </div>
                 </div>}
             {
-                checkList.length >= 0&&
+                checkList.length >0&&
                 <div className='checkContent'>
-                {checkList&&checkList.map((item,index)=>{
+                {!!checkList&&checkList.length>0&&checkList!='1'&&checkList.map((item,index)=>{
                     return(
                         <Check  index={index}  key={index} 
                         timeText={item.timeText} patientName={item.patientName}
@@ -611,7 +635,7 @@ if(type==3){
                 })}
             </div>
             }
-            {checkList.length <= 0&&<NoResult  msg='暂未查询到相关信息'/>}
+            {checkList.length <= 0&&checkList!='1'&&<NoResult  msg='暂未查询到相关信息'/>}
             </div>
         }
         {item3Show&&<div className="loadMore" ref="wrapper"  ></div>}
