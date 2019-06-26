@@ -34,7 +34,7 @@ class Widget extends Component {
             buttons: [
                 { type: 'primary',
                     label: '确定',
-                    onClick: this.hideDialog.bind(this)
+                    onClick: Utils.hideDialog.bind(this)
                 }
             ]
         },

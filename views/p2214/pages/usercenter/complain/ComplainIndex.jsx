@@ -441,13 +441,10 @@ class Widget extends Component {
         var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
         var  mime ='';
         var bytes;
-        if(isIos){
+        
             mime = arr[0].match(/:(.*?);/)[1] || 'image/png';
            bytes = window.atob(arr[1]);
-      }else{
-          mime='image/png';
-           bytes = window.atob(urlData);
-      }
+      
         // 去掉url的头，并转化为byte
         // 处理异常,将ascii码小于0的转换为大于0
         var ab = new ArrayBuffer(bytes.length);
@@ -529,53 +526,68 @@ class Widget extends Component {
             });
         }
     }
-onChange = (files, type, index) => {
-    this.setState({
-        files,
-      });
-      var that=this;
-      var sign=that.state.sign;
-    console.log("length:"+that.state.imgArr)
-    if(that.state.imgArr.length>=5){
+
+    onChange = (files,file,index) => {
+        console.log(files)
+       
+        var that=this;
+        if(that.state.imgArr.length>=5){
+    
         that.setState({
-        msg:'最多只能上传四张图片',
+        msg:'一次最多只能上传五张图片',  
         showIOS1:true,
         })
     }else{
-    that.showLoading('上传中');
-    for(var i=0;i<files.length;i++){
-        const formData = new FormData();
-        var filename='';
-        var image=[];
-        var myDate = new Date();
-        var ossPath='PIC/';
-        var fileRandName=Date.now();
-        var year=myDate.getFullYear();
-        var month;
-        var day;
-        if(myDate.getMonth()+1<10) {
-            var  m=myDate.getMonth()+1;
-            month = '0'+m;
-        }else{
-            month=myDate.getMonth()+1;
-        }
-        if(myDate.getDate()<10){
-            var d=myDate.getDate()+1;
-            day='0'+d;
-        }else{
-            day=myDate.getDate();
-        }
-        var date=new Date().getTime();
-        var m=ossPath+year+'/'+month+'/'+day+"/";
-        var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
-        var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
-        var filename=that.randomName()+uuid+'.png';
-        formData.append('key',filename);
-        formData.append("policy",sign.policy);
-        formData.append("callback",sign.callback);
-        formData.append("signature",sign.signature);
-        formData.append("OSSAccessKeyId",sign.OSSAccessKeyId); 
-        formData.append('file',that.base64ToBlob(files[i].url));
+        if(!!file){
+         console.log(files,file,index)
+        this.setState({
+            files,
+          });
+          var that=this;
+          var sign=that.state.sign;
+        
+        that.showLoading('上传中');
+        for(var i=0;i<files.length;i++){
+            console.log(this.state.imgList)
+            const formData = new FormData();
+            var filename='';
+            var image=[];
+            var myDate = new Date();
+            var ossPath='PIC/';
+            var fileRandName=Date.now();
+            var year=myDate.getFullYear();
+            var month;
+            var day;
+            if(myDate.getMonth()+1<10) {
+                var  m=myDate.getMonth()+1;
+                month = '0'+m;
+            }else{
+                month=myDate.getMonth()+1;
+            }
+            if(myDate.getDate()<10){
+                var d=myDate.getDate()+1;
+                day='0'+d;
+            }else{
+                day=myDate.getDate();
+            }
+        
+                    var base64='';
+            var that=this;
+                    var reader = new FileReader();//创建一个字符流对象
+                reader.readAsDataURL(files[i]);//读取本地图片
+                reader.onload = function(e) {
+                   base64=this.result;
+                   var date=new Date().getTime();
+            var m=ossPath+year+'/'+month+'/'+day+"/";
+            var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
+            var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
+            var filename=that.randomName()+uuid+'.png';
+            formData.append('key',filename);
+            formData.append("policy",sign.policy);
+            formData.append("callback",sign.callback);
+            formData.append("signature",sign.signature);
+            formData.append("OSSAccessKeyId",sign.OSSAccessKeyId); 
+            formData.append('file',that.base64ToBlob(base64)); 
         $.ajax({
             url: 'https://ihoss.oss-cn-beijing.aliyuncs.com',
             method: 'POST',
@@ -585,7 +597,7 @@ onChange = (files, type, index) => {
             data: formData,
             success: (e) => {
                 imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-              if(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
+              if(that.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
                     that.hideLoading();
                 that.setState({
                         imgArr:Array.from(new Set(imgList))
@@ -601,7 +613,10 @@ onChange = (files, type, index) => {
                 that.hideLoading();
             }
         });
-    }
+            };
+        
+        }
+}
 }
   };
   isHas(url,imgList){
@@ -696,13 +711,20 @@ isHasImg(url){
                     <div className='img-choose-box'>
                         <div className='img-box3'>
                             <div className="img-item">
-                            <div onClick={(e)=>{
-                                           this.choose(this.state.sign)
-                                        }}>
-                                        <img src="../../../resources/images/add-img.png" />
-                                    </div> 
+                            {!isIos&&
+                                 <input type="file" id="file"   onChange={(e) => {  
+                                           this.onChange(e.target.files,e.target.files[0],0)
+                                        }} accept="image/*" />
+                                        } 
+                            {!isIos&&<img src="../../../resources/images/add-img.png"/> }
+                                        {isIos&&<div onClick={(e)=>{
+                                                   this.choose(this.state.sign)
+                                                }}> 
+                                            <img src="../../../resources/images/add-img.png"/>
+                                       </div>}
+                                </div>  
                             </div>
-                        </div>
+                       
                         {imgArr&&imgArr.map((item,index)=>{
                             return(
                                 <div className='img-box3' key={index}>
