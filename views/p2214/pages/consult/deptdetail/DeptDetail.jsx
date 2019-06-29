@@ -165,14 +165,7 @@ class Widget extends Component {
                                 ,"menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:QZone",
                                 "menuItem:openWithSafari"] // 要显示的菜单项，所有menu项见附录3
                         });
-                        wx.updateTimelineShareData({ 
-                            title: '重医儿童医院咨询平台', // 分享标题
-                            link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                            imgUrl: 'http://ihoss.oss-cn-beijing.aliyuncs.com/PIC/hospital/logo-2214.png', // 分享图标
-                            success: function () {
-                               
-                            }
-                        })
+                         
                     });
                 }
             }, (e) => {
@@ -181,7 +174,7 @@ class Widget extends Component {
     
     /*获取医生信息*/
     getDeptDetail(doctorId, deptId) {
-        this.showLoading();
+        this.showLoading(); 
         Api
             .getDeptDetail({doctorId: doctorId, deptId: deptId})
             .then((res) => {
@@ -200,16 +193,24 @@ class Widget extends Component {
                 }
                 wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
                     wx.onMenuShareAppMessage({
-                        title:pm.name, // 分享标题
-                        desc:pm.introduction+"擅长："+pm.specialty, // 分享描述
+                        title:pm.name+"|"+pm.hisName+"|"+pm.level, // 分享标题
+                        desc:'我刚刚咨询了'+pm.name+'医生，推荐给大家，点击链接可以直接在线咨询', // 分享描述
                         link:url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                         imgUrl:pm.image, // 分享图标
                         type: '', // 分享类型,music、video或link，不填默认为link
                         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                         success: function () {
-                          // 用户点击了分享后执行的回调函数
-                        }
+                          // 用户点击了分享后执行的回调函数 
+                        } 
                     });
+                     wx.updateTimelineShareData({
+                        title: pm.name+"|"+pm.hisName+"|"+pm.level,  // 分享标题
+                        link:url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: pm.image, // 分享图标
+                        success: function () { 
+                        // 用户点击了分享后执行的回调函数
+                    },
+                    }) 
                     
                 })
             }, (e) => {

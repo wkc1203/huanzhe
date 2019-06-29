@@ -174,7 +174,7 @@ class Widget extends Component {
                                     就诊人：{item.patientName}  |  图文咨询 
                                  </div>
                                  <div className="content-text">
-                                 {item.content ? item.content.indexOf('checkItem')!=-1?'[检查单]':item.content: '[图片]'}
+                                 {item.content&&item.content.indexOf('checkItem')!=-1?'[检查单]':item.content&&item.content.indexOf('PIC')!=-1?'[图片]':item.content&&item.content.indexOf('.mp3')!=-1?'[语音]':item.content&&item.content.length>0?item.content:'  '}
                                  </div>
                                  {(item.status == '0' || item.status == '1') &&item.userReaded !== '0' &&
                                 <div className="status-inquiry" style={{color:'white',background:'#4cabcf',border:'none'}}> 咨询中</div>}
