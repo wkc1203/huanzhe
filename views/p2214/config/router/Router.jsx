@@ -3,25 +3,47 @@ import { Router, Route } from 'react-router';
 import hashHistory from 'react-router/lib/hashHistory';
 import IndexRedirect from 'react-router/lib/IndexRedirect';
 import Redirect from 'react-router/lib/Redirect';
+
 import Root from '../../components/root/Root';
 import Connect from '../../components/connect/Connect';
+
 import { setTitle } from '../../utils/utils';
+import { INHOSP, TREAT } from '../../config/constant/constant';
+
+/**
+ * 检查单
+ */
+import ConfirmCheck from '../../pages/check/confirmCheck/ConfirmCheck';
+import RegisterInfo from '../../pages/check/registerInfo/RegisterInfo';
+import CheckPay from '../../pages/check/checkPay/CheckPay';
+import CheckInfo from '../../pages/check/checkInfo/CheckInfo';
+import CheckList from '../../pages/check/checkList/CheckList';
+
+
 /**
  * 报告
  */
 import ReportList from '../../pages/report/reportList/ReportList';
 import ReportInfo from '../../pages/report/reportInfo/ReportInfo';
+
+  
+
 /**
  * 权限
  */
 import GetUserInfo from '../../pages/auth/getuserinfo/GetuserInfo';
 import Developing from '../../pages/auth/developing/Developing';
+
 import userLogin from '../../pages/auth/login/Login';
+
+
 /**
  * 咨询
  */
 import Inquiry from '../../pages/inquiry/inquirylist/InquiryList';
 import ChatIndex from '../../pages/inquiry/chat/ChatIndex';
+
+
 /**
  * 订单
  */
@@ -31,6 +53,8 @@ import OrderList from '../../pages/ordermng/orderlist/OrderList';//咨询订单
 import CheckDetail from '../../pages/ordermng/checkdetail/CheckDetail';
 import CheckOrder from '../../pages/ordermng/checkorder/CheckOrder';
 import CheckAdd from '../../pages/ordermng/checkadd/CheckAdd';
+//import ReportOrderList from '../../pages/ordermng/reportOrderList/ReportOrderList';//检查单订单
+
 /**
  * 科室医生
  */
@@ -41,22 +65,36 @@ import DeptList from '../../pages/consult/deptlist/DeptList';
 import AllDeptList from '../../pages/consult/alldeptlist/AllDeptList';
 import Pay from '../../pages/consult/pay/Pay';
 import Waiting from '../../pages/consult/waiting/Waiting';
+
+
+
 /**
  * 门诊加号
  */
 import AddManage from '../../pages/add/addManage/AddManage';
 import CardTip from '../../pages/add/cardtip/CardTip';
 import ManageList from '../../pages/add/manageList/ManageList';
+
 /**
- * 首页
+ * 门诊加号
  */
 import MicroIndex from '../../pages/home/index/Index';
 
 /**
+ * 随访
+ */
+import AskIndex from '../../pages/ask/index/Index';
+import AskLogin from '../../pages/ask/login/Login';
+import AskQuestion from '../../pages/ask/question/Question';
+
+
+/**
  * 登录
  */
+
 import LoginIndex from '../../pages/login/loginindex/LoginIndex';
 import NoRegister from '../../pages/login/noRegister/noRegister';
+
 /**
  * 常用服务
  */
@@ -65,8 +103,10 @@ import MDeptList from '../../pages/microweb/deptlist/DeptList';
 import DeptListForDoc from '../../pages/microweb/deptlistfordoc/DeptlistForDoc';
 import MDoctorInfo from '../../pages/microweb/doctorinfo/DoctorInfo';
 import News from '../../pages/microweb/news/News';
-import Notice from '../../pages/microweb/notice/NoticeIndex';
 import ArticleIndex from '../../pages/microweb/article/ArticleIndex';
+import Notice from '../../pages/microweb/notice/NoticeIndex';
+
+
 /**
  * 个人中心
  */
@@ -79,6 +119,10 @@ import NewPhone from '../../pages/usercenter/newphone/NewPhone';
 import SameCard from '../../pages/usercenter/samecard/SameCard';
 import UserList from '../../pages/usercenter/userlist/UserList';
 import UserInfo from '../../pages/usercenter/userinfo/UserInfo';
+
+
+
+
 class Routers extends React.Component {
   constructor(props) {
     super(props);
@@ -87,10 +131,16 @@ class Routers extends React.Component {
       apiLoading: true,
     };
   }
+
   componentDidMount() {
+    //this.getHisFunction();
     this.hideLoading();
+    console.log(this.state);
     this.setState({ apiLoading: false });
   }
+
+
+
   render(){
     const { CLOSE_FUNCTION, apiLoading } = this.state;
     return (
@@ -117,7 +167,16 @@ class Routers extends React.Component {
           {
             CLOSE_FUNCTION.map((v, k) => <Redirect from={v.regexp} to="/common/development"  />)
           }
-      
+          {/* 检查单 */}
+          <Route path="/check">
+            <IndexRedirect to="/check/confirmCheck" />
+            <Route path="/check/confirmCheck" component={ConfirmCheck} title='重医儿童医院咨询平台' />
+            <Route path="/check/checkInfo" component={CheckInfo} title='重医儿童医院咨询平台' />
+            <Route path="/check/registerInfo" component={RegisterInfo} title='重医儿童医院咨询平台' />
+            <Route path="/check/checkPay" component={CheckPay} title='重医儿童医院咨询平台' />
+            <Route path="/check/checkList" component={CheckList} title='重医儿童医院咨询平台' />
+           
+          </Route>
           {/* 科室医生 */}
           <Route path="/consult">
             <IndexRedirect to="/consult/confirminfo" />
@@ -128,7 +187,6 @@ class Routers extends React.Component {
             <Route path="/consult/waiting" component={Waiting} title='支付处理中' />
             <Route path="/consult/pay" component={Pay} title='重医儿童医院咨询平台' />
             <Route path="/consult/report" component={FreeReport} title='重医儿童医院咨询平台' />
-            
           </Route>
           {/* 订单*/}
           <Route path="/ordermng">
@@ -139,7 +197,10 @@ class Routers extends React.Component {
             <Route path="/ordermng/checkdetail" component={CheckDetail} title='重医儿童医院咨询平台' />
             <Route path="/ordermng/checkorder" component={CheckOrder} title='重医儿童医院咨询平台' />
             <Route path="/ordermng/checkadd" component={CheckAdd} title='重医儿童医院咨询平台' />
+            {/*<Route path="/ordermng/reportOrderlist" component={ReportOrderList} title='重医儿童医院咨询平台' />*/}
           </Route>
+
+
           {/* 登录 */}
           <Route path="/login">
             <IndexRedirect to="/login/loginindex" />
@@ -161,15 +222,16 @@ class Routers extends React.Component {
             <Route path="/microweb/doctorinfo" component={MDoctorInfo} title='重医儿童医院咨询平台' />
             <Route path="/microweb/news" component={News} title='重医儿童医院咨询平台' />
             <Route path="/microweb/notice" component={Notice} title='重医儿童医院咨询平台' />
-
             <Route path="/microweb/article" component={ArticleIndex} title='重医儿童医院咨询平台' />
           </Route>
+
           {/* 权限 */}
           <Route path="/auth">
             <IndexRedirect to="/auth/getuserinfo" />
             <Route path="/auth/getuserinfo" component={GetUserInfo} title='重医儿童医院咨询平台' />
             <Route path="/auth/developing" component={Developing} title='重医儿童医院咨询平台' />
             <Route path="/auth/login" component={userLogin} title='订阅' />
+
           </Route>
           {/* 咨询 */}
           <Route path="/inquiry">
@@ -184,6 +246,7 @@ class Routers extends React.Component {
             <Route path="/add/cardtip" component={CardTip} title='重医儿童医院咨询平台' />
             <Route path="/add/manageList" component={ManageList} title='重医儿童医院咨询平台' />
           </Route>
+
           {/* 个人中心 */}
           <Route path="/usercenter">
             <IndexRedirect to="/usercenter/home" />
@@ -197,14 +260,25 @@ class Routers extends React.Component {
             <Route path="/usercenter/userinfo" component={UserInfo} title='重医儿童医院咨询平台' />
             <Route path="/usercenter/userlist" component={UserList} title='重医儿童医院咨询平台' />
           </Route>
+
           {/* 首页 */}
           <Route path="/home">
             <IndexRedirect to="/home/index" />
             <Route path="/home/index" component={MicroIndex} title='重医儿童医院咨询平台' />
           </Route>
+          {/* 随访 */}
+          <Route path="/ask">
+            <IndexRedirect to="/ask/index" />
+            <Route path="/ask/index" component={AskIndex} title='随访管理' />
+            <Route path="/ask/login" component={AskLogin} title='欢迎加入随访计划' />
+            <Route path="/ask/question" component={AskQuestion} title='重医儿童医院' />
+
+            </Route>
+
         </Route>
       </Router>
     );
   }
 }
-export default Connect()(Routers); 
+
+export default Connect()(Routers);

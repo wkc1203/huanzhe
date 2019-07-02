@@ -603,17 +603,18 @@ hideDialog() {
                     this.clock();
                 }else{
                     this.hideLoading();
-                      this.setState({
-                          msg:e.msg,
-                          showIOS5: true
+                     
+                    this.setState({
+                        msg:res.msg,
                     })
+                    this.showToast1();
                 }
             }, (e) => {
                      this.hideLoading();
-                      this.setState({
-                          msg:e.msg,
-                          showIOS5: true
+                     this.setState({
+                        msg:e.msg,
                     })
+                    this.showToast1();
             });
         }
     }
@@ -700,9 +701,7 @@ hideDialog() {
         {msg}
         </Dialog>
         {phoneShow && <div className='modal' onClick={()=>{
-            this.setState({
-                phoneShow:false
-            })
+           
             }} >
                 <div className='modal-body'
                     onClick={(e)=>{

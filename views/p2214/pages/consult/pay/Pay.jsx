@@ -378,7 +378,7 @@ class Widget extends Component {
                                                     }
                                                     })
                                                         }else{
-                                                             if(this.props.location.query.type=='2'){
+                                                            if(this.props.location.query.report=='2'){
                                                                 this.context.router.push({
                                                                     pathname:'consult/report',
                                                                     query:{doctorId:orderInfo.doctorId,
@@ -440,7 +440,7 @@ class Widget extends Component {
               {this.props.location.query.source!="check"&&<div className="mm-list">
                     <div className="content">
                         <div className="list">
-                        <ListItem img="./././resources/images/pay-doctor.png" txt='医生姓名' name={orderInfo.doctorName}></ListItem>
+                        <ListItem img="./././resources/images/pay-doctor.png" txt={this.props.location.query.type=='2'?'护士姓名':'医生姓名'} name={orderInfo.doctorName}></ListItem>
                         <ListItem img="./././resources/images/pay-dept.png" txt='科室名称' name={orderInfo.deptName}></ListItem>
                         <ListItem img="./././resources/images/pay-type.png" txt='业务类型' name={orderInfo.typeName}></ListItem>
                         </div>
@@ -457,7 +457,7 @@ class Widget extends Component {
                 {this.props.location.query.source=="check"&&!!checkDetail&&!!checkDetail.doctorName&&<div className="mm-list">
                     <div className="content">
                         <div className="list">
-                        <ListItem img="./././resources/images/pay-doctor.png" txt='医生姓名' name={checkDetail.doctorName}></ListItem>
+                        <ListItem img="./././resources/images/pay-doctor.png" txt={this.props.location.query.type=='2'?'护士姓名':'医生姓名'} name={checkDetail.doctorName}></ListItem>
                         <ListItem img="./././resources/images/pay-dept.png" txt='科室名称' name={checkDetail.deptName}></ListItem>
                         <ListItem img="./././resources/images/pay-patient.png" txt='就诊人' name={checkDetail.patientName}></ListItem>
                         <ListItem img="./././resources/images/pay-card.png" txt='就诊卡号' name={checkDetail.patCardNo}></ListItem>

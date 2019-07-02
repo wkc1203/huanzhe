@@ -197,25 +197,32 @@ class Widget extends Component {
     }
      getDocList(deptId = '') {
         Api
-            .getInfo({numPerPage: 10, deptId, vagueName: '',pageNum:1 })
-            .then((res) => {
+        .getInfo({numPerPage: 10, deptId, vagueName: '',pageNum:1,type:'1' })
+        .then((res) => {
                 this.setState({
                     show:true,
                 })
                  if(res.code==0&&res.data!=null){
                      
                      var docList=[];
-                     if(res.data.doctors.length>=5){
+                     var data=[];
+                      for(var i=0;i<res.data.doctors.length;i++){
+                          if(res.data.doctors[i].type=='1'){
+                              data.push(res.data.doctors[i])
+                          }
+                      }
+                     if(data.length>=5){
                         for(var i=0;i<5;i++){
-                            docList.push(res.data.doctors[i]);
+
+                            docList.push(data[i]);
                         }
                         this.setState({
                             docList:docList,
                             doc:true,
                         });
                      }else{
-                        for(var i=0;i<res.data.doctors.length-1;i++){
-                            docList.push(res.data.doctors[i]);
+                        for(var i=0;i<data.length-1;i++){
+                            docList.push(data[i]);
                         }
                         this.setState({
                             docList:docList,
@@ -316,8 +323,13 @@ class Widget extends Component {
                       <div className='text2'>合理用药问药师</div>
                 </div>
                 <div className="d-tab" onClick={()=>{
-                this.switchOpen(1)
-                }}>
+                    /* Utils.sum('index_inquiry_img',2);
+                    this.context.router.push({
+                        pathname: '/consult/alldeptlist',
+                        query:{type:2}
+                    })  */       
+                    this.switchOpen(1) 
+                       }}>
                         <div className="icon">
                         <img
                             src="./././resources/images/index-nurse.png"
