@@ -9,7 +9,7 @@ export const getCardList1 = (param) =>  fetch.post('/api/ehis/user/personal/getP
 export const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/getJsApiConfig', param);
 
 export const getOpenId = (param) => fetch.post('/api/ehis/user/personal/getWxUserInfoByOpenId', param);
-
+ 
 export const sameCard = (param) =>  fetch.post('/api/ehis/user/personal/SynchronousPatients', param);
 
 export const getCode = (param) =>  fetch.post('/api/ehis/wx/qrcode/follow/list', param);
@@ -53,7 +53,7 @@ export const getDoctor = (param) => fetch.post('/api/ehis/health/api/reportInter
 export const createOrder = (param) => fetch.post('/api/ehis/health/api/inquiry/add', param);
 
 export const getOrderList = (param) => fetch.post('/api/ehis/order/getorderlist', param);
-
+ 
 export const getInspectReportDetails = param => fetch.post('/api/front/customize/getInspectReportDetails', param);
 
 export const getCheckReportDetailsOld = param => fetch.post('/api/front/customize/getCheckReportDetailsOld', param);

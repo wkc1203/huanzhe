@@ -44,10 +44,10 @@ class Widget extends Component {
             expire:'',
             reasonList: [
                 {reason: '服务态度不好', id: 1},
-                {reason: '医生回答不及时', id: 2},
+                 {reason: '医生回答不及时', id: 2},
                  {reason: '系统不稳定', id: 3},
                  {reason: '价格不合理', id: 4}, 
-                {reason: '其他', id: 5}
+                 {reason: '其他', id: 5}
             ],
             previewVisible: false,
             previewImage: '',
@@ -321,7 +321,7 @@ class Widget extends Component {
         if(this.props.location.query.type==1||this.props.location.query.type==2){
                 var     reasonList2= [
                     {reason: '服务态度不好', id: 1},
-                    {reason: '医生回答不及时', id: 2},
+                    {reason: this.props.location.query.docType==1?'医生回答不及时':'护士回答不及时', id: 2},
                     {reason: '其他', id: 5}
                 ];
                 this.setState({

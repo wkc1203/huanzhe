@@ -157,11 +157,11 @@ class Widget extends Component {
                               }) }
                                {item.type == '2'&&<div>
                                    <span>|</span>
-                                   视频问诊<span className="fee-des">￥{(item1.remune/100).toFixed(2)}元/次 </span>
+                                   视频问诊<span className="fee-des">￥{(item.remune/100).toFixed(2)}元/次 </span>
                                </div>}
                            {item.type == '3'&&<div>
                                <span>|</span>
-                               电话问诊<span className="fee-des">￥{(item1.remune/100).toFixed(2)}元/次 </span>
+                               电话问诊<span className="fee-des">￥{(item.remune/100).toFixed(2)}元/次 </span>
                        </div>}
                            </div>
                        </Link>

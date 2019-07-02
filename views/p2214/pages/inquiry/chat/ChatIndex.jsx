@@ -1740,7 +1740,7 @@ onChange = (files,file,index) => {
                                     onClick={()=>{
                                         this.context.router.push({
                                             pathname:'usercenter/complain',
-                                            query:{type:2,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId}
+                                            query:{type:2,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId,docType:docInfo.type}
                                         })
                                         }}
                                     />

@@ -180,8 +180,8 @@ class Widget extends Component {
           
         }else{
             window.localStorage.deptShow='1';
-            var type = this.props.location.query.deptId || '';
-            if (type =='') {
+            var deptId = this.props.location.query.deptId || '';
+            if (deptId =='') {
                 this.selectDept('全部科室', '',this.state.searchPage);
             } else {
                 this.setState({
@@ -317,7 +317,7 @@ class Widget extends Component {
         })
             this.showLoading();
             Api
-                .getInfo({numPerPage:10, deptId, vagueName: '',pageNum:page})
+            .getInfo({numPerPage:10, deptId, vagueName: '',pageNum:page,type:this.state.type})
                 .then((res) => {
                     this.hideLoading();
                     if (res.code == 0 && res.data != null) {
@@ -351,11 +351,17 @@ class Widget extends Component {
                         }
                         var data=[];
                         for(var i=0;i<res.data.doctors.length;i++){
+                            if(this.state.type=='2'){
+                                if(res.data.doctors[i].type=='2'){
+                                    data.push(res.data.doctors[i])
+                                }
+                             }else{
+                                if(res.data.doctors[i].type=='1'){
+                                    data.push(res.data.doctors[i])
+                                }
+                             }
                             
-                                   data.push(res.data.doctors[i])
-                              
-                           
-                       }
+                        }
                        if(this.state.searchPage==1){
                         this.setState({
                             docList:this.state.docList.concat(data) || [],
@@ -424,7 +430,7 @@ class Widget extends Component {
          }
          this.showLoading();
             Api
-            .getInfo({numPerPage:10,deptId:deptId||'', vagueName:value,pageNum:page })
+            .getInfo({numPerPage:10,deptId:deptId||'', vagueName:value,pageNum:page,type:this.state.type })
             .then((res) => {
                 if (res.code == 0 && res.data != null) {
                      this.hideLoading();
@@ -443,9 +449,17 @@ class Widget extends Component {
                 }
                 var data=[];
                         for(var i=0;i<res.data.doctors.length;i++){
-                                   data.push(res.data.doctors[i])
-                               
-                       }
+                            if(this.state.type=='2'){
+                                if(res.data.doctors[i].type=='2'){
+                                    data.push(res.data.doctors[i])
+                                }
+                             }else{
+                                if(res.data.doctors[i].type=='1'){
+                                    data.push(res.data.doctors[i])
+                                }
+                             }
+                            
+                        }
                     this.setState({
                         inquiryPage:currentPage,
                         maxinquiryPage:res.data.pageCount,
