@@ -105,7 +105,8 @@ componentWillReceiveProps (nextProps){
         }
     }
     /*获取授权信息*/
-    getAuth(ids) { this.showLoading();
+    getAuth(ids) { 
+      this.showLoading();
     Api
       .getAuth(ids)
       .then((res) => {

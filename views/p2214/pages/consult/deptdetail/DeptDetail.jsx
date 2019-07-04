@@ -169,7 +169,6 @@ class Widget extends Component {
                                 , "menuItem:share:qq", "menuItem:share:weiboApp", "menuItem:favorite", "menuItem:share:QZone",
                                 "menuItem:openWithSafari"] // 要显示的菜单项，所有menu项见附录3
                         });
-
                     });
                 }
             }, (e) => {
@@ -178,7 +177,7 @@ class Widget extends Component {
 
     /*获取医生信息*/
     getDeptDetail(doctorId, deptId) {
-        this.showLoading();
+        this.showLoading(); 
         Api
             .getDeptDetail({ doctorId: doctorId, deptId: deptId })
             .then((res) => {
