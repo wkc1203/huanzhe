@@ -33,6 +33,7 @@ import ReportInfo from '../../pages/report/reportInfo/ReportInfo';
  */
 import GetUserInfo from '../../pages/auth/getuserinfo/GetuserInfo';
 import Developing from '../../pages/auth/developing/Developing';
+import Follow from '../../pages/auth/follow/Follow';
 
 import userLogin from '../../pages/auth/login/Login';
 
@@ -230,6 +231,7 @@ class Routers extends React.Component {
             <IndexRedirect to="/auth/getuserinfo" />
             <Route path="/auth/getuserinfo" component={GetUserInfo} title='重医儿童医院咨询平台' />
             <Route path="/auth/developing" component={Developing} title='重医儿童医院咨询平台' />
+            <Route path="/auth/follow" component={Follow} title='重医儿童医院咨询平台' />
             <Route path="/auth/login" component={userLogin} title='订阅' />
 
           </Route>

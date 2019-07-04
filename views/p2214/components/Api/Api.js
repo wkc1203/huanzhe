@@ -1,5 +1,6 @@
 import fetch from '../../utils/fetch';
 import fetchs from '../../utils/fetchs';
+import fetch1 from '../../utils/fetch1';
 export const getCardList = (param) =>  fetch.post('/api/ehis/user/personal/autoSynchronousPatients', param);
 
 export const isRegister = (param) =>  fetch.post('/api/ehis/user/personal/isregistered', param);
@@ -148,6 +149,9 @@ export const cancelCollect = (param) =>  fetch.post('/api/ehis/user/favorite/can
 export const checkHasInquiry = param => fetch.post('/api/ehis/health/api/inquiry/checkHasInquiry', param);
 
 export const getAuth = param => fetchs.post('/api/ehis/user/login/authorization', param);
+
+export const getAuth1 = param => fetch1.post('/api/ehis/user/login/authorization', param);
+
 
 export const add = (param) => fetchs.post('/api/mch/user/earlyWarning/add', param);
 
