@@ -304,7 +304,7 @@ class Widget extends Component {
     }
     /*获取医生列表*/
     getDocList(deptId,page) {
-        console.log("type",deptId)
+        //alert(page)
         if(page==1){
             this.setState({
                 docList:[],

@@ -24,7 +24,7 @@
         display:none;
     }
     .modal {
-        position:absolute;
+        position: absolute;
         top:0;
         bottom:0;
         left:0;
@@ -35,6 +35,82 @@
         align-items:center;
         flex-direction:column;
         justify-content:center;
+        padding: 0 20px;
+        .back{
+            width: 31px;
+            height: 8px;
+            margin-left: 132px;
+            background: #50abca;
+            margin-top: -5px;
+        }
+        button{
+            width: 165px;
+            height: 44px;
+            border-radius: 44px;
+            background: #50abca;
+            border: 0;
+            margin-left: 64px;
+            line-height: 44px;
+            font-size: 18px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .modal-body-select{
+            width: 90% !important;
+            margin: 0 auto;
+            padding: 0px 20px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            position: absolute;
+            top: 140px;     
+        }
+        .patient-title{
+            font-weight: 600;
+            text-align: center;
+            font-size: 17px;
+            line-height: 50px;
+            height: 50px;
+        }
+        .pat-list{
+            padding-bottom:20px;
+            .pat-item{
+                margin-top: 20px;               
+               border: 1px solid #ccc;
+               border-radius: 10px
+            }
+            .active-item {    
+                background: #50abca;
+                color: white;
+            }
+            .pat-item{
+                display: flex;
+                padding:20px 0;                                               
+                .active {
+                    background: white;
+                    color: #50abca;
+                }
+                .pat-name{
+                    color: #50abca;   
+                    font-weight: 600;                
+                    margin-left: 32px;
+                    width: 50px;
+                    height: 50px;
+                    background-color: #fff;
+                    border-radius: 50%;
+                    border: 1px solid #50abca;                   
+                    text-align: center;
+                    line-height: 50px;
+                    margin-right: 10px;
+                    font-size: 13px !important; 
+                    overflow:hidden;
+                }
+                .pat-more{
+                    padding-top:7px;
+                  font-size:13px;
+                  margin-left: 11px;
+                }
+            }
+        }
         .bindTip {
             width:307px;
             height:434px;
@@ -311,7 +387,7 @@
                     width: 69px;
                     height: 69px;
                     opacity: 0;
-                    display: inline;
+                    display: inline-block;
                 position: absolute;
                     left: 0;
                 z-index: 100;

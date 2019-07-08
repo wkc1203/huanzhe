@@ -129,6 +129,8 @@ class Widget extends Component {
             cardNo:'0014492503',
             isIos:false,
             type:'1',
+            patientShow:false,
+            
         };
     }
     componentWillMount(){
@@ -412,6 +414,7 @@ class Widget extends Component {
     }
     /*获取就诊人列表*/
     getCardList() {
+        this.showLoading();
         Api
             .getCardList()
             .then((res) => {
@@ -420,22 +423,37 @@ class Widget extends Component {
                         leftBindNum: res.data.leftBindNum
                     })
                     if (res.data.cardList.length > 0) {
+
                         var cardList = res.data.cardList;
-                        cardList[0].active = true;
+                             
                             if(this.mounted){
-                            this.setState({
-                                leftBindNum: res.data.leftBindNum,
-                                cardList: cardList,
-                                patCardNo:cardList[0].patCardNo,
-                                selectName: cardList[0].patientName,
-                                selectSex: cardList[0].patientSex == 'M' ? '男' : '女',
-                                selectBirthday: cardList[0].birthday,
-                                selectPatientId: cardList[0].patientId
-                            })
+                                this.setState({
+                                    leftBindNum: res.data.leftBindNum,
+                                    cardList: cardList,
+                                })
+                            this.hideLoading();
+                            if(cardList.length>1){
+                                 this.setState({
+                                     patientShow:true
+                                 })
+                            }else{
+                                cardList[0].active=true;
+                                this.setState({
+                                    patCardNo:cardList[0].patCardNo,
+                                    selectName: cardList[0].patientName,
+                                    selectSex: cardList[0].patientSex == 'M' ? '男' : '女',
+                                    selectBirthday: cardList[0].birthday,
+                                    selectPatientId: cardList[0].patientId
+                                })
+                            }
+
                         }
+                    }else{
+                        this.hideLoading();
                     }
                 }
             }, (e) => {
+                this.hideLoading();
             });
     }
    /*获取医生信息*/
@@ -1053,7 +1071,7 @@ onChange = (files,file,index) => {
     console.log(key);
   };
     render() {
-        const {signature,codeUrl,cardShow,policy,msg,callback,OSSAccessKeyId,open1,docInfo,cardList,consultList1,consultList,imgArr,leftBindNum,
+        const {patientShow,codeUrl,cardShow,policy,msg,callback,OSSAccessKeyId,open1,docInfo,cardList,consultList1,consultList,imgArr,leftBindNum,
             selectName,isIos,sign,selectSex,selectBirthday,toptip,files,type}=this.state;
             console.log("ttype",type)
         return (
@@ -1085,6 +1103,53 @@ onChange = (files,file,index) => {
                 <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={this.state.showIOS3}>
                 你还有对当前医生的咨询未完成
                 </Dialog>
+
+                {
+                    patientShow&&<div className='modal' style={{justifyContent:'flex-end'}}
+                   >
+                    <div className='modal-body-select'
+                    style={{background:'white',width:'100%'}}
+                      >
+                      <p className='patient-title'>请选择就诊人</p>
+                      <p className='back'></p>
+                       <div className="pat-list">
+                      {cardList && cardList.map((item, index)=> {
+                        return (
+                            <div
+                                key={index}
+                                onClick={
+                                ()=>{
+                                this.changePat(item.patientId);
+                                // setTimeout(()=>{
+                                //     this.setState({
+                                //         patientShow:false
+                                //     })
+                                // },500)
+                               
+                                }}
+                                className={`pat-item ${item.active ? 'active-item' : ''}`}>
+                                 <div className={`pat-name ${item.active ? 'active' : ''}`}>
+                                   <text style={{fontSize:'10px'}}> {item.patientName}</text>
+                                </div>
+                                <div className="pat-more">
+                                   <p>{item.patientSex=='M'?'男':'女'} | {item.birthday}</p>
+                                   <p>就诊卡：{item.patCardNo}</p>
+                                </div>
+
+                            </div>
+                        )
+                    })}
+                    </div>
+                       
+                        <button onClick={()=>{
+                             this.setState({
+                                patientShow:false
+                            })
+                        }                      
+                        }>确定</button>          
+                    </div>
+                </div>
+                }
                 {cardShow && <div className='modal'
                                   onClick={(e)=>{
                     this.setState({
@@ -1129,9 +1194,10 @@ onChange = (files,file,index) => {
                         </div>
                     </div>
                 </div>
+
                 <div className="pat-box">
                     <div className="pat-title">请选择就诊人
-                        {cardList.length > 0 && <span >（{selectName} | {selectSex} | {selectBirthday}）</span>}
+                        {cardList.length > 0 &&selectBirthday!=''&& <span >（{selectName} | {selectSex} | {selectBirthday}）</span>}
                     </div>
                     <div className="item-box1">
                         {cardList && cardList.map((item, index)=> {
@@ -1156,6 +1222,7 @@ onChange = (files,file,index) => {
                         </div>}
                     </div>
                 </div>
+                
                 <div className="reason">
                     <div className="reason-title" onClick={()=>{
                         this.display()
@@ -1194,7 +1261,7 @@ onChange = (files,file,index) => {
                 
                    
                 </div>}</div>
-                <div className="describe">
+                {!patientShow&&<div className="describe">
                     <div className="edit-title">病情描述</div>
                     <div className="edit-area">
                         <textarea
@@ -1249,8 +1316,8 @@ onChange = (files,file,index) => {
                             </div>}
                         </div>
                     </div>
-                </div>
-                <div className="btn">
+                </div>}
+                {!patientShow&&<div className="btn">
                     <button className="submit-btn1"
                             onClick={
                             ()=>{
@@ -1259,7 +1326,7 @@ onChange = (files,file,index) => {
                         >
                         提交
                     </button>
-                </div>
+                </div>}
                 <div className="empty-box"></div>
             </div>
         );

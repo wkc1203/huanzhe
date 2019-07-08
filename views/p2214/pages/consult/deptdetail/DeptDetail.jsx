@@ -111,6 +111,9 @@ class Widget extends Component {
         })
         this.getDeptDetail(this.props.location.query.doctorId, this.props.location.query.deptId);
         this.getEvaluateList(1, this.props.location.query.doctorId, this.props.location.query.deptId);
+        if(window.localStorage.showTip==1){
+            this.jumpConfirminfo(1)
+        }
     }
     changeStyle() {
         this.setState({
@@ -296,6 +299,7 @@ class Widget extends Component {
     }
     /*获取用户信息*/
     getUser(remune) {
+
         Api
             .getUser()
             .then((res) => {
@@ -329,6 +333,7 @@ class Widget extends Component {
                 if (res.code == 0) {
                     if (res.msg == 'hasBind') {
                         this.hideLoading();
+                        window.localStorage.showTip=0;
                         this.getUser(remune);
                     } else {
                         var code = '';
@@ -340,15 +345,19 @@ class Widget extends Component {
                         var storage = window.localStorage;
                         //加入缓存
                         storage.isOpenId = 1;
+                        storage.showTip=1;
                         window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/" + code + "?scope=snsapi_base";
                         // return false;
                         var storage = window.localStorage;
                         //加入缓存
                         storage.url = window.location.href;
                     }
+                }else{
+                    window.localStorage.showTip=1;
                 }
             }, (e) => {
                 this.hideLoading();
+                window.localStorage.showTip=1;
             });
     }
     componentWillUnmount() {
