@@ -6201,6 +6201,107 @@
      -moz-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  padding: 0 20px;
+}
+
+.page-confirm-info .modal .back {
+  width: 31px;
+  height: 8px;
+  margin-left: 132px;
+  background: #50abca;
+  margin-top: -5px;
+}
+
+.page-confirm-info .modal button {
+  width: 165px;
+  height: 44px;
+  -webkit-border-radius: 44px;
+     -moz-border-radius: 44px;
+          border-radius: 44px;
+  background: #50abca;
+  border: 0;
+  margin-left: 64px;
+  line-height: 44px;
+  font-size: 18px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.page-confirm-info .modal .modal-body-select {
+  width: 90% !important;
+  margin: 0 auto;
+  padding: 0px 20px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+          border-radius: 10px;
+  position: absolute;
+  top: 140px;
+}
+
+.page-confirm-info .modal .patient-title {
+  font-weight: 600;
+  text-align: center;
+  font-size: 17px;
+  line-height: 50px;
+  height: 50px;
+}
+
+.page-confirm-info .modal .pat-list {
+  padding-bottom: 20px;
+}
+
+.page-confirm-info .modal .pat-list .pat-item {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+          border-radius: 10px;
+}
+
+.page-confirm-info .modal .pat-list .active-item {
+  background: #50abca;
+  color: white;
+}
+
+.page-confirm-info .modal .pat-list .pat-item {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 20px 0;
+}
+
+.page-confirm-info .modal .pat-list .pat-item .active {
+  background: white;
+  color: #50abca;
+}
+
+.page-confirm-info .modal .pat-list .pat-item .pat-name {
+  color: #50abca;
+  font-weight: 600;
+  margin-left: 32px;
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  -webkit-border-radius: 50%;
+     -moz-border-radius: 50%;
+          border-radius: 50%;
+  border: 1px solid #50abca;
+  text-align: center;
+  line-height: 50px;
+  margin-right: 10px;
+  font-size: 13px !important;
+  overflow: hidden;
+}
+
+.page-confirm-info .modal .pat-list .pat-item .pat-more {
+  padding-top: 7px;
+  font-size: 13px;
+  margin-left: 11px;
 }
 
 .page-confirm-info .modal .bindTip {
@@ -6550,7 +6651,7 @@
   width: 69px;
   height: 69px;
   opacity: 0;
-  display: inline;
+  display: inline-block;
   position: absolute;
   left: 0;
   z-index: 100;
@@ -12724,6 +12825,147 @@
   font-size: 18px;
   height: 50px;
   line-height: 50px;
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal1 {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100000;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+     -moz-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+     -moz-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.modal1 .modal-title {
+  padding: 25px 0 8px;
+  font-size: 18px;
+  color: #000000;
+  text-align: center;
+}
+
+.modal1 .modal-body-protocol {
+  text-align: left;
+  width: 75%;
+  height: auto;
+  overflow: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  background: #fff;
+  margin-left: 12%;
+  margin-top: 20%;
+}
+
+.modal1 .modal-body-protocol .modal-content-protocol {
+  padding: 0 14px 30px;
+  overflow: auto;
+  font-size: 16px;
+  color: #888888;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.modal1 .modal-body-protocol .modal-content-protocol .content-title {
+  color: #000000;
+  line-height: 24px;
+  font-size: 17px;
+  padding: 10px 0;
+}
+
+.modal1 .modal-body-protocol .modal-content-protocol .content-item {
+  padding-bottom: 10px;
+}
+
+.modal1 .modal-body-protocol .modal-content-protocol .content-end {
+  text-align: right;
+  color: #353535;
+  font-size: 17px;
+}
+
+.modal1 .modal-footer {
+  border-top: 1px solid #e9e9e9;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  top: -1%;
+  width: 75%;
+  left: 12%;
+  background-color: #fff;
+}
+
+.modal1 .modal-footer .cutdown-time {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: center;
+  color: #EB6CA4;
+  font-size: 18px;
+  height: 50px;
+  line-height: 50px;
+  width: 100%;
+}
+
+.modal1 .modal-footer > span {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+     -moz-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: center;
+  color: #000000;
+  font-size: 18px;
+  height: 50px;
+  line-height: 50px;
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal1 .modal-footer > span:last-child {
+  border-left: 1px solid #d2d2d2;
+  color: #4FABCA;
+}
+
+.modal1 .modal-footer > a {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+     -moz-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: center;
+  font-size: 18px;
+  height: 50px;
+  line-height: 50px;
+  border-left: 1px solid #d2d2d2;
+  color: #4FABCA;
   width: auto;
   overflow: hidden;
   text-overflow: ellipsis;

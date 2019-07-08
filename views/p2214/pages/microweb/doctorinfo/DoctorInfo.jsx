@@ -13,6 +13,10 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      leftTime: 7,
+      totalFee:'0',
+      footShow:false,
+      isShowProtocol:false,
       doctor:[],
       isFavorite: false,
       doctorId:'',
@@ -59,6 +63,10 @@ class Widget extends Component {
        Utils.getJsByHide();
     var doctorId=this.props.location.query.doctorId;
     this.getDoctorInfo({doctorId:doctorId});
+
+    if(window.localStorage.showTip==1){
+      this.jumpConfirminfo(1)
+  }
   }
   componentWillUnmount() {
     // 离开页面时结束所有可能异步逻辑
@@ -70,6 +78,93 @@ class Widget extends Component {
         this.setState({showToast: false});
     }, 2000);
 }
+//倒计时
+clock() {
+  this.clockTimer = setTimeout(() => {
+      var leftTime = this.state.leftTime;
+      --leftTime;
+      if (leftTime <= 0) {
+          this.setState({
+              footShow: true
+          })
+          clearTimeout(this.clockTimer);
+      } else {
+          this.setState({
+              leftTime: leftTime
+          })
+          this.clock();
+      }
+  }, 1000);
+}
+
+//获取用户信息
+getUser(remune) {
+  Api
+      .getUser()
+      .then((res) => {
+          if (res.code == 0) {
+              this.setState({
+                  userInfo: res.data,
+                  userId: res.data.id
+              })
+              var storage = window.localStorage;
+              //加入缓存
+              storage.userInfo = JSON.stringify(res.data);
+              this.setState({
+                  isShowProtocol: true,
+                  totalFee: remune
+              });
+              this.clock();
+          }
+      }, (e) => {
+      });
+}
+
+//进入新建资讯页面
+jumpConfirminfo(remune) {
+  this.showLoading();
+  Api
+      .isRegister()
+      .then((res) => {
+          if (res.code == 0) {
+              if (res.msg == 'hasBind') {
+                  this.hideLoading();
+                  window.localStorage.showTip=0;
+                  this.getUser(remune);
+              } else {
+                  var code = '';
+                  if (window.location.origin == 'https://tih.cqkqinfo.com') {
+                      code = 'ff80808165b465600168276e19d200e6';
+                  } else {
+                      code = 'ff80808165b46560016827701f7e00e7';
+                  }
+                  var storage = window.localStorage;
+                  //加入缓存
+                  storage.isOpenId = 1;
+                  storage.showTip=1;
+                  window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/" + code + "?scope=snsapi_base";
+                  // return false;
+                  var storage = window.localStorage;
+                  //加入缓存
+                  storage.url = window.location.href;
+              }
+          }else{
+              window.localStorage.showTip=1;
+          }
+      }, (e) => {
+          this.hideLoading();
+          window.localStorage.showTip=1;
+      });
+}
+
+
+/*关闭须知*/
+cancelModal() {
+  this.setState({
+      isShowProtocol: false,
+      footShow: false
+  })}
+
    getDoctorInfo(param) {
     Api
         .getDoctorInfo(param)
@@ -122,13 +217,9 @@ class Widget extends Component {
                });
        }
   }
-  switchTip(flag){
-     this.setState({
-       isShowTip:flag == '1'
-     })
-  }
+
   render() {
-    const {doctor,isFavorite,isShowTip,doctorInquirys,msg,toastTitle}=this.state;
+    const {doctor,isFavorite,totalFee,leftTime,isShowTip,doctorInquirys,msg,toastTitle,isShowProtocol,footShow}=this.state;
       return (
         <div className="di-page">
             <div className="home">
@@ -163,12 +254,13 @@ class Widget extends Component {
              <div className="m-oper">
                 {!!doctor&&doctorInquirys.map((item,index)=>{
                   return(
-                      <div key={index} className={`${item.type=='1'?'':'disNo'}`}>
-                        {item.type == '1' && item.isOnDuty == '1'&&<Link className="oper-item active"
-                              to={{
-                                pathname:'consult/confirminfo',
-                                query:{doctorId:doctor.doctorId,deptId:doctor.deptId,totalFee:item.remune,com:1},
-                              }}>
+                      <div key={index} className={`${item.type=='1'?'':'disNo'}`} 
+                      onClick={()=>{
+                        this.jumpConfirminfo(item.remune)
+                      }}
+                      >
+                        
+                        {item.type == '1' && item.isOnDuty == '1'&&<Link className="oper-item active">
                           <div>
                             <img src="../../../resources/images/inquiry-bg.png" />
                           </div>
@@ -230,6 +322,35 @@ class Widget extends Component {
             </div>
           </div>
           }
+
+           {isShowProtocol && <div className='modal1'>
+                    <div className='modal-body-protocol'>
+                        <div className='modal-title'>温馨提示</div>
+                        <div className='modal-content-protocol'>
+                            <div className="content">
+                                <div className="content-item">您即将向{doctor.name}医生进行图文咨询，
+                                试运行期间<span
+                                        className="f-color-red">咨询费{(totalFee / 100).toFixed(2)}元/次，每次咨询可追问4个问题，若医生回复咨询，有效期为48小时</span>。
+                                若医生未在24小时内回复您的咨询，系统将自动关闭本次咨询并自动为您退款，因医生回复咨询需一定的时间，<span className="f-color-red">如需急诊的患者，请自行前往医院就诊。</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {footShow && <div className='modal-footer'>
+                        <span onClick={() => {
+                            this.cancelModal()
+                        }}>取消</span>
+                        <Link
+                            to={{
+                                pathname: 'consult/confirminfo',
+                                query:{doctorId:doctor.doctorId,deptId:doctor.deptId,totalFee:totalFee,com:1},
+                            }}
+                        >确认</Link>
+                    </div>}
+                    {!footShow && <div className='modal-footer'>
+                        <div className="cutdown-time">请阅读{leftTime}s</div>
+                    </div>}
+                </div>}
           </div>
     );
   }

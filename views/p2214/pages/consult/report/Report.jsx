@@ -645,31 +645,51 @@ class Widget extends Component {
     }
     /*获取就诊人列表*/
     getCardList() {
+        this.showLoading();
         Api
             .getCardList()
             .then((res) => {
                 if (res.code == 0) {
+                    this.hideLoading();
                     this.setState({
                         leftBindNum: res.data.leftBindNum
                     })
                     if (res.data.cardList.length > 0) {
                         var cardList = res.data.cardList;
-                        cardList[0].active = true;
+                     
                             if(this.mounted){
                             this.setState({
                                 leftBindNum: res.data.leftBindNum,
                                 cardList: cardList,
-                                patCardNo:cardList[0].patCardNo,
-                                selectName: cardList[0].patientName,
-                                selectSex: cardList[0].patientSex == 'M' ? '男' : '女',
-                                selectBirthday: cardList[0].birthday,
-                                selectPatientId: cardList[0].patientId
+                                
                             })
-                            this.getreportList(this.state.selectPatientId);
+
+                            if(cardList.length>1){
+                                this.setState({
+                                    patientShow:true
+                                })
+                               
+                           }else{
+                               cardList[0].active=true;
+                               this.setState({
+                                   patCardNo:cardList[0].patCardNo,
+                                   selectName: cardList[0].patientName,
+                                   selectSex: cardList[0].patientSex == 'M' ? '男' : '女',
+                                   selectBirthday: cardList[0].birthday,
+                                   selectPatientId: cardList[0].patientId
+                               })
+                               this.getreportList(this.state.selectPatientId);
+                           }                       
+
                         }
+                    }else{
+                        this.hideLoading();
                     }
+                }else{
+                    this.hideLoading();
                 }
             }, (e) => {
+                this.hideLoading();
             });
     }
    /*获取医生信息*/
@@ -1275,7 +1295,7 @@ add(){
     console.log(key);
   };
     render() {
-        const {report,apply,codeUrl,cardShow,policy,msg,callback,OSSAccessKeyId,open1,docInfo,cardList,consultList,imgArr,leftBindNum,
+        const {report,apply,codeUrl,cardShow,patientShow,msg,callback,OSSAccessKeyId,open1,docInfo,cardList,consultList,imgArr,leftBindNum,
             selectName,isIos,sign,selectSex,selectBirthday,toptip,files,reportInfo,hasApply}=this.state;
         return (
             <div className="page-confirm-info">
@@ -1311,6 +1331,52 @@ add(){
                 <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={this.state.showIOS3}>
                 你还有对当前医生的咨询未完成
                 </Dialog>
+                {
+                    patientShow&&<div className='modal' style={{justifyContent:'flex-end'}}
+                   >
+                    <div className='modal-body-select'
+                    style={{background:'white',width:'100%'}}
+                      >
+                      <p className='patient-title'>请选择就诊人</p>
+                      <p className='back'></p>
+                       <div className="pat-list">
+                      {cardList && cardList.map((item, index)=> {
+                        return (
+                            <div
+                                key={index}
+                                onClick={
+                                ()=>{
+                                this.changePat(item.patientId);
+                                // setTimeout(()=>{
+                                //     this.setState({
+                                //         patientShow:false
+                                //     })
+                                // },500)
+                               
+                                }}
+                                className={`pat-item ${item.active ? 'active-item' : ''}`}>
+                                 <div className={`pat-name ${item.active ? 'active' : ''}`}>
+                                   <text style={{fontSize:'10px'}}> {item.patientName}</text>
+                                </div>
+                                <div className="pat-more">
+                                   <p>{item.patientSex=='M'?'男':'女'} | {item.birthday}</p>
+                                   <p>就诊卡：{item.patCardNo}</p>
+                                </div>
+
+                            </div>
+                        )
+                    })}
+                    </div>
+                       
+                        <button onClick={()=>{
+                             this.setState({
+                                patientShow:false
+                            })
+                        }                      
+                        }>确定</button>          
+                    </div>
+                </div>
+                }
                 {cardShow && <div className='modal'
                                   onClick={(e)=>{
                     this.setState({
@@ -1383,7 +1449,7 @@ add(){
                     </div>
                 </div>
                 {
-                    !report&&<div className='report'>
+                    !patientShow&&!report&&<div className='report'>
                         <p className='rule'>规则说明</p>
                         <div>
                         <p>1、免费报告解读仅限于在本院（渝中本部和礼嘉分院）完成的检验检查项目。</p>
@@ -1396,7 +1462,7 @@ add(){
                         </div>
                     </div>
                 }
-                {report&&<div className="describe">
+                {!patientShow&&report&&<div className="describe">
                     <div className="edit-title">病情描述</div>
                     <div className="edit-area">
                         <textarea
