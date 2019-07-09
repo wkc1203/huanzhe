@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.p-page{
+    background-color: #fff;
+}
+
+.m-deptinfo{
+    padding: 8px 25px 15px;
+}
+
+.m-deptname{
+    font-size: 20px;
+    color: $hc-color-title;
+    font-weight: bold;
+    padding: 20px 0;
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0 25px;
+    text-align: center;
+}
+
+.m-lr-line{
+    display: flex;
+    padding-top: 13px;
+    font-size: 15px;
+
+    .line-lt{
+        color: $hc-color-text;
+        padding-right: 15px;
+    }
+    .line-rt{
+        flex: 1;
+        color: $hc-color-title;
+    }
+}
+
+.m-blockinfo{
+    padding: 15px 0;
+}
+.m-title {
+    font-size: 15px;
+    color: $hc-color-text;
+    padding-bottom: 5px;
+}
+.m-summary {
+    font-size: 15px;
+    color: $hc-color-text;
+    line-height: 24px;
+}
+.no-data {
+    text-align: center;
+    padding-top: 100px;
+    font-size: 16px;
+    color: $hc-color-text;
+}
+.no-data img {
+    width: 125px;
+    height: 125px;
+    margin-bottom: 25px;
+}

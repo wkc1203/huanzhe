@@ -1,0 +1,64 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.page-add-detail {
+    .weui-icon-waiting {
+        font-size: 23px;
+        color: white;
+    }
+    .weui-icon-success,.weui-icon-wating,.weui-icon-info {
+        font-size: 30px;
+        color: white;
+        ::before{
+            display: inline-block;
+             margin-left: 0;
+            margin-right: .2em;
+        }
+    }
+    .main {
+        background:white;
+        div {
+            height: 44px;
+            line-height: 44px;
+            width: auto;
+            margin: 0 10px;
+            text-align: left;
+            font-size: 14px;
+            color: #333;
+            display:flex;
+            border-bottom: 1px solid #f2f2f2;
+            position:relative;
+            padding-left:30px;
+            img{
+                width:18px;
+                height:18px;
+                position:absolute;
+                top:12px;
+                left:0;
+            }
+            span {
+                flex:0.5;
+                color:#666;
+
+            }
+            span:last-child{
+                flex:2;
+                color:#333;
+                text-align: right;
+            }
+
+        }
+        }
+        .confirm {
+            margin-top:10px;
+            img {
+
+                margin-left:10px;
+                width: 355px;
+                height: 35px;
+
+            }
+
+        }
+}
