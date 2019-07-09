@@ -3,7 +3,7 @@
 /output
 /dist
 dist
-/views
+
 .DS_Store
 /.idea
 /.history
