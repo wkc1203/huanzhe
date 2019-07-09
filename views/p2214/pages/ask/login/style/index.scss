@@ -1,0 +1,297 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+
+.page-ask {
+    background: #f2f2f2;
+    height: auto;
+
+    .submit-btn{
+        padding: 20px 10px;
+        p{
+            height:49px;
+            line-height: 49px;
+            text-align: center;
+            background: #4cabcf;
+            color:white;
+            font-size:18px;
+            border-radius: 10px;
+
+        }
+    }
+    .header {
+        width: 100%;
+        height: 138px;
+        img {
+            height: 138px;
+            width: 100%;
+        }
+    }
+    ::-webkit-scrollbar {
+
+        display:none
+    }
+    .content {
+        position: relative;
+        top: -31px;
+        border-radius: 10px;
+        padding: 10px 0;
+        margin: 0 10px;
+        background: white;
+        .patInfo{
+            width:auto;
+            padding-bottom:40px;
+            height:auto;
+            .pat-item{
+                margin-bottom:6px;
+                height: 44px;
+                display:flex;
+                position:relative;
+              
+                img{
+                    width:11px;
+                    position: absolute;
+                    height:13px;
+                    top:15px;
+
+                }
+                .card{
+
+                    width: 15px;
+                    height: 11px;
+                    top: 17px;
+                }
+                .phone{
+                    width: 11px;
+                    height: 15px;
+                    top: 13px;
+                }
+                .validate{
+                    width:14px;
+                    height:14px;
+                    top:15px;
+                }
+
+                span{
+
+                    flex: 0.7;
+                    line-height: 44px;
+                    display: block;
+                    font-size: 16px;
+                    text-align: right;
+                    color: #333;
+                }
+                input{
+                    flex:2;
+                    margin-left:8px;
+                    width:255px;
+                    text-align: left;
+                    background:#f2f2f2;
+                    border-radius:10px;
+                    border:none;
+
+                }
+                button{
+                    border:none;
+                    border-radius:10px;
+                    height:44px;
+                    width:88px;
+                    line-height: 44px;
+                    text-align: center;
+                    font-size:13px;
+                    background:#4cabcf;
+                    font-weight:bold;
+                    color:white;
+                    margin-left:5px;
+
+                }
+            }
+        }
+        .add_success1{
+            height:auto;
+            width:auto;
+            padding: 0 10px;
+            img{
+                width: 95px;
+                height: 92px;
+                padding-top: 95px;
+                line-height: 92px;
+                margin: 0 auto;
+                display: block;
+                text-align: center;
+            }
+            .tit1{
+                height: 30px;
+                color: #4cabcf;
+                font-size: 13px;
+                margin: -10px;
+                line-height: 30px;
+                text-align: center;
+            }
+            .tit{
+                padding: 0 60px 80px;
+                margin-top: 10px;
+                height: 30px;
+                color: #666;
+                font-size: 13px;
+                text-align: center;
+                line-height: 20px;
+            }
+           
+
+        }
+        .add_success{
+            height:auto;
+            width:auto;
+            padding: 0 10px;
+            .tit{
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                font-size: 12px;
+                color: #333;
+            }
+            .code{
+                height:110px;
+                margin-top:43px;
+            }
+
+        }
+        .select_pateint{
+            height:auto;
+            width:auto;
+            padding: 0 10px;
+            .tit{
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                font-size: 15px;
+                color: #333;
+                span{
+                    position: absolute;
+                    top: 25px;
+                    display: block;
+                   
+                    width: 27px;
+                    border-bottom: 1px solid #999;
+                }
+                .left{
+                    left: 75px;
+                }
+                .right{
+                    right: 75px;
+                }
+                .left1{
+                    left: 60px;
+                }
+                .right1{
+                    right: 60px;
+                }
+
+            }
+            .patient_info{
+                padding-bottom: 13px;
+                padding-top: 13px;
+                font-size: 15px;
+                border-bottom: 1px solid #ccc;
+                position: relative;
+                img{
+                    position: absolute;
+                    right: 0;
+                    bottom: 50px;
+                    width: 19px;
+                    height: 19px;
+                }
+                p{
+                    height: 30px;
+                    color: #666;
+                    line-height: 30px;
+                    .time{
+                        margin-right: 28px;
+                        color: #666;                       
+                    }                  
+                    span{
+                        color: #333;
+                    }
+                }
+            }
+            .patient_info:nth-last-of-type(1){
+                border-bottom: 0 !important;
+            }
+            .patient-tab{
+                height: auto;
+                width: 100%;
+                .second-tab{
+                    background: #f2f2f2;
+                    height: 62px !important;
+                    border-radius: 10px;
+                    color: #999;
+                    div{
+                        color:#999 !important;
+                    }
+                }
+                .tab{
+                    width: 100%;
+                    z-index: 30;
+                    position: relative;
+                    height: 84px;
+                    .pateint_bg{
+                        width: 100%;
+                        display: inline-block;
+                        z-index: 1;
+                        position: absolute;
+                        top: 0;
+                        height: 82px;
+                    }
+                    .pateint_select{
+                        position: absolute;
+                        width: 17px;
+                        height: 17px;
+                        z-index: 100;
+                        bottom: 45px; 
+                        right: 5px;
+                    }
+                    
+                    .selected{
+                        position: absolute;
+                        z-index: 10;
+                        font-size: 15px;
+                        padding-left: 35px;
+                        width:auto;
+                        color: white;
+                        height: 30px;
+                        line-height: 35px;
+
+                        img{
+                            width: 11px;
+                            height: 13px;
+                            position: absolute;
+                            top: 11px;
+                            left: 15px;
+                        }
+                    }
+                    .no-select{
+                        top: 30px;
+                        height: 30px;
+                        line-height: 25px;
+                        position: absolute;
+                        z-index: 10;
+                        font-size: 15px;
+                        padding-left: 35px;
+                        width:auto;
+                        color: white;
+                        img{
+                            top: 8px;
+                            height: 11px;
+                            position:absolute;
+                            left: 13px;
+                            width: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+       
+}

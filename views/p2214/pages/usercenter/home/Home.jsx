@@ -116,6 +116,7 @@ class Widget extends Component {
           this.showLoading();
       }
      this.isRegistered();
+  
      
       
   }

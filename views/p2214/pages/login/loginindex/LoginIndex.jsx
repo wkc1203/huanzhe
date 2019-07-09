@@ -14,6 +14,7 @@ class Widget extends Component {
     };
     constructor(props) {
         super(props);
+        window.resetChoose=this.resetChoose.bind(this)
         this.state = {
             hospInfo: {},
             showToast: false,
@@ -63,10 +64,24 @@ class Widget extends Component {
         };
     }
    componentWillMount(){
+      
+   }
+   resetChoose(){
+       console.log("122");
    }
     componentDidMount() {  
         if(!!window.localStorage.openId){
             Utils.sum('register',1);
+       
+            var lastURL=document.URL;
+	window.addEventListener("hashchange",function(event){
+		Object.defineProperty(event,"oldURL",{enumerable:true,configurable:true,value:lastURL});
+		Object.defineProperty(event,"newURL",{enumerable:true,configurable:true,value:"https://"+window.location.host+"/views/p2214/#/home/index?_k=bkxnk2"});
+        lastURL=document.URL;
+
+        console.log(event);
+	});
+
          }else{
              var code='';
             if(window.location.origin=='https://tih.cqkqinfo.com'){
@@ -86,11 +101,19 @@ class Widget extends Component {
                  storage.url=window.location.href;            
          }
          //隐藏分享等按钮
+
           Utils.getJsByHide();
-            window.addEventListener("popstate", function(e) {
-                window.localStorage.back=1;
-          }, false);
+         
+           
     }
+     pushHistory() {
+        var state = {
+        title: "title",
+        url: "#/login/loginindex"
+        };
+        window.history.pushState(state, "title", "#/login/loginindex");
+        console.log("wein",window.history)
+        }
     showToast() {
         this.setState({showToast: true});
         this.state.toastTimer = setTimeout(()=> {
