@@ -111,6 +111,8 @@ class Widget extends Component {
         phone:'',//手机号
         phoneShow:false,
         inDate:'',
+        isSend:true,
+        isSubmit:true,
     }
   }
    /*获取用户信息*/
@@ -153,6 +155,7 @@ hideDialog() {
   componentDidMount() {
       this.getCardList();
       this.getUser();
+      window.localStorage.report_register='1';
      
     if(!window.localStorage.login_access_token){
         var code;
@@ -350,7 +353,8 @@ hideDialog() {
          Api
              .getCardList()
              .then((res) => {
-                  if(res.code==0){
+                this.hideLoading();
+                  if(res.code==0&&res.data.cardList.length>0){
                       var cardList=res.data.cardList;
                       for(var i=0;i<cardList.length;i++){
                           if(i==0){
@@ -364,7 +368,7 @@ hideDialog() {
                             cardList[i].active=false;
                           }
                       }
-                      console.log(cardList)
+                      console.log("ew",cardList)
                       this.hideLoading();
                       this.getreportList(cardList[0].patientId);
                       this.setState({
@@ -395,7 +399,7 @@ hideDialog() {
          //390
          var report;   
          Api
-             .getreportList({patientId:patientId,source:!!this.props.location.source?this.props.location.source:''})
+             .getreportList({patientId:patientId,source:!!this.props.location.query.source?this.props.location.query.source:''})
              .then((res) => {
                  if (res.code == 0) {
                       this.hideLoading();
@@ -499,10 +503,16 @@ hideDialog() {
         if(this.state.validatePass){
            
             this.showLoading();
+            this.setState({
+                isSubmit:false
+            })
             Api
             .validate({type:'check',validateCode:this.state.validatePass})
             .then((res) => {
                 this.hideLoading();
+                this.setState({
+                    isSubmit:true
+                })
                 if (res.code == 0) {  
                    //成功 跳转
                     this.setState({
@@ -519,6 +529,9 @@ hideDialog() {
                 }
             }, (e) => {
                 this.hideLoading();
+                this.setState({
+                    isSubmit:true
+                })
                 this.setState({
                     msg:e.msg,
                 })
@@ -587,34 +600,64 @@ hideDialog() {
     }
      //获取验证码
      getValidate() {
+          
         if (this.state.phone) {
             this.showLoading();
+            this.setState({
+                isSend:false
+            })
             Api
             .getMsgValidate({type:'check',phone: this.state.phone})
             .then((res) => {
                 this.hideLoading();
+                this.setState({
+                    isSend:true
+                })
                 if (res.code == 0) {
                     this.setState({
                         isSendValidate: true,
+                      
                     })
                     this.setState({
                         leftTime:120,
                     })
                     this.clock();
                 }else{
-                    this.hideLoading();
-                     
-                    this.setState({
-                        msg:res.msg,
-                    })
-                    this.showToast1();
+                    if(!!res.data){
+                        this.setState({
+                            isSendValidate: true,
+                        })
+                        this.setState({
+                            leftTime:res.data,
+                        })
+                        this.clock();
+                     }else{
+                        this.setState({
+                            msg:res.msg,
+                        })
+                        this.showToast1();
+                     }
                 }
             }, (e) => {
                      this.hideLoading();
                      this.setState({
-                        msg:e.msg,
+                        isSend:true
                     })
-                    this.showToast1();
+                     if(!!e.data){
+                        this.setState({
+                            isSendValidate: true,
+                        })
+                        this.setState({
+                            leftTime:e.data,
+                        })
+                        this.clock();
+                     }else{
+                        this.setState({
+                            msg:e.msg,
+                        })
+                        this.showToast1();
+                     }
+                    
             });
         }
     }
@@ -670,7 +713,7 @@ hideDialog() {
         }, 1000);
     }
   render() {
-    const {patList,currentName,reportList,validatePass ,leftTime,isSendValidate ,phoneShow,isShowProtocol,mobile,userInfo,currentPatient,msg,timeout}=this.state
+    const {patList,currentName,isSend,isSubmit,reportList,validatePass ,leftTime,isSendValidate ,phoneShow,isShowProtocol,mobile,userInfo,currentPatient,msg,timeout}=this.state
     console.log(reportList)
     return ( 
     <div className="container page-report-list">
@@ -727,7 +770,10 @@ hideDialog() {
                           value={validatePass}/> <p></p>
                          {!isSendValidate &&<span
                             onClick={(e)=>{
-                                this.getValidate(e)
+                                 if(isSend){
+                                    this.getValidate(e)
+                                 }
+                                
                                 }}
                             >获取验证码</span>}
                             {isSendValidate && <span >
@@ -736,7 +782,10 @@ hideDialog() {
                        </div>
                       <div className='submitBtn '>
                          <p onClick={(e)=>{
-                             this.checkPassword(e)
+                             if(isSubmit){
+                                this.checkPassword(e)
+                             }
+                             
                          }} className={`${validatePass.length!==6?'grey':''}`}>确定</p>
                       </div>
                     </div>
@@ -935,6 +984,11 @@ hideDialog() {
         })}   
         </div>
         {reportList&&reportList.length<=0&&reportList!='1'&&
+            <div  className='no-data'>
+              <img src='../../../resources/images/no-result.png'/>
+              <div>暂未查询到相关信息</div>
+            </div>}
+            {patList&&patList.length<=0&&patList!='1'&&
             <div  className='no-data'>
               <img src='../../../resources/images/no-result.png'/>
               <div>暂未查询到相关信息</div>

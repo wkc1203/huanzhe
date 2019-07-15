@@ -355,17 +355,37 @@ getCardList() {
                     this.clock();
                 }else{
                     this.hideLoading();
-                      this.setState({
-                          msg:e.msg,
-                          showIOS1: true
-                    })
+                    if(!!res.data){
+                        this.setState({
+                            isSendValidate: true,
+                        })
+                        this.setState({
+                            leftTime:res.data,
+                        })
+                        this.clock();
+                     }else{
+                        this.setState({
+                            msg:res.msg,
+                            showIOS1: true
+                        })
+                     }
                 }
             }, (e) => {
                      this.hideLoading();
-                      this.setState({
-                          msg:e.msg,
-                          showIOS1: true
-                    })
+                     if(!!e.data){
+                        this.setState({
+                            isSendValidate: true,
+                        })
+                        this.setState({
+                            leftTime:e.data,
+                        })
+                        this.clock();
+                     }else{
+                        this.setState({
+                            msg:e.msg,
+                            showIOS1: true
+                        })
+                     }
             });
         }
     }
