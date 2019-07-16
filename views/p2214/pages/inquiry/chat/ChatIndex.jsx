@@ -1714,7 +1714,7 @@ onChange = (files,file,index) => {
                              
                               
                                 
-                                 {!isIos&&<div  className='img'>
+                                 {<div  className='img'>
                                      <input type="file" id="file"  onChange={(e) => {           
                                                 this.onChange(e.target.files,e.target.files[0],0)
                                             }} accept="image/*" />
@@ -1725,13 +1725,13 @@ onChange = (files,file,index) => {
                                             
                                
                                
-                                            {isIos&&<div  className='img' onClick={(e)=>{
+                                            {/* isIos&&<div  className='img' onClick={(e)=>{
                                                        this.choose(this.state.sign)
                                                     }}> 
                                                 
     
                                                     <img  src='./././resources/images/plusImg.png'/>
-                                           </div>}
+                                           </div> */}
                                  <p className='text'>图片</p>
                             </div> 
                             <div className='allow'>

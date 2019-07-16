@@ -1475,20 +1475,20 @@ add(){
                             <div className='img-box'
                                 >
                                 <div className="img-item">
-                                {!isIos&&
+                                {
                                  <input type="file" id="file"  onChange={(e) => {           
                                             this.onChange(e.target.files,e.target.files[0],0)
                                         }} accept="image/*" />
                                         } 
-                            {!isIos&&<img src="../../../resources/images/add-img.png"/> }
+                            {<img src="../../../resources/images/add-img.png"/> }
                            
-                                        {isIos&&<div onClick={(e)=>{
+                                        {/* isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                 }}> 
                                             
 
                                             <img src="../../../resources/images/add-img.png"/>
-                                       </div>}
+                                       </div> */}
 
                                 </div>
                             </div>

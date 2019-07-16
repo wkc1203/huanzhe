@@ -124,7 +124,18 @@ class Widget extends Component {
         this.setState({showToast1: true});
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast1: false});
-               this.context.router.goBack();
+              
+                if(window.localStorage.report_register=='1'){
+                   window.localStorage.report_register=='0';
+                   this.context.router.push({
+                       pathname:'usercenter/home',
+                   })
+                   
+                }else{
+                   this.context.router.goBack();
+                }
+               
+     
         }, 1000);
     }
     getHospIntro() {
@@ -299,6 +310,21 @@ class Widget extends Component {
                         leftTime:120,
                     })
                     this.clock();
+                }else{
+                    if(!!res.data){
+                        this.setState({
+                            isSendValidate: true,
+                        })
+                        this.setState({
+                            leftTime:res.data,
+                        })
+                        this.clock();
+                     }else{
+                        this.setState({
+                            msg:res.msg,
+                            showIOS1: true
+                        })
+                     }
                 }
             }, (e) => {
                 if(e.code!=990&&e.code!=999){
@@ -306,6 +332,22 @@ class Widget extends Component {
                           msg:e.msg,
                           showIOS1: true
                       })
+                }else{
+                    if(!!e.data){
+                        this.setState({
+                            isSendValidate: true,
+                        })
+                        this.setState({
+                            leftTime:e.data,
+                        })
+                        this.clock();
+                     }else{
+                        this.setState({
+                            msg:e.msg,
+                            showIOS1: true
+                        })
+                     }
+
                 }
             });
     }
@@ -360,11 +402,22 @@ class Widget extends Component {
                 if (res.code == 0) {
                     this.hideLoading();
                     if(res.userType=='old'){
-                        this.showToast1();                                            
+                        this.showToast1();    
+                                 
+
                     }else{
                         this.showToast();
                         setTimeout(()=> {
-                            this.context.router.goBack();
+                             if(window.localStorage.report_register=='1'){
+                                window.localStorage.report_register=='0';
+                                this.context.router.push({
+                                    pathname:'usercenter/home',
+                                })
+                                
+                             }else{
+                                this.context.router.goBack();
+                             }
+                            
                         }, 1000);
                     }                  
                 } else if (res.code == 995) {
