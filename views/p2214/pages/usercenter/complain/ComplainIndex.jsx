@@ -90,6 +90,7 @@ class Widget extends Component {
             msg:'',
             files:[],
             isIos:false,
+            isSub:true,
         };
     }
     S4() {
@@ -180,13 +181,16 @@ class Widget extends Component {
     }
     /*提交*/
     complain(param) {
+        this.setState({
+            isSub:false
+        })
         Api
             .complain(param)
             .then((res) => {
                 if(res.code==0){
                     Utils.showToast.bind(this);
                     this.setState({
-                        msg:'提交成功'
+                        msg:'提交成功',
                     })
                     setTimeout(() => {
                             this.context.router.goBack();
@@ -195,7 +199,8 @@ class Widget extends Component {
             }, (e) => {
                 this.setState({
                     msg:e.msg,
-                    showIOS1:true
+                    showIOS1:true,
+                    isSub:true
                 })
             });
     }
@@ -658,7 +663,7 @@ isHasImg(url){
     console.log(key);
   };
     render() {
-        const {toptip,imgArr,reasonList,files,isIos}=this.state
+        const {toptip,imgArr,reasonList,isSub,isIos}=this.state
         const { msg} = this.state;
         return (
             <div className="page-complain">
@@ -711,17 +716,17 @@ isHasImg(url){
                     <div className='img-choose-box'>
                         <div className='img-box3'>
                             <div className="img-item">
-                            {!isIos&&
+                            {
                                  <input type="file" id="file"   onChange={(e) => {  
                                            this.onChange(e.target.files,e.target.files[0],0)
                                         }} accept="image/*" />
                                         } 
-                            {!isIos&&<img src="../../../resources/images/add-img.png"/> }
-                                        {isIos&&<div onClick={(e)=>{
+                            {<img src="../../../resources/images/add-img.png"/> }
+                                        {/* isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                 }}> 
                                             <img src="../../../resources/images/add-img.png"/>
-                                       </div>}
+                                       </div> */}
                                 </div>  
                             </div>
                        
@@ -746,13 +751,13 @@ isHasImg(url){
                     </div>
                 </div>
                 <div className='btn'>
-                    <button  className="submit-btn"
+                    {isSub&&<button  className="submit-btn"
                              onClick={()=>{
                     this.submitData()
                     }}
                         >
                         提交
-                    </button>
+                    </button>}
                 </div>
                 <div className="empty-box"></div>
             </div>
