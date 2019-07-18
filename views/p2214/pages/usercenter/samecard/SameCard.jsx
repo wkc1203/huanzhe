@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
-import { Link } from 'react-router';
-import hashHistory from 'react-router/lib/hashHistory';
+import {Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import * as Utils from '../../../utils/utils';
-import NoResult from '../../../components/noresult/NoResult';
 import * as Api from '../../../components/Api/Api';
 import './style/index.scss';
 class Widget extends Component {
@@ -14,12 +11,9 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        userInfo: {},
-        cardList: [],
-        cardList1:[],
-        showTip:false,
-        leftBindNum:'',
-        cardNew:[],
+        cardList: [],//就诊人列表
+        leftBindNum:'',//剩余绑定就诊人数
+        cardNew:[],//医院就诊人列表
         showToast: false,
         showToast1: false,
         showLoading: false,
@@ -81,10 +75,12 @@ class Widget extends Component {
               })
           }
       });
-  }
+   }
+   /* 到智慧医院添加就诊卡 */
     goMain(){
         window.location.href='http://wx.cqkqinfo.com/wx3/p/03/p/card_choose.cgi'
     }
+    /* 添加就诊卡 */
     isAdd(){
         this.setState({
             showIOS2:false
@@ -131,6 +127,7 @@ class Widget extends Component {
                              cardList:cardList
                          })
                      }else{
+                          /* 返回到前一个页面 */
                          if(this.props.location.query.url!=null&&this.props.location.query.syn==1){
                              window.location.href=this.props.location.query.url;
                              top.window.location.replace(this.props.location.query.url);
@@ -175,9 +172,7 @@ class Widget extends Component {
       this.setState({
           cardList:s
       })
-        console.log("flag",flag);
         if(flag==0){
-            console.log("fff")
             this.hideLoading();
             this.setState({
                 showIOS1:true,
@@ -185,11 +180,13 @@ class Widget extends Component {
             })
         }else{
             if(flag>this.state.leftBindNum){
+                //是否还能绑定就诊人
                 this.hideLoading();
                 this.setState({
                     showIOS2:true
                 })
             }else{
+                //选择要绑定的就诊人
                 var cardList=this.state.cardList;
                 var  cardNew=this.state.cardNew;
                 for(var i=0;i<cardList.length;i++){
@@ -216,8 +213,9 @@ class Widget extends Component {
              .sameCard(param)
              .then((res) => {
                  if (res.code == 0) {
+                     //同步后返回前一个页面
                      this.hideLoading();
-                            this.showToast();
+                      this.showToast();
                      if(this.props.location.query.url!=null&&this.props.location.query.syn==1){
                           window.location.href=this.props.location.query.url;
                          top.window.location.replace(this.props.location.query.url);
@@ -245,13 +243,14 @@ class Widget extends Component {
      const{cardList,msg}=this.state;
     return (
         <div>
-            <div className="home"><span className="jian"
-                                        onClick={()=>{
-                                      this.context.router.push({
-                                       pathname:'usercenter/userlist'
-                                      })
-                                      }}
-                ></span>同步就诊人
+            <div className="home">
+            <span className="jian"
+                onClick={()=>{
+                this.context.router.push({
+                pathname:'usercenter/userlist'
+                })
+                }}
+            ></span>同步就诊人
             </div>
             <Toast icon="success-no-circle" show={this.state.showToast}>同步成功</Toast>
             <Toast icon="success-no-circle" show={this.state.showToast1}>请选择需要同步的就诊人</Toast>
@@ -268,23 +267,22 @@ class Widget extends Component {
             {cardList&&cardList.map((item,index)=>{
                 return(
                     <div key={index}>
-                       { item.accountId==null&&<div className="card-item"  onClick={()=>{
+                       { //未同步的
+                            item.accountId==null&&<div className="card-item"  onClick={()=>{
                        this.select1(index)
-
                        }}>
                             <div className="collect"  >
                                 <img src={item.isSelect?"./././resources/images/com.png":"./././resources/images/nocom.png"}></img>
-
                             </div>
                             <div className="card-info">
                                 <div>就诊人  {item.name}</div>
                                 <div>就诊卡{item.patCardNo} </div>
                             </div>
                         </div>}
-                        { item.accountId!=null&&<div className="card-item"  >
+                        {//已同步的
+                             item.accountId!=null&&<div className="card-item"  >
                             <div className="collect"  >
                                 <img src="../../../resources/images/default.png"></img>
-
                             </div>
                             <div className="card-info">
                                 <div>就诊人 {item.name}</div>
@@ -304,9 +302,9 @@ class Widget extends Component {
                 this.goNext()
                 }}>
                     绑定新就诊人
-                    </div>}
-                </div>
-                    );
+            </div>}
+        </div>
+      );
   }
 }
 export default Connect()(Widget);

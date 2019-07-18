@@ -30,7 +30,6 @@
     border-radius: 2px 2px 0 0;
     padding: 0 15px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.02);
-
     .card-info{
         padding:20px 0 9px;
     }
@@ -47,7 +46,6 @@
     .name{
         font-size: 19px;
         font-weight: bold;
-        //height: 37px;
     }
     .status{
         font-size: 12px;
@@ -65,7 +63,6 @@
         font-size: 14px;
     }
 }
-
 .m-qrcode{
     padding: 12px 0;
     margin: 0 10px;
@@ -77,7 +74,6 @@
         width: 273px !important;
     }
 }
-
 .m-userinfo {
     background-color: #fff;
     overflow: hidden;
@@ -99,7 +95,6 @@
         text-align: right;
     }
 }
-
 .mu-list {
     padding: 0 10px;
     margin-top: 1px;
@@ -133,7 +128,6 @@
         font-size: 15px;
         margin-left: 10px;
         position: relative;
-
         &.disabled:after {
             content: ' ';
             position: absolute;
@@ -154,7 +148,6 @@
         transform: translateX(-4px) rotate(-45deg);
     }
 }
-
 .m-btn{
     margin: 20px 10px 20px;
     display: flex;
@@ -174,5 +167,4 @@
         margin-left: 10px;
         flex: 1;
     }
-
 }

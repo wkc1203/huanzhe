@@ -33,7 +33,6 @@
     .submit-btn {
         color: #fff;
         background-color: $hc-color-primary;
-
         font-size: 18px;
         border:none;
         height: 45px;
@@ -44,15 +43,12 @@
         padding-left:14px;
         padding-right:14px;
         box-sizing:border-box;
-
         text-align:center;
         text-decoration:none;
         line-height:2.55555556;
         border-radius:5px;
         -webkit-tap-highlight-color:transparent;
         overflow:hidden;
-
-
     }
     .o-disabled{
         background-color: #ddd;
@@ -62,11 +58,9 @@
     padding: 15px;
     display: flex;
     position: relative;
-
     &.register-listitem_none{
         display: none;
     }
-
     &:after{
         content: ' ';
         position: absolute;
@@ -75,18 +69,12 @@
         bottom: 0;
         border-bottom: 1px solid $hc-color-border;
     }
-    // &:first-child:before{
-    //   display: none;
-    // }
-
     .listitem-head{
         width: 70px;
         display:flex;
         align-items:center;
         word-wrap:break-word;
         word-break:break-all;
-
-
         .list-title{
             flex: 1;
             font-size: 17px;
@@ -94,7 +82,6 @@
             padding-right: 6px;
             position: relative;
             line-height: 1;
-
             &.list-title_select:before{
                 content: ' ';
                 position: absolute;
@@ -125,9 +112,7 @@
             white-space:nowrap;
             min-height:0.3rem;
             border:none;
-
         }
-
     }
     .listitem-bd{
         flex:1;
@@ -146,34 +131,24 @@
             white-space:nowrap;
             min-height:0.3rem;
             border:none;
-
         }
-
     }
     button::after {
-
         border: none;
-
     }
     button {
         position: absolute;
         right: 0;
-
         border:none;
-
-
     }
-
     .listitem-ft{
         position: absolute;
         right: 0;
         font-size:17px;
         color:$hc-color-primary;
         padding-right: 15px;
-        //position: relative;
         word-wrap:break-word;
         word-break:break-all;
-
         &:before {
             content: "|";
             color: $hc-color-info;
@@ -183,6 +158,5 @@
     }
     .ft-disabled {
         color:$hc-color-gray;
-
     }
 }

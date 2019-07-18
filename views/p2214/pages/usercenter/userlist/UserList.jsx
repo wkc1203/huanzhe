@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
+import {Dialog} from 'react-weui';
 import { Link } from 'react-router';
 import Connect from '../../../components/connect/Connect';
-import NoResult from '../../../components/noresult/NoResult';
 import * as Api from '../../../components/Api/Api';
 import './style/index.scss';
-import hashHistory from 'react-router/lib/hashHistory';
 import * as Utils from '../../../utils/utils';
 class Widget extends Component {
     static contextTypes = {
@@ -146,7 +144,6 @@ class Widget extends Component {
                             this.hideLoading();
                             if(res.data.length > 0){
                                Utils.goMain();
-                               
                             }else{
                                 //如果公众号没有就诊人就弹窗添加就诊人
                                 Utils.goMain();
@@ -228,9 +225,9 @@ class Widget extends Component {
             <div className="home">
                 <span className="jian"
                         onClick={()=>{
-                        this.context.router.push({
-                        pathname:'usercenter/home'
-                        })
+                            this.context.router.push({
+                            pathname:'usercenter/home'
+                            })
                         }}
                     ></span>我的就诊人
             </div>
@@ -265,7 +262,6 @@ class Widget extends Component {
                         this.setState({
                             cardShow:false,
                             showIOS2:true
-
                         })
                         }}>暂不关注
                         </div>

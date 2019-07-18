@@ -531,13 +531,9 @@ class Widget extends Component {
             });
         }
     }
-
     onChange = (files,file,index) => {
-        console.log(files)
-       
         var that=this;
         if(that.state.imgArr.length>=5){
-    
         that.setState({
         msg:'一次最多只能上传五张图片',  
         showIOS1:true,
@@ -550,7 +546,6 @@ class Widget extends Component {
           });
           var that=this;
           var sign=that.state.sign;
-        
         that.showLoading('上传中');
         for(var i=0;i<files.length;i++){
             console.log(this.state.imgList)
@@ -706,8 +701,7 @@ isHasImg(url){
                     <div className="area-box">
                     <textarea   placeholder="请输入"
                                 onChange={(e)=>{
-                      this.saveContent(e)
-
+                                this.saveContent(e)
                         }}/>
                     </div>
                 </div>
@@ -716,12 +710,19 @@ isHasImg(url){
                     <div className='img-choose-box'>
                         <div className='img-box3'>
                             <div className="img-item">
-                            {
+                            {imgArr.length<5&&
                                  <input type="file" id="file"   onChange={(e) => {  
                                            this.onChange(e.target.files,e.target.files[0],0)
                                         }} accept="image/*" />
                                         } 
-                            {<img src="../../../resources/images/add-img.png"/> }
+                            {<img onClick={()=>{
+                                if(imgArr.length>=5){
+                                    this.setState({
+                                    msg:'一次最多只能上传五张图片',  
+                                    showIOS1:true,
+                                    })
+                                }
+                            }} src="./././resources/images/add-img.png"/> }
                                         {/* isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                 }}> 
@@ -729,7 +730,6 @@ isHasImg(url){
                                        </div> */}
                                 </div>  
                             </div>
-                       
                         {imgArr&&imgArr.map((item,index)=>{
                             return(
                                 <div className='img-box3' key={index}>
@@ -741,8 +741,8 @@ isHasImg(url){
                                             {!!item&&<img
                                                 src={item.indexOf("ihoss")=='-1'?item:item+"?x-oss-process=image/resize,w_105"}
                                                 onClick={()=>{
-                       this.previewImg(item)
-                        }}/>}
+                                              this.previewImg(item)
+                                                }}/>}
                                         </div>
                                     </div>
                                 </div>
@@ -753,8 +753,8 @@ isHasImg(url){
                 <div className='btn'>
                     {isSub&&<button  className="submit-btn"
                              onClick={()=>{
-                    this.submitData()
-                    }}
+                              this.submitData()
+                            }}
                         >
                         提交
                     </button>}
