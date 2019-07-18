@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
-import { Link } from 'react-router';
-import hashHistory from 'react-router/lib/hashHistory';
+import {Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import UserItem from './component/UserItem';
 const QRCode = require('qrcode.react');
@@ -57,7 +55,7 @@ class Widget extends Component {
                 cancelText: '取消',
                 submitText: '确定'
             },
-            userInfo: {},
+            userInfo: {},//用户信息
         };
     }
     componentDidMount() {
@@ -107,7 +105,6 @@ class Widget extends Component {
     setDefault() {
         //如果当前用户不是默认就诊人
         if (this.state.userInfo.isDefalut != 1) {
-
             Api
                 .setDefault({ id: this.props.location.query.patientId })
                 .then((res) => {
@@ -129,7 +126,6 @@ class Widget extends Component {
                             })
                         }, 2000);
                     }
-
                 }, (e) => {
                     this.setState({
                         msg:e.msg,

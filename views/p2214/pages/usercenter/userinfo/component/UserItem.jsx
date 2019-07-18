@@ -1,6 +1,5 @@
 
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import Connect from '../../../../components/connect/Connect';
 class Widget extends Component {
   static contextTypes = {

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
-import { Link } from 'react-router';
+import { Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
-import NoResult from '../../../components/noresult/NoResult';
-import hashHistory from 'react-router/lib/hashHistory';
 import * as Api from '../../../components/Api/Api';
 import './style/index.scss';
 import * as Utils from '../../../utils/utils';
@@ -14,8 +11,8 @@ class Widget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            leftTime: 120,
-            phone: '',
+            leftTime: 120,//倒计时
+            phone: '',//手机号
             toptip: '',
             showToast: false,
             showLoading: false,
@@ -48,15 +45,15 @@ class Widget extends Component {
                     }
                 ]
             },
-            validateCode: '',
+            validateCode: '',//验证码
             msg:'',
-            isSendValidate: false,
+            isSendValidate: false,//是否发送了验证码
             errorElement: {}, // 发生错误的元素
             hasErr: true // 是否存在校验错
         };
     }
     componentDidMount() {
-          //隐藏分享等按钮
+       //隐藏分享等按钮
       Utils.getJsByHide();
     }
     componentWillUnmount() {

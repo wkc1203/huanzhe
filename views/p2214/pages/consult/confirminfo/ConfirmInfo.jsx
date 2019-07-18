@@ -1274,12 +1274,19 @@ onChange = (files,file,index) => {
                             <div className='img-box'
                                 >
                                 <div className="img-item">
-                                {
-                                 <input type="file" id="file"   onChange={(e) => {  
-                                           this.onChange(e.target.files,e.target.files[0],0)
-                                        }} accept="image/*" />
-                                        } 
-                            {<img src="../../../resources/images/add-img.png"/> }
+                                    {imgArr.length<4&&
+                                     <input type="file" id="file"   onChange={(e) => {  
+                                            this.onChange(e.target.files,e.target.files[0],0)
+                                            }} accept="image/*" />
+                                            } 
+                                    {<img onClick={()=>{
+                                        if(imgArr.length>=4){
+                                            this.setState({
+                                            msg:'一次最多只能上传四张图片',  
+                                            showIOS1:true,
+                                            })
+                                        }
+                                    }} src="./././resources/images/add-img.png" /> }
                                         {/* isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                 }}> 

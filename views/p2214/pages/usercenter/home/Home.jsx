@@ -19,9 +19,8 @@ class Widget extends Component {
         msg: '暂未获取到相关信息',
         show: false,
       },
-      articleTypeList: [],
-        userInfo:{},
-        userId:"",
+        userInfo:{},//用户信息
+        userId:"",//用户id
         cardType:1,
         cardNo:'0014492503',
         defaultUser: {},
@@ -94,7 +93,7 @@ class Widget extends Component {
                 leftTime: leftTime1
             })
             if (leftTime1 <= 0) {
-// 查询超时，跳转详情页面
+             // 查询超时，跳转详情页面
                 this.setState({
                     isSendValidate: false,
                 })
