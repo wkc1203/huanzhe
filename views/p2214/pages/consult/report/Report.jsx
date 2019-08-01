@@ -1488,15 +1488,11 @@ add(){
                                     })
                                 }
                             }} src="./././resources/images/add-img.png"/> }
-                           
                                         {/* isIos&&<div onClick={(e)=>{
                                                    this.choose(this.state.sign)
                                                 }}> 
-                                            
-
                                             <img src="../../../resources/images/add-img.png"/>
                                        </div> */}
-
                                 </div>
                             </div>
                             {imgArr && imgArr.map((item, index)=> {
@@ -1551,7 +1547,6 @@ add(){
                 </div>}
                 {!report&&apply&&(reportInfo.inquiry.status=='4'||hasApply)&&<div className="btn">
                     <button className="submit-btn1" style={{background:'rgba(106, 179, 204, 0.46)'}}
-                            
                         >
                         已发送申请，待医生同意
                     </button>
