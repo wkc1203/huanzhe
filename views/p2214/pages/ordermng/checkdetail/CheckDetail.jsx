@@ -170,15 +170,10 @@ class Widget extends Component {
                           checkDetail.refundNo=s.refundId;
                       }
                       var diagnosis1=checkDetail.onlineCheckListCaseVo.mainDiagnosis;
-                    var de=diagnosis1.split('|');
-                        var txt1=de[0];
-                        var txt2=de[1];
-                        var txt3=de[2];
-                        var mainDiagnosis=!!txt2?txt2:'无';
-                        console.log(mainDiagnosis)
+                   
                         this.setState({
-                            mainDiagnosis:mainDiagnosis
-                        })
+                            mainDiagnosis:diagnosis1
+                        }) 
                  }else{
                   this.hideLoading();
                  }
