@@ -1369,9 +1369,16 @@ add(){
                     </div>
                        
                         <button onClick={()=>{
-                             this.setState({
-                                patientShow:false
-                            })
+                            if(selectName!=''){
+                                this.setState({
+                                    patientShow:false
+                                })
+                            }else{
+                                this.setState({
+                                    msg:'请选择就诊人',  
+                                    showIOS1:true,
+                                    })
+                            }
                         }                      
                         }>确定</button>          
                     </div>
