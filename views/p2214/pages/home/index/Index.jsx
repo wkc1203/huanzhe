@@ -412,7 +412,7 @@ class Widget extends Component {
             <Func  url='/microweb/deptlist' img='./././resources/images/index-dept.png' txt='科室介绍' txt1='了解医院科室' />
             <Func  url='/microweb/deptlistfordoc' img='./././resources/images/index-doctor.png' txt='专家介绍' txt1='了解专家信息' />
             <Func  url='/microweb/news' img='./././resources/images/index-advice.png' txt='健康宣教' txt1='儿童护理知识' />
-            <Func url='' href='https://mp.weixin.qq.com/s/QtsB23jZXQtem5HFDy-GVA' img='./././resources/images/index-inform.png' txt='咨询公告' txt1='查看最新公告' />
+            {/* <Func url='' href='https://mp.weixin.qq.com/s/QtsB23jZXQtem5HFDy-GVA' img='./././resources/images/index-inform.png' txt='咨询公告' txt1='查看最新公告' /> */}
             </div>
          </div>}
           {isOpen&&<div className='modal-tip1' onClick={(e)=>{
