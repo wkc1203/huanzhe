@@ -11,6 +11,11 @@ import { setTitle } from '../../utils/utils';
 import { INHOSP, TREAT } from '../../config/constant/constant';
 
 /**
+ * 医院信息
+ */
+import HospitalInformation from '../../pages/hospitalInformation/hospitalInformation/hospitalInformation';
+
+/**
  * 检查单
  */
 import ConfirmCheck from '../../pages/check/confirmCheck/ConfirmCheck';
@@ -168,6 +173,12 @@ class Routers extends React.Component {
           {
             CLOSE_FUNCTION.map((v, k) => <Redirect from={v.regexp} to="/common/development"  />)
           }
+          {/* 医院信息 */}
+          <Route path="/hospitalInformation">
+            <IndexRedirect to="/hospitalInformation/hospitalInformation" />
+            <Route path="/hospitalInformation/hospitalInformation" component={HospitalInformation} title='重医儿童医院咨询平台' />
+          </Route>
+          {/* 科室医生 */}
           {/* 检查单 */}
           <Route path="/check">
             <IndexRedirect to="/check/confirmCheck" />

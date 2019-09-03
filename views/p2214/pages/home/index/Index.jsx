@@ -290,6 +290,12 @@ class Widget extends Component {
            src="./././resources/images/index-banner.png"
                alt=""
                />
+            {/* <span className ='moreInformation' 
+                onClick = {()=>{
+                    this.context.router.push({
+                        pathname: '/hospitalInformation'
+                    })
+                }}>更多信息</span> */}
          </div>}
           {<div className="content">
            <div className="head-des">  
@@ -306,6 +312,7 @@ class Widget extends Component {
                            src="./././resources/images/index-inquiry-doctor.png"
                            alt=""
                            />
+                        
                      </div>
                        <div className='text1 text-acitve'>医生咨询 </div>
                        <div className='text2'>健康问题问医生</div>

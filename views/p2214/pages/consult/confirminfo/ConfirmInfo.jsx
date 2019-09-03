@@ -776,6 +776,13 @@ class Widget extends Component {
     }
     /*保存内容*/
     saveContent(e) {
+        if(e.target.value.length>=150){
+            this.setState({
+                showIOS1:true,
+                msg:'输入文字不能超过150字'
+            })
+
+        }
         this.setState({
             content: e.target.value
         })
@@ -1273,10 +1280,11 @@ onChange = (files,file,index) => {
                     <div className="edit-title">病情描述</div>
                     <div className="edit-area">
                         <textarea
+                          maxLength={150}
                             onChange={(e)=>{
                         this.saveContent(e)
                         }}
-                            placeholder="请详细描述就诊人的性别、年龄、症状、持续时间和用药情况，或已经确诊的疾病以及看诊医生的意见，我们会确保您的隐私安全。（最少10个字）">
+                            placeholder="请详细描述就诊人的性别、年龄、症状、持续时间和用药情况，或已经确诊的疾病以及看诊医生的意见，我们会确保您的隐私安全。（最少10个字,最多150个字）">
                         </textarea>
                         <div className='img-choose-box'>
                             <div className='img-box'
