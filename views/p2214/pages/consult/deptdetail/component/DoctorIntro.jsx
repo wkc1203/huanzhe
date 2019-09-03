@@ -25,7 +25,7 @@ class Widget extends Component {
     })
 }
   render() {
-    const { img,txt,txt1} = this.props;
+    const { img,txt,txt1,txt2,txt3} = this.props;
      return(
       <div className='doc-intro'>
         <div>
@@ -34,7 +34,9 @@ class Widget extends Component {
                 {txt}
         </div>
         <div className="ski-des">
-            {txt1}
+           {<p>{txt1}</p> }
+           {txt2?<p>{txt2}</p>:''}
+           {txt3?<span className = {txt3=='已认证'?'':'Certified'}>{txt3}</span>:'' }
         </div>
      </div>
     );

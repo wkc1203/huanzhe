@@ -184,14 +184,14 @@ class Widget extends Component {
                                 {(item.status == '3' || item.status == '2') &&item.refundStatus == '1'&&
                                 item.userReaded !== '0' &&
                                 <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>有退费</div>}
-                                {item.status == '2' &&item.refundStatus!=1&&item.userReaded !== '0' &&
+                                {item.status == '2' &&item.refundStatus!=1 &&
                                 <div className="status-inquiry " onClick={(e)=>{
-                                    e.stopPropagation();
+                                   /*  e.stopPropagation();
                                     e.preventDefault();
                                     this.context.router.push({
                                         pathname:'/ordermng/evaluate',
                                         query:{orderId:item.orderIdStr}
-                                    })
+                                    }) */
                                 }}>评价</div>}
 
                                 {item.userReaded == '0' &&(item.status == '0' || item.status == '1') && <div className="status-inquiry read-status" style={{color:'white',background:'#ea6ea4',border:'none'}}>未读</div>}
