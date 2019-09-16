@@ -168,6 +168,37 @@ export const addInfo = (param) => fetch.post('/api/ehis/health/api/subscribe/upd
 //查询加号详情
 export const getInfo1 = (param) => fetch.post('/api/ehis/health/api/subscribe/getSubscribeDetails', param);
 export const getInfoByOrder = (param) => fetch.post('/api/ehis/health/api/subscribe/getSubscribeDetailsByOrder', param);
+//获取医院信息
+
+export const hospitalInformation = (param) => fetch.post('/api/ehis/health/api/hospital/get/hisId', param);
+
+//mdt
+export const getMdtList = (param) => fetch.post('/api/ehis/mdt/team/page', param);
+export const getMdtDetail = (param) => fetch.post('/api/ehis/mdt/team/info', param);
+export const addMdt = (param) => fetch.post('/api/ehis/mdt/apply', param);
+export const mdtList = (param) => fetch.post('/api/ehis/mdt/list', param);
+export const getmdtDetail = (param) => fetch.post('/api/ehis/mdt/info', param);
+export const mdtPay = (param) => fetch.post('/api/ehis/mdt/prePay', param);
+export const delMdt = (param) => fetch.post('/api/ehis/mdt/cancel', param);
+
+export const getMdt = (param) => fetch.post('/api/ehis/mdt/list', param);
+export const getMdtMessage = (param) => fetch.post('/api/ehis/mdt/info/items', param);
+export const sendMdtMsg = (param) => fetch.post('/api/ehis/mdt/user/send', param);
+
+//慢病
+export const getdiseaseList = (param) => fetch.post('/api/ehis/health/api/chronicDisease/his/record', param);
+
+export const applyDisease = (param) => fetch.post('/api/ehis/health/api/chronicDisease/apply', param);
+
+export const getDescribeList = (param) => fetch.post('/api/ehis/health/api/chronicDisease/page', param);
+
+export const getDescribeDetail = (param) => fetch.post('/api/ehis/health/api/chronicDisease/getById', param);
+
+export const getDescribeInfo = (param) => fetch.post('/api/ehis/health/api/chronicDisease/prePay', param);
+
+export const cancleDescribe = (param) => fetch.post('/api/ehis/health/api/chronicDisease/cancel', param);
+
+
 
 
 

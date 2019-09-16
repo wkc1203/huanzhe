@@ -198,6 +198,21 @@
             height: 138px;
             width: 100%;
         }
+        .moreInformation{
+            position: absolute;
+            top: 45px;
+            right: 10px;
+            display: inline-block;
+            width: 77px;
+            height: 27px;
+            line-height: 27px;
+            text-align: center;
+            border-radius: 20px;
+            background: #4facc9;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
     }
     ::-webkit-scrollbar {
 
@@ -277,6 +292,7 @@
                     height: 43px;
                     width: 42px;
                 }
+                
             }
             .text1{
                 padding-top: 7px;
@@ -399,14 +415,12 @@
             align-items: center;
           
             .icon {
-                margin-left:5px;
                 img {
                     width: 45px;
                     height: 45px;
                 }
             }
-            .text{
-                margin-right:10px;
+            .text{ 
             }
             .text > div{
                 &:first-child {

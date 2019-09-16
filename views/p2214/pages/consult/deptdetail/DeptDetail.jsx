@@ -585,11 +585,13 @@ class Widget extends Component {
                             {docInfo.freeReport == '1' && <DoctorInfo1 img='./././resources/images/doctor_report_open.png' txt='报告解读' txt1='免费报告解读' url='/consult/report' doctorId={docInfo.doctorId} deptId={docInfo.deptId} com='2'></DoctorInfo1>}
                             {docInfo.freeReport !== '1' && <DoctorInfo1 img='./././resources/images/doctor-report.png' txt='报告解读' txt1='免费报告解读' url=''></DoctorInfo1>}
                             <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='检验检查' txt1='在线申请检验检查' url=''></DoctorInfo1>
+                            {/* <DoctorInfo1 img='./././resources/images/describe_mb.png' txt='慢病/处方' txt1='在线申请处方' url='/consult/describe' doctorId={docInfo.doctorId} deptId={docInfo.deptId} com='2'></DoctorInfo1> */}
                             <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='慢病/处方' txt1='在线申请处方' url=''></DoctorInfo1>
                         </div>}
                     </div>
-                    <DoctorIntro img='./././resources/images/doctor-special.png' txt='擅长领域' txt1={docInfo.specialty || '暂无描述'}></DoctorIntro>
-                    <DoctorIntro img='./././resources/images/doctor-intro.png' txt={type == '2' ? '护士介绍' : '医生介绍'} txt1={docInfo.introduction || '暂无介绍'}></DoctorIntro>
+                    <DoctorIntro img='./././resources/images/doctor-special.png' txt='认证信息' txt1={docInfo.doctorInfoVo?'医生执业证书编码：'+docInfo.doctorInfoVo.practiceNumber :'暂未认证'}  txt2={docInfo.doctorInfoVo?'医生执业范围：'+docInfo.doctorInfoVo.practiceScope : ''} txt3={docInfo.doctorInfoVo?'已认证':"未认证"}></DoctorIntro>
+                    <DoctorIntro img='./././resources/images/doctor-special.png' txt='擅长领域' txt1={docInfo.specialty || '暂无描述'} ></DoctorIntro>
+                    <DoctorIntro img='./././resources/images/doctor-intro.png' txt={type == '2' ? '护士介绍' : '医生介绍'} txt1={docInfo.introduction || '暂无介绍'} ></DoctorIntro>
                 </div>
                 <div className='evaluate'>
                     <div className='eva-title'>

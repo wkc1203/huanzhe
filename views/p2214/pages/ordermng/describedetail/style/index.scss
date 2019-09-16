@@ -1,0 +1,349 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+.page-describe-detail{
+    .describe-detail{
+        margin:0 10px 20px;
+  
+   .order-status{
+    margin-top: 5px;
+    border-radius: 10px;
+    background: white;
+    .time{
+        line-height: 25px;
+        height: 25px;
+        border-top-left-radius: 10px;
+        text-align: center;
+        border-top-right-radius: 10px;
+        background: #ea6ea4;
+        font-size: 12px;
+        color: white;
+    }
+    .status{
+        .main_infos{
+            margin: auto;
+            height: 95px;
+            width: 190px;
+            img{
+                width: 84px;
+                    position: absolute;
+                    height: 60px;
+                    padding-top: 19px;
+            }
+            p{
+                text-align: center;
+                padding-left: 60px;
+                padding-top: 22px;
+                .dai{
+                    display: block;
+                    font-size: 15px;
+                }
+                .yuan{
+                    font-size: 20px;
+                    color: #ea6ea4;
+                    padding-left: 20px;
+                    font-weight: bold;
+                }
+            }
+        }
+        
+    }
+   }
+  .add-info{
+      .info{
+          display:flex;
+           position: relative;
+            &:after{
+                content: ' ';
+                position: absolute;
+                right: -3px; 
+                top:5px;
+                width: 9px; 
+                height:9px;
+                border-right: 2px solid #C7C7CC;
+                border-bottom: 2px solid #C7C7CC;
+                transform: translate(-4px) rotate(-45deg);
+            }
+           p{ 
+               flex:1
+           }
+           p:last-child{
+               padding-right:20px;
+               text-align: right;
+           }
+      }
+  }
+  .handle{ 
+      .handle_content{
+        background:white;
+        border-radius: 10px;
+        padding: 5px 10px;
+        .des_docinfo{
+            height:auto;
+            padding:15px 0;
+            p{
+                height:20px;
+                line-height: 20px;
+                text-align: left;
+                color:#333;
+                font-size:15px;
+            }  
+        }
+        .handle_info{
+            border-bottom:1px dashed #ccc;
+            .totals{
+                font-size:16px;
+                height:35px;
+                color:#ea6ea4; 
+                line-height: 35px;
+                text-align: right;
+                padding-top:15px;
+            }
+            .handle_item:nth-child(even){
+                background:#ecf7fb;
+                border-radius:5px;
+               }
+            .handle_item{
+                padding: 5px 0;
+                 .name_tip{
+                     padding:0 10px;
+                     height:auto;
+                     line-height: 30px;
+                     display:flex;
+                     border-bottom:1px solid #ccc;
+                     display:flex;
+                     font-size:15px;
+                     color:#333;
+                     .left{
+                         flex:1;
+                         text-align: left;
+                     }
+                     .right{
+                         text-align: right;
+                     }
+                 }
+                 
+                 .drug_info{
+                   
+                     font-size:13px; 
+                     padding:5px 0;
+                     color:#999;
+                     
+                     .info_item{
+                        padding:0 10px;
+                         height:20px;
+                         line-height: 20px;
+                         display:flex;
+                         .left{
+                             flex:1;
+                             text-align: left;
+                         }
+                         .right{
+                             flex:1;
+                         }
+                     }
+                 }
+            }
+          }
+      }
+     
+      .item{
+          text-align: left;
+        position: relative;
+        
+        &:after{
+                content: ' ';
+                position: absolute;
+                right: -1px; 
+                top:5px; 
+                width: 9px;
+                height:9px;
+                border-right: 2px solid #C7C7CC;
+                border-bottom: 2px solid #C7C7CC;
+                transform: translate(-4px) rotate(-45deg);
+            }
+            display:flex;
+            >div:first-child{
+                flex:1.5;
+                text-overflow: ellipsis;
+                word-break: break-all;
+            }
+            >div:last-child{
+                padding-right:20px;
+            }
+      }
+      .treat{
+          text-align: left;
+          position: relative;
+            display:flex;
+            >div:first-child{
+                flex:1.5; 
+                 text-overflow: ellipsis;
+                word-break: break-all;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            >div:last-child{
+                padding-right:20px;
+            }
+      }
+      .item1{
+          text-align: left;
+        position: relative;
+        
+       
+      }
+       .item1:not(:last-child){
+        border-bottom:1px solid #E6E6E6;
+    }
+      .item:not(:last-child){
+        border-bottom:1px solid #E6E6E6;
+    }
+    
+  }
+  .main-info{
+     
+    .title-tip{
+       height:39px;
+        font-size:15px;
+        display:flex;
+        line-height:39px;  
+        color:#666;
+        font-weight:bold;
+          position:relative;
+            padding-left:30px;
+            .edit{
+                position:absolute;
+                right:0;
+                color:#4cabcf;
+
+            }
+
+         >img{
+                width:22px;
+                height:22px;
+                position:absolute;
+                left:0;
+                top:8px;
+               
+            }
+        .title-info{
+            color: #4cabcf;
+            font-size: 13px;
+            padding-right: 20px;
+            position: relative;
+            flex:1;
+            text-align: right;
+            img{
+                width: 10px;
+                right: 0px;
+                position:absolute;
+                top: 13px;
+                height: 15px;
+            }
+
+        }
+       
+       
+      }
+    .items{
+             background:white;
+           border-radius:5px;
+           padding:10px 10px;
+            font-size:15px;
+            color:#666;
+            width:auto;
+            textarea{
+              height:80px;
+              width:auto;
+            }
+          
+
+
+      }
+  }
+  .info{
+     
+      .item{
+          height: 30px;
+          line-height: 30px;
+          text-align: left;
+          display: flex;
+        p{
+            flex:1;
+            span{
+                color:#333;
+
+            }
+        }
+        p:nth-child(3){
+            text-align: right;
+            flex:1.5;
+        }
+        p:nth-child(2){
+            text-align: center;
+        }
+      }
+       
+  }
+  .report{
+      .items{
+          padding:5px 10px;
+      }
+         .free {
+                display: flex;
+                align-items: center;
+                background:white;
+
+           
+            div:first-child {
+                flex: 1;
+                font-size: 15px;
+                color: #333333;
+            span{
+                color: #333333;
+            }
+            div:first-child {
+                font-size: 15px;
+                color: #333333;
+            }
+            img{
+                width: 21px;
+                height: 21px;
+                vertical-align: middle;
+            }
+            }
+            }
+    }
+    .confirm {
+    margin-top:50px; 
+      padding-bottom:20px; 
+    .p1{
+        margin:15px 0px;
+        width:auto;
+        background:#4cabcf;
+        height:44px;
+        display:block;
+        border-radius:10px;
+        line-height:44px;
+        text-align:center;
+        color:white;
+
+    }
+    .p2{
+        margin:15px 0px;
+        width:auto;
+        border:1px solid #4cabcf;
+        height:44px;
+        display:block;
+        border-radius:10px;
+        line-height:44px;
+        text-align:center;
+        color:#4cabcf;
+
+    }
+
+}
+  
+}
+}

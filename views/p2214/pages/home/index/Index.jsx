@@ -290,6 +290,12 @@ class Widget extends Component {
            src="./././resources/images/index-banner.png"
                alt=""
                />
+            { <span className ='moreInformation' 
+                onClick = {()=>{
+                    this.context.router.push({
+                        pathname: '/hospitalInformation'
+                    })
+                }}>更多信息</span> }
          </div>}
           {<div className="content">
            <div className="head-des">  
@@ -306,6 +312,7 @@ class Widget extends Component {
                            src="./././resources/images/index-inquiry-doctor.png"
                            alt=""
                            />
+                        
                      </div>
                        <div className='text1 text-acitve'>医生咨询 </div>
                        <div className='text2'>健康问题问医生</div>
@@ -412,7 +419,8 @@ class Widget extends Component {
             <Func  url='/microweb/deptlist' img='./././resources/images/index-dept.png' txt='科室介绍' txt1='了解医院科室' />
             <Func  url='/microweb/deptlistfordoc' img='./././resources/images/index-doctor.png' txt='专家介绍' txt1='了解专家信息' />
             <Func  url='/microweb/news' img='./././resources/images/index-advice.png' txt='健康宣教' txt1='儿童护理知识' />
-            <Func url='' href='https://mp.weixin.qq.com/s/QtsB23jZXQtem5HFDy-GVA' img='./././resources/images/index-inform.png' txt='咨询公告' txt1='查看最新公告' />
+            {/* <Func url='' href='https://mp.weixin.qq.com/s/QtsB23jZXQtem5HFDy-GVA' img='./././resources/images/index-inform.png' txt='咨询公告' txt1='查看最新公告' /> */}
+            {/* <Func url='mdt/list'  img='./././resources/images/mdt.png' txt='MDT' txt1='多学科联合会诊' /> */}
             </div>
          </div>}
           {isOpen&&<div className='modal-tip1' onClick={(e)=>{

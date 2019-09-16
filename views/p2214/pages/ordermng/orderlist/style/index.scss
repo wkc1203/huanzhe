@@ -149,6 +149,165 @@
     }
     
     .reportlist{
+        .no-des{
+             padding:36px 0;
+             margin:0 auto;
+            img{
+                width:55px;
+                padding-left: 41%;
+                height:45px;
+            }
+            p{
+                padding-top:4px;
+                color: #b2b2b2;
+                text-align: center;
+                font-size:13px;
+            }
+        }
+        .describe-item{
+            height:auto;
+            margin:5px 10px;
+            background:white;
+            padding:10px;
+            border-radius:10px;
+            .des-detail{
+                color:#4cabcf;
+                height: 35px;
+                line-height: 42px;
+                text-align: left;
+                position: relative;
+                font-size:14px;
+                img{
+                    position: absolute;
+                    right:0px;
+                    top:12px;
+                    width:10px;
+                    height:17px;
+                }
+            }
+            .des-basic{
+                padding-bottom: 5px;
+                border-bottom:1px solid #efefef;
+                .des{
+                    height:auto;
+                    line-height: 30px;
+                    display:flex;
+                    font-size:15px;
+                    .dai{
+                        font-weight: bold;
+                        font-size:12px;
+                        color:#ea6ea4 !important;
+                    }
+                    .on{
+                        font-weight: bold;
+                        font-size:12px;
+                        color:#4cabcf !important;
+                    }
+                    .left{
+                        text-align: left;
+                        color:#666;
+                        flex:1;
+                        span{
+                            color:#333;
+                        }
+                    }
+                    .right{
+                        font-size:13px;
+                        color:#666;
+                        text-align: right;
+                    }
+                    .status{
+                        color:red !important;
+                    }
+                }
+            }
+            .drug{
+                 height: 34px;
+                 line-height: 43px;
+                 font-size:15px;
+                 display: flex;
+                 .drug-tip{
+                     text-align: left;
+                     position: relative;
+                     flex: 1;
+                     padding-left: 25px;
+                     color:#4cabcf;
+                     img{
+                         width:15px;
+                         position:absolute;
+                         left:0;
+                         top: 13px;
+                         height:18px;
+
+                     }
+                 }
+                 .drug-tab{
+                     text-align: right;
+                     img{
+                        width: 10px;
+                        padding-top: 14px;
+                        height: 17px;
+                     }
+                 }
+            }
+            .more-info{
+                .drug-info{
+                    padding-bottom:13px;
+                    border-bottom: 1px solid #efefef;
+                    .drug-item:nth-child(odd){
+                        background: #ecf7fb;
+
+                    }
+                    .drug-item{
+                        padding:10px;
+                        border-radius:5px;
+                        padding: 0 10px;
+                        margin: 10px 0;
+                        .name{
+                            display:flex;
+                            height:auto;
+                            font-size:15px;
+                            line-height: 30px;
+                            color:#666;
+                            .left{
+                                flex:1;
+                                text-align: left;
+
+                            }
+                            .right{
+                                text-align: right;
+                            }
+
+                        }
+                        .dose{
+                            line-height: 30px;
+                            display:flex;
+                            justify-content: space-between;
+                            flex-direction: row;
+                            .dose-item{
+                                font-size:14px;
+                                text-align: left;
+                            }
+                        }
+
+                    }
+                }
+                .desdoc-info{
+                    height:47px;
+                    font-size:15px;
+                    line-height: 57px;
+                    display:flex;
+                    .left{
+                        text-align: left;
+                        flex:1;
+                    }
+                    .right{
+                        text-align: right;
+                    }
+                }
+            }
+
+        }
         .checkContent{
             padding-top:7px;
             .check-item{
@@ -293,19 +452,18 @@
         line-height: 45px;
         display: flex;
         margin-top: 44px;
-        background: #4cabcf;
         font-size: 15px;
-        font-weight: bold;
+        color:#666;
+        background:white;
 
-        border-bottom:1px solid #e9e9e9;
         .item-active{
-            color:#333;
-            background:#f2f2f2;
+            color:#4cabcf;
+            border-bottom: 2px solid #4cabcf;
           
         }
         p{
             flex: 1; 
-            color:white;
+            color:#666;
             text-align: center;
             position:relative;
             padding-top: 10px;
@@ -314,7 +472,7 @@
                 position: absolute;
                 width: 18px;
                 height: 18px;
-                left: 43%;
+                left: 40%;
                 top: 5px;
             }
         }

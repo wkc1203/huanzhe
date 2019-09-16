@@ -1,6 +1,9 @@
 import fetch from '../utils/fetch';
+/* 获取微信配置 */
 const getJsApiConfig = param => fetch.post('/api/ehis/health/api/inquiry/getJsApiConfig', param);
+/* 点击量统计 */
 const getSum = (param) =>  fetch.post('/api/ehis/health/api/pageview/savePageviewData', param);
+
 export function jsonToQueryString(json) {
   if (!!json) {
     return Object.keys(json).map((key) => {
@@ -54,7 +57,6 @@ export function dateTime(time) {
 }
 
 //去儿童医院就诊卡绑定页面
-
 export function goMain(){
   window.location.href='http://wx.cqkqinfo.com/wx3/p/03/p/card_choose.cgi'
 }

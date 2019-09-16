@@ -1,0 +1,183 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+
+.page-mdt-detail{
+    .modal1{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background:rgba(0,0,0,0.6);
+        z-index: 100;
+        align-items: center;
+        justify-content: center;
+        .modal-title {
+            padding: 25px 10px 8px;
+            font-size: 18px;
+            color: $hc-color-title;
+            text-align: center;
+        }
+        .modal-body-protocol{
+            text-align: left;
+            width: 80%;
+            height:auto;
+            overflow: auto;
+            box-sizing: border-box;
+            border-radius: 4px;
+            background: #fff;
+            margin-left:12%;
+            margin-top:15%;
+            .modal-content-protocol {
+                padding: 0 14px 30px;
+                overflow: auto;
+                font-size: 15px;
+                color: $hc-color-gray;
+                line-height: 1.5;
+                text-align: left;
+                .content-title {
+                    color: $hc-color-title;
+                    line-height: 24px;
+                    font-size:17px;
+                    padding:10px 0;
+                }
+                .content-item {
+                    padding-bottom: 5px;
+
+                }
+                .content-end {
+                    text-align: right;
+                    color: $hc-color-text;
+                    font-size:17px;
+                }
+            }
+
+        }
+        .modal-footer{
+            border-top: 1px solid $hc-color-border;
+            display: flex;
+            position: relative;
+            top: -1%;
+            width:80%;
+            left:12%;
+            background-color:#fff;
+            .cutdown-time {
+                box-sizing: border-box;
+                text-align: center;
+                color: $hc-color-pink;
+                font-size: 18px;
+                height: 50px;
+                line-height: 50px;
+                width: 100%;
+            }
+        }
+        .modal-footer>span{
+            flex: 1;
+            box-sizing: border-box;
+            text-align: center;
+            color: $hc-color-title;
+            font-size: 18px;
+            height: 50px;
+            line-height: 50px;
+            width: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .modal-footer>span:last-child{
+            border-left: 1px solid #d2d2d2;
+            color: $hc-color-primary;
+        }
+        .modal-footer>.sure{
+            flex: 1;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 18px;
+            height: 50px;
+            line-height: 50px;
+            border-left: 1px solid #d2d2d2;
+            color: $hc-color-primary;
+            width: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+    }
+    .btn-detail{
+        height: 46px;
+        line-height: 46px;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        color: white;
+        font-size: 18px;
+        background: #4cabcf;
+
+    }
+    .mdt-detail-info{
+        margin:5px 10px 46px;
+        padding-bottom: 50px;
+        .info-item{
+            background:white;
+            border-radius: 10px;
+            padding:10px;
+            margin-bottom:5px;
+            font-size:15px;
+            .detail-info-title{
+                position: relative;
+                color:#999;
+                padding-left:20px;
+                img{
+                    position:absolute;
+                    left:0;
+                    top:6px;
+                }
+            }
+            .info{
+               color:#333;
+               padding-left: 20px;
+               margin-top:5px;
+               line-height: 20px;
+               
+            }
+            .info-doc{
+                margin-top:16px !important;
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-gap: 16px 0px;
+                
+                padding-left: 0px !important;
+
+                .doctor{
+                    margin: 0 auto;
+                    
+                    text-align: center;
+                    img{
+                        width:42px;
+                        height:42px;
+                        border-radius: 50%;
+
+                    }
+                    .name{
+                        font-size:15px;
+                        color:#333;
+                        padding-top:3px;
+                        padding-bottom:3px;
+                        text-align: center;
+                    }
+                    .dept{
+                        font-size:12px;
+                        color:#999;
+                        text-align: center;
+                    }
+          
+                }
+            }
+        }
+    }
+  
+}

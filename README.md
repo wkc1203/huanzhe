@@ -12,7 +12,7 @@ npm install
 ```
 fis3 release dir_p099
 ```
-
+num run server
 ## 编译打包
 ```
 fis3 release dir_p099__prod

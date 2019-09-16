@@ -280,9 +280,10 @@ class Widget extends Component {
                             }
                            
                        }
-                       if(this.state.searchPage==1){
+                       
+                       if(res.data.currentPage==1){
                         this.setState({
-                            docList:this.state.docList.concat(data) || [],
+                            docList:data|| [],
                             search1: false,
                             isDefaultImg: true,
                             doctorShow: true,
@@ -378,12 +379,21 @@ class Widget extends Component {
                     }
                    
                }
-                    this.setState({
-                        inquiryPage:currentPage,
-                        maxinquiryPage:res.data.pageCount,
-                        currentiInquiry:page,
-                        searchList: this.state.searchList.concat(data) || [],
-                    })
+                        if(res.data.currentPage==1){
+                            this.setState({
+                                inquiryPage:currentPage,
+                                maxinquiryPage:res.data.pageCount,
+                                currentiInquiry:page,
+                                searchList: data || [],
+                            })
+                        }else{
+                            this.setState({
+                                inquiryPage:currentPage,
+                                maxinquiryPage:res.data.pageCount,
+                                currentiInquiry:page,
+                                searchList: this.state.searchList.concat(data) || [],
+                            })
+                        } 
                     if(res.data.sessionId.length>0&&!window.localStorage.login_access_token){
                         this.setState({
                             has:true

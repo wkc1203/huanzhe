@@ -1,0 +1,365 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+.page-describe-info {
+    background: #4cabcf;
+    padding-bottom:40px;
+
+    .weui-icon-waiting {
+        font-size: 23px;
+        color: white;
+    }
+    .weui-icon-success,.weui-icon-wating,.weui-icon-info {
+        font-size: 30px;
+        color: white;
+        ::before{
+            display: inline-block;
+             margin-left: 0;
+            margin-right: .2em;
+        }
+    }
+    .hide_code{
+        width:0;
+        position:absolute;
+        height:0;
+        opacity: 0 !important;
+        svg{
+            width:0px;
+        }
+    }
+    .modal{
+        .modal-body{
+            .modal-content{ 
+                width:90%;
+                height:462px;
+                background:white;
+                border-radius: 10px;
+                position:relative;
+                .sub-title{
+                    font-size: 14px;
+                    color: #333;
+                    right: -30px;
+                    position: absolute;
+                    top: 50%;
+                    /* text-align: center; */
+                    -webkit-transform: rotate(90deg);
+                    -moz-transform: rotate(90deg);
+                    -ms-transform: rotate(90deg);
+                    transform: rotate(90deg);
+    
+                }
+                .barcode{
+                    transform: rotate(90deg);
+                    position: absolute;
+                    top: 43%;
+                    svg{
+                        height: 80px;
+                        width: 240px;
+                        margin: 0 auto;
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+    .main-content{
+        border-radius:5px;
+        background:white;
+        margin:10px;
+        padding: 0 10px;
+        position:relative;
+        .left{
+            position: absolute;
+            height: 20px;
+            top: 157px;
+            left:  -10px;
+            border-radius: 50%;
+            background: #4cabcf;
+            width: 20px;
+        }
+        .right{
+            top:157px;  
+            border-radius: 50%;
+            right: -10px;
+            background: #4cabcf;
+            position: absolute;
+            height: 20px;
+            width: 20px;
+        }
+        .check-title{
+            padding: 0 10px;
+            .hospital{
+                font-size: 18px;
+                font-weight: bold;
+                color: #333;
+                text-align: center;
+                padding-top: 8px;
+            }
+            .sub-title{
+                font-size: 14px;
+                color: #333;
+                text-align: center;
+                padding-top: 6px;
+
+            }
+            .large{
+                text-align: center;
+                color: #4cabcf;
+                font-size: 12px;
+            }
+            
+            .barcode{
+                
+                svg{
+                    height: 90px;
+                    width: 230px;
+                    margin: 0 auto;
+                    display: block;
+                }
+            }
+            .show{
+                font-size: 11px;
+                color: #4cabcf;
+                padding-top: 9px;
+                text-align: center;
+                padding-bottom: 15px;
+                border-bottom: 1px dashed #ccc;
+
+            }
+
+            
+        }
+        .more-info{
+            .drug-icon{
+                img{
+                    width: 15px;
+                    height: 19px;
+                    padding-top: 10px;
+                }
+            }
+            .drug-info{
+              
+                .drug-item:nth-child(odd){
+                    background: #ecf7fb;
+
+                }
+                .drug-item{
+                    padding:10px;
+                    border-radius:5px;
+                    padding: 0 10px;
+                    margin: 10px 0;
+                    .name{
+                        display:flex;
+                        height:auto;
+                        font-size:15px;
+                        line-height: 30px;
+                        color:#666;
+                        .left1{
+                            flex:1;
+                            text-align: left;
+
+                        }
+                        .right1{
+                            text-align: right;
+                        }
+
+                    }
+                    .dose{
+                        line-height: 30px;
+                        display:flex;
+                        justify-content: space-between;
+                        flex-direction: row;
+                        .dose-item{
+                            font-size:14px;
+                            text-align: left;
+                        }
+                    }
+
+                }
+            }
+        
+            .desdoc-info{
+                height:47px;
+                font-size:15px;
+                line-height: 57px;
+                display:flex;
+                border-bottom: 1px solid #efefef;
+                .left1{
+                    text-align: left;
+                    flex:1;
+                }
+                .right1{
+                    text-align: right;
+                    color: #ea6ea4;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+            }
+        } 
+        .check-basic{
+            height:auto;
+            padding: 10px  0;
+            border-bottom: 1px solid #efefef;
+            .check-item{
+                font-size:14px;
+                display: flex;
+                height: 30px;
+                line-height: 30px;
+                p{
+                    flex:1;
+                    text-overflow: ellipsis;
+                    word-break: break-all;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    color:#666;
+                    
+                    span{
+                        color:#333;
+                    }
+
+                }
+                p:first-child{
+                    text-overflow: ellipsis;
+                    word-break: break-all;
+                    white-space: nowrap;
+                    flex:1.5;
+                }
+                
+            }
+            
+        }
+        .person-info{
+            border-bottom: 1px solid #efefef;
+            padding: 10px 0;
+            .person-item{
+                display:flex;
+                font-size:14px;
+                text-align: left;
+                height: 30px;
+                line-height: 30px;
+
+                p{
+                    flex:1;
+                    color:#666;
+                    span{
+                        color:#333;
+                    }
+
+                }
+            }
+            
+        }
+        .sample{
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            p{
+                font-size:14px;
+                color:#666;
+                height: auto;
+                line-height:30px;
+                text-align: left;
+                span{
+                    color:#333;
+                }
+            }
+        }
+        .info-item{
+             p{
+                height: 34px;
+                line-height: 34px;
+                text-align: left;
+                font-size: 14px;
+                color: #666;
+                padding: 0 10px;
+             }
+             .bg-blue{
+                 background:rgb(236,247,251);
+             }
+             padding-top: 9px;
+             padding-bottom: 20px;
+          }
+        .alarm{
+            padding-bottom: 15px;
+            .title{
+                font-size: 14px;
+                font-weight: bold;
+                height: 15px;
+                line-height: 20px;
+                margin: 0 0 10px;
+            }
+            .content{
+                font-size:14px;
+                color:#666;
+            }
+        }
+        .doctor{
+            padding-bottom:10px;
+            padding-top: 10px;
+            .doc{
+                display: flex;
+                .left1{
+                    flex:1;
+                    >p{
+                      padding-bottom: 5px;
+                      display: block;
+                      color: #666;
+                      font-size: 13px;
+              
+                    }
+                    img{
+                      width:125px;
+                      height:50px;
+                    }
+                  }
+
+                .right1{
+                  flex:1;
+                  text-align: left;
+                  >p{
+                    padding-bottom: 5px;
+                    display: block;
+                    color: #666;
+                    font-size: 13px;
+            
+                  }
+                  img{
+                    width:125px;
+                    height:50px;
+                  }
+                }
+                
+              }
+            .name{
+                p{
+                    height:auto;
+                    line-height: 30px;
+                    
+                    font-size:14px;
+                    color:#666;
+                    span{
+                        color:#333;
+                    }
+                }
+            }
+            .time{
+                display: flex;
+                height:auto;
+                line-height: 30px;
+                p{
+                    font-size:14px;
+                    color:#666;
+                    span{
+                        color:#333;
+                    }
+                }
+                p:last-child{
+                    text-align: right;
+                }
+            }
+        }
+    }
+   
+    
+  
+}

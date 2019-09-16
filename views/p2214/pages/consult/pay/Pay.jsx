@@ -108,8 +108,32 @@ class Widget extends Component {
              if(this.props.location.query.source=='check'){
                 this.getDetail();
              }else{
-                    this.getAddPay(this.props.location.query.orderId);
+                if(this.props.location.query.source=='describe'||this.props.location.query.source=='describe1'){
+
+                    if(!!this.props.location.query.hospitalUserId){
+                     this.getaddPrePay();
+                    }else{
+                         var data=JSON.parse(this.props.location.query.detail);
+                         this.setState({
+                             orderInfo:data,
+                             totalFee:data.totalFee||0
+                         })
+                    }
+                    
+               }else{
+                if(this.props.location.query.source=='describe2'){
+                    this.getDescribePay()
+                    }else{
+                        if(this.props.location.query.source=='mdt'){
+                            this.getmdtPay(this.props.location.query.orderId);
+
+                        }else{
+                            this.getAddPay(this.props.location.query.orderId);
+
+                        }
+                }
              }
+            }
         }else{
             this.getConsultDet(orderId);
         }
@@ -145,11 +169,65 @@ class Widget extends Component {
         }
     }
     confirmPay1() {
-        
-           
             window.location.href=this.state.orderInfo.payUrl;
         
     }
+    getDescribePay(){
+        Api
+            .getDescribeInfo({
+                orderId: this.props.location.query.orderId,
+                source:this.props.location.query.source,
+                userId:this.props.location.query.userId,
+                id:this.props.location.query.id,
+                hisId:'2214'
+               
+            })
+            .then((res) => {
+                if (res.code == 0) {
+                    if (this.mounted) {
+                    this.setState({
+                        orderInfo:res.data,
+                        totalFee:res.data.totalFee||0
+                    })
+                }
+                }
+            }, (e) => {
+                if (this.mounted) {
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            }
+            });
+    }
+    //mdt预支付
+    getmdtPay(orderId) {
+        Api
+        .mdtPay({
+            hisId:'2214',
+            orderId: orderId,
+            source:this.props.location.query.source,
+            userId:window.localStorage.userId
+           
+        })
+        .then((res) => {
+            if (res.code == 0) {
+                if (this.mounted) {
+                this.setState({
+                    orderInfo:res.data,
+                    totalFee:res.data.totalFee||0
+                })
+            }
+            }
+        }, (e) => {
+            if (this.mounted) {
+            this.setState({
+                msg:e.msg,
+                showIOS1:true
+            })
+        }
+        });
+}
     getAddPay(orderId) {
             Api
             .getAddInfo({
@@ -364,11 +442,26 @@ class Widget extends Component {
                                                             }
                                                             })
                                                      }else{
-                                                        this.context.router.push({
-                                                            pathname:'ordermng/checkdetail',
-                                                            query:{id:this.props.location.query.checkId,
+                                                        if(this.props.location.query.source=='describe'||this.props.location.query.source=='describe1'||this.props.location.query.source=='describe2')
+                                                        {
+                                                               this.context.router.goBack();
+                                                        } else{
+
+                                                         if(this.props.location.query.source='mdt'){
+
+                                                            this.context.router.push({
+                                                                pathname:'ordermng/mdtdetail',
+                                                                query:{id:this.props.location.query.id,
+                                                                }
+                                                                })
+                                                            }else{
+                                                                this.context.router.push({
+                                                                    pathname:'ordermng/checkdetail',
+                                                                    query:{id:this.props.location.query.checkId,
+                                                                    }
+                                                                    })
                                                             }
-                                                            })
+                                                            }
                                                      }
                                                 }else{  
                                                     if(this.props.location.query.card==1){
@@ -440,8 +533,14 @@ class Widget extends Component {
               {this.props.location.query.source!="check"&&<div className="mm-list">
                     <div className="content">
                         <div className="list">
-                        <ListItem img="./././resources/images/pay-doctor.png" txt={this.props.location.query.type=='2'?'护士姓名':'医生姓名'} name={orderInfo.doctorName}></ListItem>
-                        <ListItem img="./././resources/images/pay-dept.png" txt='科室名称' name={orderInfo.deptName}></ListItem>
+                        {this.props.location.query.source=="mdt"?
+                            <ListItem img="./././resources/images/pay-dept.png" txt='会诊名称' name={orderInfo.mdtName}></ListItem>:
+                            <ListItem img="./././resources/images/pay-doctor.png" txt={this.props.location.query.type=='2'?'护士姓名':'医生姓名'} name={orderInfo.doctorName}></ListItem>
+                        }
+                        {this.props.location.query.source=="mdt"?
+                            <ListItem img="./././resources/images/pay-dept.png" txt='首席专家' name={orderInfo.leaderName+'('+orderInfo.leaderDept+')'}></ListItem>:
+                            <ListItem img="./././resources/images/pay-dept.png" txt='科室名称' name={orderInfo.deptName}></ListItem>}
+                        
                         <ListItem img="./././resources/images/pay-type.png" txt='业务类型' name={orderInfo.typeName}></ListItem>
                         </div>
                     </div>
@@ -512,6 +611,18 @@ class Widget extends Component {
                  }}>
                         立即支付
                     </button>}
+                    {this.props.location.query.source=="mdt"&&
+                    <button  className="submit-btn" onClick={()=>{
+                 this.confirmPay1()
+                 }}>
+                        立即支付
+                    </button>}
+                    {(this.props.location.query.source=="describe"||this.props.location.query.source=="describe1"||this.props.location.query.source=="describe2")&&
+                    <button  className="submit-btn" onClick={()=>{
+                 this.confirmPay1()
+                 }}>
+                        立即支付
+                    </button>} 
                     <div className="empty-box"></div>
                 </div>}
             </div>

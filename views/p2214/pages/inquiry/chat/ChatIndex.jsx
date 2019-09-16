@@ -60,16 +60,29 @@ class Widget extends Component {
             interval:'',
             interval1:'',
             patHisNo: '',
-            score: 5,
+            docScore: 5,
+            hisScore:5,
             txtNum: 0,
-            t1: {text: '态度好', show: false},
-            t2: {text: '及时回复', show: false},
-            t3: {text: '解答详细', show: false},
-            t4: {text: '很专业', show: false},
-            t5: {text: '非常感谢', show: false},
+            txtNum1: 0,
+            docList:[
+                 {text: '态度好', show: false},
+                 {text: '及时回复', show: false},
+                 {text: '解答详细', show: false},
+                 {text: '很专业', show: false},
+                 {text: '非常感谢', show: false},
+            ],
+            hisList:[
+                {text: '服务完善', show: false},
+                {text: '价格合理', show: false},
+                {text: '制度规范', show: false},
+                {text: '流程简单', show: false},
+                {text: '系统稳定', show: false},
+           ],
             appraisalLabel: '',
+            appraisalLabel1: '',
             appraisal: '',
-            pingShow: false,
+            appraisal1: '',
+            pingShow: true,
             newScore: '',
             itemList: 0,
             detail: '',
@@ -144,6 +157,8 @@ class Widget extends Component {
             isIos:false,
             freeReport:false,//是否是免费报告解读
             hieghtMore:false,//发送按钮位置
+            docPlace:false,//是否显示输入
+            hisPlace:false,
         };
     }
     componentDidMount() {
@@ -404,9 +419,9 @@ class Widget extends Component {
                 }
                     var items = res.data.items;
                     for (var i = 0; i < items.length; i++) {
-                        if (items[i].direction == 'TO_DOCTOR' && !!items[i].content && items[i].type == 'BIZ'&&items[i].content.indexOf('checkItem')==-1) {
+                        if (items[i].direction == 'TO_DOCTOR' && !!items[i].content && items[i].type == 'BIZ'&&items[i].content.indexOf('checkItem')==-1&&items[i].action!='mdt') {
                             var totalNum = this.state.totalNum;
-                            totalNum--;
+                            totalNum--; 
                             var numEnd = totalNum;
                             if(this.mounted){
                             this.setState({
@@ -458,6 +473,23 @@ class Widget extends Component {
                             list[index].checkContent=JSON.parse(cont);
                             
                         }
+                        if(!!list[index].action&&list[index].action=='mdt'&&list[index].content!=''){
+                      
+                            var cont=list[index].content.replace(/'/g, '"');
+                                list[index].checkContent=JSON.parse(cont);
+                                list[index].checkContent.dept=JSON.parse(cont).dept.join(',')
+                                
+                            }
+                            if(!!list[index].action&&list[index].action=='applyChronic'&&list[index].content!=''){
+                      
+                                list[index].checkContent=JSON.parse(list[index].content);
+                                
+                            }
+                            if(!!list[index].action&&list[index].action=='receiveChronic'&&list[index].content!=''){
+                      
+                                list[index].checkContent=JSON.parse(list[index].content);
+                                
+                            }  
                     
                     }
                   this.setState({
@@ -565,7 +597,7 @@ class Widget extends Component {
                            clearInterval(this.state.interval);
                            clearInterval(this.state.interval1);
                         }
-                        else{
+                        else{ 
                              var that=this; 
                               if(type==3){
                               //  socket = io.connect('wss://tih.cqkqinfo.com/?inquiryId=1551686053952&doctorId=doctor900');
@@ -590,8 +622,12 @@ class Widget extends Component {
                           }   
                      }  
                     }
+                    
                 }
-                        }, (e) => {
+                
+                
+                        
+            }, (e) => {
                 this.hideLoading();
             });
     }
@@ -612,7 +648,6 @@ class Widget extends Component {
             .then((res) => {
                 if (res.data.length > 0) {
                     this.setState({
-                        pingShow: true,
                         isEvaluate: true,
                         newScore: res.data[0].score ? res.data[0].score : '',
                         newText: res.data[0].appraisal ? res.data[0].appraisal : '',
@@ -1067,9 +1102,14 @@ class Widget extends Component {
         });
     }
 //分数
+    setScore1(id) {
+        this.setState({
+            docScore: id
+        })
+    }
     setScore(id) {
         this.setState({
-            score: id
+            hisScore: id
         })
     }
     sureNo() {
@@ -1080,41 +1120,53 @@ class Widget extends Component {
     }
 //评价标签
     setAppraisal(id) {
-        if (id == 1) {
-            var t1 = this.state.t1;
-            t1.show = !this.state.t1.show;
+        var doc=this.state.docList;
+        var flag=0;
+         for(var i=0;i<doc.length;i++){
+             if(id==i){
+                 doc[i].show=!doc[i].show;
+             }
+             if(doc[i].show){ 
+                flag=1;
+                this.setState({
+                   docPlace:true
+               })
+            }
+         }
+         if(flag==0){
             this.setState({
-                t1: t1
+                docPlace:false
             })
+           
         }
-        if (id == 2) {
-            var t2 = this.state.t2;
-            t2.show = !this.state.t2.show;
+         this.setState({
+             docList:doc
+         })
+         
+    }
+    setAppraisal1(id) {
+        var his=this.state.hisList;
+        var flag=0;
+         for(var i=0;i<his.length;i++){
+             if(id==i){
+                 his[i].show=!his[i].show;
+             }
+             if(his[i].show){
+                flag=1;
+                 this.setState({
+                    hisPlace:true
+                })
+             }
+         }
+         if(flag==0){
             this.setState({
-                t2: t2
+                hisPlace:false
             })
+            
         }
-        if (id == 3) {
-            var t3 = this.state.t3;
-            t3.show = !this.state.t3.show;
-            this.setState({
-                t3: t3
-            })
-        }
-        if (id == 4) {
-            var t4 = this.state.t4;
-            t4.show = !this.state.t4.show;
-            this.setState({
-                t4: t4
-            })
-        }
-        if (id == 5) {
-            var t5 = this.state.t5;
-            t5.show = !this.state.t5.show;
-            this.setState({
-                t5: t5
-            })
-        }
+         this.setState({
+             hisList:his
+         })
     }
     setATxt(e) {
         if (this.state.txtNum > 140) {
@@ -1124,47 +1176,57 @@ class Widget extends Component {
             appraisal: e.target.value
         })
     }
+    setATxt1(e) {
+        if (this.state.txtNum1 > 140) {
+        }
+        this.setState({
+            txtNum1: e.target.value.length,
+            appraisal1: e.target.value
+        })
+    }
     saveContent(e) {
         this.setState({
             txtNum: e.target.value.length,
             appraisal: e.target.value
         })
     }
+    saveContent1(e) {
+        this.setState({
+            txtNum1: e.target.value.length,
+            appraisal1: e.target.value
+        })
+    }
     /*提交评价*/
-    submitEvaluate() {
+    submitEvaluate(e) {
+        e.stopPropagation();
+        e.preventDefault();
         var appraisalLabel1 = '';
-        if (this.state.t1.show == true) {
-            appraisalLabel1 += this.state.t1.text + "-";
-            this.setState({
-                appraisalLabel: appraisalLabel1
-            })
-        }
-        if (this.state.t2.show == true) {
-            appraisalLabel1 += this.state.t2.text + "-";
-            this.setState({
-                appraisalLabel: appraisalLabel1
-            })
-        }
-        if (this.state.t3.show == true) {
-            appraisalLabel1 += this.state.t3.text + "-";
-            this.setState({
-                appraisalLabel: appraisalLabel1
-            })
-        }
-        if (this.state.t4.show == true) {
-            appraisalLabel1 += this.state.t4.text + "-";
-            this.setState({
-                appraisalLabel: appraisalLabel1
-            })
-        }
-        if (this.state.t5.show == true) {
-            appraisalLabel1 += this.state.t5.text + "-";
-            this.setState({
-                appraisalLabel: appraisalLabel1
-            })
+        for(var i=0;i<this.state.docList.length;i++){
+            if(this.state.docList[i].show){
+                if(appraisalLabel1==''){
+                    appraisalLabel1 =this.state.docList[i].text;
+                }else{
+                    appraisalLabel1 += "-"+ this.state.docList[i].text;
+
+                }
+            }
         }
         this.setState({
-            appraisalLabel: appraisalLabel1.substring(0, appraisalLabel1.length - 1)
+            appraisalLabel: appraisalLabel1
+        })
+        var appraisalLabel2 = '';
+        for(var i=0;i<this.state.hisList.length;i++){
+            if(this.state.hisList[i].show){
+                if(appraisalLabel2==''){
+                    appraisalLabel2 =this.state.hisList[i].text;
+                }else{
+                    appraisalLabel2 +="-"+this.state.hisList[i].text ;
+
+                }
+            }
+        }
+        this.setState({
+            appraisalLabel1: appraisalLabel2
         })
         const doctor = this.state.docInfo;
         this.setState({
@@ -1178,16 +1240,41 @@ class Widget extends Component {
             doctorName: doctor.doctorName,
             name: this.state.userInfo.realName,
             appraisal: this.state.appraisal,
-            appraisalLabel: appraisalLabel1.substring(0, appraisalLabel1.length - 1),
-            score: this.state.score,
+            hisAppraisal:this.state.appraisal1,
+            appraisalLabel: appraisalLabel1,
+            hisAppraisalLabel: appraisalLabel2,
+            hisScore:this.state.hisScore,
+            score: this.state.docScore,
             orderId: this.state.orderId,
         };
-        if(this.state.score<4&&this.state.appraisal==''){
+        if(this.state.docScore<4&&this.state.appraisal==''){
             this.setState({
-                msg:'请输入评价详情且评价详情不能低于10个字',
+                msg:'请输入医生评价详情且评价详情不能低于10个字',
                 showIOS1: true
             })
-        }else{
+            return false;
+        }
+        if(this.state.docScore<4&&this.state.appraisal.length<10){
+            this.setState({
+                msg:'医生评价详情不能低于10个字',
+                showIOS1: true
+            })
+            return false;
+        }
+        if(this.state.hisScore<4&&this.state.appraisal1==''){
+            this.setState({
+                msg:'请输入医院评价详情且评价详情不能低于10个字',
+                showIOS1: true
+            })
+            return false;
+        }
+        if(this.state.hisScore<4&&this.state.appraisal1.length<10){
+            this.setState({
+                msg:'医院评价详情不能低于10个字',
+                showIOS1: true
+            })
+            return false;
+        }
             Api.evaluate(params)
             .then((res) => {
                 this.hideLoading();
@@ -1208,7 +1295,7 @@ class Widget extends Component {
                     showIOS1: true
                 })
             });
-        }
+        
     }
    /*播放语音*/
     play(item,list,index) {
@@ -1296,6 +1383,7 @@ class Widget extends Component {
             }
         }
     }
+    
     alertTxt(e) {
         if (this.state.endding) {
             this.setState({
@@ -1429,11 +1517,7 @@ class Widget extends Component {
                                             cache: false,
                                             data: formData,
                                             success: (e) => {
-                                               
                                                 imgArr1.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-                                          
-                                               
-
                                                 that.send({
                                                     inquiryId: that.state.inquiryId,
                                                     operator: 'user',
@@ -1628,284 +1712,349 @@ onChange = (files,file,index) => {
     var dataURL = canvas.toDataURL("image/"+ext);
     return dataURL;
   }
-      onAddImageClick = () => {
-        this.setState({
-          files: this.state.files.concat({
-            url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
-            id: '3',
-          }),
-        });
-      };
-      onTabChange = (key) => {
-        console.log(key);
-      };
+      
     render() {
     const {isEvaluate,files,freeReport,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,
-        name,match,hieghtMore,showId,uId,patHisNo,score,txtNum,t1,t2,t3,t4,t5,timeShow,numEnd,pics,innerAudioContext,
-        canEnd,appraisal,pingShow,newScore,itemList,detail,payBack,isOk,newText ,isDuration,newItem,status,
-        newTime,doctorName,noDoctor,isIos,msg,endding,end,sign,signature,formData,policy,callback,OSSAccessKeyId,key,evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText}=this.state
+        name,match,hieghtMore,docList,uId,hisList,score,txtNum,txtNum1,t1,t2,t3,t4,t5,timeShow,numEnd,pics,innerAudioContext,
+        canEnd,appraisal,appraisal1,pingShow,newScore,itemList,detail,payBack,isOk,newText ,isDuration,newItem,status,
+        hisPlace,docPlace,newTime,doctorName,noDoctor,docScore,msg,hisScore,end,sign,signature,formData,policy,callback,OSSAccessKeyId,key,evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText}=this.state
         return (
             <div style={{height:'100%'}} className="chat">
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
                     show={this.state.showIOS1}>
                 {msg}
             </Dialog>
-                <div className="container1" >
-                    <div className="home bid" ><span className="jian"
-                                                onClick={()=>{
-                                                    if(this.props.location.query.resource=='report'){
-                                                        this.context.router.goBack()
-                                                    }else{
-                                                        this.context.router.push({
-                                                            pathname:'inquiry/inquirylist'
-                                                            })
-                                                    }
-                                      }}
-                        ></span>{doctorName}
-                    </div>
-                    <Toast icon="success-no-circle" show={this.state.showToast}>评价成功</Toast>
-                    {!isEnd && <div className='header'>
-                        <div>
-                        {timeShow&&<div className="time">剩余时间： <span>{timeShow}</span></div>}
-                            <div className="num">剩余条数： <span>{numEnd}</span> 条</div>
-                        </div>
-                        <div >
-                            <span 
-                            className={`${!canEnd&&freeReport?'endGrey':''}`}
-                            onClick={()=>{ 
-                                console.log(canEnd);  
-                                if(canEnd){ 
-                                    this.openModal()
-                                }
-                            }}>结束咨询</span>
-                        </div>
-                    </div>}
-                    {!isEnd && <div className='operation-box'>
-                        <div className='top'>
-                            <TextArea autosize rows="1" cols="3" value={msgText} id="inputText"
-                                      onFocus={(e)=>{ this.btnShow(e)}}
-                              onBlur={(e)=>{ this.btnHide(e) }}
-                              onChange={(e)=>{ this.input(e)}}  />
-                            {!isBtn &&
-                            <img src='../../../resources/images/plus.png' onClick={()=>{
-                            this.showPlus()
-                            }}/>  
-                            }
-                            {isBtn&&!hieghtMore&& <span className="addBtn"
-                            style={{marginBottom:'6px'}} 
-                            onClick={ (e)=>{
-                                                    e.stopPropagation();
-                                                    e.preventDefault();
-                                                    this.sendMsg1(e)
-                                                    }
-                                                    }>发送</span>}
-                        {isBtn&&hieghtMore&&<span className="addBtn"
-                        onClick={
-                                                (e)=>{
-                                                e.stopPropagation();
-                                                e.preventDefault();
-                                                this.sendMsg1(e)
-                                                }
-                                                }>发送</span>}
-                        </div>
-                        {showPlus && 
-                         <div className='bottom'>
-                            <div className='allow'>
-                             
-                              
-                                
-                                 {<div  className='img'>
-                                     <input type="file" id="file"  onChange={(e) => {           
-                                                this.onChange(e.target.files,e.target.files[0],0)
-                                            }} accept="image/*" />
-                                           
-                                            <img  className=' imgs' src='./././resources/images/plusImg.png'/>
-                                            </div>
-                                            } 
-                                            
-                               
-                               
-                                            {/* isIos&&<div  className='img' onClick={(e)=>{
-                                                       this.choose(this.state.sign)
-                                                    }}> 
-                                                
-    
-                                                    <img  src='./././resources/images/plusImg.png'/>
-                                           </div> */}
-                                 <p className='text'>图片</p>
-                            </div> 
-                            <div className='allow'>
-                              <div className='img'>
-                                    <img src='./././resources/images/plusSample.png'
-                                    onClick={()=>{
-                                        this.context.router.push({
-                                            pathname:'usercenter/complain',
-                                            query:{type:2,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId,docType:docInfo.type}
-                                        })
-                                        }}
-                                    />
-                                </div>
-                                <p className='text'>投诉建议</p>
-                            </div>
-                        </div>}
-
-                    </div>}
-                    <div className={`header1 ${isEnd ? '': 'showTxt'}`}>咨询已结束</div>
-                    <div  className={`content3 ${isEnd?'contents':''}`}
-                         id='content3'
-                         onClick={(e)=>{
-                            e.stopPropagation();
-                            e.preventDefault();
-                               if(this.state.showPlus){
-                                this.hidePlus()
-                               }
-                                    }}>
-                        <div className='content2' id="content2">
-                            {list.reverse() && list.reverse().map((item, index)=> {
-                                return (
-                                    <div key={index} className="content-item">
-                                        {item.type == 'SYSTEM' && item.userIsShow == '1' &&
-                                        <div
-                                            className={`msg ${item.content.indexOf("text")!=-1?'redColor':''}`}>
-                                            {item.content.indexOf("text")!=-1?item.content.substring(26,item.content.length-7):item.content}
-                                        </div>}
-                                        {item.type == 'BIZ' && item.userIsShow == '1' &&
-                                        <div className='date'>{item.createTime}</div>}
-                                        {item.type == 'BIZ' && item.userIsShow == '0' &&item.doctorIsShow == '0'&&
-                                        <div className='date'>{item.updateTime}</div>}
-                                        {item.type == 'BIZ' && item.userIsShow == '0' &&item.doctorIsShow == '0'&&
-                                        <div
-                                            className={`msg `} style={{textAlign:'center',color:'#ccc',background:'#f2f2f2'}}>
-                                            医生撤回了一条消息
-                                        </div>}
-                                        {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' && item.voiceTime == 0 &&
-                                        <div className='left'
-                                            >
-                                            <div className='img'>
-                                                <span style={{fontSize:'10px'}}> {doctorName}</span>
-                                            </div>
-                                            {item.content &&item.action !== 'addChecklist'&&item.action!='reportApply'&&item.action!='add'&& 
-                                                <div className='text'>
-                                                {item.content}
-                                                <span className='angle'></span>
-                                            </div>}
-                                            {item.content &&item.action == 'addChecklist'&&
-                                               <div className='text' 
-                                               onClick={()=>{
+            <div className="containers" >
+            <div className="home bid" ><span className="jian"
+                                        onClick={()=>{
+                                            if(this.props.location.query.resource=='report'){
+                                                this.context.router.goBack()
+                                            }else{
                                                 this.context.router.push({
-                                                    pathname:'/ordermng/checkdetail',
+                                                    pathname:'inquiry/inquirylist'
+                                                    })
+                                            }
+                              }}
+                ></span>{doctorName}
+            </div>
+            <Toast icon="success-no-circle" show={this.state.showToast}>评价成功</Toast>
+            {!isEnd && <div className='header'>
+                <div>
+                {timeShow&&<div className="time">剩余时间： <span>{timeShow}</span></div>}
+                    <div className="num">剩余条数： <span>{numEnd}</span> 条</div>
+                </div>
+                <div >
+                    <span 
+                    className={`${!canEnd&&freeReport?'endGrey':''}`}
+                    onClick={()=>{ 
+                        console.log(canEnd);  
+                        if(canEnd){ 
+                            this.openModal()
+                        }
+                    }}>结束咨询</span>
+                </div>
+            </div>}
+            {!isEnd && <div className='operation-box'>
+                <div className='top'>
+                    <TextArea autosize rows="1" cols="3" value={msgText} id="inputText"
+                              onFocus={(e)=>{ this.btnShow(e)}}
+                      onBlur={(e)=>{ this.btnHide(e) }}
+                      onChange={(e)=>{ this.input(e)}}  />
+                    {!isBtn &&
+                    <img src='../../../resources/images/plus.png' onClick={()=>{
+                    this.showPlus()
+                    }}/>  
+                    }
+                    {isBtn&&!hieghtMore&& <span className="addBtn"
+                    style={{marginBottom:'6px'}} 
+                    onClick={ (e)=>{
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            this.sendMsg1(e)
+                                            }
+                                            }>发送</span>}
+                {isBtn&&hieghtMore&&<span className="addBtn"
+                onClick={
+                                        (e)=>{
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        this.sendMsg1(e)
+                                        }
+                                        }>发送</span>}
+                </div>
+                {showPlus && 
+                 <div className='bottom'>
+                    <div className='allow'>
+                         {<div  className='img'>
+                             <input type="file" id="file"  onChange={(e) => {           
+                                        this.onChange(e.target.files,e.target.files[0],0)
+                                    }} accept="image/*" />
+                                   
+                                    <img  className=' imgs' src='./././resources/images/plusImg.png'/>
+                                    </div>
+                                    } 
+                                    {/* isIos&&<div  className='img' onClick={(e)=>{
+                                               this.choose(this.state.sign)
+                                            }}> 
+                                        
+
+                                            <img  src='./././resources/images/plusImg.png'/>
+                                   </div> */}
+                         <p className='text'>图片</p>
+                    </div> 
+                    <div className='allow'>
+                      <div className='img'>
+                            <img src='./././resources/images/plusSample.png'
+                            onClick={()=>{
+                                this.context.router.push({
+                                    pathname:'usercenter/complain',
+                                    query:{type:2,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId,docType:docInfo.type}
+                                })
+                                }}
+                            />
+                        </div>
+                        <p className='text'>投诉建议</p>
+                    </div>
+                </div>}
+
+            </div>}
+            <div className={`header1 ${isEnd ? '': 'showTxt'}`}>咨询已结束</div>
+            <div  className={`content3 ${isEnd?'contents':''}`}
+                 id='content3'
+                 onClick={(e)=>{
+                    e.stopPropagation();
+                    e.preventDefault();
+                       if(this.state.showPlus){
+                        this.hidePlus()
+                       }
+                            }}>
+                <div className='content2' id="content2">
+                    {list.reverse() && list.reverse().map((item, index)=> {
+                        return (
+                            <div key={index} className="content-item">
+                                {item.type == 'SYSTEM' && item.userIsShow == '1' &&
+                                <div
+                                    className={`msg ${item.content.indexOf("text")!=-1?'redColor':''}`}>
+                                    {item.content.indexOf("text")!=-1?item.content.substring(26,item.content.length-7):item.content}
+                                </div>}
+                                {item.type == 'BIZ' && item.userIsShow == '1' &&
+                                <div className='date'>{item.createTime}</div>}
+                                {item.type == 'BIZ' && item.userIsShow == '0' &&item.doctorIsShow == '0'&&
+                                <div className='date'>{item.updateTime}</div>}
+                                {item.type == 'BIZ' && item.userIsShow == '0' &&item.doctorIsShow == '0'&&
+                                <div
+                                    className={`msg `} style={{textAlign:'center',color:'#ccc',background:'#f2f2f2'}}>
+                                    医生撤回了一条消息
+                                </div>}
+                                {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' && item.voiceTime == 0 &&
+                                <div className='left'
+                                    >
+                                    <div className='img'>
+                                        <span style={{fontSize:'10px'}}> {doctorName}</span>
+                                    </div>
+                                    {item.content &&item.action !== 'addChecklist'&&item.action!='reportApply'&&item.action!='add'&&item.action!='mdt'&&item.action!='applyChronic'&&item.action!='receiveChronic'&&
+                                        <div className='text'>
+                                        {item.content}
+                                        <span className='angle'></span>
+                                    </div>}
+                                    { item.content &&item.action == 'receiveChronic' && <div className='text' 
+                                            onClick={()=>{
+                                                this.context.router.push({
+                                                    pathname:'/ordermng/describedetail',
                                                     query:{id:item.actionTrigger}
                                                    })
                                              }}
-                                               style={{width:'220px',height:'auto',background:'white'}} >
-                                                <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
-                                                    <div className='check-info'>
-                                                       <div className='check-img'>
-                                                       <img  src="./././resources/images/chat-check.png"/>
-                                                       </div>
-                                                       <div className='info'>
-                                                           <p className='fee'>￥{!!item.checkContent&&item.checkContent.price}</p>
-                                                           <p className='context'>{!!item.checkContent&&item.checkContent.checkItem}</p>
-                                                       </div>
-                                                    </div>
-                                                    <p className='search'
-                                                    >查看详情</p>
-                                                    </div>}
-                                                    {item.content &&item.action == 'reportApply'&&
-                                                    <div className='text apply' 
-                                                    onClick={()=>{
-                                                        
-                                                    }}
-                                                    style={{width:'220px',height:'auto',background:'white'}} >
-                                                    <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
-                                                        <div className='check-info' style={{paddingRight:'5px'}}>
-                                                        <div className='check-img'>
-                                                        <img  style={{paddingTop:'12px'}} src={!!item.checkContent&&item.checkContent.img}/>
-                                                        </div>
-                                                        <div className='info'>
-                                                                <p className='context' style={{lineHeight:'20px',paddingBottom:'0',height:'50px',paddingTop:'7px'}}>
-
-                                                                {!!item.checkContent&&!!item.checkContent.content?item.checkContent.content:''}</p>
-                                                                </div>
-                                                        </div>
-                                                       
-                                                        {status=='1'&&<div className='btn' >
-                                                            <div style={{color:'#666'}} >已同意</div>      
-                                                         </div> } 
-                                                        </div>} 
-                                            {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' &&item.url && item.action !== 'add' &&item.action !== 'addChecklist'&& <div
-                                                className='image'
-                                                onClick={()=>{this.previewImg(item.url)
-                                                                    }}
-                                                >
-                                                <i/><img  
-                                                src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
-                                            </div>}
-                                            {item.url && item.action == 'add' && <div
-                                                className='image'
-                                                onClick={()=>{ this.into(item.actionTrigger) }}>
-                                                <i/><img src={item.url} style={{width:'223px',height:'86px',maxWidth:'223px'}}/>
-                                            </div>}
-                                            {item.url && item.action == 'addChecklist' && <div
-                                            className='image'>
-                                            <i/>
-                                             <Link to={{  pathname:'/check/confirmCheck',
-                                             query:{id:item.actionTrigger,orderId:this.state.orderId,inquiryId:this.state.inquiryId,status:this.state.status}}}>
-                                            <img 
-                                                 style={{width:'223px',height:'86px',maxWidth:'223px'}}
-                                            src={item.url}/></Link>
-                                        </div>}                                          
-                                          {item.url && <div className='flex'></div>}
-                                        </div>}
-                                        {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' &&item.voiceTime > 0 && <div id="a" className='left slide'>
-                                            <div className='img'>
-                                                <span style={{fontSize:'10px'}}> {doctorName}</span>
+                                            style={{width:'220px',height:'auto',background:'white'}} >
+                                            <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
+                                        <div className='check-info'>
+                                            <div className='check-img'>
+                                            <img  src="./././resources/images/chat-check.png"/>
                                             </div>
-                                            {item.voiceTime && <div
-                                                onClick={()=>{
-                                                        this.play('s'+item.id,item,index)
-                                                        }}
-                                                className={`text radio ${item.voiceTime<5?'wid5':''} ${item.voiceTime<10&&item.voiceTime>=5?'wid6':''} ${item.voiceTime<20&&item.voiceTime>=10?'wid7':''} ${item.voiceTime>=20?'wid8':''}`}>                                            
-                                                  {match[index]&&match[index].stopPlay&&<img className="rd" src="../../../resources/images/rd.png"
-                                                    />} 
-                                                    {match[index]&&!match[index].stopPlay&&<div style={{position:'relative'}} >  
-                                                       {match[index]&&match[index].play1&&<img    src="../../../resources/images/r1.png"  style={{width:'4px',height:'4px',position:'absolute',left:'15px',top:'18px'}}/>}
-                                                       {match[index]&&match[index].play2&&<img  src="../../../resources/images/r2.png"   style={{width:'4px',height:'12px',position:'absolute',left:'20px',top:'14px'}}/>}
-                                                       {match[index]&&match[index].play3&&<img   src="../../../resources/images/r3.png"  style={{width:'5px',height:'18px',position:'absolute',left:'24px',top:'11px'}}/>}
-                                                   </div>    }
-                                                <audio id={'s'+item.id}>
-                                                    <source src={item.url} type="audio/mp3"/>
-                                                </audio>
-                                                <span
-                                                    className={`${isDuration?'duration':'dura'}`}>{item.voiceTime}</span>
+                                            <div className='info'>
+                                                <p className='fee'>￥{!!item.checkContent&&item.checkContent.totalFee}</p>
+                                                <p className='context'></p>
+                                            </div>
+                                        </div>
+                                        <p className='search'>查看详情</p>
+                                 </div>}
+                                    {item.content &&item.action == 'addChecklist'&&
+                                       <div className='text' 
+                                       onClick={()=>{
+                                        this.context.router.push({
+                                            pathname:'/ordermng/checkdetail',
+                                            query:{id:item.actionTrigger}
+                                           })
+                                     }}
+                                       style={{width:'220px',height:'auto',background:'white'}} >
+                                        <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
+                                            <div className='check-info'>
+                                               <div className='check-img'>
+                                               <img  src="./././resources/images/chat-check.png"/>
+                                               </div>
+                                               <div className='info'>
+                                                   <p className='fee'>￥{!!item.checkContent&&item.checkContent.price}</p>
+                                                   <p className='context'>{!!item.checkContent&&item.checkContent.checkItem}</p>
+                                               </div>
+                                            </div>
+                                            <p className='search'
+                                            >查看详情</p>
                                             </div>}
-                                            {item.url && <div className='flex'></div>}
-                                        </div>}
-                                        {item.type == 'BIZ' &&item.direction == 'TO_DOCTOR'&&item.userIsShow== '1'&&
-                                        <div id="s" className='right'>
-                                            <div className='flex'></div>
-                                            {item.url && item.action !== 'add' &&item.action !== 'addChecklist' &&  <div className='image'
-                                                                                       onClick={()=>{
-                                                                                    this.previewImg(item.url)
-                                                                                     }} >
-                                                <img  
-                                                 src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
-                                            </div>}
-                                            {item.url && item.action == 'add' && <div
-                                             className='image'
-                                             onClick={()=>{
-                                                this.into(item.actionTrigger)
-                                                }}
-                                             ><img src={item.url} style={{width:'223px',height:'86px',maxWidth:'223px'}}/>
-                                                </div>}
-                                            {item.content &&item.action !== 'addChecklist' &&item.action!='reportApply'&&item.action!='add'&& <div className='text'>
-                                            {item.content}
-                                            <span className='angle'></span>
-                                            </div>}  
-                                            { item.content &&item.action == 'addChecklist' && <div className='text' 
+                                            { item.content &&item.action == 'applyChronic' && <div className='text' 
                                             onClick={()=>{
                                                 this.context.router.push({
-                                                    pathname:'/ordermng/checkdetail',
+                                                    pathname:'/ordermng/describedetail',
+                                                    query:{id:item.actionTrigger}
+                                                   })
+                                             }}
+                                            style={{width:'250px',padding:'10px 0',height:'auto',background:'white'}} >
+                                            <p className='apply-title'>{!!item.checkContent&&item.checkContent.title}</p>
+                                                    <div className='apply-info'>
+                                                      
+                                                       <div className='info'>
+                                                           <p className='info-item'>就诊时间：<span>{!!item.checkContent&&!!item.checkContent.visitDate&&item.checkContent.visitDate}</span></p>
+                                                           <p className='info-item'>就诊科室：<span>{!!item.checkContent&&!!item.checkContent.deptName&&item.checkContent.deptName}</span></p>
+                                                           <p className='info-item'>就诊医生：<span>{!!item.checkContent&&!!item.checkContent.doctorName&&item.checkContent.doctorName}</span></p>
+                                                           <p className='info-item'>诊    断：<span>{!!item.checkContent&&!!item.checkContent.diagnosis&&item.checkContent.diagnosis}</span></p>
+
+                                                       </div>
+                                                    </div>
+                                                    <p className='apply-search'>查看详情</p>  
+                                                     </div>}
+                                            
+                                            {item.content &&item.action == 'reportApply'&&
+                                            <div className='text apply' 
+                                            onClick={()=>{
+                                                
+                                            }}
+                                            style={{width:'220px',height:'auto',background:'white'}} >
+                                            <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
+                                                <div className='check-info' style={{paddingRight:'5px'}}>
+                                                <div className='check-img'>
+                                                <img  style={{paddingTop:'12px'}} src={!!item.checkContent&&item.checkContent.img}/>
+                                                </div>
+                                                <div className='info'>
+                                                        <p className='context' style={{lineHeight:'20px',paddingBottom:'0',height:'50px',paddingTop:'7px'}}>
+
+                                                        {!!item.checkContent&&!!item.checkContent.content?item.checkContent.content:''}</p>
+                                                        </div>
+                                                </div>
+                                               
+                                                {status=='1'&&<div className='btn' >
+                                                    <div style={{color:'#666'}} >已同意</div>      
+                                                 </div> } 
+                                                </div>} 
+                                                { item.content &&item.action == 'mdt' && <div className='text' 
+                                    onClick={()=>{
+                                        this.context.router.push({
+                                            pathname:'/ordermng/mdtdetail',
+                                            query:{id:item.actionTrigger,resource:1}
+                                           })
+                                     }}
+                                    style={{width:'220px',height:'auto',background:'white'}} >
+                                    <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
+                                            <div className='check-info'>
+                                               <div className='check-img'>
+                                               <img  src="./././resources/images/chat-check.png"/>
+                                               </div>
+                                               <div className='info'>
+                                                   <p className='context'>{!!item.checkContent&&item.checkContent.dept}</p>
+                                               </div>
+                                            </div>
+                                            <p className='search'>查看详情</p>
+                                             </div>}
+                                    {item.type == 'BIZ' && item.direction == 'TO_USER'&&item.action!='mdt' && item.userIsShow == '1' &&item.url && item.action !== 'add' &&item.action !== 'addChecklist'&&item.action!='applyChronic'&& item.action!='receiveChronic'&& <div
+                                        className='image'
+                                        onClick={()=>{this.previewImg(item.url)
+                                                            }}
+                                        >
+                                        <i/><img  
+                                        src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
+                                    </div>}
+                                    {item.url && item.action == 'add' && <div
+                                        className='image'
+                                        onClick={()=>{ this.into(item.actionTrigger) }}>
+                                        <i/><img src={item.url} style={{width:'223px',height:'86px',maxWidth:'223px'}}/>
+                                    </div>}
+                                    {item.url && item.action == 'addChecklist' && <div
+                                    className='image'>
+                                    <i/>
+                                     <Link to={{  pathname:'/check/confirmCheck',
+                                     query:{id:item.actionTrigger,orderId:this.state.orderId,inquiryId:this.state.inquiryId,status:this.state.status}}}>
+                                    <img 
+                                         style={{width:'223px',height:'86px',maxWidth:'223px'}}
+                                    src={item.url}/></Link>
+                                </div>}                                          
+                                  {item.url && <div className='flex'></div>}
+                                </div>}
+                                {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' &&item.voiceTime > 0 && <div id="a" className='left slide'>
+                                    <div className='img'>
+                                        <span style={{fontSize:'10px'}}> {doctorName}</span>
+                                    </div>
+                                    {item.voiceTime && <div
+                                        onClick={()=>{
+                                                this.play('s'+item.id,item,index)
+                                                }}
+                                        className={`text radio ${item.voiceTime<5?'wid5':''} ${item.voiceTime<10&&item.voiceTime>=5?'wid6':''} ${item.voiceTime<20&&item.voiceTime>=10?'wid7':''} ${item.voiceTime>=20?'wid8':''}`}>                                            
+                                          {match[index]&&match[index].stopPlay&&<img className="rd" src="../../../resources/images/rd.png"
+                                            />} 
+                                            {match[index]&&!match[index].stopPlay&&<div style={{position:'relative'}} >  
+                                               {match[index]&&match[index].play1&&<img    src="../../../resources/images/r1.png"  style={{width:'4px',height:'4px',position:'absolute',left:'15px',top:'18px'}}/>}
+                                               {match[index]&&match[index].play2&&<img  src="../../../resources/images/r2.png"   style={{width:'4px',height:'12px',position:'absolute',left:'20px',top:'14px'}}/>}
+                                               {match[index]&&match[index].play3&&<img   src="../../../resources/images/r3.png"  style={{width:'5px',height:'18px',position:'absolute',left:'24px',top:'11px'}}/>}
+                                           </div>    }
+                                        <audio id={'s'+item.id}>
+                                            <source src={item.url} type="audio/mp3"/>
+                                        </audio>
+                                        <span
+                                            className={`${isDuration?'duration':'dura'}`}>{item.voiceTime}</span>
+                                    </div>}
+                                    {item.url && <div className='flex'></div>}
+                                </div>}
+                                {item.type == 'BIZ' &&item.direction == 'TO_DOCTOR'&&item.userIsShow== '1'&&
+                                <div id="s" className='right'>
+                                    <div className='flex'></div>
+                                    {item.url && item.action !== 'add' &&item.action !== 'addChecklist'&&item.action!='applyChronic'&& item.action!='receiveChronic' &&  <div className='image'
+                                                                               onClick={()=>{
+                                                                            this.previewImg(item.url)
+                                                                             }} >
+                                        <img  
+                                         src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
+                                    </div>}
+                                    {item.url && item.action == 'add' && <div
+                                     className='image'
+                                     onClick={()=>{
+                                        this.into(item.actionTrigger)
+                                        }}
+                                     ><img src={item.url} style={{width:'223px',height:'86px',maxWidth:'223px'}}/>
+                                        </div>}
+                                    {item.content &&item.action !== 'addChecklist' &&item.action!='reportApply'&&item.action!='mdt'&&item.action!='add'&&item.action!='applyChronic'&&item.action!='receiveChronic'&& <div className='text'>
+                                    {item.content}
+                                    <span className='angle'></span>
+                                    </div>}  
+                                    { item.content &&item.action == 'addChecklist' && <div className='text' 
+                                    onClick={()=>{
+                                        this.context.router.push({
+                                            pathname:'/ordermng/checkdetail',
+                                            query:{id:item.actionTrigger}
+                                           })
+                                     }}
+                                    style={{width:'220px',height:'auto',background:'white'}} >
+                                    <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
+                                            <div className='check-info'>
+                                               <div className='check-img'>
+                                               <img  src="./././resources/images/chat-check.png"/>
+                                               </div>
+                                               <div className='info'>
+                                                   <p className='fee'>￥{!!item.checkContent&&item.checkContent.price}</p>
+                                                   <p className='context'>{!!item.checkContent&&item.checkContent.checkItem}</p>
+                                               </div>
+                                            </div>
+                                            <p className='search'>查看详情</p>
+                                             </div>}
+                                             { item.content &&item.action == 'receiveChronic' && <div className='text' 
+                                            onClick={()=>{
+                                                this.context.router.push({
+                                                    pathname:'/ordermng/describedetail',
                                                     query:{id:item.actionTrigger}
                                                    })
                                              }}
@@ -1916,45 +2065,84 @@ onChange = (files,file,index) => {
                                                        <img  src="./././resources/images/chat-check.png"/>
                                                        </div>
                                                        <div className='info'>
-                                                           <p className='fee'>￥{!!item.checkContent&&item.checkContent.price}</p>
-                                                           <p className='context'>{!!item.checkContent&&item.checkContent.checkItem}</p>
+                                                           <p className='fee'>￥{!!item.checkContent&&item.checkContent.totalFee}</p>
+                                                           <p className='context'></p>
                                                        </div>
                                                     </div>
                                                     <p className='search'>查看详情</p>
                                                      </div>}
-                                                     {item.content &&item.action == 'reportApply'&&
-                                                     <div className='text apply' 
-                                                     onClick={()=>{ 
-                                                         
-                                                     }}
-                                                     style={{width:'220px',height:'auto',background:'white'}} >
-                                                     <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
-                                                         <div className='check-info' style={{paddingRight:'5px'}}>
-                                                         <div className='check-img'>
-                                                         <img  style={{paddingTop:'12px'}} src={!!item.checkContent&&item.checkContent.img}/>
+                                                     { item.content &&item.action == 'applyChronic' && <div className='text' 
+                                                    onClick={()=>{
+                                                this.context.router.push({
+                                                    pathname:'/ordermng/describedetail',
+                                                    query:{id:item.actionTrigger}
+                                                   })
+                                             }}
+                                            style={{width:'250px',padding:'10px 0',height:'auto',background:'white'}} >
+                                            <p className='apply-title'>{!!item.checkContent&&item.checkContent.title}</p>
+                                                    <div className='apply-info'>
+                                                       <div className='info'>
+                                                           <p className='info-item'>就诊时间：<span>{!!item.checkContent&&!!item.checkContent.visitDate&&item.checkContent.visitDate}</span></p>
+                                                           <p className='info-item'>就诊科室：<span>{!!item.checkContent&&!!item.checkContent.deptName&&item.checkContent.deptName}</span></p>
+                                                           <p className='info-item'>就诊医生：<span>{!!item.checkContent&&!!item.checkContent.doctorName&&item.checkContent.doctorName}</span></p>
+                                                           <p className='info-item'>诊    断：<span>{!!item.checkContent&&!!item.checkContent.diagnosis&&item.checkContent.diagnosis}</span></p>
+
+                                                       </div>
+                                                    </div>
+                                                    <p className='apply-search'>查看详情</p>  
+                                                     </div>}
+                                             {item.content &&item.action == 'reportApply'&&
+                                             <div className='text apply' 
+                                             onClick={()=>{ 
+                                                 
+                                             }}
+                                             style={{width:'220px',height:'auto',background:'white'}} >
+                                             <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
+                                                 <div className='check-info' style={{paddingRight:'5px'}}>
+                                                 <div className='check-img'>
+                                                 <img  style={{paddingTop:'12px'}} src={!!item.checkContent&&item.checkContent.img}/>
+                                                 </div>
+                                                 <div className='info'>
+                                                         <p className='context' style={{lineHeight:'20px',paddingBottom:'0',height:'50px',paddingTop:'7px'}}>
+
+                                                         {!!item.checkContent&&!!item.checkContent.content?item.checkContent.content:''}</p>
+                                                     </div>
+                                                 </div>
+                                               
+                                                 {status=='1'&&<div className='btn' >
+                                                    <div style={{color:'#666'}} >已同意</div>      
+                                                 </div> }
+                                                 </div>}
+                                                 { item.content &&item.action == 'mdt' && item.userIsShow == '1'&& <div className='text' 
+                                                 onClick={()=>{
+                                                     this.context.router.push({
+                                                         pathname:'/ordermng/mdtdetail',
+                                                         query:{id:item.actionTrigger,resource:1}
+                                                        })
+                                                  }}
+                                                 style={{width:'220px',height:'auto',background:'white'}} >
+                                                 <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
+                                                         <div className='check-info'>
+                                                            <div className='check-img'>
+                                                            <img  src="./././resources/images/chat-check.png"/>
+                                                            </div>
+                                                            <div className='info'>
+                                                                <p className='context'>{!!item.checkContent&&item.checkContent.dept}</p>
+                                                            </div>
                                                          </div>
-                                                         <div className='info'>
-                                                                 <p className='context' style={{lineHeight:'20px',paddingBottom:'0',height:'50px',paddingTop:'7px'}}>
- 
-                                                                 {!!item.checkContent&&!!item.checkContent.content?item.checkContent.content:''}</p>
-                                                             </div>
-                                                         </div>
-                                                       
-                                                         {status=='1'&&<div className='btn' >
-                                                            <div style={{color:'#666'}} >已同意</div>      
-                                                         </div> }
-                                                         </div>} 
-                                            <div className='img'>
-                                                <img src={userInfo.headImage||'./././resources/images/defautImg.png'}/>
-                                            </div> 
-                                        </div>} 
-                                    </div>
-                                )
-                            })}
-                            <div className="content-item" id="txt" ></div>
-                        </div>
-                        {isEnd&&!isEvaluate&&payBack&&noDoctor&& <div className="card" style={{height:'250px'}}></div>}
-                    </div>
+                                                         <p className='search'>查看详情</p>
+                                                          </div>} 
+                                    <div className='img'>
+                                        <img src={userInfo.headImage||'./././resources/images/defautImg.png'}/>
+                                    </div> 
+                                </div>} 
+                            </div>
+                        )
+                    })}
+                    <div className="content-item" id="txt" ></div>
+                </div>
+                {isEnd&&!isEvaluate&&payBack&&noDoctor&& <div className="card" style={{height:'250px'}}></div>}
+            </div>
                     {isOk && <div className='modal'>
                         <div className='modal-body'>
                             <div className='modal-title'>提示</div>
@@ -2007,14 +2195,14 @@ onChange = (files,file,index) => {
                             </div>
                         </div>
                     </div>
-                    <div
+                     { /* <div
                         className={`ping-content ${itemList>=1&&itemList<=3?'conmidHeight':''} ${itemList==0?'conminHeight':''}`}>
-                        <div className={`active ${t1.show ? '': 'showTxt' }`}>{t1.text}</div>
+                      <div className={`active ${t1.show ? '': 'showTxt' }`}>{t1.text}</div>
                         <div className={`active ${t2.show ? '': 'showTxt' }`}>{t2.text}</div>
                         <div className={`active ${t3.show ? '': 'showTxt' }`}>{t3.text}</div>
                         <div className={`active ${t4.show ? '': 'showTxt' }`}>{t4.text}</div>
                         <div className={`active ${t5.show ? '': 'showTxt' }`}>{t5.text}</div>
-                    </div>
+                                   </div> */ }
                     <div className="ping-info">
                         <span className="text1">评价详情：</span>
                         <span className="text2">{!!newText ? newText : '无'}</span>
@@ -2032,73 +2220,112 @@ onChange = (files,file,index) => {
                             >再次咨询</Link>
                     </div>
                 </div>}
-                {!isEvaluate &&payBack&&noDoctor&& <div className={`pingJia ${isEnd&&!isEvaluate&&!end&&payBack ? '': 'showTxt'}`}>
-                    <div className="title">请对本次咨询进行评价</div>
-                    <div className="ping">
-                        <div className="xing">星级：
+               
+                {!isEvaluate &&payBack&&noDoctor&&isEnd&&!end&&pingShow&&
+                    <div className='modal-pingJia' onClick={(e)=>{
+                        e.stopPropagation();
+                        e.preventDefault();
+                        this.setState({
+                           pingShow:false 
+                        })
+                    }}>
+                    <div className={`pingJia ${isEnd&&!isEvaluate&&!end&&payBack ? '': 'showTxt'}`}
+                    onClick={(e)=>{
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }}
+                    >
+                       <div className="title">请对本次咨询评价</div>
+                       <div className="ping">
+                          <div className="xing">
+                           <span>医生评价</span>
+                            <div className="star"
+                                 onClick={()=>{this.setScore1(1)
+                                                }}>
+                                {docScore < 1 && <img src="../../../resources/images/starH.png"/>}
+                                {docScore >=1 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                            this.setScore1(2)
+                                            }}>
+                                {docScore < 2 && <img src="../../../resources/images/starH.png"/>}
+                                {docScore >= 2 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                                this.setScore1(3)
+                                                }}>
+                                {docScore < 3 && <img src="../../../resources/images/starH.png"/>}
+                                {docScore >= 3 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                        this.setScore1(4)
+                                        }}>
+                                {docScore < 4 && <img src="../../../resources/images/starH.png"/>}
+                                {docScore >= 4 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                                this.setScore1(5)
+                                                }}>
+                                {docScore < 5 && <img src="../../../resources/images/starH.png"/>}
+                                {docScore >= 5 && <img src="../../../resources/images/starS.png"/>}
+                            </div>  
+                        </div>
+                        <div className="xing">
+                            <span>医院评价</span>
                             <div className="star"
                                  onClick={()=>{
                                                 this.setScore(1)
                                                 }}>
-                                {score < 1 && <img src="../../../resources/images/starH.png"/>}
-                                {score >= 1 && <img src="../../../resources/images/starS.png"/>}
+                                {hisScore < 1 && <img src="../../../resources/images/starH.png"/>}
+                                {hisScore >= 1 && <img src="../../../resources/images/starS.png"/>}
                             </div>
                             <div className="star"
                                  onClick={()=>{
                                             this.setScore(2)
                                             }}>
-                                {score < 2 && <img src="../../../resources/images/starH.png"/>}
-                                {score >= 2 && <img src="../../../resources/images/starS.png"/>}
+                                {hisScore < 2 && <img src="../../../resources/images/starH.png"/>}
+                                {hisScore >= 2 && <img src="../../../resources/images/starS.png"/>}
                             </div>
                             <div className="star"
                                  onClick={()=>{
                                                 this.setScore(3)
                                                 }}>
-                                {score < 3 && <img src="../../../resources/images/starH.png"/>}
-                                {score >= 3 && <img src="../../../resources/images/starS.png"/>}
+                                {hisScore < 3 && <img src="../../../resources/images/starH.png"/>}
+                                {hisScore >= 3 && <img src="../../../resources/images/starS.png"/>}
                             </div>
                             <div className="star"
                                  onClick={()=>{
                                         this.setScore(4)
                                         }}>
-                                {score < 4 && <img src="../../../resources/images/starH.png"/>}
-                                {score >= 4 && <img src="../../../resources/images/starS.png"/>}
+                                {hisScore < 4 && <img src="../../../resources/images/starH.png"/>}
+                                {hisScore >= 4 && <img src="../../../resources/images/starS.png"/>}
                             </div>
                             <div className="star"
                                  onClick={()=>{
                                                 this.setScore(5)
                                                 }}>
-                                {score < 5 && <img src="../../../resources/images/starH.png"/>}
-                                {score >= 5 && <img src="../../../resources/images/starS.png"/>}
+                                {hisScore < 5 && <img src="../../../resources/images/starH.png"/>}
+                                {hisScore >= 5 && <img src="../../../resources/images/starS.png"/>}
                             </div>
                         </div>
-                        <div className="xing-dian">点击星星评分</div>
                     </div>
                     <div className="ping-content">
-                        <div className={`${t1.show ? 'active' : ''}`} onClick={()=>{
-                            this.setAppraisal(1)
-                            }}>{t1.text}
-                        </div>
-                        <div className={`${t2.show ? 'active' : ''}`} onClick={()=>{
-                                    this.setAppraisal(2)
-                                    }}>{t2.text}
-                        </div>
-                        <div className={`${t3.show ? 'active' : ''}`} onClick={()=>{
-                                                this.setAppraisal(3)
-                                                }}>{t3.text}
-                        </div>
-                        <div className={`${t4.show ? 'active' : ''}`} onClick={()=>{
-                                        this.setAppraisal(4)
-                                        }}>{t4.text}
-                        </div>
-                        <div className={`${t5.show ? 'active' : ''}`} onClick={()=>{
-                                            this.setAppraisal(5)
-                                            }}>{t5.text}
-                        </div>
+                    {docList.length>0&&docList.map((item,index)=>{
+                        return(
+                            <div key={index} className={`${item.show ? 'active' : ''}`} onClick={()=>{
+                                this.setAppraisal(index)
+                                }}>{item.text}
+                            </div>
+                        )
+                    })}
                     </div>
                     <div className="ping-area">
                             <TextArea value={appraisal}
-                                      placeholder="请输入您要评价的内容"
+                                      placeholder={!docPlace?"请输入您对医生评价的内容":'具体描述一下吧，对医生帮助更大哦'}
                                       onBlur={()=>{
                                           window.scrollTo(0,0)
                                       }}
@@ -2110,12 +2337,40 @@ onChange = (files,file,index) => {
                     this.saveContent(e)
                     }}
                         />
-                        <div><span>{txtNum}</span><span>/140</span></div>
+                       
+                    </div>
+                    <div className="ping-content">
+                    {hisList.length>0&&hisList.map((item,index)=>{
+                        return(
+                            <div key={index} className={`${item.show ? 'active' : ''}`} onClick={()=>{
+                                this.setAppraisal1(index)
+                                }}>{item.text}
+                            </div>
+                        )
+                    })}
+                    </div>
+                    <div className="ping-area">
+                            <TextArea value={appraisal1}
+                            placeholder={!hisPlace?"请输入您对医院评价的内容":'具体描述一下吧，对医院帮助更大哦'}
+                                      onBlur={()=>{
+                                          window.scrollTo(0,0)
+                                      }}
+                                      onChange={(e)=>{
+                            this.setATxt1(e)
+                            }}
+                              maxLength="140"
+                              onPressEnter={(e)=>{
+                    this.saveContent1(e)
+                    }}
+                        />
+                      
+                    </div>
+                    
                     </div>
                     <div className="ping-btn">
                         <button className="btn1"
-                                onClick={()=>{
-                                this.submitEvaluate()
+                                onClick={(e)=>{
+                                this.submitEvaluate(e)
                                 }}> 确定评价
                         </button>
                         <Link

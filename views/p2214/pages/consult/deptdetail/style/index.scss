@@ -232,13 +232,31 @@
                 vertical-align: middle;
             }
             div:nth-child(2) {
+                font-size: 14px;
                 padding: 10px 0;
-                font-size: 15px;
                 color: #888888;
                 line-height: 23px;
                 white-space: normal;
                 word-wrap: break-word;
-
+                position: relative;
+                span{
+                    color: #50abca;
+                    display: inline-block;
+                    position: absolute;
+                    right: 0px;
+                    top: 50%;
+                    margin-top: -15px;
+                    width: 65px;
+                    height: 30px;
+                    text-align: center;
+                    border: 1px solid #50abca;
+                    border-radius: 6px;
+                    line-height: 30px;
+                }
+                .Certified{
+                    color: #888888;
+                    border: 1px solid #888888;
+                }
             }
         }
 
