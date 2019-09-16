@@ -110,6 +110,7 @@ getUser(remune) {
               var storage = window.localStorage;
               //加入缓存
               storage.userInfo = JSON.stringify(res.data);
+              storage.userId=res.data.id;
               this.setState({
                   isShowProtocol: true,
                   totalFee: remune

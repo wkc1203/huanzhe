@@ -9,6 +9,10 @@ import Connect from '../../components/connect/Connect';
 
 import { setTitle } from '../../utils/utils';
 import { INHOSP, TREAT } from '../../config/constant/constant';
+/**
+ * 医院信息
+ */
+import HospitalInformation from '../../pages/hospitalInformation/hospitalInformation/hospitalInformation';
 
 /**
  * 医院信息
@@ -31,7 +35,14 @@ import CheckList from '../../pages/check/checkList/CheckList';
 import ReportList from '../../pages/report/reportList/ReportList';
 import ReportInfo from '../../pages/report/reportInfo/ReportInfo';
 
-  
+/* mdt */
+
+import MdtList from '../../pages/mdt/list/List';
+import MdtDetail from '../../pages/mdt/detail/Detail';
+import MdtApply from '../../pages/mdt/apply/Apply';
+import MdtUpload from '../../pages/mdt/upload/Upload';
+import MdtReport from '../../pages/mdt/report/report';  
+
 
 /**
  * 权限
@@ -48,6 +59,7 @@ import userLogin from '../../pages/auth/login/Login';
  */
 import Inquiry from '../../pages/inquiry/inquirylist/InquiryList';
 import ChatIndex from '../../pages/inquiry/chat/ChatIndex';
+import MdtInquiry from '../../pages/inquiry/mdtInquiry/MdtIndex';
 
 
 /**
@@ -59,7 +71,9 @@ import OrderList from '../../pages/ordermng/orderlist/OrderList';//咨询订单
 import CheckDetail from '../../pages/ordermng/checkdetail/CheckDetail';
 import CheckOrder from '../../pages/ordermng/checkorder/CheckOrder';
 import CheckAdd from '../../pages/ordermng/checkadd/CheckAdd';
-//import ReportOrderList from '../../pages/ordermng/reportOrderList/ReportOrderList';//检查单订单
+import MdtOrder from '../../pages/ordermng/mdtdetail/MdtDetail';//检查单订单
+import DescribeDetail from '../../pages/ordermng/describedetail/DescribeDetail';
+import DescribeInfo from '../../pages/ordermng/describeinfo/DescribeInfo';
 
 /**
  * 科室医生
@@ -71,6 +85,8 @@ import DeptList from '../../pages/consult/deptlist/DeptList';
 import AllDeptList from '../../pages/consult/alldeptlist/AllDeptList';
 import Pay from '../../pages/consult/pay/Pay';
 import Waiting from '../../pages/consult/waiting/Waiting';
+import Describe from '../../pages/consult/describe/Describe';
+import SubmitDesc from '../../pages/consult/submitdesc/SubmitDesc';
 
 
 
@@ -189,6 +205,11 @@ class Routers extends React.Component {
             <Route path="/check/checkList" component={CheckList} title='重医儿童医院咨询平台' />
            
           </Route>
+          {/* 医院信息 */}
+          <Route path="/hospitalInformation">
+            <IndexRedirect to="/hospitalInformation/hospitalInformation" />
+            <Route path="/hospitalInformation/hospitalInformation" component={HospitalInformation} title='重医儿童医院咨询平台' />
+          </Route>
           {/* 科室医生 */}
           <Route path="/consult">
             <IndexRedirect to="/consult/confirminfo" />
@@ -199,8 +220,21 @@ class Routers extends React.Component {
             <Route path="/consult/waiting" component={Waiting} title='支付处理中' />
             <Route path="/consult/pay" component={Pay} title='重医儿童医院咨询平台' />
             <Route path="/consult/report" component={FreeReport} title='重医儿童医院咨询平台' />
-          </Route>
-          {/* 订单*/}
+            <Route path="/consult/describe" component={Describe} title='重医儿童医院咨询平台' />
+            <Route path="/consult/submitdesc" component={SubmitDesc} title='重医儿童医院咨询平台' />
+
+            </Route>
+          
+          {/* mdt*/}
+          <Route path="/mdt">
+            <IndexRedirect to="/mdt/list" />
+              <Route path="/mdt/list" component={MdtList} title='重医儿童医院咨询平台' />
+              <Route path="/mdt/detail" component={MdtDetail} title='重医儿童医院咨询平台' />
+              <Route path="/mdt/apply" component={MdtApply} title='重医儿童医院咨询平台' />
+              <Route path="/mdt/upload" component={MdtUpload} title='重医儿童医院咨询平台' />
+              <Route path="/mdt/report" component={MdtReport} title='重医儿童医院咨询平台' />
+
+            </Route>
           <Route path="/ordermng">
             <IndexRedirect to="/ordermng/evaluate" />
             <Route path="/ordermng/evaluate" component={Evaluate} title='重医儿童医院咨询平台' />
@@ -209,8 +243,10 @@ class Routers extends React.Component {
             <Route path="/ordermng/checkdetail" component={CheckDetail} title='重医儿童医院咨询平台' />
             <Route path="/ordermng/checkorder" component={CheckOrder} title='重医儿童医院咨询平台' />
             <Route path="/ordermng/checkadd" component={CheckAdd} title='重医儿童医院咨询平台' />
-            {/*<Route path="/ordermng/reportOrderlist" component={ReportOrderList} title='重医儿童医院咨询平台' />*/}
-          </Route>
+            {<Route path="/ordermng/mdtdetail" component={MdtOrder} title='重医儿童医院咨询平台' />}
+            <Route path="/ordermng/describedetail" component={DescribeDetail} title='重医儿童医院咨询平台' />
+            <Route path="/ordermng/describeinfo" component={DescribeInfo} title='重医儿童医院咨询平台' />     
+            </Route>
 
 
           {/* 登录 */}
@@ -251,7 +287,9 @@ class Routers extends React.Component {
             <IndexRedirect to="/inquiry/inquirylist" />
             <Route path="/inquiry/inquirylist" component={Inquiry} title='咨询会话' />
             <Route path="/inquiry/chat" component={ChatIndex} title='重医儿童医院咨询平台' />
-          </Route>
+            <Route path="/inquiry/mdtInquiry" component={MdtInquiry} title='重医儿童医院咨询平台' />
+          
+            </Route>
           {/* 门诊加号 */}
           <Route path="/add">
             <IndexRedirect to="/add/addManage" />

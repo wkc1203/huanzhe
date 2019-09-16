@@ -1,0 +1,87 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+
+.page-mdt{
+   .no-mdt{
+       height:50px;
+       width:100%;
+       margin: 50px auto;
+       text-align: center;
+       img{
+           width:55px;
+           height:45px;
+       }
+       p{
+        color: #999;
+        padding-top: 5px;
+        font-size: 12px;
+       }
+   }
+   .mdt-list{
+       margin: 5px 10px;
+       .mdt-item{
+           border-radius:10px;
+           margin-bottom:5px;
+           background:white;
+           height:auto;
+           padding: 15px 10px 0px;
+           .mdt-title{
+               font-size:15px;
+               font-weight: bold;
+               color:#333;
+               padding-bottom:5px;
+               text-align: left;
+           }
+           .detail{
+               font-size:15px;
+               color:#666;
+               padding-bottom:10px;
+
+           }
+           .person{
+               height:34px;
+               line-height: 34px;
+               border-top:1px solid #efefef;
+               display: flex;
+               color:#666;
+               font-size:13px;
+               .left{
+                   flex:1;
+                   padding-left: 23px;
+                   text-align: left;
+                   img{
+                       width:15px;
+                       top:9px;
+                       height:13px;
+                   }
+               }
+               >p{
+                   position: relative;
+                   font-size:13px;
+                   color:#666;
+                   span{
+                       font-weight: bold;
+                   }
+                   img{
+                       position: absolute;
+                       left:0;
+                       top:11px;
+
+                   }
+               }
+               .right{
+                   flex:1;
+                   text-align: right;
+                   img{
+                       left: 62px;
+                       width:13px;
+                       height:12px;
+                   }
+
+               }
+           }
+       }
+   }
+}

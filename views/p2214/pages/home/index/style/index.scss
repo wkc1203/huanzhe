@@ -415,14 +415,12 @@
             align-items: center;
           
             .icon {
-                margin-left:5px;
                 img {
                     width: 45px;
                     height: 45px;
                 }
             }
-            .text{
-                margin-right:10px;
+            .text{ 
             }
             .text > div{
                 &:first-child {

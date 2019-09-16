@@ -40,6 +40,29 @@
 }
 .page-inquiry-list {
     padding-bottom:40px;
+    .orderType{
+        height: 44px;
+        display: flex;
+        text-align: center;
+        line-height: 44px;
+        background: white;
+         >div{
+            flex: 1;
+            position: relative;
+
+         } 
+         .active{
+             color:#4cabcf;
+             span{
+                width: 60px;
+                background: #4cabcf;
+                height: 2px;
+                bottom: 0;
+                left: 35%;
+                position: absolute;
+             }
+         }
+    }
     .doc-item {
         max-height: 206px;
         margin: 5px 10px;
@@ -64,7 +87,8 @@
             position: absolute;
             right: 0;
             top: 30%;
-            width: 60px;
+            width: auto;
+            padding:0 10px;
             text-align: center;
             font-size:13px;
          
@@ -76,6 +100,7 @@
         }
         .dName{
             display: flex;
+            flex-wrap:wrap;
             .name{
                 font-size: 15px;
                 font-weight: bold;

@@ -58,6 +58,7 @@ class Widget extends Component {
                     var storage=window.localStorage;
                     //加入缓存
                     storage.userInfo=JSON.stringify(res.data);
+                    storage.userId=res.data.id;
                     var replaceUrl=window.localStorage.getItem('url');
                     top.window.location.replace(replaceUrl);
                     storage.isOpenId=1;

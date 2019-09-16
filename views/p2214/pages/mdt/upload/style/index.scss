@@ -1,0 +1,313 @@
+@charset "utf-8";
+
+@import "../../../../resources/styles/mixins";
+
+
+.page-mdt-upload{
+    .report-info{
+         padding:0 10px;
+        .title{
+            padding: 25px 0px;
+            border-bottom: 1px dashed #d5d5d5;
+            div:nth-of-type(1){
+                text-align: center;
+                font-size: 20px;
+                color: #333;
+                font-weight: 600;
+            }
+            div:nth-of-type(2){
+                text-align: center;
+                font-size: 15px;
+                color: #333;
+            }
+        }
+        .people{
+            margin-top: 10px;
+            img{
+                margin-right:6px;
+                width: 15px;
+                height: 15px;
+                vertical-align: middle;
+            }
+            span{
+                font-size: 15px;
+                color: #666;
+                font-weight: 600;
+            }
+            .peopleMsg{
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+                background: white;
+                border-radius: 10px;
+                padding: 15px 10px;
+                .name{
+                    width: 55px;
+                    height: 55px;
+                    background: #50abca;
+                    color: white;
+                    text-align: center;
+                    line-height: 55px;
+                    border-radius: 50%;
+                    margin-right: 15px;
+                }
+                .msg{
+                    flex:1;
+                    >span{
+                        display:block;
+                    }
+                }
+                div{
+                    display: inline-block;
+                    text{
+                        display: block;
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+    
+
+    .descript{
+         margin-top: 10px;
+            img{
+                margin-right: 6px;
+                width: 15px;
+                height: 15px;
+                vertical-align: middle;
+            }
+            span{
+                font-size: 15px;
+                color: #666;
+                font-weight: 600;
+            }   
+            .descript1{
+                margin-top: 10px;
+                background: white;
+                border-radius: 10px;
+                padding: 15px 10px 0px;
+                box-sizing: border-box;
+                .imageType{
+                    margin-top: 9px;
+                    >img{
+                        width: 4px;
+                        height: 12px;
+                        margin-left: -10px;
+                    }
+                    >div{
+                        margin-top: 9px;
+                        img{
+                            width: 70px;
+                            height: 70px;
+                            margin-bottom: 10px;
+                            margin-right: 13px;
+                        }
+                    }
+                }
+            }    
+    }
+    .doctorReport{
+        background: white;
+        border-radius: 10px;
+        padding: 15px 10px;
+        margin-top: 5px;
+        .dept{
+            border-bottom: 1px solid #eee;
+            //padding-bottom: 20rpx;
+            margin-bottom: 15px;
+            .deptName{
+                color: #50abca;
+                margin-bottom: 10px;
+                font-weight: 600;
+            }
+        }
+        .doctorDes{
+            margin-bottom: 15px;
+        }
+        .dept:nth-last-of-type(1){
+            border: 0;
+        }
+    }
+    .agree{
+        width: 100%;
+        height: 100rpx;
+        color: white;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 10px;
+        background: #50abca;
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+    }
+   .mdt-img{
+       margin:0 10px;
+       .btn{
+        margin: 15px 0;
+        .submit-btn1 {
+            background-color: $hc-color-primary;
+            color: #fff;
+            font-size: 18px;
+            height: 47px;
+            margin: 0 auto;
+
+            border:none;
+            position:relative;
+            display:block;
+           width:332px;
+            padding-left:7px;
+            padding-right:7px;
+            box-sizing:border-box;
+
+            text-align:center;
+            text-decoration:none;
+            line-height:2.55555556;
+            border-radius:5px;
+            -webkit-tap-highlight-color:transparent;
+            overflow:hidden;
+
+
+        }
+    }
+       .upload-title{
+           height:44px;
+           line-height: 44px;
+           display: flex;
+           .left{
+               font-weight:bold;
+               font-size:15px;
+               flex:1;
+               color: #333;
+               padding-left:10px;
+               text-align: left;
+           }
+           .right{
+               flex:1;
+               text-align: right;
+               padding-right:30px;
+               font-size:12px;
+               color:#4cabcf;
+               position: relative;
+               img{
+                   right:10px;
+                   top:16px;
+                   width:13px;
+                   height:13px;
+                   position: absolute;
+
+               }
+           }
+       }
+       .input-img{
+        background:white;
+        border-radius: 5px;
+        height:500px;
+        padding:10px 10px;
+        .apply-title{
+            font-size:15px;
+            color:#999;
+            input{
+                color:#333;
+                font-size: 14px;
+                border:none;
+            }
+            margin-bottom:10px;
+        }
+        .upImg{
+            width:68px;
+            height:68px;
+            border-radius:10px;
+            border:1px solid #ccc;
+            text-align: center;
+            .up-img{
+                width: 30px;
+                padding-top: 11px;
+                height: 28px;
+             }
+           
+             >p{
+                font-size: 12px;
+                color: #999;
+                display: inline-block;
+             }
+          }
+       }
+       .all-img{
+           .tip{
+               margin-top:16px;
+               font-size:11px;
+               color:#999;
+           }
+           .img-list{
+               background:white;
+               border-radius: 5px;
+               padding:10px 10px;
+               .item{
+                   margin-bottom:30px;
+                   .apply-title{
+                       font-size:15px;
+                       padding-bottom:15px;
+                       color:#999;
+                       
+                        input{
+                            color:#333;
+                            border:none;
+                        }
+                     
+                    
+                   }
+                   .img{
+                       display:grid;
+                       grid-template-columns: 1fr 1fr 1fr 1fr;
+                       grid-gap: 10px 10px;
+                       .upImg{
+                            width:68px;
+                            height:68px;
+                            border-radius:10px;
+                            border:1px solid #ccc;
+                            text-align: center;
+                            .up-img{
+                                width: 30px;
+                                padding-top: 11px;
+                                height: 28px;
+                            }
+                            input{
+                                width: 68px;
+                                height: 68px;
+                                opacity: 0;
+                                display: inline-block;
+                                 position: absolute;
+                                left: 0;
+                                 z-index: 100;
+                            }
+                            >p{
+                                font-size: 12px;
+                                color: #999;
+                                display: inline-block;
+                            }
+                        }
+                       .img-item{
+                            position: relative;
+                            .del-img{
+                                width:16px;
+                                height:16px;
+                                position: absolute;
+                                right: -4px;
+                                top: -6px;
+                            }
+                           .main-img{
+                               display: block;
+                               width:70px;
+                               border-radius: 10px;
+                               height:70px;
+                               text-align: center;
+                              
+                               
+                           }
+                       }
+                   }
+               }
+           }
+       }
+   }
+}

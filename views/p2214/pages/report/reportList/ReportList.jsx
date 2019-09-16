@@ -136,6 +136,7 @@ class Widget extends Component {
                
                  var storage=window.localStorage;
                  //写入b字段
+                 storage.userId=res.data.id;
                  storage.userInfo=JSON.stringify(res.data);
              }
         }, (e) => {

@@ -49,6 +49,7 @@ class Widget extends Component {
                 ]
             },
             msg: '',
+            orderType:1,
         };
     }
     componentDidMount() {
@@ -58,11 +59,30 @@ class Widget extends Component {
           
           storage.hasUserId=this.props.location.query.userId; 
         }
-        this.getInquiryList();
+        if(this.props.location.query.type=='mdt'){
+            this.getMdtList();
+            this.setState({
+                orderType:'2'
+            })
+        }else{
+            this.getInquiryList();
+        }
+       
         Utils.getJsByHide();
     }
+    getType(type){
+        console.log(type)
+        this.setState({
+            orderType:type
+        })
+        if(type==1){
+            this.getInquiryList();
+        }else{
+            this.getMdtList();
+        }
+    }
     getMsg() {
-        Api
+        Api 
             .getMsg()
             .then((res) => {
                 if (res.code == 0 && res.data != null) {
@@ -126,6 +146,50 @@ class Widget extends Component {
                 })
             });
     }
+    /*获取mdt列表*/
+    getMdtList() {
+        this.showLoading();
+        Api
+            .getMdt({
+                userId:window.localStorage.getItem('userId'),
+                source:'chat'
+            })
+            .then((res) => {
+                this.hideLoading();
+                if (res.code == 0&&res.data.length>0) {
+                    
+                    var data=[];
+                    for(var i=0;i<res.data.length;i++){
+                            data.push(res.data[i])
+                        
+                    }
+                    this.setState({
+                        msgList: data
+                    })
+                   /*  if(this.props.location.query.inquiryId&&this.props.location.query.s!=1){
+                        window.location.href=window.location.href+"&s=1";
+                        this.context.router.push({
+                            pathname:'inquiry/chat',
+                            query:{
+                                inquiryId:this.props.location.query.inquiryId,
+                                orderId:this.props.location.query.orderId,
+                                status:this.props.location.query.status,
+                                no:1
+                            }
+                        })
+                    }  */
+                }else{
+                    this.setState({
+                        msgList: []
+                    })
+                }
+            }, (e) => {
+                this.hideLoading();
+                this.setState({
+                    msgList: []
+                })
+            });
+    }
     toNext(type) {
         if (type == 1) {
             this.context.router.replace({
@@ -139,14 +203,24 @@ class Widget extends Component {
         }
     }
     render() {
-        const {msgList,msg}=this.state
+        const {msgList,msg,orderType}=this.state
         return (
             <div className="container page-inquiry-list">
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
                         show={this.state.showIOS1}>
                     {msg}
                 </Dialog>
-                {msgList&&msgList.length>0&&msgList!='1' && msgList.map((item, index)=> {
+                <div className="orderType">
+                    <div className={`${orderType=='1'?'active':''}`} onClick={()=>{
+                        this.getType(1)
+                    }}>在线咨询
+                    <span></span></div>
+                    <div className={`${orderType=='2'?'active':''}`} onClick={()=>{
+                        this.getType(2)
+                    }}>医生会诊
+                    <span></span></div>
+                </div>
+                {msgList&&msgList.length>0&&msgList!='1'&&orderType=='1' && msgList.map((item, index)=> {
                     return (
                         <div className='doc-item' key={index} onClick={(e)=>{
                             e.stopPropagation();
@@ -161,12 +235,14 @@ class Widget extends Component {
                                 <img className="doc-img2"
                                 src={(!!item.doctor&&!!item.doctor.image?item.doctor.image:'./././resources/images/doc.png') || '../../../resources/images/doc.png'}
                                 alt="医生头像"/>
-                            </div>
+                            </div> 
                             <div className="chat-info">
                                  <div className="dName">
                                        <p className="name">{item.doctorName}</p>
-                                       <p className="time">{item.createDate.substring(0,16)}</p>
+                                       <p className="time">{!!item.createDate&&item.createDate.substring(0,16)}</p>
+
                                  </div>
+                              
                                  <div className="dDept">
                                    {item.deptName} {!!item.doctor&&!!item.doctor.level ? '|' : ''} {!!item.doctor&&!!item.doctor.level?item.doctor.level:''}
                                  </div>
@@ -184,6 +260,10 @@ class Widget extends Component {
                                 {(item.status == '3' || item.status == '2') &&item.refundStatus == '1'&&
                                 item.userReaded !== '0' &&
                                 <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>有退费</div>}
+<<<<<<< HEAD
+                                {item.status == '2' &&item.refundStatus!=1&&
+                                <div className="status-inquiry " >评价</div>}
+=======
                                 {item.status == '2' &&item.refundStatus!=1 &&
                                 <div className="status-inquiry " onClick={(e)=>{
                                    /*  e.stopPropagation();
@@ -193,6 +273,7 @@ class Widget extends Component {
                                         query:{orderId:item.orderIdStr}
                                     }) */
                                 }}>评价</div>}
+>>>>>>> 49f83d331d90d012df7b9817dab542a75bb5b084
 
                                 {item.userReaded == '0' &&(item.status == '0' || item.status == '1') && <div className="status-inquiry read-status" style={{color:'white',background:'#ea6ea4',border:'none'}}>未读</div>}
                             </div>
@@ -237,6 +318,45 @@ class Widget extends Component {
                                         >评价</Link>
                                 </div>}
                                             </div> */}
+                        </div>)
+                })}
+                {msgList&&msgList.length>0&&msgList!='1'&&orderType=='2' && msgList.map((item, index)=> {
+                    return (
+                        <div className='doc-item' key={index} onClick={(e)=>{
+                            e.stopPropagation();
+                            e.preventDefault();
+                            this.context.router.push({
+                                pathname:'inquiry/mdtInquiry',
+                                        query:{mdtId:item.id}
+                                        
+                            }) 
+                        }}>
+                            <div className="doc-imgs">
+                                <img className="doc-img2"
+                                src={'./././resources/images/mtd-icon.png'}
+                                alt="头像"/>
+                            </div>
+                            <div className="chat-info">
+                                 <div className="dName">
+                                       <p className="name">{item.teamName}</p>
+                                 </div>
+                                 <div className="dName">
+                                        <p className="name" style={{fontSize:'13px',fontWeight:'normal',color:'#666'}}>{item.applyTimeName}</p>
+                                </div>
+                                 <div className="dDept"> 
+                                   {item.deptName} {!!item.patientDoctorTitle&&!!item.patientDoctorTitle ? item.patientDoctorTitle : ''} 
+                                 </div>
+                                 <div className="dPat">
+                                    就诊人：{item.patientName}  |  MDT 
+                                 </div>
+                                 <div className="content-text">
+                                 {item.content&&item.content.indexOf('checkItem')!=-1?'[检查单]':item.content&&item.content.indexOf('PIC')!=-1?'[图片]':item.content&&item.content.indexOf('.mp3')!=-1?'[语音]':item.content&&item.content.length>0?item.content:'  '}
+                                 </div>
+                                 {item.status == '4'  &&
+                                <div className="status-inquiry" style={{color:'white',background:'#4cabcf',border:'none'}}> {item.statusName}</div>}
+                                {item.status !== '4' &&
+                                <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>{item.status=='5'?item.reportName:item.statusName}</div>}
+                            </div>
                         </div>)
                 })}
                 {msgList.length <= 0 &&msgList!='1'&& <div className='no-data'>

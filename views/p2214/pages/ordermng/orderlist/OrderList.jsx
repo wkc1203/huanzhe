@@ -59,7 +59,12 @@ class Widget extends Component {
         item1Show:true,//咨询显示
         item2Show:false,//加号显示
         item3Show:false,//检查单显示
+        item4Show:false,//mdt
+        item5Show:false,//慢病续方显示
         checkList:'1',//查检单列表
+        describeList:'1',//处方申请列表
+        mdtList:'1',//MDT列表
+        describeList:'1',//处方申请列表
         patCard:'',
         searchPage:1, 
         isLoadingMore: false,
@@ -70,7 +75,7 @@ class Widget extends Component {
        //隐藏分享等按钮
        Utils.getJsByHide();
        this.setState({
-           userId:this.props.location.query.userId
+           userId:window.localStorage.userId
        })
      this.getCardList();
      this.getOrderList();
@@ -79,6 +84,8 @@ class Widget extends Component {
             item1Show:true,
             item2Show:false,
             item3Show:false,
+            item4Show:false,
+            item5Show:false,
         }) 
     }
      if(this.props.location.query.busType=='add'){
@@ -86,6 +93,7 @@ class Widget extends Component {
              item1Show:false,
              item2Show:true,
              item3Show:false,
+             item4Show:false,
          })
          this.getAddCardList();
      }
@@ -94,8 +102,32 @@ class Widget extends Component {
             item1Show:false,
             item2Show:false,
             item3Show:true,
+            item4Show:false,
+            item5Show:false,
         })
         this.getCheckList(this.state.patCard,this.state.searchPage);
+    } 
+    if(this.props.location.query.busType=='mdt'){
+        this.setState({
+            item1Show:false,
+            item2Show:false,
+            item3Show:false,
+            item4Show:true,
+            item5Show:false,
+        })
+        this.getmdtList(this.state.searchPage);
+        
+    }
+    if(this.props.location.query.busType=='describe'){
+        this.setState({
+            item1Show:false,
+            item2Show:false,
+            item3Show:false,
+            item4Show:false,
+            item5Show:true,
+        })
+        this.getdescribeList(this.state.searchPage);
+        
     }  
     let timeCount;
     window.addEventListener('scroll', function () {
@@ -133,11 +165,58 @@ class Widget extends Component {
             this.setState({showToast: false});
         }, 2000);
     }
+    getdescribeList(page){
+        this.showLoading();
+        Api 
+            .getDescribeList({
+                userId:window.localStorage.userId,
+                hisId:2214,
+                platformId:2214,
+                pageNum:page,
+                numPerPage:10
+            })
+            .then((res) => {
+                if (res.code == 0&&res.data.recordList.length>0) {
+                     this.hideLoading();
+                     if(page>=res.data.pageCount){
+                         this.setState({
+                             searchPage:555
+                         })
+                     }
+                     this.setState({
+                        describeList:[]
+                    })
+                   console.log("red",res);
+                   var checkList=res.data.recordList;
+                   for(var i=0;i<checkList.length;i++){
+                        checkList[i].drugList=!!checkList[i].recipelList?JSON.parse(checkList[i].recipelList):[];
+                            checkList[i].showMore=false;
+                   }
+                  this.setState({
+                    describeList:this.state.describeList.concat(checkList) || []
+                })
+                }else{
+                    this.hideLoading();
+                    this.setState({
+                        describeList: []
+                    })
+                }
+            }, e=> {
+                this.hideLoading();
+                this.setState({
+                    describeList: []
+                })
+                this.setState({
+                    msg:e.msg,
+                    showIOS1:true
+                })
+            });
+    }
     getCheckList(patCardNo,page) {
         this.showLoading();
         Api 
             .getCheckOrderList({
-                userId:this.props.location.query.userId,
+                userId:window.localStorage.userId,
                 hisId:2214,
                 platformId:2214,
                 patCardNo:patCardNo,
@@ -155,7 +234,6 @@ class Widget extends Component {
                      this.setState({
                         checkList:[]
                     })
-                   console.log("red",res);
                    var checkList=res.data.recordList;
                    for(var i=0;i<checkList.length;i++){
                     checkList[i].timeText=Utils.dateTime(checkList[i].updateTime);
@@ -207,7 +285,9 @@ class Widget extends Component {
              .getCardList()
              .then((res) => {
                   if(res.code==0){
-                      this.setState({ patList: res.data.cardList });
+                      this.setState({ 
+                          patList: res.data.cardList
+                      });
                   }
                   }, e=> {
                  this.setState({
@@ -252,7 +332,7 @@ class Widget extends Component {
    if(id=='全部'){
        
        Api
-           .getRegister({userId:this.state.userId,type:'subscribe'})
+           .getRegister({userId:window.localStorage.userId,type:'subscribe'})
            .then((res) => {
                if(res.code==0){
                 this.hideLoading();
@@ -276,7 +356,7 @@ class Widget extends Component {
    }else{
        
        Api
-           .getRegister({userId:this.state.userId, orderCarNo:id,type:'subscribe'})
+           .getRegister({userId:window.localStorage.userId, orderCarNo:id,type:'subscribe'})
            .then((res) => {
               this.hideLoading();
                if(res.code==0){
@@ -367,11 +447,27 @@ switchStatus3(type,index){
                     this.getList('全部');
                 }
                 this.setState({
-                    userId:this.props.location.query.userId,
+                    userId:window.localStorage.userId,
                     list:list
                 })
             }
         },(e) => {
+        });
+}
+getmdtList() {
+    this.showLoading();
+    Api
+        .mdtList({userId:window.localStorage.userId})
+        .then((res) => {
+            this.hideLoading();
+            if(res.code==0){ 
+                this.setState({
+                    mdtList:res.data
+                })
+            }
+        },(e) => {
+            this.hideLoading();
+            
         });
 }
     //切换显示内容
@@ -381,29 +477,73 @@ switchStatus3(type,index){
                 item1Show:true,
                 item2Show:false,
                 item3Show:false,
+                item4Show:false,
+                item5Show:false
             })
-}
-if(type==2){
-    
-    this.getAddCardList();
+            }
+            if(type==2){
+                
+                this.getAddCardList();
+                this.setState({
+                    item2Show:true,
+                    item1Show:false,
+                    item3Show:false,
+                    item4Show:false,
+                    item5Show:false
+                })
+            }
+            if(type==3){
+                this.getCheckList('',this.state.searchPage);
+                this.setState({
+                    item2Show:false,
+                    clickItem:555,
+                    item1Show:false,
+                    item3Show:true,
+                    item4Show:false,
+                    item5Show:false
+
+                })
+            }
+            if(type==4){
+            this.getmdtList(this.state.searchPage);
+                this.setState({
+                    item2Show:false,
+                    clickItem:555,
+                    item1Show:false,
+                    item3Show:false,
+                    item4Show:true,
+                    item5Show:false
+                })
+
+            }
+            if(type==5){
+                this.getdescribeList(this.state.searchPage);
+                this.setState({
+                    item2Show:false,
+                    clickItem:555,
+                    item1Show:false,
+                    item3Show:false,
+                    item4Show:false,
+                    item5Show:true,
+                })
+            
+            }
+
+            }   
+    hide(index){
+        var list=this.state.describeList;
+
+    for(var i=0;i<list.length;i++){
+            if(index==i){
+                list[i].showMore=!list[i].showMore;
+            }
+    } 
     this.setState({
-        item2Show:true,
-        item1Show:false,
-        item3Show:false
+        describeList:list
     })
-}
-if(type==3){
-    this.getCheckList('',this.state.searchPage);
-    this.setState({
-        item2Show:false,
-        clickItem:555,
-        item1Show:false,
-        item3Show:true
-    })
-}
-}
+    }
   render() {
-    const {checkList,manageList,item1Show,item2Show,item3Show,clickItem,isPatShow,orderList,patList,msg}=this.state;
+    const {mdtList,describeList,checkList,manageList,item1Show,item2Show,item3Show,item4Show,item5Show,clickItem,isPatShow,orderList,patList,msg}=this.state;
     return (
     <div className="container page-order-list">
         <div className="home" style={{position:'fixed',width:'100%',top:'0'}}>
@@ -424,22 +564,37 @@ if(type==3){
               onClick={()=>{
               this.changeShow(1)
               }}>咨询 
-              {!item1Show&&<img src='./././resources/images/order-chats.png'/>}
-              {item1Show&&<img src='./././resources/images/order-chat.png'/>}
+              {!item1Show&&<img src='./././resources/images/order-chat1s.png'/>}
+              {item1Show&&<img src='./././resources/images/order-chat1.png'/>}
            </p>
           <p className={`${item2Show?'item-active':''}`} onClick={()=>{
               this.changeShow(2)
               }}>加号
-              {item2Show&&<img src='./././resources/images/order-add.png'/>}
-              {!item2Show&&<img src='./././resources/images/order-adds.png'/>}
+              {item2Show&&<img src='./././resources/images/order-add1.png'/>}
+              {!item2Show&&<img src='./././resources/images/order-add1s.png'/>}
            </p>
           <p className={`${item3Show?'item-active':''}`}
              onClick={()=>{
               this.changeShow(3)
               }}>检验检查
-              {!item3Show&&<img src='./././resources/images/order-checks.png'/>}
-              {item3Show&&<img src='./././resources/images/order-check.png'/>}
+              {!item3Show&&<img src='./././resources/images/order-check1s.png'/>}
+              {item3Show&&<img src='./././resources/images/order-check1.png'/>}
            </p>
+           <p className={`${item4Show?'item-active':''}`}
+             onClick={()=>{
+              this.changeShow(4)
+              }}>会诊
+              {!item4Show&&<img src='./././resources/images/ddglhz.png'/>}
+              {item4Show&&<img src='./././resources/images/ddglhzys.png'/>}
+           </p>
+           <p className={`${item5Show?'item-active':''}`}
+           onClick={()=>{
+            this.changeShow(5)
+            }}>慢病续方
+            {!item5Show&&<img src='./././resources/images/order-prescribes.png'/>}
+            {item5Show&&<img src='./././resources/images/order-prescribe.png'/>}
+         </p>
+
         </div>
         {item2Show&&
             <div className="page-add-confirm">
@@ -638,7 +793,123 @@ if(type==3){
             {checkList.length <= 0&&checkList!='1'&&<NoResult  msg='暂未查询到相关信息'/>}
             </div>
         }
+
         {item3Show&&<div className="loadMore" ref="wrapper"  ></div>}
+        {item4Show&&
+            <div className='reportlist'>
+               {mdtList&&mdtList!='1'&&mdtList.length>0&&mdtList.map((item,index)=>{
+                        return(
+                            <div className="describe-item" key={index} onClick={()=>{
+                                if(item.status!=='1'){
+                                    this.context.router.push({
+                                        pathname:'ordermng/mdtdetail', 
+                                        query:{id:item.id}
+                                    }) 
+                                }
+                            }}>
+                               <div className="des-basic" style={item.status=='1'?{border:'none'}:{}}>
+                                    <div className="des">
+                                        <p className="left">就诊人：<span>{item.patientName}</span></p>
+                                        <p className={`right ${item.status=='1'||item.status=='2'?'dai':item.status=='0'||item.status=='3'||item.status=='4'?'on':''}`}>{item.status=='5'?item.reportName:item.statusName}</p>
+                                    </div>
+                                    <div className="des">
+                                        <p className="left">会诊名称：<span>{item.teamName}</span></p>
+                                    </div>
+                                    <div className="des">
+                                      <p className="left">申请时间：<span>{item.applyTimeName}</span></p>
+                                    </div>
+                                </div>
+                                {item.status!=='1'&&<div className="des-detail">
+                                   查看详情
+                                   <img src='./././resources/images/des_xyjt.png'/> 
+                                </div>}
+                            </div>
+                        )
+               })}
+            <div className="no-des">
+                       <img src='./././resources/images/mygddl.png'/>     
+                       <p>没有更多的了</p>
+             </div>
+            {/* checkList.length <= 0&&checkList!='1'&&<NoResult  msg='暂未查询到相关信息'/> */}
+            </div>
+        }
+        {item5Show&&!!describeList&&describeList.length>0&&describeList!='1'&&
+            <div className='reportlist'>
+            {describeList.map((item,index)=>{
+                return(
+                    <div className="describe-item" key={index} onClick={(e)=>{
+                        e.stopPropagation();
+                        e.preventDefault();
+                        this.context.router.push({
+                            pathname:'ordermng/describedetail',
+                            query:{id:item.id}    
+                        })  
+                    }}>
+                       <div className="des-basic">
+                            <div className="des">
+                                <p className="left">就诊人：<span>{item.patientName}</span></p>
+                                <p className="right">{item.createDate}</p>
+                            </div>
+                            <div className="des">
+                                <p className="left">就诊科室：<span>{item.deptName}</span></p>
+                                <p className="right status">{item.statusName}</p>
+                            </div> 
+                            <div className="des">
+                              <p className="left">诊断：<span>{item.diagnosis}</span></p>
+                            
+                            </div>
+                        </div>
+                        {!!item.drugList&&item.drugList.length>0&&<div className='drug' onClick={(e)=>{
+                            e.stopPropagation();
+                            e.preventDefault();
+                           this.hide(index)
+                       }}>
+                             <div className="drug-tip">
+                               <img src='./././resources/images/describe-icon.png'/>药品处方
+                             </div>
+                             <div className="drug-tab" >
+                               {!item.showMore&&<img src='./././resources/images/des_xyjt.png' />}
+                               {!!item.showMore&&<img src='./././resources/images/des_jt.png' style={{width:'18px',height:'10px'}} />}
+                             </div>
+                        </div>}
+                        {!!item.drugList&&item.drugList.length>0&&item.showMore&&<div className="more-info">
+                            <div className="drug-info">
+                              {item.drugList&&item.drugList.map((item1,index1)=>{
+                                  return(
+                                    <div className="drug-item" key={index1}>
+                                        <div className="name">
+                                            <p className="left">{item1.Drug_name}</p>
+                                            <p className="right">￥{Math.floor(item1.Retail_price*100)/100}</p>
+                                        </div>
+                                        <div className="dose">
+                                            <p className="dose-item">{item1.Freq_desc}</p>
+                                            <p className="dose-item">{item1.Administration}</p>
+                                            <p className="dose-item">{item1.Drug_spec}</p>
+                                            <p className="dose-item">用法：{item1.Dosage+item1.Dosage_unit}</p>
+                                        </div>
+                                    </div>
+                                  )   
+                              })}
+                            </div>
+                            <div className="desdoc-info">
+                                <p className="left">医生：{item.doctorName}（{item.doctorTitle}）</p>
+                                <p className="right">合计：￥{item.totalFee/100}</p>
+                            </div>
+                        </div>}
+                    </div>
+                )
+            })
+                
+                
+            }
+            <div className="no-des">
+                       <img src='./././resources/images/mygddl.png'/>     
+                       <p>没有更多了</p>
+             </div>
+            {/* checkList.length <= 0&&checkList!='1'&&<NoResult  msg='暂未查询到相关信息'/> */}
+            </div>
+        }
+        
     </div>
     );
   }

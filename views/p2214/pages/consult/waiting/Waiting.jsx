@@ -79,12 +79,18 @@ class Widget extends Component {
         this.showLoading();
         Utils.getJsByHide();
         if(this.props.location.query.orderType==2){
-                 this.getOrderStats1(this.props.location.query.orderId);
+               if(this.props.location.query.source&&this.props.location.query.source=='mdt'){
+                 this.getOrderStats2(this.props.location.query.orderId);
+               }else{
+                    this.getOrderStats1(this.props.location.query.orderId);
+
+               }
         }else{
             console.log("32")
             if(this.props.location.query.orderType==1){
                   this.getOrderStats(this.props.location.query.orderId)
             }else{
+
                   // if(loc=='1'){
                 this.hideLoading();
                 if (!statusMap[this.props.location.query.type]) {
@@ -292,6 +298,22 @@ class Widget extends Component {
                                     query:{addId:this.props.location.query.id,source:this.props.location.query.source}
                                  })
                          }
+                     }
+                }else{
+                } 
+            }, (e) => {
+            });
+    }
+    getOrderStats2(orderId) {
+        Api
+            .getInquriyStatus({orderId:orderId})
+            .then((res) => {
+                if (res.code == 0) {
+                     if(res.data.orderStatus=='S'){
+                                this.context.router.push({
+                                    pathname:'/inquiry/inquirylist',
+                                 })
+                         
                      }
                 }else{
                 } 
