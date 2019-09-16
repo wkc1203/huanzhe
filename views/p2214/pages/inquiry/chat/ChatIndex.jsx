@@ -1724,6 +1724,7 @@ onChange = (files,file,index) => {
                     show={this.state.showIOS1}>
                 {msg}
             </Dialog>
+<<<<<<< HEAD
             <div className="containers" >
             <div className="home bid" ><span className="jian"
                                         onClick={()=>{
@@ -1812,6 +1813,66 @@ onChange = (files,file,index) => {
                                 })
                                 }}
                             />
+=======
+                <div className="container1" style={!isEvaluate &&payBack&&noDoctor&&isEnd&&!end?{height:'500px'}:{}}>
+                    <div className="home bid" ><span className="jian"
+                                                onClick={()=>{
+                                                    if(this.props.location.query.resource=='report'){
+                                                        this.context.router.goBack()
+                                                    }else{
+                                                        this.context.router.push({
+                                                            pathname:'inquiry/inquirylist'
+                                                            })
+                                                    } 
+                                      }}
+                        ></span>{doctorName}
+                    </div>
+                    <Toast icon="success-no-circle" show={this.state.showToast}>评价成功</Toast>
+                    {!isEnd && <div className='header'>
+                        <div>
+                        {timeShow&&<div className="time">剩余时间： <span>{timeShow}</span></div>}
+                            <div className="num">剩余条数： <span>{numEnd}</span> 条</div>
+                        </div>
+                        <div >
+                            <span 
+                            className={`${!canEnd&&freeReport?'endGrey':''}`}
+                            onClick={()=>{ 
+                                console.log(canEnd);  
+                                if(canEnd){ 
+                                    this.openModal()
+                                }
+                            }}>结束咨询</span>
+                        </div>
+                    </div>}
+                    {!isEnd && <div className='operation-box'>
+                        <div className='top'>
+                            <TextArea autosize rows="1" cols="3" value={msgText} id="inputText"
+                            maxLength='150'
+                                      onFocus={(e)=>{ this.btnShow(e)}}
+                              onBlur={(e)=>{ this.btnHide(e) }}
+                              onChange={(e)=>{ this.input(e)}}  />
+                            {!isBtn &&
+                            <img src='../../../resources/images/plus.png' onClick={()=>{
+                            this.showPlus()
+                            }}/>  
+                            }
+                            {isBtn&&!hieghtMore&& <span className="addBtn"
+                            style={{marginBottom:'6px'}} 
+                            onClick={ (e)=>{
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
+                                                    this.sendMsg1(e)
+                                                    }
+                                                    }>发送</span>}
+                        {isBtn&&hieghtMore&&<span className="addBtn"
+                        onClick={
+                                                (e)=>{
+                                                e.stopPropagation();
+                                                e.preventDefault();
+                                                this.sendMsg1(e)
+                                                }
+                                                }>发送</span>}
+>>>>>>> 49f83d331d90d012df7b9817dab542a75bb5b084
                         </div>
                         <p className='text'>投诉建议</p>
                     </div>

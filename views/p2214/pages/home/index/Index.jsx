@@ -290,12 +290,20 @@ class Widget extends Component {
            src="./././resources/images/index-banner.png"
                alt=""
                />
+<<<<<<< HEAD
             { <span className ='moreInformation' 
+=======
+            {/* <span className ='moreInformation' 
+>>>>>>> 49f83d331d90d012df7b9817dab542a75bb5b084
                 onClick = {()=>{
                     this.context.router.push({
                         pathname: '/hospitalInformation'
                     })
+<<<<<<< HEAD
                 }}>更多信息</span> }
+=======
+                }}>更多信息</span> */}
+>>>>>>> 49f83d331d90d012df7b9817dab542a75bb5b084
          </div>}
           {<div className="content">
            <div className="head-des">  
@@ -420,7 +428,10 @@ class Widget extends Component {
             <Func  url='/microweb/deptlistfordoc' img='./././resources/images/index-doctor.png' txt='专家介绍' txt1='了解专家信息' />
             <Func  url='/microweb/news' img='./././resources/images/index-advice.png' txt='健康宣教' txt1='儿童护理知识' />
             {/* <Func url='' href='https://mp.weixin.qq.com/s/QtsB23jZXQtem5HFDy-GVA' img='./././resources/images/index-inform.png' txt='咨询公告' txt1='查看最新公告' /> */}
+<<<<<<< HEAD
             {/* <Func url='mdt/list'  img='./././resources/images/mdt.png' txt='MDT' txt1='多学科联合会诊' /> */}
+=======
+>>>>>>> 49f83d331d90d012df7b9817dab542a75bb5b084
             </div>
          </div>}
           {isOpen&&<div className='modal-tip1' onClick={(e)=>{

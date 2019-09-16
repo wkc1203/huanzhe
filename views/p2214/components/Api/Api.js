@@ -1,6 +1,7 @@
 import fetch from '../../utils/fetch';
 import fetchs from '../../utils/fetchs';
 import fetch1 from '../../utils/fetch1';
+
 export const getCardList = (param) =>  fetch.post('/api/ehis/user/personal/autoSynchronousPatients', param);
 
 export const isRegister = (param) =>  fetch.post('/api/ehis/user/personal/isregistered', param);
@@ -200,7 +201,9 @@ export const cancleDescribe = (param) => fetch.post('/api/ehis/health/api/chroni
 
 
 
+//获取医院信息
 
+export const hospitalInformation = (param) => fetch.post('/api/ehis/health/api/hospital/get/hisId', param);
 
 
 

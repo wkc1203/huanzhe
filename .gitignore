@@ -6,12 +6,17 @@ dist
 
 .DS_Store
 /.idea
+.idea
 /.history
+.history
 .idea
 **/META-INF
 gitlab-token.js
 *.iml
 npm-debug.log
 node_modules
-.history
+/node_modules
 /.vscode
+.vscode
+/dist
+dist
