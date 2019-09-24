@@ -281,7 +281,7 @@ class Widget extends Component {
             }, (e) => {
             });
     }
-    getOrderStats1(orderId) {
+     getOrderStats1(orderId) {
         Api
             .getInquriyStatus({orderId:orderId})
             .then((res) => {
@@ -292,13 +292,20 @@ class Widget extends Component {
                                 pathname:'consult/pay',
                                 query:{status:'1',source:'check',addId:this.props.location.query.id,checkId:this.props.location.query.checkId,}
                             }) 
-                         }else{
-                                this.context.router.push({
-                                    pathname:'/add/addManage',
-                                    query:{addId:this.props.location.query.id,source:this.props.location.query.source}
-                                 })
-                         }
-                     }
+                        }else{
+                            if(this.props.location.query.type=='chronic'||this.props.location.query.type=='CHRONICZF'){
+                               this.context.router.push({
+                                   pathname:'inquiry/inquirylist',
+                                   }) 
+                            }else{
+                               this.context.router.push({
+                                   pathname:'/add/addManage',
+                                   query:{addId:this.props.location.query.id,source:this.props.location.query.source}
+                                })
+                            }
+                               
+                        }
+                    }
                 }else{
                 } 
             }, (e) => {
@@ -312,6 +319,7 @@ class Widget extends Component {
                      if(res.data.orderStatus=='S'){
                                 this.context.router.push({
                                     pathname:'/inquiry/inquirylist',
+                                    query:{type:'mdt'}
                                  })
                          
                      }

@@ -140,6 +140,11 @@ class Widget extends Component {
             content:{},
             pat:{},
             detail:'',
+            currentiInquiry:'',
+            inquiryPage:1,
+            maxinquiryPage:'',
+            maxinquiryPage:'',
+            searchPage:1,//查询页
 
         };
     }
@@ -248,6 +253,7 @@ class Widget extends Component {
     }
     componentDidMount() {
 
+        let timeCount;
         if(!!window.localStorage.openId){
            
          }else{
@@ -269,7 +275,7 @@ class Widget extends Component {
         
         this.getDocDetail(this.props.location.query.doctorId, this.props.location.query.deptId);
        
-       this.getDocList(this.props.location.query.deptId)
+       this.getDocList(this.props.location.query.deptId,1)
         document.getElementById("home").scrollIntoView();
         Utils.getJsByHide();
         //判断是否是从儿童医院公众号添加卡进入该页面
@@ -277,7 +283,15 @@ class Widget extends Component {
            content:JSON.parse(this.props.location.query.content),
            pat:JSON.parse(this.props.location.query.pat),
        })
-      
+        window.addEventListener('scroll', function () {
+            if (this.state.isLoadingMore) {
+                return ;
+            }
+            if (timeCount) {
+                clearTimeout(timeCount);
+            }
+            timeCount = setTimeout(this.callback(), 5000);
+        }.bind(this), false);
         if(this.mounted){
             this.setState({
                 doctorId: this.props.location.query.doctorId,
@@ -299,17 +313,48 @@ class Widget extends Component {
        
 
     }
-    getDocList(deptId) {
-       
+    loadMoreDataFn() { 
+        if(this.state.open){
+           
+           this.setState({
+            inquiryPage:this.state.inquiryPage+1
+           })
+            if(this.state.inquiryPage<=this.state.maxinquiryPage){
+              // alert(this.state.currentiInquiry+"-----"+this.state.inquiryPage)
+             
+                   this.getDocList(this.state.deptId,this.state.inquiryPage);
+               
+            }
+        } 
+        
+   }
+    getDocList(deptId,page) {
+        this.setState({
+            deptId:deptId,
+        })
+        
             this.showLoading();
             Api
-                .getInfo({deptId})
+                .getInfo({deptId,pageNum:page})
                 .then((res) => {
                     this.hideLoading();
                     if (res.code == 0 && res.data != null) {
-                        this.setState({
-                            docList: res.data.doctors,
+                            this.setState({
+                            maxinquiryPage:res.data.pageCount,
                         })
+                        var data=[];
+                        for(var i=0;i<res.data.doctors.length;i++){
+                                data.push(res.data.doctors[i])
+                        }
+                        if(res.data.currentPage==1){
+                            this.setState({
+                                docList: data || [],
+                            })
+                        }else{
+                            this.setState({
+                                docList: this.state.docList.concat(data) || [],
+                            })
+                        }
                         console.log("doc",this.state.docList)
                                                
                     }
@@ -320,6 +365,18 @@ class Widget extends Component {
                         showIOS1: true
                     })
                 });
+    }
+    callback() {
+        const wrapper = this.refs.wrapper;
+        const loadMoreDataFn = this.loadMoreDataFn;
+        const top = wrapper?wrapper.getBoundingClientRect().top:0;
+        const windowHeight = window.screen.height;
+        const that = this; // 为解决不同context的问题
+        that.loadMoreDataFn();
+        if (top && top < windowHeight) {
+            // 当 wrapper 已经被滚动到页面可视范围之内触发
+            
+        }
     }
     
    
@@ -749,6 +806,7 @@ add(){
                               )
                             
                           })}
+                          <div className="loadMore" ref="wrapper"  ></div>
                            
                         </div>
                        
@@ -830,7 +888,7 @@ add(){
                                         <div className="drug-item" key={index1}>   
                                                 <div className="name">
                                                     <p className="left">{item1.name}</p>
-                                                    <p className="right">￥50.00</p>
+                                                    <p className="right"></p>
                                                 </div> 
                                                 <div className="dose">
                                                    {item1.use}

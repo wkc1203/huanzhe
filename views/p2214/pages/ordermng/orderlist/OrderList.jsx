@@ -67,6 +67,9 @@ class Widget extends Component {
         describeList:'1',//处方申请列表
         patCard:'',
         searchPage:1, 
+        maxPage:'',
+        describePage:1,
+        maxPage1:'',
         isLoadingMore: false,
     }
   }
@@ -80,7 +83,7 @@ class Widget extends Component {
      this.getCardList();
      this.getOrderList();
      if(this.props.location.query.busType=='consult'){
-        this.setState({
+        this.setState({ 
             item1Show:true,
             item2Show:false,
             item3Show:false,
@@ -104,6 +107,7 @@ class Widget extends Component {
             item3Show:true,
             item4Show:false,
             item5Show:false,
+            searchPage:1,
         })
         this.getCheckList(this.state.patCard,this.state.searchPage);
     } 
@@ -126,7 +130,7 @@ class Widget extends Component {
             item4Show:false,
             item5Show:true,
         })
-        this.getdescribeList(this.state.searchPage);
+        this.getdescribeList(this.state.describePage);
         
     }  
     let timeCount;
@@ -135,7 +139,7 @@ class Widget extends Component {
             return ;
         }
         if (timeCount) {
-            clearTimeout(timeCount);
+            clearTimeout(timeCount); 
         }
         timeCount = setTimeout(this.callback(), 5000);
     }.bind(this), false);
@@ -148,16 +152,32 @@ class Widget extends Component {
     const that = this; // 为解决不同context的问题
     if (top && top < windowHeight) { 
         // 当 wrapper 已经被滚动到页面可视范围之内触发
-        if(that.state.item3Show&&that.state.searchPage!=555){
+        if(that.state.item3Show&&that.state.searchPage<=this.state.maxPage){
             that.loadMoreDataFn();
         }
+        if(that.state.item5Show&&that.state.describePage!=555){
+            that.loadMoreDataFn1();
+        }
+
     }  
     }
     loadMoreDataFn() { 
+       
         this.setState({
             searchPage:this.state.searchPage+1
         })
-        this.getCheckList(this.state.patCard,this.state.searchPage)
+        if(this.state.searchPage+1<=this.state.maxPage){
+            this.getCheckList(this.state.patCard,this.state.searchPage)
+        }
+       
+    }
+    loadMoreDataFn1() { 
+        this.setState({
+            describePage:this.state.describePage+1
+        })
+        if(this.state.describePage<=this.state.maxPage1){
+            this.getdescribeList(this.state.describePage)
+        }
     }
     showToast() {
         this.setState({showToast: true});
@@ -178,23 +198,25 @@ class Widget extends Component {
             .then((res) => {
                 if (res.code == 0&&res.data.recordList.length>0) {
                      this.hideLoading();
-                     if(page>=res.data.pageCount){
                          this.setState({
-                             searchPage:555
+                             maxPage1:res.data.pageCount
                          })
-                     }
-                     this.setState({
-                        describeList:[]
-                    })
-                   console.log("red",res);
+                   
                    var checkList=res.data.recordList;
                    for(var i=0;i<checkList.length;i++){
                         checkList[i].drugList=!!checkList[i].recipelList?JSON.parse(checkList[i].recipelList):[];
                             checkList[i].showMore=false;
                    }
-                  this.setState({
-                    describeList:this.state.describeList.concat(checkList) || []
-                })
+                   if(page==1){
+                    this.setState({
+                        describeList:checkList || []
+                    })
+                   }else{
+                    this.setState({
+                        describeList:this.state.describeList.concat(checkList) || []
+                    })
+                   }
+                 
                 }else{
                     this.hideLoading();
                     this.setState({
@@ -219,28 +241,33 @@ class Widget extends Component {
                 userId:window.localStorage.userId,
                 hisId:2214,
                 platformId:2214,
-                patCardNo:patCardNo,
+                patCardNo:patCardNo, 
                 pageNum:page,
                 numPerPage:10
             })
             .then((res) => {
                 if (res.code == 0&&res.data.recordList.length>0) {
                      this.hideLoading();
-                     if(page>=res.data.pageCount){
+                     //if(page>=){
                          this.setState({
-                             searchPage:555
+                             maxPage:res.data.pageCount
                          })
-                     }
-                     this.setState({
-                        checkList:[]
-                    })
+                     
+                     
                    var checkList=res.data.recordList;
                    for(var i=0;i<checkList.length;i++){
                     checkList[i].timeText=Utils.dateTime(checkList[i].updateTime);
                   }
-                  this.setState({
-                    checkList:this.state.checkList.concat(checkList) || []
-                })
+                  if(page==1){
+                    this.setState({
+                        checkList:checkList || []
+                    })
+                 }else{
+                    this.setState({
+                        checkList:this.state.checkList.concat(checkList) || []
+                    })
+                 }
+                 
                 }else{
                     this.hideLoading();
                     this.setState({
@@ -517,7 +544,7 @@ getmdtList() {
 
             }
             if(type==5){
-                this.getdescribeList(this.state.searchPage);
+                this.getdescribeList(this.state.describePage);
                 this.setState({
                     item2Show:false,
                     clickItem:555,
@@ -791,6 +818,10 @@ getmdtList() {
             </div>
             }
             {checkList.length <= 0&&checkList!='1'&&<NoResult  msg='暂未查询到相关信息'/>}
+            {this.state.maxPage==this.state.searchPage&&checkList.length > 0&&<div className="no-des">
+                            <img src='./././resources/images/mygddl.png'/>     
+                            <p>没有更多的了</p>
+                </div>}
             </div>
         }
 
@@ -826,10 +857,10 @@ getmdtList() {
                             </div>
                         )
                })}
-            <div className="no-des">
+               {<div className="no-des">
                        <img src='./././resources/images/mygddl.png'/>     
                        <p>没有更多的了</p>
-             </div>
+             </div>}
             {/* checkList.length <= 0&&checkList!='1'&&<NoResult  msg='暂未查询到相关信息'/> */}
             </div>
         }
@@ -848,7 +879,7 @@ getmdtList() {
                        <div className="des-basic">
                             <div className="des">
                                 <p className="left">就诊人：<span>{item.patientName}</span></p>
-                                <p className="right">{item.createDate}</p>
+                                <p className="right">{!!item.prescDate?item.prescDate:item.submitPrescDate}</p>
                             </div>
                             <div className="des">
                                 <p className="left">就诊科室：<span>{item.deptName}</span></p>
@@ -902,10 +933,12 @@ getmdtList() {
                 
                 
             }
-            <div className="no-des">
+            {item5Show&&<div className="loadMore" ref="wrapper"  ></div>}
+
+            {this.state.describePage>=this.state.maxPage1&&<div className="no-des">
                        <img src='./././resources/images/mygddl.png'/>     
                        <p>没有更多了</p>
-             </div>
+             </div>}
             {/* checkList.length <= 0&&checkList!='1'&&<NoResult  msg='暂未查询到相关信息'/> */}
             </div>
         }

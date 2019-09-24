@@ -12,7 +12,7 @@ import 'style/index.scss';
 var imgArr1=[];
 var uuList=[];
 var nameList=[];
-var maxLength=0;
+var maxLength=0; 
 var imgList=[];
 var success=[];
 var interval1='';
@@ -496,7 +496,7 @@ class Widget extends Component {
                                         const formData = new FormData();
                                         var uuidItem=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
                                         var uuid=uuidItem+uuidItem+"-"+uuidItem+"-"+uuidItem+"-"+uuidItem+"-"+uuidItem+uuidItem+uuidItem;
-                                        var filename=that.randomName()+uuid+'.png';
+                                        var filename=that.randomName()+Utils.uuid()+'.png';
                                         formData.append('key',filename);
                                         formData.append("policy",sign.policy);
                                         formData.append("callback",sign.callback);
@@ -581,7 +581,7 @@ class Widget extends Component {
             var m=ossPath+year+'/'+month+'/'+day+"/";
             var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
             var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
-            var filename=that.randomName()+uuid+'.png';
+            var filename=that.randomName()+Utils.uuid()+'.png';
             formData.append('key',filename);
             formData.append("policy",sign.policy);
             formData.append("callback",sign.callback);

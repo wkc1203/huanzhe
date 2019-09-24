@@ -63,11 +63,14 @@ class Widget extends Component {
     };
   }
   componentDidMount() {
-       console.log(this.state.detail)    
+       console.log(this.state.detail)  
+
        //隐藏分享等按钮
        Utils.getJsByHide();
+        if(!!this.state.detail.hospitalVisitDate){
 
-       JsBarcode(this._barcodeSVG, '*1565656565656*',
+        
+       JsBarcode(this._barcodeSVG, '*'+this.state.detail.hospitalVisitDate.replace('-','').replace('-','')+this.state.detail.hospitalVisitNo+'*',
        {
            displayValue: true,  //  不显示原始值
            textMargin:5,//设置条形码和文本之间的间距
@@ -75,7 +78,7 @@ class Widget extends Component {
            width:2,//设置条之间的宽度
         }
         );
-        JsBarcode(this._barcodeSVG11, '*1565656565656*',
+        JsBarcode(this._barcodeSVG11, '*'+this.state.detail.hospitalVisitDate.replace('-','').replace('-','')+this.state.detail.hospitalVisitNo+'*',
                         {
                             displayValue: true,  //  不显示原始值
                             textMargin:10,//设置条形码和文本之间的间距
@@ -84,6 +87,7 @@ class Widget extends Component {
                            
         }
         ); 
+    }
 
      /*  this.setState({
         check:JSON.parse(this.props.location.query.check),
@@ -191,7 +195,7 @@ class Widget extends Component {
             <div className='check-title'>
                  <p className='hospital'>重庆医科大学附属儿童医院</p>
                   <p className='sub-title'>门诊处方笺</p>
-                    <div className='barcode' onClick={()=>{
+                    {!!detail.hospitalVisitDate&&<div className='barcode' onClick={()=>{
                         
                         this.setState({
                             show:true
@@ -201,8 +205,8 @@ class Widget extends Component {
 
                     }}>
                     <svg ref={(ref)=>this._barcodeSVG = ref}></svg>              
-                  </div>
-                  <p className="large">点击可放大</p>
+                  </div>}
+                  {!!detail.hospitalVisitDate&&<p className="large">点击可放大</p>}
                  
             </div>  
                <div className='person-info'>
@@ -222,10 +226,10 @@ class Widget extends Component {
                 <span className='left'></span>
                 <span className='right'></span>          
                 <div className='check-basic'>
-                   <div className='check-item'>
-                      <p>开单序号：<span>55555555</span></p>
-                      <p>ID号：<span>2121212</span></p>
-                    </div>
+                   {!!detail.hospitalVisitNo&&<div className='check-item'>
+                      {!!detail.hospitalVisitNo&&<p>开单序号：<span>{detail.hospitalVisitNo}</span></p>}
+                      {!!detail.patHisId&&<p>ID号：<span>{detail.patHisId}</span></p>}
+                    </div>}
                     <div className='check-item'>
                       <p>科室：<span>{detail.deptName}</span></p>
                     </div>             
@@ -262,19 +266,20 @@ class Widget extends Component {
                     <div className='doc'>
                         <div className="left1">
                            <p>开方医师：{detail.doctorName}</p>
-                           <img src={detail.doctorSignImg} />
+                           {!!detail.doctorSignImg&&<img src={detail.doctorSignImg} />}
+                           {!detail.doctorSignImg&&<span style={{color:'#ccc',display:'block',padding:'10px 20px'}}>（电子签名）</span>}
                         </div>
-                        <div className="right1">
+                        {!!detail.pharSignImg&&<div className="right1">
                            <p> 审核药师：{detail.pharDoctorName}</p>
-                           <img src={detail.pharSignImg} />
-                        </div>  
+                           {!!detail.pharSignImg&&<img src={detail.pharSignImg} />}
+                        </div>}  
                     </div> 
-                <div className='time'>
+                {!!detail.auditDate&&<div className='time'>
                     <p>日期：<span>{!!detail.auditDate?detail.auditDate:''}</span></p>
                     <p></p>
-                </div>
+                </div>}
                 <div className='name'>
-                    <p style={{color:'#4cabcf'}}>请到1号楼药方取药，凌晨一点半后到3号楼4号楼取药</p>
+                    {!!detail.storageAddress&&<p style={{color:'#4cabcf'}}>{detail.storageAddress}</p>}
                 </div>
                 </div>
               </div>

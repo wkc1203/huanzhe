@@ -24,6 +24,7 @@
         display:none;
     }
     .modal{
+        position:fixed !important;
         .modal-body-protocol{
             text-align: left;
             width: 95%;

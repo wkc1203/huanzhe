@@ -162,10 +162,15 @@ class Widget extends Component {
         <div className="container page-describe-detail">
             <div className="home "><span className="jian"
                                         onClick={()=>{
-                                            this.context.router.push({
-                                                pathname:'ordermng/orderlist',
-                                                query:{userId:describeDetail.userId,busType:'describe'}
-                                            });
+                                            if(this.props.location.query.source=='inquiry'){
+                                                this.context.router.goBack();
+                                            }else{
+                                                this.context.router.push({
+                                                    pathname:'ordermng/orderlist',
+                                                    query:{userId:describeDetail.userId,busType:'describe'}
+                                                });
+                                            }
+                                           
                                       }} 
                 ></span>订单详情
             </div>
@@ -223,7 +228,7 @@ class Widget extends Component {
                 </div> 
           </div>
           
-          {!!describeDetail.drugList&&<div className="handle main-info">
+          {!!describeDetail.drugList&&!(describeDetail.status=='2'&&describeDetail.auditStatus=='0')&&<div className="handle main-info">
               <div className='title-tip'>
                 <img src='./././resources/images/des_chu.png'/>
                 处置
@@ -242,7 +247,7 @@ class Widget extends Component {
                             <div className="handle_item" key={index}>
                             <div className="name_tip">
                                 <p className="left">{item.Drug_name}</p>
-                                <p className="right">￥{Math.floor(item.Retail_price*100)/100}</p>
+                                <p className="right">￥{item.price}</p>
                             </div>
                             <div className="drug_info">
                                 <div className="info_item">

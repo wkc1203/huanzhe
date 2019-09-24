@@ -206,7 +206,10 @@ class Widget extends Component {
         clearTimeout(this.state.hideTime);
         clearInterval(this.state.interval);
         clearInterval(this.state.interval1);
-        clearInterval(this.state.interval2); 
+        clearInterval(this.state.interval2);
+        clearInterval(interval);
+        clearInterval(interval1); 
+        clearInterval(interval2);
           document.getElementsByTagName("body")[0].setAttribute("style", "position:inherit")
     }
     timestampFordate(timeStamp, type = 'Y-M-D H:I:S', auto = false){
@@ -764,8 +767,8 @@ class Widget extends Component {
             interval2 = setInterval(function() {
                 document.body.scrollTop = document.body.scrollHeight;
                 console.log("ssstate22222");
-            }, 1000)
-            e.stopPropagation();
+            }, 1000)  
+            e.stopPropagation(); 
             e.preventDefault();
             this.state.btnTime=setTimeout((
             )=>{
@@ -798,7 +801,7 @@ class Widget extends Component {
     sendMsg(e) {
         e.stopPropagation();
         e.preventDefault();
-        this.showLoading("发送中")
+        this.showLoading("发送中");
         if (!this.state.endding) {
             if (this.state.inputText != '') {
                 if(this.mounted){
@@ -832,28 +835,34 @@ class Widget extends Component {
     }
     /*发送信息*/
     sendMsg1(e) {
+        console.log("e",this.state.msgText)
         e.stopPropagation();
         e.preventDefault();
         window.scrollTo(0,0);
+      
         if (!this.state.endding) {
             if (this.state.inputText != '') {
                 if(this.mounted){
                 this.setState({
                     msgText: this.state.msgText == null ? '' : null
                 })
-            }
+            }   
+            this.showLoading("发送中");
                 this.send({
                     inquiryId: this.state.inquiryId,
                     operator: 'user',
                     content: this.state.inputText,
                 });
+                this.setState({
+                    inputText:''
+                })
             }
-        } else {
-            if(this.mounted){
+       } else {
+             if(this.mounted){
             this.setState({
                 isOk: true
             })
-        }
+        } 
         }
     }
    /*获取焦点事件*/
@@ -897,7 +906,7 @@ class Widget extends Component {
     }
    /*发送*/
     send(param) {
-        this.showLoading();
+        this.showLoading('发送中');
         Api.sendMsg(param)
             .then((res) => {
                 if(this.mounted){
@@ -905,7 +914,7 @@ class Widget extends Component {
                     isBtn: false,
                     inputText: '',
                 })
-            }
+            } 
                 this.hideLoading();
                 if (res.code == 0) {
                     if(this.mounted){
@@ -1502,7 +1511,7 @@ class Widget extends Component {
                                         var m=ossPath+year+'/'+month+'/'+day+"/";
                                         var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
                                         var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
-                                        var filename=that.randomName()+uuid+'.png';
+                                        var filename=that.randomName()+Utils.uuid()+'.png';
                                         formData.append('key',filename);
                                         formData.append("policy",sign.policy);
                                         formData.append("callback",sign.callback);
@@ -1549,7 +1558,9 @@ class Widget extends Component {
     into(id){
         clearInterval(this.state.interval);
         clearInterval(this.state.interval1);
-        clearInterval(this.state.interval2);
+        clearInterval(interval);
+        clearInterval(interval1);
+        clearInterval(interval2);
         console.log("into")
        hashHistory.push({
            pathname:'add/addManage',
@@ -1637,7 +1648,7 @@ onChange = (files,file,index) => {
          var m=ossPath+year+'/'+month+'/'+day+"/";
          var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
          var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
-         var filename=that.randomName()+uuid+'.png';
+         var filename=that.randomName()+Utils.uuid()+'.png';
          formData.append('key',filename);
          formData.append("policy",sign.policy);
          formData.append("callback",sign.callback);
@@ -1724,7 +1735,6 @@ onChange = (files,file,index) => {
                     show={this.state.showIOS1}>
                 {msg}
             </Dialog>
-<<<<<<< HEAD
             <div className="containers" >
             <div className="home bid" ><span className="jian"
                                         onClick={()=>{
@@ -1759,6 +1769,7 @@ onChange = (files,file,index) => {
                 <div className='top'>
                     <TextArea autosize rows="1" cols="3" value={msgText} id="inputText"
                               onFocus={(e)=>{ this.btnShow(e)}}
+                              maxLength='150'
                       onBlur={(e)=>{ this.btnHide(e) }}
                       onChange={(e)=>{ this.input(e)}}  />
                     {!isBtn &&
@@ -1813,66 +1824,6 @@ onChange = (files,file,index) => {
                                 })
                                 }}
                             />
-=======
-                <div className="container1" style={!isEvaluate &&payBack&&noDoctor&&isEnd&&!end?{height:'500px'}:{}}>
-                    <div className="home bid" ><span className="jian"
-                                                onClick={()=>{
-                                                    if(this.props.location.query.resource=='report'){
-                                                        this.context.router.goBack()
-                                                    }else{
-                                                        this.context.router.push({
-                                                            pathname:'inquiry/inquirylist'
-                                                            })
-                                                    } 
-                                      }}
-                        ></span>{doctorName}
-                    </div>
-                    <Toast icon="success-no-circle" show={this.state.showToast}>评价成功</Toast>
-                    {!isEnd && <div className='header'>
-                        <div>
-                        {timeShow&&<div className="time">剩余时间： <span>{timeShow}</span></div>}
-                            <div className="num">剩余条数： <span>{numEnd}</span> 条</div>
-                        </div>
-                        <div >
-                            <span 
-                            className={`${!canEnd&&freeReport?'endGrey':''}`}
-                            onClick={()=>{ 
-                                console.log(canEnd);  
-                                if(canEnd){ 
-                                    this.openModal()
-                                }
-                            }}>结束咨询</span>
-                        </div>
-                    </div>}
-                    {!isEnd && <div className='operation-box'>
-                        <div className='top'>
-                            <TextArea autosize rows="1" cols="3" value={msgText} id="inputText"
-                            maxLength='150'
-                                      onFocus={(e)=>{ this.btnShow(e)}}
-                              onBlur={(e)=>{ this.btnHide(e) }}
-                              onChange={(e)=>{ this.input(e)}}  />
-                            {!isBtn &&
-                            <img src='../../../resources/images/plus.png' onClick={()=>{
-                            this.showPlus()
-                            }}/>  
-                            }
-                            {isBtn&&!hieghtMore&& <span className="addBtn"
-                            style={{marginBottom:'6px'}} 
-                            onClick={ (e)=>{
-                                                    e.stopPropagation();
-                                                    e.preventDefault();
-                                                    this.sendMsg1(e)
-                                                    }
-                                                    }>发送</span>}
-                        {isBtn&&hieghtMore&&<span className="addBtn"
-                        onClick={
-                                                (e)=>{
-                                                e.stopPropagation();
-                                                e.preventDefault();
-                                                this.sendMsg1(e)
-                                                }
-                                                }>发送</span>}
->>>>>>> 49f83d331d90d012df7b9817dab542a75bb5b084
                         </div>
                         <p className='text'>投诉建议</p>
                     </div>
@@ -1922,7 +1873,7 @@ onChange = (files,file,index) => {
                                             onClick={()=>{
                                                 this.context.router.push({
                                                     pathname:'/ordermng/describedetail',
-                                                    query:{id:item.actionTrigger}
+                                                    query:{id:item.actionTrigger,source:'inquiry'}
                                                    })
                                              }}
                                             style={{width:'220px',height:'auto',background:'white'}} >
@@ -1932,7 +1883,7 @@ onChange = (files,file,index) => {
                                             <img  src="./././resources/images/chat-check.png"/>
                                             </div>
                                             <div className='info'>
-                                                <p className='fee'>￥{!!item.checkContent&&item.checkContent.totalFee}</p>
+                                                <p className='fee'>￥{!!item.checkContent&&item.checkContent.totalFee/100}</p>
                                                 <p className='context'></p>
                                             </div>
                                         </div>
@@ -1964,7 +1915,7 @@ onChange = (files,file,index) => {
                                             onClick={()=>{
                                                 this.context.router.push({
                                                     pathname:'/ordermng/describedetail',
-                                                    query:{id:item.actionTrigger}
+                                                    query:{id:item.actionTrigger,source:'inquiry'}
                                                    })
                                              }}
                                             style={{width:'250px',padding:'10px 0',height:'auto',background:'white'}} >
@@ -2116,7 +2067,7 @@ onChange = (files,file,index) => {
                                             onClick={()=>{
                                                 this.context.router.push({
                                                     pathname:'/ordermng/describedetail',
-                                                    query:{id:item.actionTrigger}
+                                                    query:{id:item.actionTrigger,source:'inquiry'}
                                                    })
                                              }}
                                             style={{width:'220px',height:'auto',background:'white'}} >
@@ -2126,7 +2077,7 @@ onChange = (files,file,index) => {
                                                        <img  src="./././resources/images/chat-check.png"/>
                                                        </div>
                                                        <div className='info'>
-                                                           <p className='fee'>￥{!!item.checkContent&&item.checkContent.totalFee}</p>
+                                                           <p className='fee'>￥{!!item.checkContent&&item.checkContent.totalFee/100}</p>
                                                            <p className='context'></p>
                                                        </div>
                                                     </div>
@@ -2136,7 +2087,7 @@ onChange = (files,file,index) => {
                                                     onClick={()=>{
                                                 this.context.router.push({
                                                     pathname:'/ordermng/describedetail',
-                                                    query:{id:item.actionTrigger}
+                                                    query:{id:item.actionTrigger,source:'inquiry'}
                                                    })
                                              }}
                                             style={{width:'250px',padding:'10px 0',height:'auto',background:'white'}} >

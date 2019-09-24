@@ -79,6 +79,7 @@ class Widget extends Component {
         if(!!window.localStorage.openId){
             Utils.sum('inquiry_pay',1);
          }else{
+             //未授权
              var code='';
             if(window.location.origin=='https://tih.cqkqinfo.com'){
                 code='ff80808165b46560016817f20bbc00b3';
@@ -106,13 +107,17 @@ class Widget extends Component {
         const orderId =this.props.location.query.orderId;
         if(this.props.location.query.source){
              if(this.props.location.query.source=='check'){
+                  //检查单
                 this.getDetail();
              }else{
                 if(this.props.location.query.source=='describe'||this.props.location.query.source=='describe1'){
+                     //慢病
 
                     if(!!this.props.location.query.hospitalUserId){
+                        //加号未支付
                      this.getaddPrePay();
                     }else{
+                        //支付处方
                          var data=JSON.parse(this.props.location.query.detail);
                          this.setState({
                              orderInfo:data,
@@ -122,12 +127,15 @@ class Widget extends Component {
                     
                }else{
                 if(this.props.location.query.source=='describe2'){
+                    //支付处方
                     this.getDescribePay()
                     }else{
                         if(this.props.location.query.source=='mdt'){
+                            //支付mdt
                             this.getmdtPay(this.props.location.query.orderId);
 
                         }else{
+                            //支付加号
                             this.getAddPay(this.props.location.query.orderId);
 
                         }
@@ -135,6 +143,7 @@ class Widget extends Component {
              }
             }
         }else{
+            //咨询订单
             this.getConsultDet(orderId);
         }
     }
@@ -172,6 +181,7 @@ class Widget extends Component {
             window.location.href=this.state.orderInfo.payUrl;
         
     }
+    /* 处方预支付 */
     getDescribePay(){
         Api
             .getDescribeInfo({
@@ -228,6 +238,7 @@ class Widget extends Component {
         }
         });
 }
+/* 加号预支付 */
     getAddPay(orderId) {
             Api
             .getAddInfo({
@@ -365,6 +376,7 @@ class Widget extends Component {
             }
             });
     }
+    /* 检查单详情 */
     getDetail() {
         Api
             .getCheckDetail({
