@@ -1,4 +1,4 @@
- import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Upload } from 'antd';
 import { Button, Toptips,Switch,Dialog,Toast,Icon } from 'react-weui';
@@ -145,7 +145,18 @@ class Widget extends Component {
           mdtInfo:JSON.parse(this.props.location.query.info),
           report:true,
          })  
-         console.log('info',this.state.mdtInfo)
+         var list1=!!JSON.parse(this.props.location.query.info).images?JSON.parse(JSON.parse(this.props.location.query.info).images):[]
+         var list=[];
+          for(var i=0;i<list1.length;i++){
+            for(var j=0;j<list1[i][Object.getOwnPropertyNames(list1[i])[0]].length;j++){
+                console.log(list1[i][Object.getOwnPropertyNames(list1[i])[0]][j])
+                list.push(list1[i][Object.getOwnPropertyNames(list1[i])[0]][j])
+              }
+          }
+          this.setState({ 
+            imgArr:list,  
+          })
+         console.log('info',list)
        }
       this.setState({
         imgList:!!sessionStorage.getItem('imgList')?JSON.parse(sessionStorage.getItem('imgList')):[]
@@ -169,11 +180,22 @@ class Widget extends Component {
             arr.push(item);
         }
      });
-     alert(url)
         wx.previewImage({
             current: url, // 当前显示图片的http链接
-            urls: [] // 需要预览的图片http链接列表
+            urls: imgArr // 需要预览的图片http链接列表
         });
+}
+previewImg1(url) {
+  const arr = [];
+  this.state.imgArr.map(item => {
+      if (item) {
+          arr.push(item);
+      }
+  });
+  wx.previewImage({
+      current: url, // 当前显示图片的http链接
+      urls: arr // 需要预览的图片http链接列表
+  });
 }
      /*获取oss 签名*/
     getJs1(){
@@ -275,6 +297,7 @@ class Widget extends Component {
         showIOS3:false,
       })
     }
+   
   /* 上传图片 */
   onChange = (files,file,index) => {
     var that=this;
@@ -295,7 +318,7 @@ class Widget extends Component {
                 base64=this.result;
                 var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
                 var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
-                var filename=that.randomName()+uuid+'.png';
+                var filename=that.randomName()+Utils.uuid()+'.png';
                 //上传配置
                 formData.append('key',filename);
                 formData.append("policy",sign.policy);
@@ -490,7 +513,7 @@ class Widget extends Component {
                                         this.delImg(index,index1)
                                       }} src="./././resources/images/upload-xptgb.png" alt=""/>
                                       <img className='main-img' src={item1} alt="" onClick={()=>{
-                                       // this.previewImg(item1)
+                                       this.previewImg(item1)
                                       }} />
                                     </div>
                                      )
@@ -568,7 +591,7 @@ class Widget extends Component {
                         <div className= 'people'>
                           <div> 
                               <img src='./././resources/images/sxzj@2x.png'/>
-                              <span>首席专家</span>
+                              <span>经治专家</span>
                           </div>
                           <div className='peopleMsg'>
                               <span>{mdtInfo.patientDoctorName}（{mdtInfo.patientDoctorTitle}） </span>
@@ -616,7 +639,7 @@ class Widget extends Component {
                                                   item[Object.getOwnPropertyNames(item)[0]].length>0&&item[Object.getOwnPropertyNames(item)[0]].map((item1,index1)=>{
                                                     return( 
                                                       <img key={index1}  src={item1} onClick={()=>{
-                                                        //this.previewImg(item1)
+                                                        this.previewImg1(item1)
                                                       }} alt=""/>
                                                      
                                                     )

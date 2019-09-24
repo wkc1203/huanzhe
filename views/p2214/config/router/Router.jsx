@@ -9,10 +9,6 @@ import Connect from '../../components/connect/Connect';
 
 import { setTitle } from '../../utils/utils';
 import { INHOSP, TREAT } from '../../config/constant/constant';
-/**
- * 医院信息
- */
-import HospitalInformation from '../../pages/hospitalInformation/hospitalInformation/hospitalInformation';
 
 /**
  * 医院信息

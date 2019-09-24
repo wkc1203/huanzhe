@@ -169,6 +169,9 @@ export const addInfo = (param) => fetch.post('/api/ehis/health/api/subscribe/upd
 //查询加号详情
 export const getInfo1 = (param) => fetch.post('/api/ehis/health/api/subscribe/getSubscribeDetails', param);
 export const getInfoByOrder = (param) => fetch.post('/api/ehis/health/api/subscribe/getSubscribeDetailsByOrder', param);
+/* 退号 */
+export const returnMoney = (param) => fetch.post('/api/ehis/health/api/subscribe/returnMoney', param);
+
 //获取医院信息
 
 export const hospitalInformation = (param) => fetch.post('/api/ehis/health/api/hospital/get/hisId', param);
@@ -199,11 +202,6 @@ export const getDescribeInfo = (param) => fetch.post('/api/ehis/health/api/chron
 
 export const cancleDescribe = (param) => fetch.post('/api/ehis/health/api/chronicDisease/cancel', param);
 
-
-
-//获取医院信息
-
-export const hospitalInformation = (param) => fetch.post('/api/ehis/health/api/hospital/get/hisId', param);
 
 
 

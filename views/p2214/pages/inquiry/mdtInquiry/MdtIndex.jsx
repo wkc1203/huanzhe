@@ -1224,7 +1224,7 @@ class Widget extends Component {
                                         var m=ossPath+year+'/'+month+'/'+day+"/";
                                         var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
                                         var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
-                                        var filename=that.randomName()+uuid+'.png';
+                                        var filename=that.randomName()+Utils.uuid()+'.png';
                                         formData.append('key',filename);
                                         formData.append("policy",sign.policy);
                                         formData.append("callback",sign.callback);

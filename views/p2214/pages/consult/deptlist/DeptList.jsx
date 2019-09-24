@@ -437,7 +437,7 @@ class Widget extends Component {
                     var  currentPage=page+1;
                    this.setState({
                     currentiInquiry:page,
-                })
+                 })
                    if(currentPage>res.data.pageCount){
                     this.setState({
                         canAdd:false
@@ -447,7 +447,7 @@ class Widget extends Component {
                         canAdd:true
                     })
                 }
-                var data=[];
+                        var data=[];
                         for(var i=0;i<res.data.doctors.length;i++){
                             if(this.state.type=='2'){
                                 if(res.data.doctors[i].type=='2'){

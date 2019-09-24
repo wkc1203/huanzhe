@@ -85,6 +85,8 @@ class Widget extends Component {
   componentDidMount() {
         //隐藏分享等按钮
       this.getJsByHide();   
+      
+      
       this.getDetail(); 
   }
   getJsByHide() {
@@ -103,7 +105,11 @@ class Widget extends Component {
                     jsApiList: ['chooseImage','getLocalImgData','hideMenuItems', 'showMenuItems','previewImage','uploadImage','downloadImage','hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表
                 });
                 wx.ready(function () {
-  //批量隐藏功能
+                  /* wx.previewImage({ 
+                      current:'https://ihoss.oss-cn-beijing.aliyuncs.com/PIC/1543463523344-docMng.jpg',
+                      urls:[], 
+                      
+                  }); */
                     wx.hideMenuItems({
                         menuList: ["menuItem:share:QZone", "menuItem:share:facebook", "menuItem:favorite", "menuItem:share:weiboApp", "menuItem:share:qq", "menuItem:share:timeline", "menuItem:share:appMessage", "menuItem:copyUrl", "menuItem:openWithSafari", "menuItem:openWithQQBrowser"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
                     });
@@ -121,12 +127,10 @@ class Widget extends Component {
             arr.push(item);
         }
     });
-   // alert(url)
-        wx.previewImage({
-            current:'https://ihoss.oss-cn-beijing.aliyuncs.com/PIC/1543463523344-docMng.jpg',
-            urls:[], 
-            
-        });
+    wx.previewImage({
+        current: url, // 当前显示图片的http链接
+        urls: arr // 需要预览的图片http链接列表
+    });
 }
   cancelOrder()
     {
@@ -211,7 +215,7 @@ class Widget extends Component {
                       }
                   }
                     this.setState({
-                      imgArr:list,
+                      imgArr:list, 
                       docInfo:docInfo
                     })
 
@@ -371,7 +375,7 @@ class Widget extends Component {
                 病情补充描述
               </p>
               <div className="pat-info" style={{display:'block'}}>
-              {!!mdtDetail.supplement&&mdtDetail.supplement}
+              {!!mdtDetail.supplement&&mdtDetail.supplement!=''?mdtDetail.supplement:'无'}
               {!!imgList&&imgList.length>0&&imgList.map((item,index)=>{
                  return(
                   <div className="upload-img" key={index}>
@@ -385,7 +389,7 @@ class Widget extends Component {
                       item[Object.getOwnPropertyNames(item)[0]].length>0&&item[Object.getOwnPropertyNames(item)[0]].map((item1,index1)=>{
                         return( 
                           <img key={index1} className='main-img' src={item1} onClick={()=>{
-                            //this.previewImg(item1)
+                            this.previewImg(item1)
                           }} alt=""/>
                          
                         )

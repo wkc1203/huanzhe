@@ -250,7 +250,7 @@ class Widget extends Component {
                                     就诊人：{item.patientName}  |  图文咨询 
                                  </div>
                                  <div className="content-text">
-                                 {item.content&&item.content.indexOf('checkItem')!=-1?'[检查单]':item.content&&item.content.indexOf('PIC')!=-1?'[图片]':item.content&&item.content.indexOf('.mp3')!=-1?'[语音]':item.content&&item.content.length>0?item.content:'  '}
+                                 {item.content&&item.content.indexOf('checkItem')!=-1?'[检查单]':item.content&&item.content.indexOf('PIC')!=-1?'[图片]':item.content&&item.content.indexOf('.mp3')!=-1?'[语音]':item.content&&item.content.indexOf('recipelList')!=-1?'[在线开处方]':item.content&&item.content.indexOf('慢病续方')!='-1'?'[在线开处方]':item.content&&item.content.indexOf('dept')!='-1'?'[专家会诊]':item.content&&item.content.length>0?item.content:'  '}
                                  </div>
                                  {(item.status == '0' || item.status == '1') &&item.userReaded !== '0' &&
                                 <div className="status-inquiry" style={{color:'white',background:'#4cabcf',border:'none'}}> 咨询中</div>}
@@ -260,20 +260,8 @@ class Widget extends Component {
                                 {(item.status == '3' || item.status == '2') &&item.refundStatus == '1'&&
                                 item.userReaded !== '0' &&
                                 <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>有退费</div>}
-<<<<<<< HEAD
                                 {item.status == '2' &&item.refundStatus!=1&&
                                 <div className="status-inquiry " >评价</div>}
-=======
-                                {item.status == '2' &&item.refundStatus!=1 &&
-                                <div className="status-inquiry " onClick={(e)=>{
-                                   /*  e.stopPropagation();
-                                    e.preventDefault();
-                                    this.context.router.push({
-                                        pathname:'/ordermng/evaluate',
-                                        query:{orderId:item.orderIdStr}
-                                    }) */
-                                }}>评价</div>}
->>>>>>> 49f83d331d90d012df7b9817dab542a75bb5b084
 
                                 {item.userReaded == '0' &&(item.status == '0' || item.status == '1') && <div className="status-inquiry read-status" style={{color:'white',background:'#ea6ea4',border:'none'}}>未读</div>}
                             </div>
@@ -350,11 +338,11 @@ class Widget extends Component {
                                     就诊人：{item.patientName}  |  MDT 
                                  </div>
                                  <div className="content-text">
-                                 {item.content&&item.content.indexOf('checkItem')!=-1?'[检查单]':item.content&&item.content.indexOf('PIC')!=-1?'[图片]':item.content&&item.content.indexOf('.mp3')!=-1?'[语音]':item.content&&item.content.length>0?item.content:'  '}
+                                 {item.content&&item.content.indexOf('checkItem')!=-1?'[检查单]':item.content&&item.content.indexOf('PIC')!=-1?'[图片]':item.content&&item.content.indexOf('.mp3')!=-1?'[语音]':item.content&&item.content.indexOf('recipelList')!=-1?'[在线开处方]':item.content&&item.content.indexOf('慢病续方')!='-1'?'[在线开处方]':item.content&&item.content.indexOf('dept')!='-1'?'[专家会诊]':item.content&&item.content.length>0?item.content:'  '}
                                  </div>
-                                 {item.status == '4'  &&
+                                 {item.status !== '0'  &&
                                 <div className="status-inquiry" style={{color:'white',background:'#4cabcf',border:'none'}}> {item.statusName}</div>}
-                                {item.status !== '4' &&
+                                {item.status == '0' &&
                                 <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>{item.status=='5'?item.reportName:item.statusName}</div>}
                             </div>
                         </div>)

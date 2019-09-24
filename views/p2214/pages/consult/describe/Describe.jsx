@@ -124,6 +124,11 @@ class Widget extends Component {
             isChecked:false,
             patientShow:false,
             curItem:{},
+            diagList:['J45.900x001','J45.005','J30.400y001','L30.902','M08.800y001','M32.900','M32.101+','E66.900',
+            'E66.900x001','E27.800y002','E14.900y002','R73.000x001','E22.802','E30.100x004','E30.800y002',
+            'E05.000x001','E05.900x001','G40.900','R51.x00','G43.900','N04.900','N05.803y001','N04.900y001',
+            'N00.900','N00.902','N02.801','N02.801','N01.900x001','D69.004','M32.101+','M32.900','I15.102','N39.000',
+            'N04.900y002','I42.900','I50.908','I49.100x001','I49.300y001','I47.100','I47.200','Q21.000','Q21.100','Q25.000','I37.000'],
             curPat:{}
         };
     }
@@ -231,7 +236,7 @@ class Widget extends Component {
         });
     }
     componentDidMount() {
-
+        console.log(this.state.diagList.length)
         if(!!window.localStorage.openId){
          }else{
              var code='';
@@ -253,11 +258,11 @@ class Widget extends Component {
         this.getDocDetail(this.props.location.query.doctorId, this.props.location.query.deptId);
         var ua = navigator.userAgent.toLowerCase();//获取浏览器的userAgent,并转化为小写——注：userAgent是用户可以修改的
         var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
-       if(this.mounted){
-        this.setState({
-            isIos:isIos
-        });
-       }
+        if(this.mounted){
+            this.setState({
+                isIos:isIos
+            });
+        }
        
         document.getElementById("home").scrollIntoView();
         Utils.getJsByHide();
@@ -505,7 +510,13 @@ class Widget extends Component {
                      if(res.data.length>0){
                          var list=res.data;
                           for(var i=0;i<list.length;i++){
+                              // if(this.state.diagList.indexOf(list[i].Diagnosis_code)!=-1){
                                 list[i].has=true;
+                              // }else{
+                               // list[i].has=false;
+                               //}
+                                
+                                //arr1.indexOf(NaN)
                                 list[i].showMore=false;
                                 if(!!list[i].Recipel_list&&list[i].Recipel_list.length>0){
                                     for(var j=0;j<list[i].Recipel_list.length;j++){
@@ -677,6 +688,7 @@ expandMore(Visit_no){
       this.setState({
           isChecked:!this.state.isChecked
       })
+     console.log(this.state.isChecked)
   }
   
   onTabChange = (key) => {
@@ -790,18 +802,22 @@ expandMore(Visit_no){
                                                                                    
                         </div>
                     </div>
-                    <div className="check-box">
+                    <div className="check-box" onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        this.switch()
+                        }}>
                             <label className="weui-agree">
-                                <input type="checkbox" defaultChecked={isChecked} className="weui-agree__checkbox"
-                                       onClick={(e) => {
-                                    this.switch()
-                                    }}/>
+                                <input type="checkbox" checked={isChecked} className="weui-agree__checkbox"
+                                       />
                             </label>
                             阅读并同意 
                     </div> 
                     <div className="btn">
                             <div className={`submit-btn }`}
                                     onClick={(e)=>{
+                                        e.stopPropagation();
+                                        e.preventDefault();
                                     this.setState({
                                         knows:false,
                                     })
@@ -809,7 +825,8 @@ expandMore(Visit_no){
                             </div>
                             <div className={`submit-btn }`}
                                     onClick={(e)=>{
-
+                                        e.stopPropagation();
+                                        e.preventDefault();
                                     if(isChecked){
                                         this.setState({
                                         knows:false,
@@ -922,7 +939,7 @@ expandMore(Visit_no){
                                         <div className="drug-item" key={index1}>   
                                                 <div className="name">
                                                     <p className="left">{item1.name}</p>
-                                                    <p className="right">￥50.00</p>
+                                                    <p className="right"></p>
                                                 </div> 
                                                 <div className="dose">
                                                    {item1.use}
