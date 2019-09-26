@@ -201,7 +201,8 @@ export const getDescribeDetail = (param) => fetch.post('/api/ehis/health/api/chr
 export const getDescribeInfo = (param) => fetch.post('/api/ehis/health/api/chronicDisease/prePay', param);
 
 export const cancleDescribe = (param) => fetch.post('/api/ehis/health/api/chronicDisease/cancel', param);
-
+/* 预问诊 */
+export const getAccessInfo = (param) => fetch.post('/api/ehis/health/api/prediagnosis/getAccessInfo', param);
 
 
 

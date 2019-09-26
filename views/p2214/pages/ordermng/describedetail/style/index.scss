@@ -2,6 +2,44 @@
 
 @import "../../../../resources/styles/mixins";
 .page-describe-detail{
+    .because .weui-cell__bd{
+        text-align: left;
+    }
+    .because .weui-cell {
+        padding: 5px 0px;
+    }
+    .because .weui-cells {
+        margin-top:0;
+    }
+    .because .weui-cell:after,.because .weui-cells:after {
+        content:none;
+    }
+    .because .weui-cell:before,.because .weui-cells:before {
+        content:none;
+    }
+    .m-cancel-text{
+        box-sizing: border-box;
+        width: 100%;
+        height: 5em;
+        padding: .05rem;
+        font-size: 14px;
+        border:1px solid $border-color;
+        resize: none;
+        color: $text-color;
+    }
+    .weui-icon-waiting {
+        font-size: 23px;
+        color: white;
+    }
+    .weui-icon-success,.weui-icon-wating,.weui-icon-info {
+        font-size: 30px;
+        color: white;
+        ::before{
+            display: inline-block;
+             margin-left: 0;
+            margin-right: .2em;
+        }
+    }
     .describe-detail{
         margin:0 10px 20px;
   

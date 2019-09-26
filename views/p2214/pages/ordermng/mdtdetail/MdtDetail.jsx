@@ -14,7 +14,7 @@ class Widget extends Component {
     super(props);
     this.state = {
         dialogConfig: {
-            title: '请选择取消的原因',
+            title: '请选择取消订单的原因',
             type: 'ios',
             buttons: [
               {
@@ -56,7 +56,7 @@ class Widget extends Component {
             ]
         },
         style2: {
-            title: '请选择取消的原因',
+            title: '请选择取消订单的原因',
             buttons: [
                 {
                     type: 'default',
@@ -159,20 +159,25 @@ class Widget extends Component {
         return;
     }
     this.closeDialog();
-    this.cancel(this.state.checkDetail.orderStr,cancelVal);
+    this.delOrder(cancelVal);
     }
-  cancelConfirm() {
-    const { dialogConfig } = this.state;
-    dialogConfig.show = true;
-    this.setState({ dialogConfig });
-  }
-  closeDialog() {
-    const { dialogConfig } = this.state;
-    dialogConfig.show = false;
-    this.setState({
-      dialogConfig
-    });
-  }
+    showTips(text) {
+      let { tipsConfig, tipsText }=this.state;
+      tipsConfig.type = 'warn';
+      tipsConfig.show = true;
+      tipsText = text || '取消原因不能为空';
+      this.setState({
+        tipsText: tipsText,
+        tipsConfig: tipsConfig
+      });
+      this.state.tipsTimer = setTimeout(()=> {
+        tipsConfig.show = false;
+        this.setState({
+          tipsText: tipsText,
+        });
+      }, 2000);
+    }
+
     showToast() {
         this.setState({showToast: true});
         this.state.toastTimer = setTimeout(()=> {
@@ -239,12 +244,25 @@ class Widget extends Component {
       })
 
     }
-    delOrder(){
+    cancelConfirm() {
+      const { dialogConfig } = this.state;
+      dialogConfig.show = true;
+      this.setState({ dialogConfig });
+    }
+    closeDialog() {
+      const { dialogConfig } = this.state;
+      dialogConfig.show = false;
+      this.setState({
+        dialogConfig
+      });
+    }
+    delOrder(cancelVal){
       console.log("dd")
       this.showLoading();
       Api
           .delMdt({
               id:this.props.location.query.id,
+              reason:cancelVal,
               userId:window.localStorage.userId
           })
           .then((res) => {
@@ -280,6 +298,43 @@ class Widget extends Component {
             <Toast icon="success-no-circle" show={this.state.showToast}>修改成功</Toast>
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
                 {msg}
+            </Dialog>
+            <Dialog {...this.state.dialogConfig} >
+              <form ref="cancelInpt">
+                <div className="because">
+                  <div className="weui-cells weui-cells_checkbox">
+                    <label className="weui-cell weui-check__label">
+                      <div className="weui-cell__hd">
+                        <input type="checkbox" className="weui-check" name="checkbox1" value='不想会诊了'/>
+                        <i className="weui-icon-checked"></i>
+                      </div>
+                      <div className="weui-cell__bd">
+                        <p>不想会诊了</p>
+                      </div>
+                    </label>
+                    <label className="weui-cell weui-check__label">
+                      <div className="weui-cell__hd">
+                        <input type="checkbox" name="checkbox1" className="weui-check" value='会诊费用太贵'/>
+                        <i className="weui-icon-checked"></i>
+                      </div>
+                      <div className="weui-cell__bd">
+                        <p>会诊费用太贵</p>
+                      </div>
+                    </label>
+                    <label className="weui-cell weui-check__label">
+                      <div className="weui-cell__hd">
+                        <input type="checkbox" name="checkbox1" className="weui-check" value='不想此专家团队会诊'/>
+                        <i className="weui-icon-checked"></i>
+                      </div>
+                      <div className="weui-cell__bd">
+                        <p>不想此专家团队会诊</p>
+                      </div>
+                    </label>
+                  </div>
+                  <textarea className="m-cancel-text" ref="yuanyin" placeholder="请输入取消原因"/>
+
+                </div>
+              </form>
             </Dialog>
             <Toptips {...this.state.tipsConfig}>{this.state.tipsText}</Toptips>  
             <div className="mdt-info">
@@ -454,10 +509,11 @@ class Widget extends Component {
                 })          
               }}>立即缴费</p> 
             }
-            {(mdtDetail.status=='2')&&<p className='sure'
+            {  (mdtDetail.status=='2')&& 
+            <p className='sure'
              onClick={()=>{ 
                console.log("delt")
-               this.delOrder()  
+               this.cancelConfirm()  
              }}
              style={{marginTop:'10px',background:'white',border:'1px solid #4cabcf',color:'#4cabcf'}} >取消订单</p> 
           }

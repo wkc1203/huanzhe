@@ -103,28 +103,18 @@ class Widget extends Component {
             imgType:'',//图片类型
             imgList:[],//图片列表
             dept:[],
-            mdtInfo:!!this.props.location.query.info?JSON.parse(this.props.location.query.info):{},
+            mdtInfo:{},
             report:false,
-            reportList:!!this.props.location.query.info&&JSON.parse(JSON.parse(this.props.location.query.info).report),
+            reportList:'',
         };
     }
  
     componentDidMount(){
-     
+       tmp=[];
       this.getJs1();
       Utils.getJsByHide();
-       if(!!this.props.location.query.info){
-        
-         
-        for(var key in this.state.reportList.doctor){
-          //key是属性,object[key]是值
-          tmp.push(this.state.reportList.doctor[key]);//往数组中放值
-        } 
-        this.setState({
-          report:true
-         
-         })  
-         console.log("reportList",tmp)
+       if(!!this.props.location.query.id){
+           this.getMdt();
        }else{
        
         sessionStorage.setItem('isApplyInfo',1);
@@ -139,24 +129,42 @@ class Widget extends Component {
        }
           
     }
+    getMdt(){
+      Api
+            .getMdtMessage({id: this.props.location.query.id})
+            .then((res) => {
+                if (res.code == 0) {
+                        this.setState({
+                          mdtInfo:res.data,
+                          reportList:!!res.data.report?JSON.parse(res.data.report):{}
+                           
+                        })
+                        if(!!res.data.report) {
+                          for(var key in JSON.parse(res.data.report).doctor){
+                            //key是属性,object[key]是值
+                            tmp.push(JSON.parse(res.data.report).doctor[key]);//往数组中放值
+                          } 
+                          this.setState({
+                            report:true
+                           
+                           })  
+                           console.log("reportList",tmp)
+                        }
+                        
+                }
+                
+                        }, (e) => {
+                            
+                this.hideLoading();
+            });
+    }
     componentWillMount(){
-      if(!!this.props.location.query.info){
+      tmp=[];
+      if(!!this.props.location.query.id){
         this.setState({
-          mdtInfo:JSON.parse(this.props.location.query.info),
           report:true,
          })  
-         var list1=!!JSON.parse(this.props.location.query.info).images?JSON.parse(JSON.parse(this.props.location.query.info).images):[]
-         var list=[];
-          for(var i=0;i<list1.length;i++){
-            for(var j=0;j<list1[i][Object.getOwnPropertyNames(list1[i])[0]].length;j++){
-                console.log(list1[i][Object.getOwnPropertyNames(list1[i])[0]][j])
-                list.push(list1[i][Object.getOwnPropertyNames(list1[i])[0]][j])
-              }
-          }
-          this.setState({ 
-            imgArr:list,  
-          })
-         console.log('info',list)
+        
        }
       this.setState({
         imgList:!!sessionStorage.getItem('imgList')?JSON.parse(sessionStorage.getItem('imgList')):[]
@@ -680,7 +688,7 @@ previewImg1(url) {
                               <span>总结</span>
                           </div>
                           <div className ='descript1'>
-                            {reportList.info.reportSummary}
+                            {!!reportList.info?reportList.info.reportSummary:'暂无'}
                           </div>
                       </div> 
                  </div>
