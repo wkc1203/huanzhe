@@ -130,6 +130,8 @@ class Widget extends Component {
             isIos:false,
             type:'1',
             patientShow:false,
+            preAsk:false,
+            showMore:false,
             
         };
     }
@@ -439,6 +441,7 @@ class Widget extends Component {
                             }else{
                                 cardList[0].active=true;
                                 this.setState({
+                                    preAsk:true,
                                     patCardNo:cardList[0].patCardNo,
                                     selectName: cardList[0].patientName,
                                     selectSex: cardList[0].patientSex == 'M' ? '男' : '女',
@@ -446,7 +449,7 @@ class Widget extends Component {
                                     selectPatientId: cardList[0].patientId
                                 })
                             }
-
+ 
                         }
                     }else{
                         this.hideLoading();
@@ -713,6 +716,28 @@ class Widget extends Component {
                 })
             }
             });
+    }
+    /* 预问诊 */ 
+    goAsk(){
+        Api
+        .getAccessInfo()
+        .then((res) => {
+            if (res.code == 0) {
+                  var url='';
+                  if(window.location.origin=='https://tih.cqkqinfo.com'){
+                    url='https://aiimage.wecity.qq.com/guide-h5-prediagnosis/pages/prediagnosis?partnerId='+res.data.partnerId+'&hospitalId='+res.data.hospitalId+'&registerId='+res.data.inquiryId;
+                  }else{
+                    url='https://miying.qq.com/guide-h5-prediagnosis/pages/prediagnosis?partnerId='+res.data.partnerId+'&hospitalId='+res.data.hospitalId+'&registerId='+res.data.inquiryId;
+                  }
+                  window.location.replace(url);  
+            }
+        }, (e) => {
+            this.hideLoading(); 
+            this.setState({
+                msg:e.msg,
+                showIOS1:true
+            })
+        });
     }
    /*切换咨询目的*/
     changeStatus(id) {
@@ -1078,7 +1103,7 @@ onChange = (files,file,index) => {
     console.log(key);
   };
     render() {
-        const {patientShow,codeUrl,cardShow,policy,msg,callback,OSSAccessKeyId,open1,docInfo,cardList,consultList1,consultList,imgArr,leftBindNum,
+        const {patientShow,codeUrl,cardShow,preAsk,msg,showMore,OSSAccessKeyId,open1,docInfo,cardList,consultList1,consultList,imgArr,leftBindNum,
             selectName,isIos,sign,selectSex,selectBirthday,toptip,files,type}=this.state;
             console.log("ttype",type)
         return (
@@ -1151,8 +1176,10 @@ onChange = (files,file,index) => {
                         <button onClick={()=>{
                             if(selectName!=''){
                                 this.setState({
-                                    patientShow:false
+                                    patientShow:false,
+                                    preAsk:true,
                                 })
+
                             }else{
                                 this.setState({
                                     msg:'请选择就诊人',  
@@ -1164,6 +1191,26 @@ onChange = (files,file,index) => {
                         }>确定</button>          
                     </div>
                 </div>
+                }
+                {
+                    preAsk&&<div className='modal' style={{justifyContent:'flex-end',display:'none'}}
+                   >
+                    <div className='modal-body-select1'
+                    style={{width:'100%'}}
+                      >
+                      <img className='pre_back' src={'./././resources/images/pre_back.png'}/>
+                        <p className='pre_btn' onClick={()=>{
+                             this.goAsk()
+                        }                      
+                        }>立即前往</p>   
+                        <span className='pre_text' onClick={()=>{
+                             this.setState({
+                                 preAsk:false,
+                             })
+                        }                      
+                        }>跳过</span>       
+                    </div>
+                </div> 
                 }
                 {cardShow && <div className='modal'
                                   onClick={(e)=>{
@@ -1275,7 +1322,98 @@ onChange = (files,file,index) => {
                     
                 
                    
-                </div>}</div>
+                </div>}
+                </div>
+                {!showMore&&<div className="reason" style={{display:'none'}}>
+                    <div className="reason-title" >预问诊 <span>重新预问诊</span></div>
+                    <div className="pre_content">
+                        <div className="pre_pat">
+                            <p className="left">问诊报告</p>
+                            <p className="right">生成时间：2019-08-22</p>
+                        </div>
+                        <div className="pre_pat">
+                            <p className="left">患者信息：<span>陈川荣|男|1岁</span></p>
+                            <p className="right">初/复诊：<span>复诊</span></p>
+                        </div>
+                        <div className="pre_pat">
+                            <p className="left">患者自述：<span>咳嗽</span></p>
+                        </div>
+                        
+                    </div>
+                    <img  className='pre_bottom' 
+                        onClick={()=>{
+                            this.setState({
+                                showMore:true
+                            })
+                        }}
+                        src="./././resources/images/pre_bottom.png" alt="" />
+                    
+                </div>}
+                {showMore&&<div className="reason" style={{display:'none'}}>
+                    <div className="reason-title" >预问诊 <span>重新预问诊</span></div>
+                    <div className="pre_content" style={{background:'#e8f1f6',marginBottom:'5px'}}>
+                        <div className="pre_pat">
+                            <p className="left">问诊报告</p>
+                            <p className="right">生成时间：2019-08-22</p>
+                        </div>
+                        <div className="pre_pat">
+                            <p className="left">患者信息：<span>陈川荣|男|1岁</span></p>
+                            <p className="right">初/复诊：<span>复诊</span></p>
+                        </div>
+                        <div className="pre_pat">
+                            <p className="left">患者自述：<span>咳嗽</span></p>
+                        </div>
+                        
+                    </div>
+                    <div className="pre-more">
+                       <div className="pre_title"> 
+                            <span></span>现病史
+                       </div>
+                       <div className="pre_info">
+                       现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史
+                       </div>
+                    </div>
+                    <div className="pre-more">
+                       <div className="pre_title"> 
+                            <span></span>既往史
+                       </div>
+                       <div className="pre_info">
+                       现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史
+                       </div>
+                    </div>
+                    <div className="pre-more">
+                       <div className="pre_title"> 
+                            <span></span>个人史
+                       </div>
+                       <div className="pre_info">
+                       现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史
+                       </div>
+                    </div>
+                    <div className="pre-more">
+                       <div className="pre_title" style={{paddingLeft:'0'}}> 
+                            图片资料
+                       </div>
+                       <div className="pre_info pre_img">
+                          <img src="./././resources/images/upload-xpt.png" alt=""/>
+                          <img src="./././resources/images/upload-xpt.png" alt=""/>
+                          <img src="./././resources/images/upload-xpt.png" alt=""/>
+                          <img src="./././resources/images/upload-xpt.png" alt=""/>
+                          <img src="./././resources/images/upload-xpt.png" alt=""/>
+
+                          </div>
+                    </div>
+                    
+                    
+                    <img  className='pre_bottom' 
+                        onClick={()=>{
+                            this.setState({
+                                showMore:false
+                            })
+                        }}
+                        src="./././resources/images/pre_top.png" alt="" />
+                    
+                </div>}
+
                 {!patientShow&&<div className="describe">
                     <div className="edit-title">病情描述</div>
                     <div className="edit-area">

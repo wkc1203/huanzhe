@@ -105,10 +105,57 @@ class Widget extends Component {
     }) 
        
   }
-  cancle(){
+  cancelOrder()
+    {
+    var select = '';
+    var cancelVal;
+    for (var i = 0; i < 3; i++) {
+        if (this.refs.cancelInpt.checkbox1[i].checked == true) {
+        select = select + ' ' + this.refs.cancelInpt.checkbox1[i].value;
+        }
+    }
+    if (select !== '' && this.refs.yuanyin.value == '') {
+        cancelVal = select;
+    }
+    if (this.refs.cancelInpt.checkbox1.value == '' && this.refs.yuanyin.value !== '') {
+        cancelVal = (this.refs.yuanyin.value || '').replace(/(^\s*)|(\s*$)/g, '');
+    }
+    if (select !== '' && this.refs.yuanyin.value !== '') {
+        cancelVal = (select + ' ' + this.refs.yuanyin.value || '').replace(/(^\s*)|(\s*$)/g, '');
+    }
+    if (select == '' && this.refs.yuanyin.value == '') {
+        this.showTips('取消原因不能为空,请选择或填写');
+        return;
+    }
+    if (this.refs.yuanyin.value.length > 100) {
+        this.showTips('取消原因太长');
+        return;
+    }
+    this.closeDialog();
+    this.cancle(cancelVal);
+    }
+    showTips(text) {
+      let { tipsConfig, tipsText }=this.state;
+      tipsConfig.type = 'warn';
+      tipsConfig.show = true;
+      tipsText = text || '取消原因不能为空';
+      this.setState({
+        tipsText: tipsText,
+        tipsConfig: tipsConfig
+      });
+      this.state.tipsTimer = setTimeout(()=> {
+        tipsConfig.show = false;
+        this.setState({
+          tipsText: tipsText,
+        });
+      }, 2000);
+    }
+
+  cancle(cancelVal){
         Api
         .cancleDescribe({ 
             id:this.state.describeDetail.id,
+           // cancelReason:cancelVal,
             hisId:'2214'  
         })
         .then((res) => {
@@ -156,6 +203,18 @@ class Widget extends Component {
                  })
              });
     }
+    cancelConfirm() {
+        const { dialogConfig } = this.state;
+        dialogConfig.show = true;
+        this.setState({ dialogConfig });
+      }
+      closeDialog() {
+        const { dialogConfig } = this.state;
+        dialogConfig.show = false;
+        this.setState({
+          dialogConfig
+        });
+      }
   render() {
     const {msg,describeDetail,showMore,mainDiagnosis,phone,orderDetail,leftTimeFlag,leftTime}=this.state
     return (
@@ -178,6 +237,43 @@ class Widget extends Component {
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
                 {msg}
             </Dialog>
+            <Dialog {...this.state.dialogConfig} >
+              <form ref="cancelInpt">
+                <div className="because">
+                  <div className="weui-cells weui-cells_checkbox">
+                    <label className="weui-cell weui-check__label">
+                      <div className="weui-cell__hd">
+                        <input type="checkbox" className="weui-check" name="checkbox1" value='医生开错药品'/>
+                        <i className="weui-icon-checked"></i>
+                      </div>
+                      <div className="weui-cell__bd">
+                        <p>医生开错药品</p>
+                      </div>
+                    </label>
+                    <label className="weui-cell weui-check__label">
+                      <div className="weui-cell__hd">
+                        <input type="checkbox" name="checkbox1" className="weui-check" value='药品费用太贵'/>
+                        <i className="weui-icon-checked"></i>
+                      </div>
+                      <div className="weui-cell__bd">
+                        <p>药品费用太贵</p>
+                      </div>
+                    </label>
+                    <label className="weui-cell weui-check__label">
+                      <div className="weui-cell__hd">
+                        <input type="checkbox" name="checkbox1" className="weui-check" value='不想要该药品了'/>
+                        <i className="weui-icon-checked"></i>
+                      </div>
+                      <div className="weui-cell__bd">
+                        <p>不想要该药品了</p>
+                      </div>
+                    </label>
+                  </div>
+                  <textarea className="m-cancel-text" ref="yuanyin" placeholder="请输入取消原因"/>
+                </div>
+              </form>
+            </Dialog>
+            
             <Toptips {...this.state.tipsConfig}>{this.state.tipsText}</Toptips>  
             <div className="describe-detail">
                 {describeDetail.status=='3'&&<div className="order-status">
@@ -285,8 +381,10 @@ class Widget extends Component {
               {describeDetail.status=='3'&&<p className='p1' onClick={()=>{
                   this.pay()
               }}>确定支付</p>}
-              {(describeDetail.status=='0'||describeDetail.status=='1'||describeDetail.status=='2'||describeDetail.status=='3')&&<p className='p2' onClick={()=>{
-                  this.cancle()
+              { (describeDetail.status=='0'||describeDetail.status=='1'||describeDetail.status=='2'||describeDetail.status=='3')&& 
+              <p className='p2' onClick={()=>{
+                  //this.cancelConfirm()
+                   this.cancle()
               }}>取消订单</p>}
 
           </div>

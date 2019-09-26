@@ -156,7 +156,7 @@ button {
 }
 .weui-icon-success {
   font-size: 23px;
-  color: #4db6ac;
+  color: #4cabcf;
 }
 .weui-icon-waiting {
   font-size: 23px;
@@ -172,11 +172,11 @@ button {
 }
 .weui-icon-success-circle {
   font-size: 23px;
-  color: #4db6ac;
+  color: #4cabcf;
 }
 .weui-icon-success-no-circle {
   font-size: 23px;
-  color: #4db6ac;
+  color: #4cabcf;
 }
 .weui-icon-waiting-circle {
   font-size: 23px;
@@ -188,14 +188,14 @@ button {
 }
 .weui-icon-download {
   font-size: 23px;
-  color: #4db6ac;
+  color: #4cabcf;
 }
 .weui-icon-info-circle {
   font-size: 23px;
-  color: #4db6ac;
+  color: #4cabcf;
 }
 .weui-icon-safe-success {
-  color: #4db6ac;
+  color: #4cabcf;
 }
 .weui-icon-safe-warn {
   color: #f57f17;
@@ -286,7 +286,7 @@ button {
   background-color: #e2e9e8;
 }
 .weui-btn_primary {
-  background-color: #4db6ac;
+  background-color: #4cabcf;
 }
 .weui-btn_primary:not(.weui-btn_disabled):visited {
   color: #ffffff;
@@ -319,8 +319,8 @@ button {
   background-color: #ef8e8c;
 }
 .weui-btn_plain-primary {
-  color: #4db6ac;
-  border: 1px solid #4db6ac;
+  color: #4cabcf;
+  border: 1px solid #4cabcf;
 }
 .weui-btn_plain-primary:not(.weui-btn_plain-disabled):active {
   color: #95d4ce;
@@ -585,7 +585,7 @@ input.weui-btn_plain-default {
 .weui-cells_radio .weui-check:checked + .weui-icon-checked:before {
   display: block;
   content: '\EA08';
-  color: #4db6ac;
+  color: #4cabcf;
   font-size: 16px;
 }
 .weui-cells_checkbox .weui-cell__hd {
@@ -599,7 +599,7 @@ input.weui-btn_plain-default {
 }
 .weui-cells_checkbox .weui-check:checked + .weui-icon-checked:before {
   content: '\EA06';
-  color: #4db6ac;
+  color: #4cabcf;
 }
 .weui-label {
   display: block;
@@ -806,7 +806,7 @@ input.weui-btn_plain-default {
      -moz-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  color: #4db6ac;
+  color: #4cabcf;
   text-align: center;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -845,7 +845,7 @@ button.weui-form-preview__btn {
   color: #989898;
 }
 .weui-form-preview__btn_primary {
-  color: #4db6ac;
+  color: #4cabcf;
 }
 .weui-cell_select {
   padding: 0;
@@ -965,7 +965,7 @@ button.weui-form-preview__btn {
   line-height: 44px;
   vertical-align: middle;
   font-size: 16px;
-  color: #4db6ac;
+  color: #4cabcf;
 }
 button.weui-vcode-btn {
   background-color: transparent;
@@ -1078,8 +1078,8 @@ button.weui-vcode-btn {
 }
 .weui-switch:checked,
 .weui-switch-cp__input:checked ~ .weui-switch-cp__box {
-  border-color: #4db6ac;
-  background-color: #4db6ac;
+  border-color: #4cabcf;
+  background-color: #4cabcf;
 }
 .weui-switch:checked:before,
 .weui-switch-cp__input:checked ~ .weui-switch-cp__box:before {
@@ -1339,7 +1339,7 @@ button.weui-vcode-btn {
 .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon,
 .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon > i,
 .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label {
-  color: #4db6ac;
+  color: #4cabcf;
 }
 .weui-tabbar__icon {
   display: inline-block;
@@ -1475,7 +1475,7 @@ i.weui-tabbar__icon,
 .weui-progress__inner-bar {
   width: 0;
   height: 100%;
-  background-color: #4db6ac;
+  background-color: #4cabcf;
 }
 .weui-progress__opr {
   display: block;
@@ -1916,7 +1916,7 @@ a.weui-media-box:active {
      -moz-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  color: #4db6ac;
+  color: #4cabcf;
   text-decoration: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   position: relative;
@@ -1949,7 +1949,7 @@ a.weui-media-box:active {
   color: #353535;
 }
 .weui-dialog__btn_primary {
-  color: #4db6ac;
+  color: #4cabcf;
 }
 .weui-skin_android .weui-dialog {
   text-align: left;
@@ -2385,7 +2385,7 @@ a.weui-media-box:active {
   display: none;
   margin-left: 10px;
   line-height: 28px;
-  color: #4db6ac;
+  color: #4cabcf;
   white-space: nowrap;
 }
 .weui-search-bar__input:not(:valid) ~ .weui-icon-clear {
@@ -2733,7 +2733,7 @@ input[type="search"]::-webkit-search-results-decoration {
   vertical-align: middle;
   text-decoration: inherit;
   content: "\EA08";
-  color: #4db6ac;
+  color: #4cabcf;
   font-size: 13px;
   position: absolute;
   top: 50%;
@@ -2807,7 +2807,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 .weui-slider__track {
   height: 2px;
-  background-color: #4db6ac;
+  background-color: #4cabcf;
   width: 0;
 }
 .weui-slider__handler {
@@ -2979,7 +2979,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .ui-arrow-circle.ui-arrow-primary {
-  background-color: #4db6ac;
+  background-color: #4cabcf;
 }
 
 .ui-arrow-circle.ui-arrow-warn {
@@ -3044,7 +3044,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .ui-table.ui-table-primary {
-  border-top: 2px solid #4db6ac;
+  border-top: 2px solid #4cabcf;
 }
 
 .ui-table.ui-table-primary th {
@@ -3304,7 +3304,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .ui-label.ui-label-primary {
-  background-color: #4db6ac;
+  background-color: #4cabcf;
 }
 
 .ui-label.ui-label-warn {
@@ -3342,7 +3342,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .ui-label-bordered.ui-label-primary {
-  color: #4db6ac;
+  color: #4cabcf;
 }
 
 .ui-label-bordered.ui-label-primary:before {
@@ -3363,7 +3363,7 @@ input[type="search"]::-webkit-search-results-decoration {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
-  border: 1px solid #4db6ac;
+  border: 1px solid #4cabcf;
 }
 
 .ui-label-bordered.ui-label-warn {
@@ -3509,7 +3509,7 @@ input[type="search"]::-webkit-search-results-decoration {
   display: block;
   width: 2.5em;
   height: .02rem;
-  background-color: #4db6ac;
+  background-color: #4cabcf;
   -webkit-transform: translateX(-50%) scaleX(0);
      -moz-transform: translateX(-50%) scaleX(0);
       -ms-transform: translateX(-50%) scaleX(0);
@@ -3520,7 +3520,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .ui-tab > .ui-tab-li.active {
-  color: #4db6ac;
+  color: #4cabcf;
 }
 
 .ui-tab > .ui-tab-li.active:after {
@@ -3531,7 +3531,7 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .ui-tab > .ui-tab-li.active > a {
-  color: #4db6ac;
+  color: #4cabcf;
 }
 
 .ui-card {
@@ -3659,8 +3659,8 @@ a.ui-card:active {
 }
 
 .ui-status.ui-status-primary {
-  color: #4db6ac;
-  border: 1px solid #4db6ac;
+  color: #4cabcf;
+  border: 1px solid #4cabcf;
 }
 
 .ui-status.ui-status-warn {
@@ -4397,7 +4397,7 @@ a.ui-card:active {
 }
 
 .f-color-primary {
-  color: #4db6ac;
+  color: #4cabcf;
 }
 
 .f-color-info {
@@ -4425,7 +4425,7 @@ a.ui-card:active {
 }
 
 .f-bg-primary {
-  background-color: #4db6ac;
+  background-color: #4cabcf;
 }
 
 .f-bg-warn {

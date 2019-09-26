@@ -21,7 +21,7 @@ class Widget extends Component {
                            <div className="pat-item">{typeName} | 就诊人：{patientName}</div>
                            {status != '2'&&<div className="status-name">{statusName}</div>}
                            {status == '2'&&<div className="status-name">已完成</div>}
-                           {status == '2'&&refundStatus!=1&&<div className="eva-item" >
+                           {/* status == '2'&&refundStatus!=1&&<div className="eva-item" >
                                <Link
                                    to={{
                                    pathname:'/ordermng/evaluate',
@@ -31,7 +31,7 @@ class Widget extends Component {
                                    >
                                    评价
                                </Link>
-                           </div>}
+                           </div> */}
     </div>
     );
   }

@@ -3,10 +3,79 @@
 @import "../../../../resources/styles/mixins";
 
 .page-mdt-order {
+     .weui-dialog {
+        position: fixed;
+        z-index: 5000;
+        width: 80%;
+        max-width: 300px;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        text-align: center;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 10px;
+        overflow: hidden;
+        .weui-dialog__hd{
+            padding:0;
+            background: rgb(238,238,238);
+            height: 34px;
+            line-height: 34px;
+            color: #4cabcf;
+            font-size: 14px;
+        }
+        .wgt-container .weui-dialog__btn_default {
+            color: white;
+        }
+        .wgt-container .weui-dialog__btn_primary {
+            color: white !important;
+        }
+        .weui-dialog__ft {
+            position: relative;
+            line-height: 48px;
+            font-size: 18px;
+            display: -webkit-box;
+            background: #4cabcf;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            .weui-dialog__btn_default {
+                color: white;
+            }
+            .weui-dialog__btn_primary {
+                color: white !important;
+            }
+            
+        }
+        .weui-dialog__title {
+            font-weight: 400;
+           font-size: 15px;
+        }
+        .weui-dialog__bd { 
+            padding: 20px 10px;
+            min-height: 40px;
+            font-size: 15px;
+            line-height: 1.3;
+            word-wrap: break-word;
+            word-break: break-all;
+            color: #989898;
+        }
+        .wgt-container .weui-dialog__btn_default {
+            color: white;
+        }
+        .wgt-container .weui-dialog__btn_primary {
+            color: white !important;
+        }
+    }
     .modal1{
         position: fixed;
         top: 0;
-        bottom: 0;
+        bottom: 0; 
         left: 0;
         right: 0;
         background:rgba(0,0,0,0.6);
@@ -284,6 +353,7 @@
     }
     .because .weui-cells {
         margin-top:0;
+        margin-bottom: 15px;
     }
     .because .weui-cell:after,.because .weui-cells:after {
         content:none;
@@ -295,7 +365,7 @@
         box-sizing: border-box;
         width: 100%;
         height: 5em;
-        padding: .05rem;
+        padding: 10px;
         font-size: 14px;
         border:1px solid $border-color;
         resize: none;

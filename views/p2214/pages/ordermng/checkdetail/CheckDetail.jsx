@@ -117,6 +117,23 @@ class Widget extends Component {
     dialogConfig.show = true;
     this.setState({ dialogConfig });
   }
+  showTips(text) {
+    let { tipsConfig, tipsText }=this.state;
+    tipsConfig.type = 'warn';
+    tipsConfig.show = true;
+    tipsText = text || '取消原因不能为空';
+    this.setState({
+      tipsText: tipsText,
+      tipsConfig: tipsConfig
+    });
+    this.state.tipsTimer = setTimeout(()=> {
+      tipsConfig.show = false;
+      this.setState({
+        tipsText: tipsText,
+      });
+    }, 2000);
+  }
+
   closeDialog() {
     const { dialogConfig } = this.state;
     dialogConfig.show = false;
@@ -203,6 +220,44 @@ class Widget extends Component {
                 {msg}
             </Dialog>
             <Toptips {...this.state.tipsConfig}>{this.state.tipsText}</Toptips>  
+            <Dialog {...this.state.dialogConfig} >
+          <form ref="cancelInpt">
+            <div className="because">
+              <div className="weui-cells weui-cells_checkbox">
+                <label className="weui-cell weui-check__label">
+                  <div className="weui-cell__hd">
+                    <input type="checkbox" className="weui-check" name="checkbox1" value='医生开错单'/>
+                    <i className="weui-icon-checked"></i>
+                  </div>
+                  <div className="weui-cell__bd">
+                    <p>医生开错单</p>
+                  </div>
+                </label>
+                <label className="weui-cell weui-check__label">
+                  <div className="weui-cell__hd">
+                    <input type="checkbox" name="checkbox1" className="weui-check" value='费用太贵'/>
+                    <i className="weui-icon-checked"></i>
+                  </div>
+                  <div className="weui-cell__bd">
+                    <p>费用太贵</p>
+                  </div>
+                </label>
+                <label className="weui-cell weui-check__label">
+                  <div className="weui-cell__hd">
+                    <input type="checkbox" name="checkbox1" className="weui-check" value='不想做该检查了'/>
+                    <i className="weui-icon-checked"></i>
+                  </div>
+                  <div className="weui-cell__bd">
+                    <p>不想做该检查了</p>
+                  </div>
+                </label>
+              </div>
+              <textarea className="m-cancel-text" ref="yuanyin" placeholder="请输入取消原因"/>
+
+            </div>
+          </form>
+        </Dialog>
+
           <div className='person-info'>
                <div >
                   <p>就诊人：{checkDetail.patientName}</p>
@@ -376,8 +431,19 @@ class Widget extends Component {
                    </div>
                 </div>
           </div>}
+          
           <div className='submit-btn'>
         {!!checkDetail&&(checkDetail.status=='7')&& <p className='cancel'>已退款</p> }
+        { // !!checkDetail&&checkDetail.status=='2'&& 
+         /* <p 
+         className="delete"
+          onClick={()=>{
+              this.cancelConfirm();
+             // this.cancel(checkDetail.orderStr)
+          }}
+         >取消检验检查</p> */
+        }
+
               {!!checkDetail&&(checkDetail.status=='4'||checkDetail.status=='3')&& <p className='cancel'>已取消</p> }
               {!!checkDetail&&(checkDetail.status=='5')&& <p className='cancel' style={{color:'#f57f17'}}>支付异常</p> }
               {!!checkDetail&&(checkDetail.status=='6')&& <p className='cancel' style={{color:'red'}}>支付失败</p> }

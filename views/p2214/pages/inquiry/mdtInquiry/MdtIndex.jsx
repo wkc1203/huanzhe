@@ -11,8 +11,8 @@ import * as Utils from '../../../utils/utils';
 import * as Api from '../../../components/Api/Api';
 import './style/index.scss';
 var interval = '';
-var interval1 = '';
-var interval2='';
+var interval1 = ''; 
+var interval2=''; 
 var upload=true;
 var uuList = [];
 var maxLength=0;
@@ -1453,7 +1453,7 @@ onChange = (files,file,index) => {
           if(!!this.state.mdtDetail.report){
             this.context.router.push({
                 pathname:'/mdt/upload',
-                query:{info:JSON.stringify(this.state.mdtDetail)}
+                query:{id:this.state.mdtDetail.id}
             })
           }else{
               this.context.router.push({
@@ -1608,7 +1608,7 @@ onChange = (files,file,index) => {
                                                 <img src={!!item.doc&&!!item.doc.image?item.doc.image:'./././resources/images/defautImg.png'}/>
                                             </div>
                                             <span>{!!item.doc&&item.doc.deptName} | {!!item.doc&&item.doc.name} ({!!item.doc&&item.doc.level})</span>
-                                            {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' &&item.url && item.action !== 'add' &&item.action !== 'addChecklist'&& <div
+                                            {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' &&item.url && item.action !== 'mdt' &&item.action !== 'addChecklist'&& <div
                                                 className='image'
                                                 onClick={()=>{this.previewImg(item.url)
                                                                     }}
@@ -1617,7 +1617,7 @@ onChange = (files,file,index) => {
                                                 src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
                                             </div>}
                                             
-                                            {item.content &&item.action !== 'addChecklist'&&item.action!='reportApply'&&item.action!='add'&& 
+                                            {item.content &&item.action !== 'mdt'&&item.action!='reportApply'&&item.action!='add'&& 
                                              
                                               <div className='text'>
                                                 {item.content}
@@ -1655,16 +1655,30 @@ onChange = (files,file,index) => {
                                         {item.type == 'BIZ' &&item.direction == 'TO_DOCTOR'&&item.userIsShow== '1'&&
                                         <div id="s" className='right'>
                                             <div className='flex'></div>
-                                            {item.url && item.action !== 'add' &&item.action !== 'addChecklist' &&  <div className='image'
+                                            {item.url && item.action !== 'add' &&item.action !== 'mdt' &&  <div className='image'
                                                                                        onClick={()=>{
                                                                                     this.previewImg(item.url)
                                                                                      }} >
                                                 <img  
                                                  src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
                                             </div>}
-                                            {item.content &&item.action !== 'addChecklist' &&item.action!='reportApply'&&item.action!='add'&& <div className='text'>
+                                            {item.content &&item.action !== 'mdt' &&item.action!='reportApply'&&item.action!='add'&& <div className='text'>
                                             {item.content}
-                                            </div>} 
+                                            </div>}
+                                            { item.content &&item.action == 'mdt' && <div className='text' 
+                                                        onClick={()=>{
+                                                            this.context.router.push({
+                                                                pathname:'/mdt/upload',
+                                                                query:{id:item.actionTrigger,}
+                                                            })
+                                                        }}
+                                                        style={{width:'220px',height:'auto',background:'white'}} >
+                                                        <p className='doctort'>{!!item.checkContent&&item.checkContent.title}</p>
+                                                                <div className='check-info'>
+                                                               
+                                                                </div>
+                                                                <p className='search'>查看详情</p>
+                                                                </div>} 
 
                                             <div className='img'>
                                                 <img src={userInfo.headImage||'./././resources/images/defautImg.png'}/>
