@@ -295,8 +295,9 @@ class Widget extends Component {
                         }else{
                             if(this.props.location.query.type=='chronic'||this.props.location.query.type=='CHRONICZF'){
                                this.context.router.push({
-                                   pathname:'inquiry/inquirylist',
-                                   }) 
+                                //    pathname:'inquiry/inquirylist',
+                                pathname:'/ordermng/orderlist',
+                                query:{busType:'describe'}}) 
                             }else{
                                this.context.router.push({
                                    pathname:'/add/addManage',

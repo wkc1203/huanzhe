@@ -831,14 +831,16 @@ getmdtList() {
                {mdtList&&mdtList!='1'&&mdtList.length>0&&mdtList.map((item,index)=>{
                         return(
                             <div className="describe-item" key={index} onClick={()=>{
-                                if(item.status!=='1'){
+                                // if(item.status!=='1'){
                                     this.context.router.push({
                                         pathname:'ordermng/mdtdetail', 
                                         query:{id:item.id}
                                     }) 
-                                }
+                                // }
                             }}>
-                               <div className="des-basic" style={item.status=='1'?{border:'none'}:{}}>
+                               <div className="des-basic" 
+                            //    style={item.status=='1'?{border:'none'}:{}}
+                               >
                                     <div className="des">
                                         <p className="left">就诊人：<span>{item.patientName}</span></p>
                                         <p className={`right ${item.status=='1'||item.status=='2'?'dai':item.status=='0'||item.status=='3'||item.status=='4'?'on':''}`}>{item.status=='5'?item.reportName:item.statusName}</p>
@@ -850,10 +852,11 @@ getmdtList() {
                                       <p className="left">申请时间：<span>{item.applyTimeName}</span></p>
                                     </div>
                                 </div>
-                                {item.status!=='1'&&<div className="des-detail">
+                                {/* {item.status!=='1'&&<div className="des-detail"> */}
+                                <div className="des-detail">
                                    查看详情
                                    <img src='./././resources/images/des_xyjt.png'/> 
-                                </div>}
+                                </div>
                             </div>
                         )
                })}

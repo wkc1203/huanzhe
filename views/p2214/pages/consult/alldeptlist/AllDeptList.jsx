@@ -515,9 +515,9 @@ class Widget extends Component {
                             <input className="ipt"
                                    value={searchValue}
                                    placeholder={type=='2'?"点击搜索科室/护士":"点击搜索科室/医生"}
-                                   onFocus={(e)=>{
-                                        this.bindSearchFocus(e)
-                                        }}
+                                //    onFocus={(e)=>{
+                                //         this.bindSearchFocus(e)
+                                //         }}
                                    onChange={(e)=>{
                                         this.getValue(e)
                                         }}

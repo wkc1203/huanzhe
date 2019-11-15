@@ -83,6 +83,7 @@
         flex: 1;
         padding-left: 14px;
         position: relative;
+        overflow: hidden;
         .status-inquiry{
             position: absolute;
             right: 0;
@@ -91,6 +92,10 @@
             padding:0 10px;
             text-align: center;
             font-size:13px;
+            &.top30{
+                top: 14%;
+
+            }
          
             line-height: 23px;
             height: 23px;
@@ -118,12 +123,28 @@
             margin-top: 10px;
             font-size: 15px;
             color: #333;
-
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
         }
         .dPat{
             font-size: 15px;
             color: #333;
             margin-top: 5px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+        }
+        .dtext{
+            color: #666;
+            font-size: 13px;
+            padding-top: 5px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
         }
         .content-text{
             margin-top: 10px;

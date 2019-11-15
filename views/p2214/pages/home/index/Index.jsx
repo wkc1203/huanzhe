@@ -61,6 +61,8 @@ class Widget extends Component {
   componentDidMount() {
       console.log("id",this.props.location.query.userId)
       if(!!this.props.location.query.userId){
+
+
         var storage=window.localStorage;
         
         storage.hasUserId=this.props.location.query.userId; 

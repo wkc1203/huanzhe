@@ -510,11 +510,17 @@ class Widget extends Component {
                      if(res.data.length>0){
                          var list=res.data;
                           for(var i=0;i<list.length;i++){
-                              // if(this.state.diagList.indexOf(list[i].Diagnosis_code)!=-1){
+                              if(!!this.props.location.query.test&&this.props.location.query.test==1){
                                 list[i].has=true;
-                              // }else{
-                               // list[i].has=false;
-                               //}
+
+                              }else{
+                                if(this.state.diagList.indexOf(list[i].Diagnosis_code)!=-1){
+                                    list[i].has=true;
+                                  }else{
+                                   list[i].has=false;
+                                    }
+                              }
+                            
                                 
                                 //arr1.indexOf(NaN)
                                 list[i].showMore=false;
@@ -697,7 +703,7 @@ expandMore(Visit_no){
     render() {
         const {knows,hasList,codeUrl,cardShow,isChecked,msg,cardList,leftBindNum,
             selectName,selectSex,selectBirthday,toptip,reportList,patientShow}=this.state;
-            console.log("report",reportList)
+            console.log("report",reportList,'11111111111111111222222222222222222222')
         return (
             <div className={`${knows?'over-hidden page-describe-info1':' page-describe-info1'} `}>
                 <div className="home" id="home"><span className="jian"
@@ -883,8 +889,15 @@ expandMore(Visit_no){
                         最近1个月内在本科室的慢病就诊记录
                      </div>
 
+                     {
+
+                        console.log(reportList,'reportListreportListreportList')
+
+                     }
+
                     {reportList&&reportList.length>0&&reportList.map((item,index)=>{
-                        return(
+
+                        if(item.has) {return(
                             <div className="describe-item"  key={index}>
                             <div className="des-basic" >
                                     <div className="des">
@@ -962,7 +975,9 @@ expandMore(Visit_no){
             
                                 </div>}
                             </div>
-                        )
+                        )}else{
+                            return ''
+                        }
                     })
                         
                         
