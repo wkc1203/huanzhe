@@ -63,6 +63,10 @@ for(let i =1 ; i<=120; i++){
 
 sexage.push(agessss)
 
+const appheight = document.getElementById("app").offsetHeight;
+ 
+console.log(appheight,'appheight')
+
 class Widget extends Component {
     static contextTypes = {
         router: React.PropTypes.object,
@@ -224,6 +228,12 @@ class Widget extends Component {
         })
 
         this.getAccessInfo();
+
+        if(this.isAndroid()){
+            document.getElementById("container1").style.overflow = 'hidden!important';
+            document.getElementById("container1").style.position = 'relative';
+        }
+
     }
 
     getAccessInfo(){
@@ -368,7 +378,10 @@ class Widget extends Component {
                                     reportDate:datereg.data    
                                 },()=>{
 
-                                    _self.addReport()
+                                    document.getElementById("container1").style.height = 'auto';
+
+
+                                    // _self.addReport()
                                 })
                             }
                         },
@@ -599,6 +612,7 @@ class Widget extends Component {
 
             }
         })
+
     });
 
 
@@ -623,6 +637,29 @@ class Widget extends Component {
 
       
        
+    }
+
+
+    isgoReport(){
+
+        const {reportDate,prediagnosishead} = this.state;
+
+        reportDate.visiting_status = !!this.props.location.query.visiting_status?this.props.location.query.visiting_status:1;
+
+        const _this =this;
+
+        _this.context.router.push({
+            pathname: '/consult/confirminfo',
+            query: { inquiryId: prediagnosishead.inquiryId||'',
+                reportDate:JSON.stringify(reportDate),
+                doctorId: _this.props.location.query.doctorId||'',
+                deptId: _this.props.location.query.deptId||'',
+                totalFee: _this.props.location.query.totalFee||'',
+                selectPatientId:_this.props.location.query.selectPatientId||'',
+
+
+            }
+        })
     }
 
 
@@ -813,10 +850,49 @@ class Widget extends Component {
 
    /*获取焦点事件*/
     input(e) {
+        e.stopPropagation(); 
+        e.preventDefault();
         this.setState({
             inputText: e.target.value,
             msgText: e.target.value,
         })
+    }
+
+    bodyheight(e){
+
+       
+
+        if(this.isAndroid()){
+            // document.getElementsByTagName("body")[0].style.height = appheight+'px';
+
+            let h11 = document.getElementById("getDatechnagBox").offsetHeight;
+            let h12 = document.getElementById("peopleMessage-my").offsetHeight;
+            // let h133 = document.getElementById("container1").offsetHeight;
+            document.getElementById("content3").style.marginBottom = '0px'
+    
+            document.getElementById("content3").style.height= (appheight-h12-h11 - 44)+'px'
+
+
+        }
+
+    }
+
+    isAndroid(){
+        var u = navigator.userAgent, app = navigator.appVersion;
+        return  u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+    }
+
+    bodyheightauto(e){
+
+        if(this.isAndroid()){
+            let h11 = document.getElementById("getDatechnagBox").offsetHeight;
+
+            document.getElementById("content3").style.marginBottom = h11+'px'
+            // document.getElementsByTagName("body")[0].style.height = 'auto';
+            
+
+        }
+
     }
 
     getJs1() {
@@ -1405,6 +1481,11 @@ onChange = (files,file,index) => {
         name,match,hieghtMore,showId,uId,patHisNo,score,txtNum,t1,t2,t3,t4,t5,timeShow,numEnd,pics,innerAudioContext,
         canEnd,appraisal,pingShow,newScore,itemList,detail,payBack,isOk,newText ,isDuration,newItem,status,
         newTime,doctorName,noDoctor,isIos,msg,endding,end,sign,signature,formData,policy,callback,OSSAccessKeyId,key,evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText}=this.state
+
+        const { selectName,visiting_status } = this.props.location.query
+
+        console.log(selectName,'selectName')
+
         return (
             <div style={{height:'100%'}} className="chat">
 
@@ -1429,8 +1510,7 @@ onChange = (files,file,index) => {
                                       }}
                         ></span>AI预问诊
                     </div>
-                    <div className="peopleMessage-my" id="peopleMessage-my" 
-                    >  
+                    <div className="peopleMessage-my" id="peopleMessage-my" >  
 
                             <img className="img-bj" src="./././resources/images/bl@2x.png" alt=""/>
 
@@ -1459,17 +1539,18 @@ onChange = (files,file,index) => {
                     
 
                     
-                    <div className='operation-box-my'>
+                    {!!!reportDate&&<div className='operation-box-my'>
                         <div className='top' id="getDatechnagBox" style={{backgroundColor:"#fff"}}>
 
                             {!!!report_id&&(!!!questions||questions.type==2)&&<div className="inputmysad">
                             
-                                {/* <div className="img">
-                                    <img className="img-yy" src="./././resources/images/yy@2x.png" alt=""/>
-                                </div> */}
                                 
                                 <TextArea autosize rows="1" cols="3" value={msgText} id="inputText"
-                                    onChange={(e)=>{ this.input(e)}}  />
+                                    onChange={(e)=>{ this.input(e)}}
+                                    onFocus={(e)=>{ this.bodyheightauto(e)}}
+                                     onBlur={(e)=>{ this.bodyheight(e) }}
+
+                                    />
 
                                 <span className="addBtn"
                                     style={{marginBottom:'6px'}} 
@@ -1538,101 +1619,15 @@ onChange = (files,file,index) => {
 
                             </div>}
 
-                            
-
-
-
-
-
-
-            
-                            
                         </div>
 
-                    </div>
+                    </div>}
 
-                    {/* <div className={`header1 ${isEnd ? '': 'showTxt'}`}>咨询已结束</div> */}
 
-                    <div  className={`content3 contents `}
-                         id='content3'
-                         onClick={(e)=>{
-
-                            // e.stopPropagation();
-                            // e.preventDefault();
-                            //    if(this.state.showPlus){
-                            //     this.hidePlus()
-                            //    }
-
-                            }}>
+                    {!!!reportDate&&<div  className={`content3 contents `} id='content3'>
 
                              <div className='content2' id="content2">
                             
-
-                    
-{/* 
-                                    <div  className="content-item">
-
-                                        <div
-                                            className={`msg`}>
-                                        .....
-                                        </div>
-
-                                       
-                                        <div className='date'>111111</div>
-
-                                       
-                                        <div
-                                            className={`msg `} style={{textAlign:'center',color:'#ccc',background:'#f2f2f2'}}>
-                                            撤回了一条消息
-                                        </div>
-
-
-
-                                     
-                                        <div className='left'>
-
-                                            <div className='img'>
-                                                <img src={'./././resources/images/defautImg.png'}/>
-                                            </div>
-                                            <span>33333</span>
-                                            
-                                            
-                                           
-                                            
-                                         
-                                             
-                                            <div className='text'>
-                                                9999
-                                            </div>
-                                            
-                                                                                    
-
-                                        </div>
-
-                                       
-                                    
-                                        <div id="s" className='right'>
-                                            <div className='flex'></div>
-                                            <div className='image'
-                                                onClick={()=>{
-                                                    this.previewImg('999')
-                                                }} >
-                                                <img src={'./././resources/images/defautImg.png'}/>
-
-
-                                            </div>
-
-                                           <div className='text'>
-                                           1111
-                                            </div>
-
-                                       
-                                        </div>
-
-                                    </div> */}
-
-                  
-
                                     <div className="content-item" id="txt" >
 
                                         <div className='left'>
@@ -1640,58 +1635,133 @@ onChange = (files,file,index) => {
                                             <span className="ainame">智能医生</span>
 
                                             <div className='text'>
-                                                您可以输入您的症状开始预问诊，<br/>
-                                                但是由于没有同步到您的挂号信息，<br/>
-                                                无法将预问诊报告同步给医生哦。
+                                                您可以输入您的症状开始预问诊
                                             </div>
 
                                         </div>
 
                                     </div>
 
-                                    {/* {
-                                        reportDate&&   <div className="reportDate">
-                                            <div className="report-tit">报告结果</div>
-                                            {reportDate.inqueryId&&<div>报告ID：{reportDate.inqueryId}</div>}
-                                            <div>年龄：{reportDate.age}</div>
-                                            <div>性别：{reportDate.sex==0?'男':'女'}</div>
-                                            {reportDate.birthHistory&&<div>{reportDate.birthHistory}</div>}
-                                            {reportDate.currentHistory&&<div>{reportDate.currentHistory}</div>}
-                                            {reportDate.familyHistory&&<div>{reportDate.familyHistory}</div>}
-                                            {reportDate.feedingHistory&&<div>{reportDate.feedingHistory}</div>}
-                                            {reportDate.marriageHistory&&<div>{reportDate.marriageHistory}</div>}
-                                            {reportDate.medicalTreatment&&<div>{reportDate.medicalTreatment}</div>}
-                                            {reportDate.menstrualHistory&&<div>{reportDate.menstrualHistory}</div>}
-                                            {reportDate.pastHistory&&<div>{reportDate.pastHistory}</div>}
-                                            {reportDate.createTime&&<div>创建时间：{reportDate.createTime}</div>}
-                                            {reportDate.updateTime&&<div>更新时间：{reportDate.updateTime}</div>}
-                                        
-                                        </div>
-                                    } */}
-
-                                 
-
-
-                                    {/* <div className="content-item" id="txt" >
-
-                                        <div id="s" className='right'>
-                                            <div className='flex'></div>
-                                            <span className="meuser">我</span>
-                                            <div className='text'>
-                                                1111
-                                            </div>
-
-                                       
-                                        </div>
-
-                                    </div> */}
-
+            
 
                             </div>
 
+                    </div>}
+
+
+                    {!!reportDate&&<div className="reason" >
+                        <div className="pre_content">
+                            <div className="pre_pat">
+                                <p className="left">问诊报告</p>
+                                {reportDate&&reportDate.createTime&&<p className="right">生成时间：{reportDate&&reportDate.createTime.substr(0,10)}</p>}
+                            </div>
+                            <div className="pre_pat">
+                                <p className="left">患者信息：<span>{!!selectName?selectName:''}|{sexStr}|{sex[1]}岁</span></p>
+                                <p className="right">初/复诊：<span>{visiting_status==2?'复诊':'初诊'}</span></p>
+                            </div>
+                            <div className="pre_pat">
+                                <p className="left">患者自述：<span>{reportDate&&reportDate.query}</span></p>
+                            </div>
+                            
                         </div>
-                   
-                   
+
+                        {reportDate&&reportDate.currentHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>现病史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.currentHistory}
+                        </div>
+                        </div>}
+
+                        {/* {reportDate&&reportDate.pastHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>既往史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.pastHistory}
+                        
+                        </div>
+                        </div>} */}
+
+                        {reportDate&&reportDate.pastHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>既往史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.pastHistory}
+                        
+                        </div>
+                        </div>}
+
+                        {reportDate&&reportDate.marriageHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>婚育史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.marriageHistory}
+                        
+                        </div>
+                        </div>}
+
+
+                        {reportDate&&reportDate.familyHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>家族史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.familyHistory}
+                        
+                        </div>
+                        </div>}
+
+
+                        {reportDate&&reportDate.birthHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>出生史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.birthHistory}
+                        
+                        </div>
+                        </div>}
+
+                        {reportDate&&reportDate.feedingHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>喂养史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.feedingHistory}
+                        
+                        </div>
+                        </div>}
+
+                        {reportDate&&reportDate.menstrualHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>月经史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.menstrualHistory}
+                        
+                        </div>
+                        </div>}
+                            
+                        {reportDate&&reportDate.medicalTreatment&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>诊疗经过
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.medicalTreatment}
+                        
+                        </div>
+                        </div>}
+
+
+                        <div className="report-btn" onClick={()=>{this.isgoReport()}}>确定</div>
+
+
+                    </div>}
+
                 </div>
                 
             </div>

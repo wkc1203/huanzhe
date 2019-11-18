@@ -1147,7 +1147,7 @@ onChange = (files,file,index) => {
     render() {
         const {showAIreport,selectPatientId,isShowAI,patientShow,codeUrl,cardShow,preAsk,msg,showMore,OSSAccessKeyId,open1,docInfo,cardList,consultList1,consultList,imgArr,leftBindNum,
             selectName,isIos,sign,selectSex,selectBirthday,toptip,files,type}=this.state;
-            console.log("ttype",type)
+            console.log("selectName",selectName)
         
         const reportDate = this.props.location.query.reportDate? JSON.parse(this.props.location.query.reportDate) :''
         
@@ -1383,14 +1383,15 @@ onChange = (files,file,index) => {
                                     deptId: this.props.location.query.deptId,
                                     totalFee: this.props.location.query.totalFee,
                                     selectPatientId,
-                                    visiting_status:2
+                                    visiting_status:2,
+                                    selectName
                                 }
                             }}
                         >重新预问诊</Link></div>
                     <div className="pre_content">
                         <div className="pre_pat">
                             <p className="left">问诊报告</p>
-                            <p className="right">生成时间：{reportDate&&reportDate.createTime}</p>
+                            {reportDate&&reportDate.createTime&&<p className="right">生成时间：{reportDate&&reportDate.createTime.substr(0,10)}</p>}
                         </div>
                         <div className="pre_pat">
                             <p className="left">患者信息：<span>{selectName}|{selectSex}|{this.getage(selectBirthday)}岁</span></p>
@@ -1421,14 +1422,15 @@ onChange = (files,file,index) => {
                                     deptId: this.props.location.query.deptId,
                                     totalFee: this.props.location.query.totalFee,
                                     selectPatientId,
-                                    visiting_status:2
+                                    visiting_status:2,
+                                    selectName
                                 }
                             }}
                         >重新预问诊</Link></div>
                     <div className="pre_content">
                         <div className="pre_pat">
                             <p className="left">问诊报告</p>
-                            {reportDate&&reportDate.createTime&&<p className="right">生成时间：{reportDate&&reportDate.createTime}</p>}
+                            {reportDate&&reportDate.createTime&&<p className="right">生成时间：{reportDate&&reportDate.createTime.substr(0,10)}</p>}
                         </div>
                         <div className="pre_pat">
                             <p className="left">患者信息：<span>{selectName}|{selectSex}|{this.getage(selectBirthday)}岁</span></p>
@@ -1449,7 +1451,7 @@ onChange = (files,file,index) => {
                        </div>
                     </div>}
 
-                    {reportDate&&reportDate.pastHistory&&<div className="pre-more">
+                    {/* {reportDate&&reportDate.pastHistory&&<div className="pre-more">
                        <div className="pre_title"> 
                             <span></span>既往史
                        </div>
@@ -1457,7 +1459,7 @@ onChange = (files,file,index) => {
                        {reportDate&&reportDate.pastHistory}
                        
                        </div>
-                    </div>}
+                    </div>} */}
 
                     {reportDate&&reportDate.pastHistory&&<div className="pre-more">
                        <div className="pre_title"> 
@@ -1657,7 +1659,8 @@ onChange = (files,file,index) => {
                                     doctorId: this.props.location.query.doctorId,
                                     deptId: this.props.location.query.deptId,
                                     totalFee: this.props.location.query.totalFee,
-                                    selectPatientId
+                                    selectPatientId,
+                                    selectName,
                                 }
                             }}
                         >
