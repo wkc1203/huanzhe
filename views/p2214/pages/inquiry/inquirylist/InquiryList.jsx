@@ -332,18 +332,21 @@ class Widget extends Component {
                                         <p className="name" style={{fontSize:'13px',fontWeight:'normal',color:'#666'}}>{item.applyTimeName}</p>
                                 </div>
                                  <div className="dDept"> 
-                                   {item.deptName} {!!item.patientDoctorTitle&&!!item.patientDoctorTitle ? item.patientDoctorTitle : ''} 
+                                   {item.docInfoShow} 
                                  </div>
                                  <div className="dPat">
                                     就诊人：{item.patientName}  |  MDT 
                                  </div>
-                                 <div className="content-text">
+                                 {item.recentContent&&<p className="dtext">
+                                     {item.recentContent}
+                                 </p>}
+                                 {item.content&&<div className="content-text">
                                  {item.content&&item.content.indexOf('checkItem')!=-1?'[检查单]':item.content&&item.content.indexOf('PIC')!=-1?'[图片]':item.content&&item.content.indexOf('.mp3')!=-1?'[语音]':item.content&&item.content.indexOf('recipelList')!=-1?'[慢病续方]':item.content&&item.content.indexOf('慢病续方')!='-1'?'[慢病续方]':item.content&&item.content.indexOf('dept')!='-1'?'[专家会诊]':item.content&&item.content.length>0?item.content:'  '}
-                                 </div>
+                                 </div>}
                                  {item.status !== '0'  &&
-                                <div className="status-inquiry" style={{color:'white',background:'#4cabcf',border:'none'}}> {item.statusName}</div>}
+                                <div className="status-inquiry top30" style={{color:'white',background:'#4cabcf',border:'none'}}> {item.status=='5'?item.reportName:item.statusName}</div>}
                                 {item.status == '0' &&
-                                <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>{item.status=='5'?item.reportName:item.statusName}</div>}
+                                <div className="status-inquiry top30 complete" style={{color:'white',background:'#ccc',border:'none'}}>{item.status=='5'?item.reportName:item.statusName}</div>}
                             </div>
                         </div>)
                 })}

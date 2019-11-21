@@ -132,6 +132,8 @@ class Widget extends Component {
             patientShow:false,
             preAsk:false,
             showMore:false,
+            showAIreport:true,
+            isShowAI:true,
             
         };
     }
@@ -435,9 +437,19 @@ class Widget extends Component {
                                 })
                             this.hideLoading();
                             if(cardList.length>1){
-                                 this.setState({
-                                     patientShow:true
-                                 })
+
+                                if(!!this.props.location.query.reportDate){
+                                    this.changePat(this.props.location.query.selectPatientId)
+
+                                }else{
+                                    this.setState({
+                                        patientShow:true,
+                                        isShowAI:false,
+                                    })
+                                }
+
+                           
+
                             }else{
                                 cardList[0].active=true;
                                 this.setState({
@@ -545,6 +557,13 @@ class Widget extends Component {
                 hisId:2214,
                 userId:JSON.parse(window.localStorage.userInfo).id||""
             };
+
+            if(!!this.props.location.query.inquiryId){
+                params.id = this.props.location.query.inquiryId
+            }
+
+
+
             this.createOrder(params);
         } else {
             var pics = '';
@@ -581,6 +600,11 @@ class Widget extends Component {
                 purpose: this.state.consultationReason,
                 purposeType:this.state.consultationId,
             };
+
+            if(!!this.props.location.query.inquiryId){
+                params.id = this.props.location.query.inquiryId
+            }
+
             this.createOrder(params);
         }
     }
@@ -621,13 +645,14 @@ class Widget extends Component {
                         
                         if(res.msg!=null&&res.msg!=''){
                             if(this.mounted){
-                            this.setState({
-                                inquiryId:res.msg||'',
-                                msg:'当前咨询完成后，才能对医生发起新的咨询',
-                                showIOS3:true
-                            })
+                                this.setState({
+                                    inquiryId:res.msg||'',
+                                    msg:'当前咨询完成后，才能对医生发起新的咨询',
+                                    showIOS3:true
+                                })
+                            }
                         }
-                    }
+
                     }else{
                         if(this.mounted){
                             this.setState({
@@ -635,7 +660,7 @@ class Widget extends Component {
                                 showIOS1: true
                             })
                         }
-                }
+                    }
                 }
             }, (e) => {
                 window.scrollTo(0,0);
@@ -649,7 +674,7 @@ class Widget extends Component {
                                 showIOS3:true
                             })
                         }   
-                }
+                    }
                 }else{
                     if(this.mounted){
                         this.setState({
@@ -673,13 +698,24 @@ class Widget extends Component {
                     patCardNo:item.patCardNo,
                     selectSex: item.patientSex == 'F' ? '女' : '男',
                     selectBirthday: item.birthday,
-                    selectPatientId: item.patientId
+                    selectPatientId: item.patientId,
                 })
             }
         });
         this.setState({
             cardList: cardList
         })
+
+        if(!!this.props.location.query.selectPatientId&&this.props.location.query.selectPatientId==id){
+            this.setState({
+                showAIreport:true
+            })
+        }else{
+            this.setState({
+                showAIreport:false
+            })
+        }
+
     }
     /*是否注册*/
     isRegister() {
@@ -1102,10 +1138,19 @@ onChange = (files,file,index) => {
   onTabChange = (key) => {
     console.log(key);
   };
+
+  getage(date){
+    console.log(date)
+    return  new Date().getFullYear() -  new Date(date).getFullYear()
+  }
+
     render() {
-        const {patientShow,codeUrl,cardShow,preAsk,msg,showMore,OSSAccessKeyId,open1,docInfo,cardList,consultList1,consultList,imgArr,leftBindNum,
+        const {showAIreport,selectPatientId,isShowAI,patientShow,codeUrl,cardShow,preAsk,msg,showMore,OSSAccessKeyId,open1,docInfo,cardList,consultList1,consultList,imgArr,leftBindNum,
             selectName,isIos,sign,selectSex,selectBirthday,toptip,files,type}=this.state;
-            console.log("ttype",type)
+            console.log("selectName",selectName)
+        
+        const reportDate = this.props.location.query.reportDate? JSON.parse(this.props.location.query.reportDate) :''
+        
         return (
             <div className="page-confirm-info">
                 <div className="home" id="home"><span className="jian"
@@ -1178,12 +1223,15 @@ onChange = (files,file,index) => {
                                 this.setState({
                                     patientShow:false,
                                     preAsk:true,
+                                    isShowAI:true,
+
                                 })
 
                             }else{
                                 this.setState({
                                     msg:'请选择就诊人',  
                                     showIOS1:true,
+
                                     })
                             }
                              
@@ -1324,19 +1372,33 @@ onChange = (files,file,index) => {
                    
                 </div>}
                 </div>
-                {!showMore&&<div className="reason" style={{display:'none'}}>
-                    <div className="reason-title" >预问诊 <span>重新预问诊</span></div>
+                {!showMore&&reportDate&& showAIreport &&<div className="reason" style={!!reportDate?{}:{display:'none'}}>
+                    <div className="reason-title" >预问诊 <Link
+                            to={{
+                                pathname: '/inquiry/AiInquiry',
+                                query: {
+                                    sex:selectSex,
+                                    age: this.getage(selectBirthday),
+                                    doctorId: this.props.location.query.doctorId,
+                                    deptId: this.props.location.query.deptId,
+                                    totalFee: this.props.location.query.totalFee,
+                                    selectPatientId,
+                                    visiting_status:2,
+                                    selectName
+                                }
+                            }}
+                        >重新预问诊</Link></div>
                     <div className="pre_content">
                         <div className="pre_pat">
                             <p className="left">问诊报告</p>
-                            <p className="right">生成时间：2019-08-22</p>
+                            {reportDate&&reportDate.createTime&&<p className="right">生成时间：{reportDate&&reportDate.createTime.substr(0,10)}</p>}
                         </div>
                         <div className="pre_pat">
-                            <p className="left">患者信息：<span>陈川荣|男|1岁</span></p>
-                            <p className="right">初/复诊：<span>复诊</span></p>
+                            <p className="left">患者信息：<span>{selectName}|{selectSex}|{this.getage(selectBirthday)}岁</span></p>
+                            <p className="right">初/复诊：<span>{reportDate&&reportDate.visiting_status==2?'复诊':'初诊'}</span></p>
                         </div>
                         <div className="pre_pat">
-                            <p className="left">患者自述：<span>咳嗽</span></p>
+                            <p className="left">患者自述：<span>{reportDate&&reportDate.query}</span></p>
                         </div>
                         
                     </div>
@@ -1349,47 +1411,142 @@ onChange = (files,file,index) => {
                         src="./././resources/images/pre_bottom.png" alt="" />
                     
                 </div>}
-                {showMore&&<div className="reason" style={{display:'none'}}>
-                    <div className="reason-title" >预问诊 <span>重新预问诊</span></div>
-                    <div className="pre_content" style={{background:'#e8f1f6',marginBottom:'5px'}}>
+                {showMore&&reportDate&& showAIreport &&<div className="reason" >
+                <div className="reason-title" >预问诊 <Link
+                            to={{
+                                pathname: '/inquiry/AiInquiry',
+                                query: {
+                                    sex:selectSex,
+                                    age: this.getage(selectBirthday),
+                                    doctorId: this.props.location.query.doctorId,
+                                    deptId: this.props.location.query.deptId,
+                                    totalFee: this.props.location.query.totalFee,
+                                    selectPatientId,
+                                    visiting_status:2,
+                                    selectName
+                                }
+                            }}
+                        >重新预问诊</Link></div>
+                    <div className="pre_content">
                         <div className="pre_pat">
                             <p className="left">问诊报告</p>
-                            <p className="right">生成时间：2019-08-22</p>
+                            {reportDate&&reportDate.createTime&&<p className="right">生成时间：{reportDate&&reportDate.createTime.substr(0,10)}</p>}
                         </div>
                         <div className="pre_pat">
-                            <p className="left">患者信息：<span>陈川荣|男|1岁</span></p>
-                            <p className="right">初/复诊：<span>复诊</span></p>
+                            <p className="left">患者信息：<span>{selectName}|{selectSex}|{this.getage(selectBirthday)}岁</span></p>
+                            <p className="right">初/复诊：<span>{reportDate&&reportDate.visiting_status==2?'复诊':'初诊'}</span></p>
                         </div>
                         <div className="pre_pat">
-                            <p className="left">患者自述：<span>咳嗽</span></p>
+                            <p className="left">患者自述：<span>{reportDate&&reportDate.query}</span></p>
                         </div>
                         
                     </div>
-                    <div className="pre-more">
+
+                    {reportDate&&reportDate.currentHistory&&<div className="pre-more">
                        <div className="pre_title"> 
                             <span></span>现病史
                        </div>
                        <div className="pre_info">
-                       现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史
+                       {reportDate&&reportDate.currentHistory}
                        </div>
-                    </div>
-                    <div className="pre-more">
+                    </div>}
+
+                    {/* {reportDate&&reportDate.pastHistory&&<div className="pre-more">
                        <div className="pre_title"> 
                             <span></span>既往史
                        </div>
                        <div className="pre_info">
-                       现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史
+                       {reportDate&&reportDate.pastHistory}
+                       
                        </div>
-                    </div>
-                    <div className="pre-more">
+                    </div>} */}
+
+                    {reportDate&&reportDate.pastHistory&&<div className="pre-more">
+                       <div className="pre_title"> 
+                            <span></span>既往史
+                       </div>
+                       <div className="pre_info">
+                       {reportDate&&reportDate.pastHistory}
+                       
+                       </div>
+                    </div>}
+
+                    {reportDate&&reportDate.marriageHistory&&<div className="pre-more">
+                       <div className="pre_title"> 
+                            <span></span>婚育史
+                       </div>
+                       <div className="pre_info">
+                       {reportDate&&reportDate.marriageHistory}
+                       
+                       </div>
+                    </div>}
+
+
+                    {reportDate&&reportDate.familyHistory&&<div className="pre-more">
+                       <div className="pre_title"> 
+                            <span></span>家族史
+                       </div>
+                       <div className="pre_info">
+                       {reportDate&&reportDate.familyHistory}
+                       
+                       </div>
+                    </div>}
+
+
+                    {reportDate&&reportDate.birthHistory&&<div className="pre-more">
+                       <div className="pre_title"> 
+                            <span></span>出生史
+                       </div>
+                       <div className="pre_info">
+                       {reportDate&&reportDate.birthHistory}
+                       
+                       </div>
+                    </div>}
+
+                    {reportDate&&reportDate.feedingHistory&&<div className="pre-more">
+                       <div className="pre_title"> 
+                            <span></span>喂养史
+                       </div>
+                       <div className="pre_info">
+                       {reportDate&&reportDate.feedingHistory}
+                       
+                       </div>
+                    </div>}
+
+                    {reportDate&&reportDate.menstrualHistory&&<div className="pre-more">
+                       <div className="pre_title"> 
+                            <span></span>月经史
+                       </div>
+                       <div className="pre_info">
+                       {reportDate&&reportDate.menstrualHistory}
+                       
+                       </div>
+                    </div>}
+                        
+                    {reportDate&&reportDate.medicalTreatment&&<div className="pre-more">
+                       <div className="pre_title"> 
+                            <span></span>诊疗经过
+                       </div>
+                       <div className="pre_info">
+                       {reportDate&&reportDate.medicalTreatment}
+                       
+                       </div>
+                    </div>}
+
+                    
+
+                    
+
+                    {/* <div className="pre-more">
                        <div className="pre_title"> 
                             <span></span>个人史
                        </div>
                        <div className="pre_info">
                        现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史现病史
                        </div>
-                    </div>
-                    <div className="pre-more">
+                    </div> */}
+
+                    {/* <div className="pre-more">
                        <div className="pre_title" style={{paddingLeft:'0'}}> 
                             图片资料
                        </div>
@@ -1401,7 +1558,7 @@ onChange = (files,file,index) => {
                           <img src="./././resources/images/upload-xpt.png" alt=""/>
 
                           </div>
-                    </div>
+                    </div> */}
                     
                     
                     <img  className='pre_bottom' 
@@ -1489,6 +1646,42 @@ onChange = (files,file,index) => {
                     </button>
                 </div>}
                 <div className="empty-box"></div>
+
+
+                {isShowAI&& !reportDate && <div className='modal1-ai'>
+                    <div className='modal-body-protocol-ai'>
+                        <Link
+                            to={{
+                                pathname: '/inquiry/AiInquiry',
+                                query: {
+                                    sex:selectSex,
+                                    age: this.getage(selectBirthday),
+                                    doctorId: this.props.location.query.doctorId,
+                                    deptId: this.props.location.query.deptId,
+                                    totalFee: this.props.location.query.totalFee,
+                                    selectPatientId,
+                                    selectName,
+                                }
+                            }}
+                        >
+
+                            <div className='modal-content-protocol-ai'>
+                                <img src={'./././resources/images/goai.png'} alt=""/>
+                            </div>
+                        </Link>
+
+                        <div className='modal-jump' onClick={()=>{
+                                this.setState({
+                                    isShowAI:false
+                                })
+                            }}
+                        >跳过</div>
+
+                    </div>
+                  
+                </div>}
+
+
             </div>
         );
     }

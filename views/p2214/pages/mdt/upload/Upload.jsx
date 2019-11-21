@@ -136,8 +136,20 @@ class Widget extends Component {
                 if (res.code == 0) {
                         this.setState({
                           mdtInfo:res.data,
-                          reportList:!!res.data.report?JSON.parse(res.data.report):{}
-                           
+                          reportList:!!res.data.report?JSON.parse(res.data.report):{},
+
+                        })
+                         //图片
+                         var list1=!!res.data.images?JSON.parse(res.data.images):[];
+                        var list=[];
+                        for(var i=0;i<list1.length;i++){
+                          for(var j=0;j<list1[i][Object.getOwnPropertyNames(list1[i])[0]].length;j++){
+                              console.log(list1[i][Object.getOwnPropertyNames(list1[i])[0]][j])
+                              list.push(list1[i][Object.getOwnPropertyNames(list1[i])[0]][j])
+                            }
+                        }
+                        this.setState({
+                          imgArr:list, 
                         })
                         if(!!res.data.report) {
                           for(var key in JSON.parse(res.data.report).doctor){
@@ -175,24 +187,16 @@ class Widget extends Component {
     /*放大图片*/
     previewImg(url) {
       const arr = [];
-      var imgArr=[];
-      for(var i=0;i<this.state.imgList.length;i++){
-         
-         for(var j=0;j<this.state.imgList[i].img.length;j++){
-          console.log(this.state.imgList[i].img.length,this.state.imgList[i].img[j])
-            imgArr.push(this.state.imgList[i].img[j])
-         }
-      } 
-     imgArr.map(item => {
-        if (item) {
-            arr.push(item);
-        }
-     });
-        wx.previewImage({
-            current: url, // 当前显示图片的http链接
-            urls: imgArr // 需要预览的图片http链接列表
-        });
-}
+      this.state.imgArr.map(item => {
+          if (item) {
+              arr.push(item);
+          }
+      });
+      wx.previewImage({
+          current: url, // 当前显示图片的http链接
+          urls: arr // 需要预览的图片http链接列表
+      });
+  }
 previewImg1(url) {
   const arr = [];
   this.state.imgArr.map(item => {

@@ -7,6 +7,8 @@ import { addressMap } from '../../../config/constant/constant';
 import * as Api from '../../../components/Api/Api';
 import Doctor from './component/Doctor';
 import * as Utils from '../../../utils/utils';
+import {Drawer } from 'antd-mobile';
+
 import 'style/index.scss';
 import hashHistory from 'react-router/lib/hashHistory';
 class Widget extends Component {
@@ -75,6 +77,7 @@ class Widget extends Component {
             currentiInquiry:'',
             canAdd:false,//可以加载
             type:'1',
+            DrawerShow:false,
            
         };
     }
@@ -567,8 +570,21 @@ class Widget extends Component {
             }, 200);
         }
     }
+
+    onClose = () => {
+        this.setState({
+            DrawerShow: false,
+        });
+    };
+
+    DrawerShow(){
+        this.setState({
+            DrawerShow: true,
+        });
+    }
+
     render() {
-        const {msg,docList,canAdd,searchValue,searchList,search1,searchDoctorList,doctorShow,type}=this.state;
+        const {msg,docList,canAdd,searchValue,searchList,search1,searchDoctorList,doctorShow,type,DrawerShow}=this.state;
         return (
             <div className='dept'>
                 <div className="home"><span className="jian"
@@ -587,7 +603,7 @@ class Widget extends Component {
                                       }}
                     ></span> {type=='2'?'护理咨询':'找专家咨询'}
                 </div>
-            <div className="allSearch">
+                <div className="allSearch">
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
                         show={this.state.showIOS1}>
                     {msg}
@@ -616,6 +632,16 @@ class Widget extends Component {
                         </form>
                     </div>
                 </div>
+                
+                {/* <div className="m-search" style={{margin:"0px 8px"}}>
+                    <div className="doc-screen">
+                        <div>咨询量<i></i></div>
+                        <div>回复时长<i></i></div>
+                        <div>好评率<i></i></div>
+                        <div onClick={()=>{this.DrawerShow()}}>筛选<i></i></div>
+                    </div>
+                </div> */}
+
                 <div className="page-dept-list">
                     {search1 &&
                     <div className="m-search-content">
@@ -678,8 +704,22 @@ class Widget extends Component {
                 </div>
                 }
             </div>
-        {canAdd&&<div className="loadMore" ref="wrapper"  ></div>}
+            {canAdd&&<div className="loadMore" ref="wrapper"  ></div>}
             </div>
+
+            {/* <Drawer
+                title="筛选"
+                placement="right"
+                closable={false}
+                onClose={this.onClose}
+                visible={DrawerShow}
+                width="50%"
+            >
+                111
+
+            </Drawer> */}
+
+
             </div>
         );
     }
