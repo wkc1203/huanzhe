@@ -1688,11 +1688,18 @@ onChange = (files,file,index) => {
                                             { item.content &&(item.action == 'release') && 
                                                 <div className='text' 
                                                         onClick={()=>{
-                                                            this.context.router.push({
-                                                                pathname:'/ordermng/mdtdetail',
-                                                                query:{id:item.actionTrigger,}
-                                                            })
+                                                            if(item.action=='release'){
+                                                                this.details()
+                                                            }else{
+                                                                this.context.router.push({
+                                                                    pathname:'/ordermng/mdtdetail',
+                                                                    query:{id:item.actionTrigger,}
+                                                                })
+                                                            }
+                                                            
                                                         }}
+
+                                                    
                                                         style={{width:'220px',height:'auto',background:'white',margin:"0 auto"}} >
                                                         <p className='doctort'>{
                                                             item.action=='confirm'?'会诊报告已整理，请及时确定':

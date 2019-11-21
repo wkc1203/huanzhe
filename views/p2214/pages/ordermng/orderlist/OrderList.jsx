@@ -843,7 +843,20 @@ getmdtList() {
                                >
                                     <div className="des">
                                         <p className="left">就诊人：<span>{item.patientName}</span></p>
-                                        <p className={`right ${item.status=='1'||item.status=='2'?'dai':item.status=='0'||item.status=='3'||item.status=='4'?'on':''}`}>{item.status=='5'?item.reportName:item.statusName}</p>
+                                        {/* <p className={`right ${item.status=='1'||item.status=='2'?'dai':item.status=='0'||item.status=='3'||item.status=='4'?'on':''}`}>{item.status=='1'?item.auditName:item.status=='5'?item.reportName:item.statusName}</p> */}
+                                        <p className={`right ${item.status=='13'||item.status=='10'||item.status=='9'||item.status=='1'||item.status=='2'?'dai':
+                                                            item.status=='3'||item.status=='4'||item.status=='5'||item.status=='7'||item.status=='0'?'on'
+                                                            :item.status=='8'||item.status=='13'||item.status=='6'?'no':''}`}>
+                                            {item.status=='1'?'待审核':
+                                            item.status=='2'?'待缴费':
+                                            item.status=='3'||item.status=='4'||item.status=='5'||item.status=='7'||item.status=='0'?'缴费成功':
+                                            item.status=='6'?'申请审核未通过':
+                                            item.status=='8'?'已取消':
+                                            item.status=='9'?'缴费失败':
+                                            item.status=='10'?'缴费异常':
+                                            item.status=='13'?'超时自动取消':''
+                                            }
+                                        </p>
                                     </div>
                                     <div className="des">
                                         <p className="left">会诊名称：<span>{item.teamName}</span></p>
@@ -933,8 +946,7 @@ getmdtList() {
                     </div>
                 )
             })
-                
-                
+
             }
             {item5Show&&<div className="loadMore" ref="wrapper"  ></div>}
 

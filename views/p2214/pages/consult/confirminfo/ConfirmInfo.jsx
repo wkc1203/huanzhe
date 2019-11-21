@@ -1395,7 +1395,7 @@ onChange = (files,file,index) => {
                         </div>
                         <div className="pre_pat">
                             <p className="left">患者信息：<span>{selectName}|{selectSex}|{this.getage(selectBirthday)}岁</span></p>
-                            <p className="right">初/复诊：<span>{reportDate&&reportDate.visiting_status==2?'复诊':'初诊'}</span></p>
+                            {/* <p className="right">初/复诊：<span>{reportDate&&reportDate.visiting_status==2?'复诊':'初诊'}</span></p> */}
                         </div>
                         <div className="pre_pat">
                             <p className="left">患者自述：<span>{reportDate&&reportDate.query}</span></p>
@@ -1434,7 +1434,7 @@ onChange = (files,file,index) => {
                         </div>
                         <div className="pre_pat">
                             <p className="left">患者信息：<span>{selectName}|{selectSex}|{this.getage(selectBirthday)}岁</span></p>
-                            <p className="right">初/复诊：<span>{reportDate&&reportDate.visiting_status==2?'复诊':'初诊'}</span></p>
+                            {/* <p className="right">初/复诊：<span>{reportDate&&reportDate.visiting_status==2?'复诊':'初诊'}</span></p> */}
                         </div>
                         <div className="pre_pat">
                             <p className="left">患者自述：<span>{reportDate&&reportDate.query}</span></p>
