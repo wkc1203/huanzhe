@@ -1,6 +1,8 @@
 import fetch from '../../utils/fetch';
 import fetchs from '../../utils/fetchs';
 import fetch1 from '../../utils/fetch1';
+import fetchAI from '../../utils/fetchAI';
+
 
 export const getCardList = (param) =>  fetch.post('/api/ehis/user/personal/autoSynchronousPatients', param);
 
@@ -83,6 +85,8 @@ export const evaluate1 = (param) => fetch.post('/api/ehis/health/api/appraisal/a
 export const getCheckDetail = (param) => fetch.post('/api/ehis/health/api/onlineCheckList/getById', param);
 
 export const cancel = param => fetch.post('/api/ehis/health/api/onlineCheckList/returnMoney', param);
+
+export const returnDescribe = param => fetch.post('/api/ehis/health/api/chronicDisease/apply/refund', param);
 
 export const preCheckPay = param => fetch.post('/api/ehis/health/api/onlineCheckList/hisOrderCreate', param);
 
@@ -202,7 +206,28 @@ export const getDescribeInfo = (param) => fetch.post('/api/ehis/health/api/chron
 
 export const cancleDescribe = (param) => fetch.post('/api/ehis/health/api/chronicDisease/cancel', param);
 /* 预问诊 */
+
+
+
+// 会诊评价
+
+export const getappraisalgetBy = (param) => fetch.post('/api/ehis/mdt/appraisal/getBy', param);
+export const getappraisaladd = (param) => fetch.post('/api/ehis/mdt/appraisal/add', param);
+
+
+
+// AI预问诊
+
+
+
+// export const getAccessHeader = (param) => fetch.post('/api/ehis/health/api/prediagnosis/getAccessHeader', param);
+
+// /api/ehis/health/api/prediagnosis/getAccessInfo
+
 export const getAccessInfo = (param) => fetch.post('/api/ehis/health/api/prediagnosis/getAccessInfo', param);
+export const getReport = (param) => fetch.post('/api/ehis/health/api/prediagnosis/getReport', param);
+
+// /api/ehis/health/api/prediagnosis/getReport
 
 
-
+export const prediagnosis = (param) => fetchAI.post('/api/ehis/health/api/prediagnosis/prediagnosis', param);

@@ -124,11 +124,7 @@ class Widget extends Component {
             isChecked:false,
             patientShow:false,
             curItem:{},
-            diagList:['J45.900x001','J45.005','J30.400y001','L30.902','M08.800y001','M32.900','M32.101+','E66.900',
-            'E66.900x001','E27.800y002','E14.900y002','R73.000x001','E22.802','E30.100x004','E30.800y002',
-            'E05.000x001','E05.900x001','G40.900','R51.x00','G43.900','N04.900','N05.803y001','N04.900y001',
-            'N00.900','N00.902','N02.801','N02.801','N01.900x001','D69.004','M32.101+','M32.900','I15.102','N39.000',
-            'N04.900y002','I42.900','I50.908','I49.100x001','I49.300y001','I47.100','I47.200','Q21.000','Q21.100','Q25.000','I37.000'],
+            diagList:[],
             curPat:{}
         };
     }
@@ -510,11 +506,17 @@ class Widget extends Component {
                      if(res.data.length>0){
                          var list=res.data;
                           for(var i=0;i<list.length;i++){
-                              // if(this.state.diagList.indexOf(list[i].Diagnosis_code)!=-1){
-                                list[i].has=true;
-                              // }else{
-                               // list[i].has=false;
-                               //}
+                            //   if(!!this.props.location.query.test&&this.props.location.query.test==1){
+                            //     list[i].has=true;
+
+                            //   }else{
+                            //     if(this.state.diagList.indexOf(list[i].Diagnosis_code)!=-1){
+                            //         list[i].has=true;
+                            //       }else{
+                            //        list[i].has=false;
+                            //         }
+                            //   }
+                            
                                 
                                 //arr1.indexOf(NaN)
                                 list[i].showMore=false;
@@ -697,7 +699,7 @@ expandMore(Visit_no){
     render() {
         const {knows,hasList,codeUrl,cardShow,isChecked,msg,cardList,leftBindNum,
             selectName,selectSex,selectBirthday,toptip,reportList,patientShow}=this.state;
-            console.log("report",reportList)
+            console.log("report",reportList,'11111111111111111222222222222222222222')
         return (
             <div className={`${knows?'over-hidden page-describe-info1':' page-describe-info1'} `}>
                 <div className="home" id="home"><span className="jian"
@@ -883,8 +885,15 @@ expandMore(Visit_no){
                         最近1个月内在本科室的慢病就诊记录
                      </div>
 
+                     {
+
+                        console.log(reportList,'reportListreportListreportList')
+
+                     }
+
                     {reportList&&reportList.length>0&&reportList.map((item,index)=>{
-                        return(
+
+                         return(
                             <div className="describe-item"  key={index}>
                             <div className="des-basic" >
                                     <div className="des">
@@ -897,7 +906,7 @@ expandMore(Visit_no){
                                     <p className="left">诊断：<span>{item.Diagnosis_desc}</span></p>
                                      
                                     </div>  
-                                    {item.has&&<span className="btns" onClick={()=>{  
+                                    {<span className="btns" onClick={()=>{  
                                         console.log()
                                          this.setState({
                                              knows:true,
@@ -906,7 +915,7 @@ expandMore(Visit_no){
                                     }}>      
                                      申请续方
                                     </span>}
-                                    {!item.has&&<span className="btns" style={{background:'#ccc'}}
+                                    {/* {!item.has&&<span className="btns" style={{background:'#ccc'}}
                                     onClick={()=>{
                                         this.setState({
                                             showIOS1:true,
@@ -915,18 +924,18 @@ expandMore(Visit_no){
                                     }} 
                                     >
                                     申请续方
-                                    </span>}
+                                    </span>} */}
                                 </div>
                                 {item.Recipel_list.length>0&&<div className='drug' onClick={()=>{
                                     this.expandMore(item.Visit_no)
 
                                 }}>
-                                    {item.has&&item.Recipel_list.length>0&&<div className="drug-tip">
+                                    {item.Recipel_list.length>0&&<div className="drug-tip">
                                       <img src='./././resources/images/describe-icon.png'/>药品处方
                                     </div>}
-                                    {!item.has&&item.Recipel_list.length>0&&<div className="drug-tip" style={{color:'#ccc'}}>
+                                    {/* {!item.has&&item.Recipel_list.length>0&&<div className="drug-tip" style={{color:'#ccc'}}>
                                        <img src='./././resources/images/describe-icon-hide.png'/>药品处方
-                                    </div>}
+                                    </div>} */}
                                     <div className="drug-tab">
                                     {!item.showMore&&item.Recipel_list.length>0&&<img src='./././resources/images/des_xyjt.png'/>}
                                     {item.showMore&&item.Recipel_list.length>0&&<img src='./././resources/images/des_jt.png' style={{width:'18px',height:'10px'}} />}

@@ -29,6 +29,8 @@ class Widget extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            reportDate:'',
+            userData:'',
             btnHideTime:'',
             inputTime:'',
             btnTime:'',
@@ -182,6 +184,7 @@ class Widget extends Component {
 
         })
         this.getChat(3);
+        this.getAIReport();
         document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height
         );
     }
@@ -366,6 +369,7 @@ class Widget extends Component {
                 if (res.code == 0) {
                     if(this.mounted){ 
                         this.setState({
+                            userData:res.data.patient,
                             patientName: res.data.inquiry.patientName,
                             patCardNo: res.data.inquiry.patCardNo,
                             userId: res.data.inquiry.userId,
@@ -1723,9 +1727,39 @@ onChange = (files,file,index) => {
     var dataURL = canvas.toDataURL("image/"+ext);
     return dataURL;
   }
+
+
+  getAIReport(){
+
+    Api
+    .getReport(
+        {"inquiryId":this.props.location.query.inquiryId||''}
+    )
+    .then((datereg) => {
+        // this.hideLoading()
+        console.log(datereg,'datereg....')
+        if(datereg.code==0&&datereg.data){
+            
+            this.setState({
+                reportDate:datereg.data    
+            })
+        }
+    },
+
+    (e)=>{
+        // this.hideLoading();
+        // this.setState({
+        //     msg: e.msg,
+        //     showIOS1: true
+        // })
+
+        console.log(e,'getReport')
+    })
+    
+  }
       
     render() {
-    const {isEvaluate,files,freeReport,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,
+    const {userData,reportDate,isEvaluate,files,freeReport,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,
         name,match,hieghtMore,docList,uId,hisList,score,txtNum,txtNum1,t1,t2,t3,t4,t5,timeShow,numEnd,pics,innerAudioContext,
         canEnd,appraisal,appraisal1,pingShow,newScore,itemList,detail,payBack,isOk,newText ,isDuration,newItem,status,
         hisPlace,docPlace,newTime,doctorName,noDoctor,docScore,msg,hisScore,end,sign,signature,formData,policy,callback,OSSAccessKeyId,key,evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText}=this.state
@@ -1841,6 +1875,110 @@ onChange = (files,file,index) => {
                        }
                             }}>
                 <div className='content2' id="content2">
+
+
+
+                {!!reportDate&&<div className="reasons" >
+                        <div className="pre_content">
+                            <div className="pre_pat">
+                                <p className="lefts">问诊报告</p>
+                                {reportDate&&reportDate.createTime&&<p className="right f12">生成时间：{reportDate&&reportDate.createTime.substr(0,10)}</p>}
+                            </div>
+                            <div className="pre_pat">
+                                <p className="lefts"><span>患者信息：</span><span>{userData.name}|{reportDate.sex=='0'?'男':'女'}|{reportDate.age}岁</span></p>
+                                {/* <p className="right">初/复诊：<span>{reportDate.visiting_status==2?'复诊':'初诊'}</span></p> */}
+                            </div>
+                            <div className="pre_pat">
+                                <p className="lefts"><span>患者自述：</span><span>{reportDate&&reportDate.query}</span></p>
+                            </div>
+                            
+                        </div>
+
+                        {reportDate&&reportDate.currentHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>现病史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.currentHistory}
+                        </div>
+                        </div>}
+
+                        {reportDate&&reportDate.pastHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>既往史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.pastHistory}
+                        
+                        </div>
+                        </div>}
+
+                        {reportDate&&reportDate.marriageHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>婚育史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.marriageHistory}
+                        
+                        </div>
+                        </div>}
+
+
+                        {reportDate&&reportDate.familyHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>家族史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.familyHistory}
+                        
+                        </div>
+                        </div>}
+
+
+                        {reportDate&&reportDate.birthHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>出生史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.birthHistory}
+                        
+                        </div>
+                        </div>}
+
+                        {reportDate&&reportDate.feedingHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>喂养史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.feedingHistory}
+                        
+                        </div>
+                        </div>}
+
+                        {reportDate&&reportDate.menstrualHistory&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>月经史
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.menstrualHistory}
+                        
+                        </div>
+                        </div>}
+                            
+                        {reportDate&&reportDate.medicalTreatment&&<div className="pre-more">
+                        <div className="pre_title"> 
+                                <span></span>诊疗经过
+                        </div>
+                        <div className="pre_info">
+                        {reportDate&&reportDate.medicalTreatment}
+                        
+                        </div>
+                        </div>}
+
+                    </div>}
+
+
+
                     {list.reverse() && list.reverse().map((item, index)=> {
                         return (
                             <div key={index} className="content-item">

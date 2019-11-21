@@ -256,24 +256,29 @@ cancelModal() {
                 {!!doctor&&doctorInquirys.map((item,index)=>{
                   return(
                       <div key={index} className={`${item.type=='1'?'':'disNo'}`} 
-                      onClick={()=>{
+
+                      onClick={(item.isOnDuty == '1' && item.isFull!= "1") ? ()=>{
                         this.jumpConfirminfo(item.remune)
-                      }}
+                        }:()=>{}
+                      }
+
                       >
                         
-                        {item.type == '1' && item.isOnDuty == '1'&&<Link className="oper-item active">
+                        {item.type == '1' && item.isOnDuty == '1' && item.isFull!= "1" &&<Link className="oper-item active">
                           <div>
                             <img src="../../../resources/images/inquiry-bg.png" />
                           </div>
                           <div>图文咨询</div>
                         </Link>
                             }
-                        {item.type=='1'&&item.isOnDuty == '0'&&<div className="oper-item" >
+                        {item.type=='1'&&(item.isOnDuty == '0'||item.isFull== "1")&&<div className="oper-item" >
                           <div>
                             <img src="../../../resources/images/inquiry-gray.png" />
                           </div>
                           <div>图文咨询</div>
-                          <div>（离线）</div>
+                          {item.isOnDuty== "0"&&<div>（离线）</div>}
+                          {item.isFull== "1"&&<div>（满）</div>}
+                          
                         </div>
                             }
                       </div>

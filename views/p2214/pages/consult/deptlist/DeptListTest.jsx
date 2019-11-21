@@ -11,6 +11,14 @@ import {Drawer } from 'antd-mobile';
 
 import 'style/index.scss';
 import hashHistory from 'react-router/lib/hashHistory';
+
+let remsidesc = 0,
+    deptFilterArr=[],
+    graderFilterArr=[],
+    statusFilterArr=[],
+    typeFilterArr=[];
+
+
 class Widget extends Component {
     static contextTypes = {
         router: React.PropTypes.object,
@@ -77,7 +85,76 @@ class Widget extends Component {
             currentiInquiry:'',
             canAdd:false,//可以加载
             type:'1',
-            DrawerShow:false,
+            open:false,
+
+            paixuStr:'',
+            sdaoxuStr:'',
+            deptFilter:'',
+            graderFilter:'',
+            statusFilter:'',
+            typeFilter:'',
+
+            graderFilterDate:[
+                {
+                    id:'alldoc',
+                    name:'全部医生'
+                },
+                {
+                    id:'1',
+                    name:'主任医师'
+                },
+                {
+                    id:'2',
+                    name:'副主任医师'
+                },
+                {
+                    id:'3',
+                    name:'主治医师'
+                },
+                {
+                    id:'4',
+                    name:'住院医师'
+                }
+            ],
+
+            statusFilterDate:[
+                {
+                    id:'allsta',
+                    name:'全部状态'
+                },
+                {
+                    id:'1',
+                    name:'在线'
+                },
+                {
+                    id:'0',
+                    name:'离线'
+                },
+            ]
+            ,
+            
+            typeFilterDate:[
+                {
+                    id:'allfs',
+                    name:'全部方式'
+                },
+                {
+                    id:'1',
+                    name:'图文咨询'
+                },
+                {
+                    id:'2',
+                    name:'电话咨询'
+                },
+                {
+                    id:'3',
+                    name:'视频咨询'
+                }
+            ],
+            DocTotalCount:''
+
+
+        
            
         };
     }
@@ -87,6 +164,9 @@ class Widget extends Component {
         const top = wrapper?wrapper.getBoundingClientRect().top:0;
         const windowHeight = window.screen.height;
         const that = this; // 为解决不同context的问题
+
+        // console.log(top,windowHeight,'windowHeightwindowHeight')
+
         if (top && top < windowHeight) {
             // 当 wrapper 已经被滚动到页面可视范围之内触发
             that.loadMoreDataFn();
@@ -105,12 +185,17 @@ class Widget extends Component {
         });
     }
     componentWillMount(){
+
+        // this.setheight()
+
+
         this.setState({
             type:this.props.location.query.type=='2'?'2':'1'
         })
 
     }
     componentDidMount(){
+        this.getDeptList();
         const that = this; // 为解决不同context的问题
         let timeCount;
         this.setState({
@@ -137,12 +222,17 @@ class Widget extends Component {
              }
         }
         window.addEventListener('scroll', function () {
+            
+
             if (this.state.isLoadingMore) {
                 return ;
             }
             if (timeCount) {
                 clearTimeout(timeCount);
             }
+
+            // console.log(window.screen.height)
+
             timeCount = setTimeout(this.callback(), 5000);
         }.bind(this), false);
       
@@ -178,7 +268,7 @@ class Widget extends Component {
                 canAdd: deptListStatus.canAdd,//可以加载
 
             })
-            console.log('height',window.localStorage.scrollY,window.localStorage.scrollX)
+            // console.log('height',window.localStorage.scrollY,window.localStorage.scrollX)
             window.scrollTo(window.localStorage.scrollX,window.localStorage.scrollY);
           
         }else{
@@ -190,7 +280,7 @@ class Widget extends Component {
                 this.setState({
                     deptId:this.props.location.query.deptId
                 })
-                console.log("h",this.state.deptId,this.props.location.query.deptId)
+                // console.log("h",this.state.deptId,this.props.location.query.deptId)
                 this.selectDept(this.props.location.query.deptName,this.props.location.query.deptId,this.state.searchPage)
             }
         }
@@ -200,10 +290,32 @@ class Widget extends Component {
             window.localStorage.login_access_token=window.localStorage.login_access_token1;
         }
         window.localStorage.deptListStatus=JSON.stringify(this.state);
+        
+
+        deptFilterArr=[],
+        graderFilterArr=[],
+        statusFilterArr=[],
+        typeFilterArr=[];
+        document.getElementById('allfs').className=''
+        document.getElementById('allsta').className=''
+        document.getElementById('alldoc').className=''
+        document.getElementById('alldcep').className=''
+        document.body.style.overflowY = 'auto';
+        document.getElementById("dept").style.height ='auto'
+        document.getElementById("dept").style.overflow = 'auto';
+
+
+        this.setState({
+            open:false,
+            paixuStr:'',
+            sdaoxuStr:'',
+            DocTotalCount:''
+        })
     }
+
     loadMoreDataFn() { 
          if(this.state.searchValue!=''&&this.state.search1){
-            console.log("this.state.inquiryPage",this.state.inquiryPage,this.state.maxinquiryPage)
+            // console.log("this.state.inquiryPage",this.state.inquiryPage,this.state.maxinquiryPage)
              if(this.state.inquiryPage<=this.state.maxinquiryPage){
                // alert(this.state.currentiInquiry+"-----"+this.state.inquiryPage)
                 if(this.state.currentiInquiry!=this.state.inquiryPage){
@@ -211,7 +323,7 @@ class Widget extends Component {
                 }
              }
          }else{  
-             console.log("seaerchmax",this.state.searchPage,this.state.maxsearchPage)
+            //  console.log("seaerchmax",this.state.searchPage,this.state.maxsearchPage)
              if(this.state.searchPage<=this.state.maxsearchPage){
                // alert(this.state.current+"-----"+this.state.searchPage)
                  if(this.state.current!=this.state.searchPage){
@@ -224,10 +336,10 @@ class Widget extends Component {
         Api
             .getJsApiConfig({url:window.location.href.substring(0,window.location.href.indexOf("#"))})
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 if(res.code==0){
                     //写入b字段
-                    console.log("str",res.data);
+                    // console.log("str",res.data);
                     wx.config({
                         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                         appId:res.data.appId, // 必填，公众号的唯一标识
@@ -275,14 +387,18 @@ class Widget extends Component {
         }, 2000);
     }
     getDeptList() { 
+        // console.log('')
         Api
             .getDeptList()
             .then((res) => {
                 if (res.code == 0 && res.data != null) {
+                    console.log('getDeptListgetDeptList',res.data)
                     this.setState({
                         deptList: res.data || [],
                     })
+                    localStorage.setItem('deptList',res.data)
                 }
+                // console.log(this.deptList)
             }, (e) => {
                 this.setState({
                     msg: e.msg||'系统错误',
@@ -299,14 +415,19 @@ class Widget extends Component {
             searchList:[],
             deptId:deptId
         })
-        console.log("type11",deptId)
+        // console.log("type11",deptId)
         this.getDocList(deptId,page);
         this.setState({
             searchFocus: false,
         })
     }
     /*获取医生列表*/
-    getDocList(deptId,page) {
+    getDocList(deptId='',page=1) {
+        const {paixuStr,sdaoxuStr} = this.state;
+        const deptFilter =  deptFilterArr.join(';')?deptFilterArr.join(';')+';':'';
+        const gradeFilter =  graderFilterArr.join(';')?graderFilterArr.join(';')+';':'';
+        const statusFilter =  statusFilterArr.join(';')?statusFilterArr.join(';'):'';
+        const typeFilter =  typeFilterArr.join(';')?typeFilterArr.join(';')+';':'';
         //alert(page)
         if(page==1){
             this.setState({
@@ -317,10 +438,19 @@ class Widget extends Component {
         this.setState({
             deptId:deptId,           
             current:page,
+
         })
             this.showLoading();
             Api
-            .getInfo({numPerPage:10, deptId, vagueName: '',pageNum:page,type:this.state.type})
+            .getInfo({numPerPage:10, deptId, vagueName: '',pageNum:page,type:this.state.type,
+                sortField:paixuStr,sortMode:sdaoxuStr,
+                deptFilter,
+                gradeFilter,
+                statusFilter,
+                typeFilter,
+                filterFlag:1
+                
+            })
                 .then((res) => {
                     this.hideLoading();
                     if (res.code == 0 && res.data != null) {
@@ -384,6 +514,40 @@ class Widget extends Component {
                             maxsearchPage:res.data.pageCount
                         })
                        }                       
+                    }
+                }, (e) => {
+                    this.hideLoading();
+                    this.setState({
+                        msg: e.msg||'系统错误',
+                        showIOS1: true
+                    })
+                });
+    }
+
+
+    getdocNum() {
+
+        const deptFilter =  deptFilterArr.join(';')?deptFilterArr.join(';')+';':'';
+        const gradeFilter =  graderFilterArr.join(';')?graderFilterArr.join(';')+';':'';
+        const statusFilter =  statusFilterArr.join(';')?statusFilterArr.join(';'):'';
+        const typeFilter =  typeFilterArr.join(';')?typeFilterArr.join(';')+';':'';
+
+            Api
+            .getInfo({
+                deptFilter,
+                gradeFilter,
+                statusFilter,
+                typeFilter,
+                filterFlag:2
+            })
+                .then((res) => {
+                    this.hideLoading();
+                    if (res.code == 0 && res.data != null) {
+                        // console.log(res.data.totalCount,'getdocNum')
+                        this.setState({
+                            DocTotalCount:res.data.totalCount||0,
+                        })
+                        // getdocNum              
                     }
                 }, (e) => {
                     this.hideLoading();
@@ -571,22 +735,489 @@ class Widget extends Component {
         }
     }
 
-    onClose = () => {
-        this.setState({
-            DrawerShow: false,
-        });
-    };
+    onOpenChange=()=>{
+        if(this.state.open){
+            document.body.style.overflowY = 'auto';
+            document.getElementById("dept").style.height ='auto'
+            document.getElementById("dept").style.overflow = 'auto';
+        }else{
+            document.body.style.overflowY = 'hidden';
+            document.getElementById("dept").style.height =document.getElementById("app").offsetHeight+'px'
+            document.getElementById("dept").style.overflow ='hidden';
+        }
 
-    DrawerShow(){
-        this.setState({
-            DrawerShow: true,
+        this.setState({ open: !this.state.open },()=>{
+            this.setheight()
         });
+
+
     }
 
+    setheight(){
+        let h11 = document.getElementById("saixuan-btn").offsetHeight||0;
+        let h12 = document.getElementById("app").offsetHeight||0;
+        let h133 = document.getElementById("saixuan-tit").offsetHeight||0;
+    
+        // console.log(h133,h12,h11,'hhhhhhhhhh')
+        
+        
+        document.getElementById("saixuan-change").style.height= (h12-h133-h11)+'px'
+        
+    }
+
+    paixu(p,s){
+
+        const {paixuStr,sdaoxuStr} = this.state; 
+        if(paixuStr===p){
+            ++remsidesc;
+
+        }else{
+            remsidesc=0
+        }
+
+        if(remsidesc==0||(remsidesc%2 ==0)){
+            s='DESC'
+        }else{
+            s='ASC'
+        }
+
+
+
+        this.setState({
+            paixuStr:p,
+            sdaoxuStr:s,
+
+        },()=>{
+            // console.log(this.state.paixuStr,this.state.sdaoxuStr,'this.statethis.statethis.statethis.state')
+
+            this.getDocList()
+
+        })
+
+    }
+
+    deptFilter(e,id){
+
+        let noact = true
+
+        Array.prototype.remove = function(val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+            this.splice(index, 1);
+            }
+        };
+        // console.log(e,'11',id,e.target.className,deptFilterArr)
+
+        if(!!!e.target.className){
+
+            e.target.className='active'
+
+            if(id=='alldcep'){
+                deptFilterArr=[]
+            }else{
+                deptFilterArr.push(id.toString())
+                document.getElementById('alldcep').className=''
+            }
+            // deptFilterArr.push(id.toString())
+
+        }else{
+
+            e.target.className=''            
+            // deptFilterArr.remove(id.toString())
+
+            if(id=='alldcep'){
+                deptFilterArr=[]
+
+                
+
+                if(this.nocative()){
+                    noact =false
+                    this.setState({
+                        DocTotalCount:''
+                    })
+                }
+
+            }else{
+
+                deptFilterArr.remove(id.toString())
+
+                console.log('noarr',this.noarr())
+            
+                if(this.noarr()){
+                    noact =false
+                    this.setState({
+                        DocTotalCount:''
+                    })
+                }
+
+            }
+
+        }
+
+        if(noact){
+            this.getdocNum()
+        }
+
+
+
+        // console.log('e**********',deptFilterArr)
+
+    }
+
+    graderFilter(e,id){
+        let noact = true
+
+        Array.prototype.remove = function(val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+            this.splice(index, 1);
+            }
+        };
+        // console.log(e,'11',id,e.target.className,graderFilterArr)
+
+        if(!!!e.target.className){
+            e.target.className='active'
+            if(id=='alldoc'){
+                graderFilterArr=[]
+            }else{
+                graderFilterArr.push(id.toString())
+                document.getElementById('alldoc').className=''
+            }
+        }else{
+            e.target.className=''            
+            if(id=='alldoc'){
+                graderFilterArr=[]
+            console.log(this.nocative())
+
+                if(this.nocative()||this.noarr()){
+                    noact =false
+
+                    this.setState({
+                        DocTotalCount:''
+                    })
+                }
+            }else{
+                graderFilterArr.remove(id.toString())
+                if(this.noarr()){
+                    noact =false
+                    this.setState({
+                        DocTotalCount:''
+                    })
+                }
+
+            }
+        }
+
+        // console.log('e**********',graderFilterArr)
+
+        if(noact){
+            this.getdocNum()
+        }
+
+
+
+    }
+
+    statusFilter(e,id){
+        let noact = true
+
+        Array.prototype.remove = function(val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+            this.splice(index, 1);
+            }
+        };
+        // console.log(e,'11',id,e.target.className,statusFilterArr)
+
+        if(!!!e.target.className){
+            e.target.className='active'
+            if(id=='allsta'){
+                statusFilterArr=[]
+
+            }else{
+                statusFilterArr=[id.toString()]
+                document.getElementById('allsta').className=''
+
+            }
+
+        }else{
+
+       
+            e.target.className=''            
+            statusFilterArr=[]
+
+            if(id=='allsta'){
+                console.log(this.nocative())
+    
+                    if(this.nocative()||this.noarr()){
+                        noact =false
+    
+                        this.setState({
+                            DocTotalCount:''
+                        })
+                    }
+            }else{
+                if(this.noarr()){
+                    noact =false
+                    this.setState({
+                        DocTotalCount:''
+                    })
+                }
+
+            }
+    
+        }
+
+        if(noact){
+            this.getdocNum()
+        }
+
+
+
+        // console.log('e**********',statusFilterArr)
+
+    }
+
+    typeFilter(e,id){
+        let noact = true
+
+        Array.prototype.remove = function(val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+            this.splice(index, 1);
+            }
+        };
+        // console.log(e,'11',id,e.target.className,typeFilterArr)
+
+        if(!!!e.target.className){
+            e.target.className='active'
+
+            if(id=='allfs'){
+                typeFilterArr=[]
+            }else{
+                typeFilterArr.push(id.toString())
+
+                document.getElementById('allfs').className=''
+            }
+
+        }else{
+            e.target.className=''            
+            if(id=='allfs'){
+            typeFilterArr=[]
+
+            console.log(this.nocative())
+            if(this.nocative()||this.noarr()){
+                noact =false
+
+                this.setState({
+                    DocTotalCount:''
+                })
+            }
+
+
+            }else{
+                typeFilterArr.remove(id.toString())
+                if(this.noarr()){
+                    noact =false
+                    this.setState({
+                        DocTotalCount:''
+                    })
+                }
+
+            }
+        }
+
+
+        if(noact){
+            this.getdocNum()
+        }
+
+
+
+        // console.log('e**********',typeFilterArr)
+
+    }
+
+    nocative(){
+        return !!(document.getElementById('allfs').className==''&&
+        document.getElementById('allsta').className==''&&
+        document.getElementById('alldoc').className==''&&
+        document.getElementById('alldcep').className=='')
+    }
+
+    noarr(){
+        console.log(deptFilterArr.length,graderFilterArr.length,statusFilterArr.length,typeFilterArr.length,'all-length')
+        console.log(deptFilterArr,graderFilterArr,statusFilterArr,typeFilterArr,'all')
+        return !!(deptFilterArr.length==0&&
+            graderFilterArr.length==0&&
+            statusFilterArr.length==0&&
+            typeFilterArr.length==0)
+    }
+
+    nosaixuan(){
+        deptFilterArr=[],
+        graderFilterArr=[],
+        statusFilterArr=[],
+        typeFilterArr=[];
+        document.getElementById('allfs').className=''
+        document.getElementById('allsta').className=''
+        document.getElementById('alldoc').className=''
+        document.getElementById('alldcep').className=''
+        document.body.style.overflowY = 'auto';
+        document.getElementById("dept").style.height ='auto'
+        document.getElementById("dept").style.overflow = 'auto';
+
+
+        this.setState({
+            open:false,
+            paixuStr:'',
+            sdaoxuStr:'',
+            DocTotalCount:''
+        })
+       
+        this.getDocList();
+    
+    }
+
+    isgosx(){
+        this.setState({
+            open:false
+        })
+        document.body.style.overflowY = 'auto';
+        document.getElementById("dept").style.height ='auto'
+        document.getElementById("dept").style.overflow = 'auto';
+        this.getDocList()
+    }
+
+
+
+
     render() {
-        const {msg,docList,canAdd,searchValue,searchList,search1,searchDoctorList,doctorShow,type,DrawerShow}=this.state;
+        const {msg,docList,canAdd,searchValue,searchList,search1,searchDoctorList,doctorShow,type,open
+        ,sdaoxuStr,paixuStr,
+        graderFilterDate,
+        statusFilterDate,
+        typeFilterDate,
+        DocTotalCount,
+        deptList
+
+        }=this.state;
+        
+        const deptAllListStatus = !!window.localStorage.deptAllListStatus?JSON.parse(window.localStorage.deptAllListStatus).deptList:deptList;
+
+        // console.log(DocTotalCount,'DocTotalCountDocTotalCountDocTotalCount')
+
+        const sidebar =(
+            <div className="saixuanBox" id="saixuanBox">
+                <div className="saixuan-tit" id="saixuan-tit">筛选</div>
+
+                <div className="saixuan-change" id="saixuan-change">
+                    <div className="saixuan-child">
+
+                        <div className='saixuan-child-tit'>科室名称
+                        <i></i>
+                        </div>
+                        <div className="saixuan-con">
+
+                            <div id="alldcep"  onClick={(e)=>{ this.deptFilter(e,'alldcep')}}>全部科室</div>                            
+                            {
+                                console.log('测试'),
+                                console.log(deptAllListStatus)
+                            }
+                            {deptAllListStatus&&!!deptAllListStatus.length>0&&deptAllListStatus.map((item,index)=>{
+                                // console.log(item,index)
+                                let isact = false;
+                                deptFilterArr.length>0&&deptFilterArr.map((i)=>{
+                                    // console.log()
+                                    if(i==item.no){
+                                        isact=true
+                                    }
+                                })
+                                return (
+                                    <div className={isact?'active':''} onClick={(e)=>{ this.deptFilter(e,item.no)}} key={index}>{item.name}</div>                            
+                                )
+                            })}
+                            {/* //deptAllListStatus.deptList 为空处理 */}
+
+                        </div>
+
+                        <div className='saixuan-child-tit'>医生职称</div>
+                        <div className="saixuan-con">
+
+                            {graderFilterDate&&graderFilterDate.map((item,index)=>{
+                                let isact = false;
+                                graderFilterArr.length>0&&graderFilterArr.map((i)=>{
+                                    if(i==item.id){
+                                        isact=true
+                                    }
+
+                                })
+                                // console.log(graderFilterArr,'graderFilterArr')                                
+                                // console.log(item.id,isact,'1111')
+
+                                return (
+                                    <div id={item.id} className={isact?'active':''} onClick={(e)=>{ this.graderFilter(e,item.id)}} key={index}>{item.name}</div>                            
+                                )
+                            })}
+
+                        </div>
+
+                        <div className='saixuan-child-tit'>医师状态<span>(单选)</span></div>
+                        <div className="saixuan-con">
+                         
+                        {statusFilterDate&&statusFilterDate.map((item,index)=>{
+                                // console.log(item,index)
+                                let isact = false;
+                                statusFilterArr.length>0&&statusFilterArr.map((i)=>{
+                                    // console.log()
+                                    if(i==item.id){
+                                        isact=true
+                                    }
+                                })
+                                return (
+                                    <div id={item.id} className={isact?'active':''} onClick={(e)=>{ this.statusFilter(e,item.id)}} key={index}>{item.name}</div>                            
+                                )
+                            })}
+                        </div>
+
+                        <div className='saixuan-child-tit'>服务方式</div>
+                        
+                        <div className="saixuan-con">
+                        {typeFilterDate&&typeFilterDate.map((item,index)=>{
+                                // console.log(item,index)
+                                let isact = false;
+                                typeFilterArr.length>0&&typeFilterArr.map((i)=>{
+                                    // console.log()
+                                    if(i==item.id){
+                                        isact=true
+                                    }
+                                })
+                                return (
+                                    <div id={item.id} className={isact?'active':''} onClick={(e)=>{ this.typeFilter(e,item.id)}} key={index}>{item.name}</div>                            
+                                )
+                            })}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                
+                <div className="saixuan-btn" id="saixuan-btn">
+                    <div onClick={()=>{this.nosaixuan()}}>重置</div>
+                    <div onClick={()=>{
+                            this.isgosx()
+                    }}>确定{!!DocTotalCount?'（'+DocTotalCount+'名医生）':''}</div>
+                </div>
+
+            </div>
+        );
+
+
         return (
-            <div className='dept'>
+
+            <div>
+            <div className='dept' id="dept">
                 <div className="home"><span className="jian"
                                             onClick={()=>{
                                             if(this.props.location.query.source==1||this.props.location.query.source==5){
@@ -608,7 +1239,7 @@ class Widget extends Component {
                         show={this.state.showIOS1}>
                     {msg}
                 </Dialog>
-                <div className="m-search active">
+                <div className="m-search active" style={{marginBottom: '1px'}}>
                     <div className="search-ipt">
                         <div className="ipt-icon">
                             <img src="../../../resources/images/search.png"/>
@@ -622,9 +1253,9 @@ class Widget extends Component {
                             <input className="ipt"
                                    value={searchValue}
                                    placeholder={type=='2'?"点击搜索科室/护士":"点击搜索科室/医生"}
-                                   onFocus={(e)=>{
-                                            this.bindSearchFocus(e)
-                                            }}
+                                //    onFocus={(e)=>{
+                                //             this.bindSearchFocus(e)
+                                //             }}
                                    onChange={(e)=>{
                                             this.getValue(e)
                                             }}                                  
@@ -633,18 +1264,55 @@ class Widget extends Component {
                     </div>
                 </div>
                 
-                {/* <div className="m-search" style={{margin:"0px 8px"}}>
+                <div className="m-search" style={{margin:"0px 8px"}}>
                     <div className="doc-screen">
-                        <div>咨询量<i></i></div>
-                        <div>回复时长<i></i></div>
-                        <div>好评率<i></i></div>
-                        <div onClick={()=>{this.DrawerShow()}}>筛选<i></i></div>
+                        <div className={paixuStr=="inquirys"?"active":''} onClick={()=>{this.paixu('inquirys','DESC')}} >咨询量<i> 
+                            {paixuStr=="inquirys"?
+
+                                
+                            
+                            sdaoxuStr=='DESC'?<img src="../../../resources/images/suxu.png" alt=""/>:<img src="../../../resources/images/daoxu.png" alt=""/>
+                                
+
+
+                            :                            
+                            <img src="../../../resources/images/noxuan.png" alt=""/>
+                            }
+
+
+                        </i></div>
+
+                        <div className={paixuStr=="replyTime"?"active":''} onClick={()=>{this.paixu('replyTime','DESC')}} >回复时长<i>
+                            {paixuStr=="replyTime"?
+
+                            sdaoxuStr=='DESC'?<img src="../../../resources/images/suxu.png" alt=""/>:<img src="../../../resources/images/daoxu.png" alt=""/>
+
+
+                            :                            
+                            <img src="../../../resources/images/noxuan.png" alt=""/>
+                            }
+                            
+                            </i></div>
+                        <div className={paixuStr=="favorite"?"active":''} onClick={()=>{this.paixu('favorite','DESC')}} >好评率<i>
+                            {paixuStr=="favorite"?
+                            sdaoxuStr=='DESC'?<img src="../../../resources/images/suxu.png" alt=""/>:<img src="../../../resources/images/daoxu.png" alt=""/>
+
+
+                            :                            
+                            <img src="../../../resources/images/noxuan.png" alt=""/>
+                            }
+                            
+                            </i></div>
+                        <div onClick={this.onOpenChange}>筛选<i>
+                            <img className="sx" src="../../../resources/images/shaixuan.png" alt=""/>
+                            
+                            </i></div>
                     </div>
-                </div> */}
+                </div>
 
                 <div className="page-dept-list">
                     {search1 &&
-                    <div className="m-search-content">
+                    <div className="m-search-content" style={{marginTop: '6px'}}>
                         {searchList.length <= 0 && searchDoctorList.length <= 0 &&
                         <div className="wgt-empty-box">
                             <img className="wgt-empty-img" src="../../../resources/images/no-result.png" alt=""></img>
@@ -704,21 +1372,28 @@ class Widget extends Component {
                 </div>
                 }
             </div>
-            {canAdd&&<div className="loadMore" ref="wrapper"  ></div>}
+            {canAdd&&<div className="loadMore" ref="wrapper"  > </div>}
             </div>
 
-            {/* <Drawer
-                title="筛选"
-                placement="right"
-                closable={false}
-                onClose={this.onClose}
-                visible={DrawerShow}
-                width="50%"
-            >
-                111
 
-            </Drawer> */}
 
+            </div>
+
+            
+
+            <Drawer
+                className="my-drawer"
+                style={ !!open?{minHeight: document.documentElement.clientHeight,zIndex:'100000' } :{minHeight: document.documentElement.clientHeight,zIndex:'-1' } }
+                enableDragHandle
+                sidebar={sidebar}
+                position="right" 
+                width='80%'
+                dragToggleDistance={100}
+                open={open}
+                onOpenChange={this.onOpenChange}   
+            > 
+              <div>            </div>
+            </Drawer>
 
             </div>
         );

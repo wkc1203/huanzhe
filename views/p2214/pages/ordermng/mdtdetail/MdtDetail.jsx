@@ -268,9 +268,11 @@ class Widget extends Component {
           .then((res) => {
               if (res.code == 0) {
                   this.getDetail();
+                  this.closeDialog();
               }
           }, e=> {
            this.hideLoading();
+           this.closeDialog();
               this.setState({
                   msg:e.msg,
                   showIOS1:true
@@ -299,45 +301,48 @@ class Widget extends Component {
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
                 {msg}
             </Dialog>
-            <Dialog {...this.state.dialogConfig} >
-              <form ref="cancelInpt">
-                <div className="because">
-                  <div className="weui-cells weui-cells_checkbox">
-                    <label className="weui-cell weui-check__label">
-                      <div className="weui-cell__hd">
-                        <input type="checkbox" className="weui-check" name="checkbox1" value='不想会诊了'/>
-                        <i className="weui-icon-checked"></i>
-                      </div>
-                      <div className="weui-cell__bd">
-                        <p>不想会诊了</p>
-                      </div>
-                    </label>
-                    <label className="weui-cell weui-check__label">
-                      <div className="weui-cell__hd">
-                        <input type="checkbox" name="checkbox1" className="weui-check" value='会诊费用太贵'/>
-                        <i className="weui-icon-checked"></i>
-                      </div>
-                      <div className="weui-cell__bd">
-                        <p>会诊费用太贵</p>
-                      </div>
-                    </label>
-                    <label className="weui-cell weui-check__label">
-                      <div className="weui-cell__hd">
-                        <input type="checkbox" name="checkbox1" className="weui-check" value='不想此专家团队会诊'/>
-                        <i className="weui-icon-checked"></i>
-                      </div>
-                      <div className="weui-cell__bd">
-                        <p>不想此专家团队会诊</p>
-                      </div>
-                    </label>
-                  </div>
-                  <textarea className="m-cancel-text" ref="yuanyin" placeholder="请输入取消原因"/>
+            <div className="mdt-modal">
+              <Dialog {...this.state.dialogConfig} >
+                <form ref="cancelInpt">
+                  <div className="because">
+                    <div className="weui-cells weui-cells_checkbox">
+                      <label className="weui-cell weui-check__label">
+                        <div className="weui-cell__hd">
+                          <input type="checkbox" className="weui-check" name="checkbox1" value='不想会诊了'/>
+                          <i className="weui-icon-checked"></i>
+                        </div>
+                        <div className="weui-cell__bd">
+                          <p>不想会诊了</p>
+                        </div>
+                      </label>
+                      <label className="weui-cell weui-check__label">
+                        <div className="weui-cell__hd">
+                          <input type="checkbox" name="checkbox1" className="weui-check" value='会诊费用太贵'/>
+                          <i className="weui-icon-checked"></i>
+                        </div>
+                        <div className="weui-cell__bd">
+                          <p>会诊费用太贵</p>
+                        </div>
+                      </label>
+                      <label className="weui-cell weui-check__label">
+                        <div className="weui-cell__hd">
+                          <input type="checkbox" name="checkbox1" className="weui-check" value='不想此专家团队会诊'/>
+                          <i className="weui-icon-checked"></i>
+                        </div>
+                        <div className="weui-cell__bd">
+                          <p>不想此专家团队会诊</p>
+                        </div>
+                      </label>
+                    </div>
+                    <textarea className="m-cancel-text" ref="yuanyin" placeholder="请输入取消原因"/>
 
-                </div>
-              </form>
-            </Dialog>
+                  </div>
+                </form>
+              </Dialog>
+            </div>
             <Toptips {...this.state.tipsConfig}>{this.state.tipsText}</Toptips>  
             <div className="mdt-info">
+
              {!!mdtDetail&&!!mdtDetail.amount&&mdtDetail.status=='2'&&<div className='waitingForPayment'>
                 <div className='tp'> 
                   <img src='./././resources/images/des_daipay.png'></img>
@@ -346,7 +351,57 @@ class Widget extends Component {
                     <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p>
                   </div>
                 </div> 
+                <div className="pb18">{!!mdtDetail.amount&&mdtDetail.auditTimeName}</div> 
               </div>}
+
+              {!!mdtDetail&&!!mdtDetail.amount&&mdtDetail.status=='3'&&<div className='waitingForPayment'>
+                <div className='tp'> 
+                  <img src='./././resources/images/jfcg@2x.png'></img>
+                  <div>
+                    <p>{!!mdtDetail.statusName&&mdtDetail.statusName}</p> 
+                    <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p>
+                  </div>
+                </div> 
+                <div className="pb18"></div> 
+              </div>}
+
+              {!!mdtDetail&&!!mdtDetail.amount&& (mdtDetail.status=='13' || mdtDetail.status=='6' ) &&<div className='waitingForPayment'>
+                <div className='tp'> 
+                  <img src='./././resources/images/jfsb@2x.png'></img>
+                  <div>
+                    <p>{!!mdtDetail.statusName&&mdtDetail.statusName}</p> 
+                    <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p>
+                  </div>
+                </div> 
+                <div className="pb18"></div> 
+              </div>}
+
+              {!!mdtDetail&&!!mdtDetail.amount&&mdtDetail.status=='8'&&<div className='waitingForPayment'>
+                <div className='tp'> 
+                  <img src='./././resources/images/qxddcg@2x.png'></img>
+                  <div>
+                    <p>{!!mdtDetail.statusName&&mdtDetail.statusName}</p> 
+                    <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p>
+                  </div>
+                </div> 
+                <div className="pb18"></div> 
+              </div>}
+
+              {!!mdtDetail&&!!mdtDetail.amount&&(mdtDetail.status=='1')&&<div className='waitingForPayment'>
+                <div className='tp'> 
+                  <img src='./././resources/images/sh@2x.png'></img>
+                  <div>
+                    <p>{mdtDetail.status=='5'?mdtDetail.reportName:mdtDetail.statusName}</p> 
+                    {/* <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p> */}
+                  </div>
+                </div> 
+                <div className="pb18"></div> 
+              </div>}
+
+              
+
+              
+
             <div className="apply-item">
               <p className="apply-title">
                 <img src="../../../resources/images/apply-hzdx.png" alt=""/>
@@ -509,7 +564,7 @@ class Widget extends Component {
                 })          
               }}>立即缴费</p> 
             }
-            {  (mdtDetail.status=='2')&& 
+            {   (mdtDetail.status=='2')&&  
             <p className='sure'
              onClick={()=>{ 
                console.log("delt")

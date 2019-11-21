@@ -36,6 +36,8 @@ class Widget extends Component {
             chatTime:'',
             hideTime:'',
             isEvaluate: false,
+            isEndheader:false,
+            ispjia:false,
             orderId: '',
             list: [],
             msgText: '', 
@@ -69,7 +71,6 @@ class Widget extends Component {
             t5: {p: '非常感谢', show: false},
             appraisalLabel: '',
             appraisal: '',
-            pingShow: false,
             newScore: '',
             itemList: 0,
             detail: '',
@@ -135,6 +136,15 @@ class Widget extends Component {
                     }
                 ]
             },
+            appraisalLabel: '',
+            appraisalLabel1: '',
+            appraisal: '',
+            appraisal1: '',
+            pingShow: true,
+            newScore: '',
+            itemList: 0,
+            detail: '',
+            payBack:true,
             msg: '',
             scroll:true,
             match:[],
@@ -144,7 +154,25 @@ class Widget extends Component {
             isIos:false,
             freeReport:false,//是否是免费报告解读
             hieghtMore:false,//发送按钮位置
-            mdtDetail:{}
+            mdtDetail:{},
+            docScore: 5,
+            hisScore:5,
+            txtNum: 0,
+            txtNum1: 0,
+            docList:[
+                 {text: '态度好', show: false},
+                 {text: '会诊效率高', show: false},
+                 {text: '解答详细', show: false},
+                 {text: '很专业', show: false},
+                 {text: '非常感谢', show: false},
+            ],
+            docListStr:'',
+            ping_appraisal:'',
+            ping_appraisalLabel:'',
+            ping_effectScore:'',
+            ping_attitudeScore:'',
+            ping_updateTime:'',
+
         };
     }
     componentDidMount() {
@@ -346,6 +374,13 @@ class Widget extends Component {
             .getMdtMessage({id: this.props.location.query.mdtId})
             .then((res) => {
                 if (res.code == 0) {
+                        if(res.data.status=='0'){
+                            this.getEvaluate(res.data.id);
+                            this.setState({
+                                // isShow: true,
+                                isEndheader: true,
+                            })
+                        }
                         this.setState({
                             mdtDetail:res.data,
                            
@@ -361,6 +396,8 @@ class Widget extends Component {
                                 list[i].checkContent=JSON.parse(cont);
                             }  
                     }
+
+                    console.log(list,res,'getMdtMessage')
 
                     this.setState({
                         list: list,
@@ -418,88 +455,51 @@ class Widget extends Component {
             }
         }, 1000);
     }
+
+    hideping(){
+        this.setState({
+            ispjia:false,
+            isEvaluate: true,
+        })
+    }
    /*获取评价*/
-    getEvaluate(orderId) {
+    getEvaluate(roomId) {
         Api
-            .evaluate1({orderId: orderId})
+            .getappraisalgetBy({roomId})
             .then((res) => {
-                if (res.data.length > 0) {
+                console.log('getappraisalgetBy',res)
+                if(res.data){
                     this.setState({
-                        pingShow: true,
+                        ispjia:true,
                         isEvaluate: true,
-                        newScore: res.data[0].score ? res.data[0].score : '',
-                        newText: res.data[0].appraisal ? res.data[0].appraisal : '',
-                        newItem: res.data[0].appraisalLabel ? res.data[0].appraisalLabel : '',
-                        newTime: this.dateTime(res.data[0].createTime ? res.data[0].createTime : ''),
+                        ping_appraisal:res.data.appraisal,
+                        ping_appraisalLabel:res.data.appraisalLabel,
+                        ping_effectScore:res.data.effectScore,
+                        ping_attitudeScore:res.data.attitudeScore,
+                        ping_updateTime:res.data.updateTime
                     })
-                    this.setState({
-                        newTime: this.dateTime(res.data[0].createTime ? res.data[0].createTime : ''),
-                    });
-                    var str = this.state.newItem;
-                    var s = [];
-                    s = str.split("-");
-                    this.setState({
-                        itemList: 0
-                    })
-                    for (var i = 0; i < s.length; i++) {
-                        if (s[i] == this.state.t1.p) {
-                            var t1 = this.state.t1;
-                            var itemList = this.state.itemList;
-                            t1.show = true;
-                            itemList += 1;
-                            this.setState({
-                                t1: t1,
-                                itemList: itemList
-                            })
-                        }
-                        if (s[i] == this.state.t2.p) {
-                            var t2 = this.state.t2;
-                            var itemList = this.state.itemList;
-                            t2.show = true;
-                            itemList += 1;
-                            this.setState({
-                                t2: t2,
-                                itemList: itemList
-                            })
-                        }
-                        if (s[i] == this.state.t3.p) {
-                            var t3 = this.state.t3;
-                            var itemList = this.state.itemList;
-                            t3.show = true;
-                            itemList += 1;
-                            this.setState({
-                                t3: t3,
-                                itemList: itemList
-                            })
-                        }
-                        if (s[i] == this.state.t4.p) {
-                            var t4 = this.state.t4;
-                            var itemList = this.state.itemList;
-                            t4.show = true;
-                            itemList += 1;
-                            this.setState({
-                                t4: t4,
-                                itemList: itemList
-                            })
-                        }
-                        if (s[i] == this.state.t5.p) {
-                            var t5 = this.state.t5;
-                            var itemList = this.state.itemList;
-                            t5.show = true;
-                            itemList += 1;
-                            this.setState({
-                                t5: t5,
-                                itemList: itemList
-                            })
-                        }
-                    }
                 }
+          
+              
             }, (e) => {
                 this.hideLoading();
-                this.setState({
-                    msg: e.msg,
-                    showIOS1: true
-                })
+
+                if(e.msg=="暂无评价"){
+                    this.setState({
+                        // isEvaluate: true,
+                        isEnd: true,
+                        // isEvaluate: false,
+
+                    })
+
+                }else{
+                    this.setState({
+                        msg: e.msg,
+                        showIOS1: true
+                    })
+                }
+          
+                
             });
     }
    /*获取医生信息*/
@@ -879,7 +879,12 @@ class Widget extends Component {
 //分数
     setScore(id) {
         this.setState({
-            score: id
+            hisScore: id
+        })
+    }
+    setScore1(id) {
+        this.setState({
+            docScore: id
         })
     }
     sureNo() {
@@ -889,43 +894,36 @@ class Widget extends Component {
         })
     }
 //评价标签
-    setAppraisal(id) {
-        if (id == 1) {
-            var t1 = this.state.t1;
-            t1.show = !this.state.t1.show;
-            this.setState({
-                t1: t1
-            })
+setAppraisal(id) {
+    var doc=this.state.docList;
+     for(var i=0;i<doc.length;i++){
+         if(id==i){
+             doc[i].show=!doc[i].show;
+         }
+        
+     }
+
+     let arr=[]
+     for(var i=0;i<doc.length;i++){
+        if(!!doc[i].show){
+            arr.push(doc[i].text)
         }
-        if (id == 2) {
-            var t2 = this.state.t2;
-            t2.show = !this.state.t2.show;
-            this.setState({
-                t2: t2
-            })
-        }
-        if (id == 3) {
-            var t3 = this.state.t3;
-            t3.show = !this.state.t3.show;
-            this.setState({
-                t3: t3
-            })
-        }
-        if (id == 4) {
-            var t4 = this.state.t4;
-            t4.show = !this.state.t4.show;
-            this.setState({
-                t4: t4
-            })
-        }
-        if (id == 5) {
-            var t5 = this.state.t5;
-            t5.show = !this.state.t5.show;
-            this.setState({
-                t5: t5
-            })
-        }
-    }
+     }
+     const docListNum = arr.length;
+     if(arr.length>0){
+        arr = '#'+arr.join('#')+'#';
+
+     }else{
+        arr =''
+     }
+
+     this.setState({
+         docList:doc,
+         docListStr:arr,
+         docListNum
+     })
+     
+}
     setATxt(e) {
         if (this.state.txtNum > 140) {
         }
@@ -934,77 +932,59 @@ class Widget extends Component {
             appraisal: e.target.value
         })
     }
+    setATxt1(e) {
+        if (this.state.txtNum1 > 140) {
+        }
+        this.setState({
+            txtNum1: e.target.value.length,
+            appraisal1: e.target.value
+        })
+    }
     saveContent(e) {
         this.setState({
             txtNum: e.target.value.length,
             appraisal: e.target.value
         })
     }
+    saveContent1(e) {
+        this.setState({
+            txtNum1: e.target.value.length,
+            appraisal1: e.target.value
+        })
+    }
     /*提交评价*/
-    submitEvaluate() {
-        var appraisalLabel1 = '';
-        if (this.state.t1.show == true) {
-            appraisalLabel1 += this.state.t1.p + "-";
-            this.setState({
-                appraisalLabel: appraisalLabel1
-            })
-        }
-        if (this.state.t2.show == true) {
-            appraisalLabel1 += this.state.t2.p + "-";
-            this.setState({
-                appraisalLabel: appraisalLabel1
-            })
-        }
-        if (this.state.t3.show == true) {
-            appraisalLabel1 += this.state.t3.p + "-";
-            this.setState({
-                appraisalLabel: appraisalLabel1
-            })
-        }
-        if (this.state.t4.show == true) {
-            appraisalLabel1 += this.state.t4.p + "-";
-            this.setState({
-                appraisalLabel: appraisalLabel1
-            })
-        }
-        if (this.state.t5.show == true) {
-            appraisalLabel1 += this.state.t5.p + "-";
-            this.setState({
-                appraisalLabel: appraisalLabel1
-            })
-        }
-        this.setState({
-            appraisalLabel: appraisalLabel1.substring(0, appraisalLabel1.length - 1)
-        })
-        const doctor = this.state.docInfo;
-        this.setState({
-            doctorName: doctor.doctorName
-        })
+    submitEvaluate(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        const {mdtDetail,docScore,hisScore,appraisal,docListStr,pingShow,end,isEvaluate,isEnd}= this.state;
+       
         const params = {
-            hisName: doctor.hisName,
-            deptId: doctor.deptId,
-            deptName: doctor.deptName,
-            doctorId: doctor.doctorId,
-            doctorName: doctor.doctorName,
-            name: this.state.userInfo.realName,
-            appraisal: this.state.appraisal,
-            appraisalLabel: appraisalLabel1.substring(0, appraisalLabel1.length - 1),
-            score: this.state.score,
-            orderId: this.state.orderId,
+            roomId:mdtDetail.id,
+            appraisal:appraisal,
+            appraisalLabel: docListStr,
+            userId:mdtDetail.userId,
+            attitudeScore:docScore,
+            effectScore:hisScore,
         };
-        if(this.state.score<4&&this.state.appraisal==''){
+        if((docScore<5||hisScore<5)&&(appraisal.length<9||appraisal=='')){
             this.setState({
                 msg:'请输入评价详情且评价详情不能低于10个字',
-                showIOS1: true
+                showIOS1: true,
+        
             })
         }else{
-            Api.evaluate(params)
+            Api.getappraisaladd(params)
             .then((res) => {
                 this.hideLoading();
                 if (res.code == 0) {
+                    console.log(res,'adddddddddddd')
                     this.showToast();
                     this.setState({
                         end: true,
+                    })
+                    this.setState({
+                        msg: res.msg,
+                        showIOS1: true
                     })
                 }else{
                     this.setState({
@@ -1463,10 +1443,19 @@ onChange = (files,file,index) => {
           }
       }
     render() {
-    const {mdtDetail,files,freeReport,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,
+    const {
+        ping_appraisal,
+        ping_appraisalLabel,
+        ping_effectScore,
+        ping_attitudeScore,
+        ping_updateTime,
+        isEndheader,ispjia,docListStr,mdtDetail,files,freeReport,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,appraisal1,isEvaluate,docScore,docList,hisScore,
         name,match,hieghtMore,showId,uId,patHisNo,score,txtNum,t1,t2,t3,t4,t5,timeShow,numEnd,pics,innerAudioContext,
         canEnd,appraisal,pingShow,newScore,itemList,detail,payBack,isOk,newText ,isDuration,newItem,status,
         newTime,doctorName,noDoctor,isIos,msg,endding,end,sign,signature,formData,policy,callback,OSSAccessKeyId,key,evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText}=this.state
+        console.log(list,'mdtItemList')
+        const docListStrnum = docListStr.length*13;
+
         return (
             <div style={{height:'100%'}} className="chat">
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
@@ -1488,6 +1477,8 @@ onChange = (files,file,index) => {
                         ></span>会诊详情
                     </div>
                     <Toast icon="success-no-circle" show={this.state.showToast}>评价成功</Toast>
+                    <div className={`header1 ${isEndheader ? '': 'showTxt'}`}>咨询已结束</div>
+
                     <div className="peopleMessage"  onClick={()=>{
                         this.details()
                     }}>  
@@ -1575,7 +1566,6 @@ onChange = (files,file,index) => {
                         </div>}
 
                     </div>}
-                    <div className={`header1 ${isEnd ? '': 'showTxt'}`}>咨询已结束</div>
                     <div  className={`content3 ${isEnd?'contents':''}`}
                          id='content3'
                          onClick={(e)=>{
@@ -1594,8 +1584,10 @@ onChange = (files,file,index) => {
                                             className={`msg ${item.content.indexOf("p")!=-1?'redColor':''}`}>
                                             {item.content.indexOf("p")!=-1?item.content.substring(26,item.content.length-7):item.content}
                                         </div>}
+
                                         {item.type == 'BIZ' && item.userIsShow == '1' &&
                                         <div className='date'>{item.createTimeName}</div>}
+
                                         {item.type == 'BIZ' && item.userIsShow == '0' &&item.doctorIsShow == '0'&&
                                         <div
                                             className={`msg `} style={{textAlign:'center',color:'#ccc',background:'#f2f2f2'}}>
@@ -1684,6 +1676,45 @@ onChange = (files,file,index) => {
                                                 <img src={userInfo.headImage||'./././resources/images/defautImg.png'}/>
                                             </div> 
                                         </div>} 
+
+                                        {/* -----会诊报告----- */}
+{/* 
+                                        {item.direction == 'TO_ALL'&&item.action == 'release'&&item.content &&
+                                        <div className='date'>{item.createTimeName}</div>} */}
+
+                                        {item.direction == 'TO_ALL'&&item.action == 'release'&&
+                                        <div id="s" className="left center">
+                                        
+                                            { item.content &&(item.action == 'release') && 
+                                                <div className='text' 
+                                                        onClick={()=>{
+                                                            this.context.router.push({
+                                                                pathname:'/ordermng/mdtdetail',
+                                                                query:{id:item.actionTrigger,}
+                                                            })
+                                                        }}
+                                                        style={{width:'220px',height:'auto',background:'white',margin:"0 auto"}} >
+                                                        <p className='doctort'>{
+                                                            item.action=='confirm'?'会诊报告已整理，请及时确定':
+                                                            item.action=='pass'?'会诊报告已通过，请等待发布':
+                                                            item.action=='refuse'?'会诊报告未通过':
+                                                            item.action=='release'?'会诊报告已发布，请及时查看':''
+                                                        }</p>
+                                                        <div className='check-info'>
+                                                            <div className='check-img'>
+                                                            <img style={{padding:'10px'}} src="./././resources/images/hzbg@2x.png"/>
+                                                            </div>
+                                                            <div className='info'>
+                                                                <p className='context'>{!!item.content&&item.content}</p>
+                                                            </div>
+                                                        </div>
+                                                        <p className='search'>查看详情</p>
+
+                                                    
+                                                </div>} 
+                                        </div>} 
+
+
                                     </div>
                                 )
                             })}
@@ -1693,6 +1724,227 @@ onChange = (files,file,index) => {
                    
                    
                 </div>
+
+
+                {isEvaluate &&<div className={`pingJia2  ${ispjia &&isEvaluate ? 'showdiv': '' }`}
+                
+                            style={ispjia &&isEvaluate?{display:'block'}:{display:'none'}  }
+                >
+
+                    <div className="title">我的评价</div>
+                    <div className="ping">
+                        <div className="xing">服务态度：
+                            <div className="star">
+                                {ping_attitudeScore < 1 && <img src="../../../resources/images/starH.png"/>}
+                                {ping_attitudeScore >= 1 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star">
+                                {ping_attitudeScore < 2 && <img src="../../../resources/images/starH.png"/>}
+                                {ping_attitudeScore >= 2 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star">
+                                {ping_attitudeScore < 3 && <img src="../../../resources/images/starH.png"/>}
+                                {ping_attitudeScore >= 3 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star">
+                                {ping_attitudeScore < 4 && <img src="../../../resources/images/starH.png"/>}
+                                {ping_attitudeScore >= 4 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star">
+                                {ping_attitudeScore < 5 && <img src="../../../resources/images/starH.png"/>}
+                                {ping_attitudeScore >= 5 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="ping">
+                        <div className="xing">服务效果：
+                            <div className="star">
+                                {ping_effectScore < 1 && <img src="../../../resources/images/starH.png"/>}
+                                {ping_effectScore >= 1 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star">
+                                {ping_effectScore < 2 && <img src="../../../resources/images/starH.png"/>}
+                                {ping_effectScore >= 2 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star">
+                                {ping_effectScore < 3 && <img src="../../../resources/images/starH.png"/>}
+                                {ping_effectScore >= 3 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star">
+                                {ping_effectScore < 4 && <img src="../../../resources/images/starH.png"/>}
+                                {ping_effectScore >= 4 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star">
+                                {ping_effectScore < 5 && <img src="../../../resources/images/starH.png"/>}
+                                {ping_effectScore >= 5 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                        </div>
+                    </div>
+
+                    {(!!ping_appraisalLabel||!!ping_appraisal)&&<div className="ping-info">
+                        <span className="text1">评价详情：</span>
+                        <span className="text2">{ping_appraisalLabel} {ping_appraisal}</span>
+                    </div>}
+                    <div className="ping-time" style={{paddingBottom: '20px'}}>
+                        <span className="text1">评价时间：</span>
+                        <span className="text2">{ping_updateTime}</span>
+                    </div>
+
+                    <div className="ping-btn">
+                        <button className="btn1"
+                                onClick={(e)=>{
+                                    this.hideping(e)
+                                }}> 关闭
+                        </button>
+                
+                    </div>
+
+                </div>}
+
+
+
+                            
+                 {!isEvaluate &&isEnd&&!end&&pingShow&&
+                    <div className='modal-pingJia'  onClick={(e)=>{
+                        e.stopPropagation();
+                        e.preventDefault();
+                        this.setState({
+                           pingShow:false 
+                        })
+                    }}>
+                    <div className={`pingJia  ${isEnd&&!isEvaluate&&!end ? '': 'showTxt'}`}
+                    style={{
+
+                        // height: 'auto',
+                        // top: '14%',
+                        // paddingBottom: '50px'
+                    }}
+                    onClick={(e)=>{
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }}
+                    >
+                       <div className="title">请对本次咨询评价</div>
+                       <div className="ping">
+                          <div className="xing">
+                           <span>服务态度</span>
+                            <div className="star"
+                                 onClick={()=>{this.setScore1(1)
+                                                }}>
+                                {docScore < 1 && <img src="../../../resources/images/starH.png"/>}
+                                {docScore >=1 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                            this.setScore1(2)
+                                            }}>
+                                {docScore < 2 && <img src="../../../resources/images/starH.png"/>}
+                                {docScore >= 2 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                                this.setScore1(3)
+                                                }}>
+                                {docScore < 3 && <img src="../../../resources/images/starH.png"/>}
+                                {docScore >= 3 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                        this.setScore1(4)
+                                        }}>
+                                {docScore < 4 && <img src="../../../resources/images/starH.png"/>}
+                                {docScore >= 4 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                                this.setScore1(5)
+                                                }}>
+                                {docScore < 5 && <img src="../../../resources/images/starH.png"/>}
+                                {docScore >= 5 && <img src="../../../resources/images/starS.png"/>}
+                            </div>  
+                        </div>
+                        <div className="xing">
+                            <span>服务效果</span>
+                            <div className="star"
+                                 onClick={()=>{
+                                                this.setScore(1)
+                                                }}>
+                                {hisScore < 1 && <img src="../../../resources/images/starH.png"/>}
+                                {hisScore >= 1 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                            this.setScore(2)
+                                            }}>
+                                {hisScore < 2 && <img src="../../../resources/images/starH.png"/>}
+                                {hisScore >= 2 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                                this.setScore(3)
+                                                }}>
+                                {hisScore < 3 && <img src="../../../resources/images/starH.png"/>}
+                                {hisScore >= 3 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                        this.setScore(4)
+                                        }}>
+                                {hisScore < 4 && <img src="../../../resources/images/starH.png"/>}
+                                {hisScore >= 4 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                            <div className="star"
+                                 onClick={()=>{
+                                                this.setScore(5)
+                                                }}>
+                                {hisScore < 5 && <img src="../../../resources/images/starH.png"/>}
+                                {hisScore >= 5 && <img src="../../../resources/images/starS.png"/>}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="ping-content">
+                    {docList.length>0&&docList.map((item,index)=>{
+                        return(
+                            <div key={index} className={`${item.show ? 'active' : ''}`} onClick={()=>{
+                                this.setAppraisal(index)
+                                }}>{item.text}
+                            </div>
+                        )
+                    })}
+                    </div>
+                    <div className="ping-area">
+                            {docListStr&&<span style={{ zIndex:'135',color: '#000',fontWeight: '600',position: 'absolute',fontSize: '14px',top: '7px'}}>{docListStr}</span>}
+                            <TextArea value={appraisal}
+                                    // className={docListStr?'docListStrPlaceholder':''}
+                                    style={{textIndent:`${docListStrnum}px`,overflowX: 'hidden'}}
+                                    placeholder={docListStr?'具体描述一下吧，对会诊团队的帮助很大哦':'请输入您对本次会诊服务的评价内容'}
+                                    onBlur={()=>{
+                                        window.scrollTo(0,0)
+                                    }}
+                                    onChange={(e)=>{
+                                        this.setATxt(e)
+                                    }}
+                                    maxLength="100"
+                                    onPressEnter={(e)=>{
+                                        this.saveContent(e)
+                                    }}
+                        />
+                       
+                    </div>
+         
+                    </div>
+                    <div className="ping-btn">
+                        <button className="btn1"
+                                onClick={(e)=>{
+                                this.submitEvaluate(e)
+                                }}> 确定评价
+                        </button>
+                
+                    </div>
+                </div>}
+
+
                 
             </div>
         );

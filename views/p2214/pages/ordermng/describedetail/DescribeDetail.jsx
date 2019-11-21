@@ -13,8 +13,29 @@ class Widget extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        dialogConfig: {
-            title: '请选择取消的原因',
+        dialogConfig1: {
+            title: '处方药品退费申请',
+            type: 'ios',
+            buttons: [
+              {
+                type: 'default',
+                label: '取消',
+                onClick: () => {
+                  this.closeDialog1();
+                }
+              },
+              {
+                type: 'primary',
+                label: '确定',
+                onClick: () => {
+                  this.cancelOrder();
+                }
+              }
+            ],
+            show: false,
+          },
+          dialogConfig: {
+            title:'请选择取消的原因',
             type: 'ios',
             buttons: [
               {
@@ -76,6 +97,7 @@ class Widget extends Component {
         phone:'',
         mainDiagnosis:'',
         showMore:false,
+        showType:'1',
     };
   }
   componentDidMount() {
@@ -132,7 +154,12 @@ class Widget extends Component {
         return;
     }
     this.closeDialog();
-    this.cancle(cancelVal);
+    if(this.state.showType=='1'){
+      this.cancle(cancelVal);
+    }else{
+      this.returnMoney(cancelVal);
+    }
+    
     }
     showTips(text) {
       let { tipsConfig, tipsText }=this.state;
@@ -150,22 +177,48 @@ class Widget extends Component {
         });
       }, 2000);
     }
-
+    returnMoney(cancelVal){
+      Api
+      .returnDescribe({ 
+          id:this.state.describeDetail.id,
+          cancelReason:cancelVal,
+          hisId:'2214'  
+      })
+      .then((res) => {
+          if (res.code == 0) {
+                   this.closeDialog1();
+                  this.getDetail(this.state.describeDetail.id)
+          }else{
+            this.closeDialog1();
+            this.hideLoading();
+          }
+      }, e=> {
+      this.hideLoading();
+      this.closeDialog1();
+          this.setState({
+              msg:e.msg,
+              showIOS1:true
+          })
+      });
+}
   cancle(cancelVal){
         Api
         .cancleDescribe({ 
             id:this.state.describeDetail.id,
-           // cancelReason:cancelVal,
+            cancelReason:cancelVal,
             hisId:'2214'  
         })
         .then((res) => {
             if (res.code == 0) {
                     this.getDetail(this.state.describeDetail.id)
+                    this.closeDialog();
             }else{
             this.hideLoading();
+            this.closeDialog();
             }
         }, e=> {
         this.hideLoading();
+        this.closeDialog();
             this.setState({
                 msg:e.msg,
                 showIOS1:true
@@ -203,10 +256,18 @@ class Widget extends Component {
                  })
              });
     }
-    cancelConfirm() {
+    cancelConfirm(type) {
+      this.setState({showType:type})
+      if(type=='1'){
         const { dialogConfig } = this.state;
         dialogConfig.show = true;
-        this.setState({ dialogConfig });
+        this.setState({ dialogConfig});
+      }else{
+        const { dialogConfig1 } = this.state;
+        dialogConfig1.show = true;
+        this.setState({ dialogConfig1});
+      }
+        
       }
       closeDialog() {
         const { dialogConfig } = this.state;
@@ -215,8 +276,15 @@ class Widget extends Component {
           dialogConfig
         });
       }
+      closeDialog1() {
+        const { dialogConfig1 } = this.state;
+        dialogConfig1.show = false;
+        this.setState({
+          dialogConfig1
+        });
+      }
   render() {
-    const {msg,describeDetail,showMore,mainDiagnosis,phone,orderDetail,leftTimeFlag,leftTime}=this.state
+    const {msg,describeDetail,showType,mainDiagnosis,phone,orderDetail,leftTimeFlag,leftTime}=this.state
     return (
         <div className="container page-describe-detail">
             <div className="home "><span className="jian"
@@ -237,7 +305,8 @@ class Widget extends Component {
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
                 {msg}
             </Dialog>
-            <Dialog {...this.state.dialogConfig} >
+            <div className='reason-modal'>
+              {showType=='1'&&<Dialog {...this.state.dialogConfig} >
               <form ref="cancelInpt">
                 <div className="because">
                   <div className="weui-cells weui-cells_checkbox">
@@ -272,7 +341,45 @@ class Widget extends Component {
                   <textarea className="m-cancel-text" ref="yuanyin" placeholder="请输入取消原因"/>
                 </div>
               </form>
-            </Dialog>
+            </Dialog>}
+            {showType=='2'&&<Dialog {...this.state.dialogConfig1} >
+              <form ref="cancelInpt">
+                <div className="because">
+                  <div className="weui-cells weui-cells_checkbox">
+                    <label className="weui-cell weui-check__label">
+                      <div className="weui-cell__hd">
+                        <input type="checkbox" className="weui-check" name="checkbox1" value='医生开错药品'/>
+                        <i className="weui-icon-checked"></i>
+                      </div>
+                      <div className="weui-cell__bd">
+                        <p>医生开错药品</p>
+                      </div>
+                    </label>
+                    <label className="weui-cell weui-check__label">
+                      <div className="weui-cell__hd">
+                        <input type="checkbox" name="checkbox1" className="weui-check" value='药品费用太贵'/>
+                        <i className="weui-icon-checked"></i>
+                      </div>
+                      <div className="weui-cell__bd">
+                        <p>药品费用太贵</p>
+                      </div>
+                    </label>
+                    <label className="weui-cell weui-check__label">
+                      <div className="weui-cell__hd">
+                        <input type="checkbox" name="checkbox1" className="weui-check" value='不想要该药品了'/>
+                        <i className="weui-icon-checked"></i>
+                      </div>
+                      <div className="weui-cell__bd">
+                        <p>不想要该药品了</p>
+                      </div>
+                    </label>
+                  </div>
+                  <textarea className="m-cancel-text" ref="yuanyin" placeholder="请输入取消原因"/>
+                </div>
+              </form>
+            </Dialog>}
+            </div>
+            
             
             <Toptips {...this.state.tipsConfig}>{this.state.tipsText}</Toptips>  
             <div className="describe-detail">
@@ -347,11 +454,11 @@ class Widget extends Component {
                             </div>
                             <div className="drug_info">
                                 <div className="info_item">
-                                    <p className="left">规格：{item.Drug_spec}</p>
-                                    <p className="right">用量：{item.Dosage}</p>
+                                    <p className="left">规格：{item.Package_spec}</p>
+                                    <p className="right">用量：{item.Dosage}{item.Dosage_unit}</p>
                                 </div>
                                 <div className="info_item">
-                                    <p className="left">数量：{item.amount}</p>
+                                    <p className="left">数量：{item.amount}{item.Package_units}</p>
                                     <p className="right">用法：{item.Administration}，{item.Freq_desc}</p>
                                 </div>
                             </div>
@@ -381,11 +488,19 @@ class Widget extends Component {
               {describeDetail.status=='3'&&<p className='p1' onClick={()=>{
                   this.pay()
               }}>确定支付</p>}
-              { (describeDetail.status=='0'||describeDetail.status=='1'||describeDetail.status=='2'||describeDetail.status=='3')&& 
+              { (describeDetail.status=='1'||describeDetail.status=='2'||describeDetail.status=='3')&&  
               <p className='p2' onClick={()=>{
-                  //this.cancelConfirm()
-                   this.cancle()
-              }}>取消订单</p>}
+                  this.cancelConfirm(1)
+                  // this.cancle()
+              }}>取消订单</p>} 
+              { (describeDetail.status=='12')&& 
+              <p className='p2' style={{color:'white',background:'#ccc',border:'1px solid #ccc'}}>{describeDetail.statusName}</p>}
+              
+              {(describeDetail.status=='4')&& 
+              <p className='p2' onClick={()=>{ 
+                  this.cancelConfirm(2)
+                  // this.cancle()
+              }}>申请退款</p>}
 
           </div>
           </div>

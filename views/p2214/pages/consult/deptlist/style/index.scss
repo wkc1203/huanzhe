@@ -13,6 +13,7 @@
     width:auto;
     height: 35px;
     margin: 6px 8px;
+    margin-bottom: 2px;
     flex-direction: row;
     background-color: #fff;
     align-items: center;
@@ -462,5 +463,148 @@
         color: #fff;
         border-radius: 4px;
         padding: 5px 13px;
+    }
+}
+
+.doc-screen{
+    display: flex;
+    width: 100%;
+    padding: 3px 0;
+    >div{
+        flex: 1;
+        width: 25%;
+        font-size: 13px;
+        text-align: center;
+        line-height: 23px;
+        color: #333;
+        &.active{
+            color: #4FABCA;
+            >i{
+                width: 14px;
+                >img{
+                    width: 10px;
+                    padding-top: 9px;
+                    // &.active{
+                    //     padding-top: 5px;
+                    // }
+
+
+                }
+            }
+        }
+        >i{
+            margin-left: 3px;
+            width: 14px;
+            >img{
+                width: 10px;
+                padding-top: 5px;
+                &.sx{
+                    width: 12px;
+                    padding-top: 6px;
+                }
+                
+            }
+        }
+        &:last-child{
+            border-left: 1px solid #333;
+        }    
+    }
+
+}
+
+.my-drawer {
+    top:44px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+.my-drawer .am-drawer-sidebar {
+background-color: #fff;
+overflow: auto;
+-webkit-overflow-scrolling: touch;
+max-width: 80%;
+}
+
+
+.saixuanBox{
+    background-color: #f2f2f2;
+    .saixuan-tit{
+        font-size: 12px;
+        color: #999;
+        padding: 10px;
+        // padding-bottom: 0;  
+    }   
+
+    .saixuan-change{
+        overflow: hidden;
+        overflow-y: auto;
+
+    }
+
+    .saixuan-child{
+        background-color: #fff;
+        padding: 10px;
+        padding-bottom: 0;  
+        // margin-bottom: 10px;
+        .saixuan-child-tit{
+
+            font-size: 14px;
+            color: 333;
+            >i{
+
+            }
+        }
+
+        .saixuan-con{
+            display: flex;
+            align-items: center;
+            max-width: 100%;
+
+            overflow: hidden;
+            justify-content: end;
+            flex-flow: row wrap;
+            font-size: 12px;
+
+            >div{
+                // flex: ;
+                padding: 3px 15px;
+                background-color: rgb(240, 240, 240);
+
+                border:1px solid #c7c7cc;
+
+                border-radius: 15px;
+                margin: 5px;
+                &.active{
+                    background-color: #4eabca;
+                    border:1px solid #4eabca;
+                    color: #fff;
+                }
+            }
+        }
+
+    }
+
+    .saixuan-btn{
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        >div{
+            width: 50%;
+            text-align: center;
+            color: #fff;
+            height: 35px;
+            font-size: 13px;
+            line-height: 35px;
+            &:first-child{
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+                background-color: #79d0eb;
+            }
+            &:last-child{
+                border-top-right-radius: 20px;
+                border-bottom-right-radius: 20px;
+                background-color: #4eabca;
+            }
+        }
     }
 }

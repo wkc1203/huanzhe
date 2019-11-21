@@ -56,6 +56,7 @@ import userLogin from '../../pages/auth/login/Login';
 import Inquiry from '../../pages/inquiry/inquirylist/InquiryList';
 import ChatIndex from '../../pages/inquiry/chat/ChatIndex';
 import MdtInquiry from '../../pages/inquiry/mdtInquiry/MdtIndex';
+import AiInquiry from '../../pages/inquiry/aiInquiry/AIIndex';
 
 
 /**
@@ -78,6 +79,7 @@ import FreeReport from '../../pages/consult/report/Report';
 import ConfirmInfo from '../../pages/consult/confirminfo/ConfirmInfo';
 import DeptDetail from '../../pages/consult/deptdetail/DeptDetail';
 import DeptList from '../../pages/consult/deptlist/DeptList';
+import DeptListTest from '../../pages/consult/deptlist/DeptListTest';
 import AllDeptList from '../../pages/consult/alldeptlist/AllDeptList';
 import Pay from '../../pages/consult/pay/Pay';
 import Waiting from '../../pages/consult/waiting/Waiting';
@@ -212,7 +214,8 @@ class Routers extends React.Component {
             <Route path="/consult/confirminfo" component={ConfirmInfo} title='重医儿童医院咨询平台' />
             <Route path="/consult/deptdetail" component={DeptDetail} title='重医儿童医院咨询平台' />
             <Route path="/consult/alldeptlist" component={AllDeptList} title='重医儿童医院咨询平台' />
-            <Route path="/consult/deptlist" component={DeptList} title='重医儿童医院咨询平台' />
+            <Route path="/consult/deptlist" component={DeptListTest} title='重医儿童医院咨询平台' />
+            {/* <Route path="/consult/deptlistest" component={DeptListTest} title='重医儿童医院咨询平台' /> */}
             <Route path="/consult/waiting" component={Waiting} title='支付处理中' />
             <Route path="/consult/pay" component={Pay} title='重医儿童医院咨询平台' />
             <Route path="/consult/report" component={FreeReport} title='重医儿童医院咨询平台' />
@@ -284,6 +287,9 @@ class Routers extends React.Component {
             <Route path="/inquiry/inquirylist" component={Inquiry} title='咨询会话' />
             <Route path="/inquiry/chat" component={ChatIndex} title='重医儿童医院咨询平台' />
             <Route path="/inquiry/mdtInquiry" component={MdtInquiry} title='重医儿童医院咨询平台' />
+            <Route path="/inquiry/AiInquiry" component={AiInquiry} title='重医儿童医院咨询平台' />
+
+            
           
             </Route>
           {/* 门诊加号 */}
