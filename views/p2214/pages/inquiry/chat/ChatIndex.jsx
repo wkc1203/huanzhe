@@ -1999,9 +1999,14 @@ onChange = (files,file,index) => {
                                 {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' && item.voiceTime == 0 &&
                                 <div className='left'
                                     >
+                                    <Link  to={{
+                                        pathname:'consult/deptdetail',
+                                        query:{doctorId:doctorid,deptId:deptid,resource:2}
+                                    }}>
                                     <div className='img'>
                                         <span style={{fontSize:'10px'}}> {doctorName}</span>
                                     </div>
+                                    </Link>
                                     {item.content &&item.action !== 'addChecklist'&&item.action!='reportApply'&&item.action!='add'&&item.action!='mdt'&&item.action!='applyChronic'&&item.action!='receiveChronic'&&
                                         <div className='text'>
                                         {item.content}
@@ -2137,9 +2142,16 @@ onChange = (files,file,index) => {
                                   {item.url && <div className='flex'></div>}
                                 </div>}
                                 {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' &&item.voiceTime > 0 && <div id="a" className='left slide'>
+
+                                    <Link  to={{
+                                        pathname:'consult/deptdetail',
+                                        query:{doctorId:doctorid,deptId:deptid,resource:2}
+                                    }}>
                                     <div className='img'>
                                         <span style={{fontSize:'10px'}}> {doctorName}</span>
                                     </div>
+                                    </Link>
+
                                     {item.voiceTime && <div
                                         onClick={()=>{
                                                 this.play('s'+item.id,item,index)
