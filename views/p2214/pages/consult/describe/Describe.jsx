@@ -17,8 +17,9 @@ var nameList=[];
 var success=[];
 var maxLength = 0;
 var upload=true;
-var has=0;
+var has="";
 var imgList = [];
+var drugArray =["T020001IA",  "T020001IB", "T020001IC", "T020001ID",  "T020001TA",  "N091020TC",  "N091001SC",  "N091006LA",  "N091012LO",  "N091012LP",  "N091012LQ",  "N091012LR",  "NO91001SA",  "P040023OA",  "0030002TA",  "G022009TA",  "G022010TA",  "I071001TA",  "I030012IA",  "I030012IB",  "I030012IC",  "I030012TA",  "I030012TB",  "I030012TC",  "I030014LA",  "I030014TP",  "O010030TA",  "O010030TB",  "O010031TB",  "O010031TC",  "O010031TD",  "O010031TA",  "P040007OA",  "O010031TC",  "O010009LB",  "O010009LA",  "O010009TA",  "DO20010LA",  "W020036TR",  "W020036TP",  "W020036TQ",  "W020035PA",  "W050001TB",  "W020036PA",  "W020034PA",  "V010008TB",  "V010008TC",  "V010008TA",  "H010004TA",  "D050033TA",  "O030072TC",  "Z01A007TA",  "N120021IA",  "C030012TA",  "N120021IC",  "N120021IB",  "C050004TA",  "R020022TP",  "R020022LA",  "R020043TB",  "P070025PA",  "P070025TA",  "P070010LA",  "P070012TC",  "P070012TA",  "I055013PB",  "I055013PP",  "R010009PA",  "0010008TA",  "Z012035TA",  "Z016020BA",  "B010016LA",  "B010016LB",  "B010016LC",  "B010016LD",  "B010016LE",  "G022015L2",  "P040122OA",  "G022015L3",  "G022015L2",  "G022015L4",  "P0401220B",  "R020032L2",  "R020035LA",  "R020005LB",  "C010001LB",  "C010001TA",  "C050039TP",  "C050004TA",  "C020013TP",  "C020008TA",  "C020008TA",  "C050055TA",  "C020014TA",  "C020009TA",  "U010003TA",  "U010004TA",  "U010005TA",  "G022009TA",  "W050060PA",  "N091001TA",  "N091001T1",  "H030002TA",  "C070013TA",  "C070013TA",  "C060011TA",  "C060011TB",  "C030014TB",  "C030014LB",  "C030014LA",  "C030014TA",  "B020009TA",  "0020013LA",  "Z019014AA",  "C020018TA",  "C050009TA",  "C030004TA",  "C030004TP",  "V030001TA",  "V020001TA",  "V030006TD",  "G041004T1",  "V010008TD",  "V010008TD",  "G042004TB",  "G042003TA",  "C020008TA",  "O010008LA",  "O010007TB",  "O010007TA",  "O020013LA",  "G031030TA",  "Z016019DA",  "W020025PC",  "W020025PD",  "Z016026CA",  "G070002T1",  "W020036TR",  "W020036PA",  "U010004TA",  "P040120LA",  "N091002TA",  "X021007LB",  "O020010TB",  "O020010TA",  "B020009TA",  "Z040004IA",  "N050004IA",  "N050004LA",  "N050004LB",  "N050004TA",  "N050004TB",  "N050004TP",  "N050014LA",  "N050014TA",  "N050014TP",  "N050015TJ",  "N050015TP",  "N050007LA",  "N050007TA",  "N050007TB",  "N050005TA",  "N071012TC",  "P070004TA",  "C030016TP",  "W0330001T",  "C030012TA",  "Z016005BB",  "0030002TA",  "G022009TA",  "G022010IB",  "G022010IA",  "G022010TA",  "G022010IC",  "I071001TA",  "Z016020BA",  "H010005TA",  "H010005TB",  "H010005LA",  "O010030TB",  "O010030TA",  "O010031TB",  "O010031TC",  "O010031TD",  "O010031TA",  "P040007OA",  "O010031TC",  "C020013IA",  "C020013TP",  "DO20010LA",  "W020036TR",  "W020036TP",  "W020036TQ",  "W020035PA",  "W050001TB",  "W020036PA",  "W020034PA",  "V010008TB",  "V010008TC",  "V010008TA",  "H010004TA",  "D050033TA",  "O030072TC",  "Z01A007TA",  "I073001TA",  "P070025PA",  "P070025TA",  "C050004TA"]
 class Widget extends Component {
     static contextTypes = {
         router: React.PropTypes.object,
@@ -48,6 +49,9 @@ class Widget extends Component {
             showAndroid2: false,
             cardShow:false,
             codeUrl:'',
+            /*过滤 */
+            newList:[],
+           
             style1: {
                 title: '温馨提示',
                 buttons: [
@@ -443,14 +447,12 @@ class Widget extends Component {
                             this.setState({
                                 leftBindNum: res.data.leftBindNum,
                                 cardList: cardList,
-                                
                             })
 
                             if(cardList.length>1){
                                 this.setState({
                                     patientShow:true
                                 })
-                               
                            }else{
                                cardList[0].active=true;
                                this.setState({
@@ -485,7 +487,6 @@ class Widget extends Component {
                     if(this.mounted){
                       this.setState({docInfo: res.data.doctor});
                
-                      
                     }
                     this.getCardList();
                 }
@@ -498,41 +499,54 @@ class Widget extends Component {
         this.showLoading();
         //390
         var report;   
+        var queryParams={patientId:id};
+        if(!!this.props.location.query.test&&this.props.location.query.test==1){
+            queryParams = {patientId:id,test:"1"};
+        }
         Api
-            .getdiseaseList({patientId:id})
+            .getdiseaseList(queryParams)
             .then((res) => {
                 this.hideLoading();
                 if (res.code == 0) {
                      if(res.data.length>0){
-                         var list=res.data;
-                          for(var i=0;i<list.length;i++){
-                            //   if(!!this.props.location.query.test&&this.props.location.query.test==1){
-                            //     list[i].has=true;
-
-                            //   }else{
-                            //     if(this.state.diagList.indexOf(list[i].Diagnosis_code)!=-1){
-                            //         list[i].has=true;
-                            //       }else{
-                            //        list[i].has=false;
-                            //         }
-                            //   }
-                            
+                         var listUse = res.data;
+                         var listt=[];
+                         console.log("listUse",listUse)
+                          for(var i=0;i<listUse.length;i++){
+                           
+                              listUse[i].has=true;
+                              if(!!listUse[i].Recipel_list&&listUse[i].Recipel_list.length>0){
+                                  for(const item of listUse[i].Recipel_list){
+                                        //  for(let i=0;i<drugArray.length;i++){
+                                             //console.log("qqq",":",i,"-",item.Item_code,":",drugArray.indexOf(item.Item_code))
+                                            if(drugArray.indexOf(item.Item_code)==-1){
+                                                listUse[i].has=false; 
+                                             }
+                                        //  }
+                                  }
                                 
-                                //arr1.indexOf(NaN)
-                                list[i].showMore=false;
-                                if(!!list[i].Recipel_list&&list[i].Recipel_list.length>0){
-                                    for(var j=0;j<list[i].Recipel_list.length;j++){
-                                        list[i].Recipel_list[j].name=list[i].Recipel_list[j].Detail.substring(0,list[i].Recipel_list[j].Detail.indexOf(' '));
-                                        console.log(list[i].Recipel_list[j].name)
-                                        list[i].Recipel_list[j].use=list[i].Recipel_list[j].Detail.substring(list[i].Recipel_list[j].Detail.indexOf(' ')+1,list[i].Recipel_list[j].Detail.length);
+                              } 
+
+                             listUse[i].showMore=false;
+                                if(!!listUse[i].Recipel_list&&listUse[i].Recipel_list.length>0){
+                                    for(var j=0;j<listUse[i].Recipel_list.length;j++){
+                                        listUse[i].Recipel_list[j].name=listUse[i].Recipel_list[j].Detail.substring(0,listUse[i].Recipel_list[j].Detail.indexOf(' '));
+                                        //console.log(list[i].Recipel_list[j].name)
+                                        listUse[i].Recipel_list[j].use=listUse[i].Recipel_list[j].Detail.substring(listUse[i].Recipel_list[j].Detail.indexOf(' ')+1,listUse[i].Recipel_list[j].Detail.length);
                                     }
                                 }else{
-                                    list[i].Recipel_list=[];
+                                    listUse[i].Recipel_list=[];
+                                }
+                                if(!!listUse[i].Recipel_list&&listUse[i].Recipel_list.length>0){
+                                    listt.push(listUse[i]) 
                                 }
                           }
+                          console.log('list=',listt)
                           this.setState({
-                              reportList:list
+                              reportList:listUse,
+                              newList:listt,
                           })
+                         // console.log("newList",this.state.newList)
                      }else{
                         this.setState({
                             reportList:[]
@@ -545,6 +559,7 @@ class Widget extends Component {
                 })
                this.hideLoading();
             });
+
    }
       
    /*切换就诊人*/
@@ -891,11 +906,14 @@ expandMore(Visit_no){
 
                      }
 
-                    {reportList&&reportList.length>0&&reportList.map((item,index)=>{
-
+                    {this.state.newList&&this.state.newList.length>0&&this.state.newList.map((item,index)=>{
+                            
                          return(
-                            <div className="describe-item"  key={index}>
+                             
+                            <div className="describe-item"  key={index}   >
                             <div className="des-basic" >
+
+
                                     <div className="des">
                                         <p className="left">就诊时间：<span>{item.Visit_date}</span></p>
                                     </div>
@@ -907,7 +925,7 @@ expandMore(Visit_no){
                                      
                                     </div>  
                                     {<span className="btns" onClick={()=>{  
-                                        console.log()
+                                        //console.log()
                                          this.setState({
                                              knows:true,
                                              curItem:item
@@ -915,7 +933,7 @@ expandMore(Visit_no){
                                     }}>      
                                      申请续方
                                     </span>}
-                                    {/* {!item.has&&<span className="btns" style={{background:'#ccc'}}
+                                    {!item.has&&<span className="btns" style={{background:'#ccc'}}
                                     onClick={()=>{
                                         this.setState({
                                             showIOS1:true,
@@ -924,7 +942,7 @@ expandMore(Visit_no){
                                     }} 
                                     >
                                     申请续方
-                                    </span>} */}
+                                    </span>}
                                 </div>
                                 {item.Recipel_list.length>0&&<div className='drug' onClick={()=>{
                                     this.expandMore(item.Visit_no)
