@@ -477,11 +477,12 @@ class Widget extends Component {
             
                 
           </div>} 
-          {!!describeDetail.recommend&&<div className='diagnosis main-info'>
+          {console.log(describeDetail,describeDetail.caseInfo,'caseInfo')}
+          {!!describeDetail.caseInfo&&!!describeDetail.caseInfo.recommend&&<div className='diagnosis main-info'>
                 <div className='title-tip'>
                     <img src='./././resources/images/des_jian.png'/>建议</div>
                 <div className="items">
-                    {describeDetail.recommend}
+                    {describeDetail.caseInfo.recommend}
                 </div> 
           </div>}
           <div className="confirm" >
