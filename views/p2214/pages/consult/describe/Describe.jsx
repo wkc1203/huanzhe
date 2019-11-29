@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import {Upload, Modal,Button,Spin, Alert,Drawer } from 'antd-mobile';
@@ -515,17 +514,17 @@ class Widget extends Component {
                           for(var i=0;i<listUse.length;i++){
                            
                               listUse[i].has=true;
-                              if(!!listUse[i].Recipel_list&&listUse[i].Recipel_list.length>0){
-                                  for(const item of listUse[i].Recipel_list){
-                                        //  for(let i=0;i<drugArray.length;i++){
-                                             //console.log("qqq",":",i,"-",item.Item_code,":",drugArray.indexOf(item.Item_code))
-                                            if(drugArray.indexOf(item.Item_code)==-1){
-                                                listUse[i].has=false; 
-                                             }
-                                        //  }
-                                  }
+                            //   if(!!listUse[i].Recipel_list&&listUse[i].Recipel_list.length>0){
+                            //       for(const item of listUse[i].Recipel_list){
+                            //             //  for(let i=0;i<drugArray.length;i++){
+                            //                  //console.log("qqq",":",i,"-",item.Item_code,":",drugArray.indexOf(item.Item_code))
+                            //                 if(drugArray.indexOf(item.Item_code)==-1){
+                            //                     listUse[i].has=false; 
+                            //                  }
+                            //             //  }
+                            //       }
                                 
-                              } 
+                            //   } 
 
                              listUse[i].showMore=false;
                                 if(!!listUse[i].Recipel_list&&listUse[i].Recipel_list.length>0){
@@ -549,13 +548,16 @@ class Widget extends Component {
                          // console.log("newList",this.state.newList)
                      }else{
                         this.setState({
-                            reportList:[]
+                            reportList:[],
+                            newList:[]
                         })
                      }
                 }
             }, e=> {
                 this.setState({
-                    reportList:[]
+                    reportList:[],
+                    newList:[]
+
                 })
                this.hideLoading();
             });
