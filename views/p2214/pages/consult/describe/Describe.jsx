@@ -804,8 +804,22 @@ expandMore(Visit_no){
                             <p> 慢病续方业务须知</p>
                     </div>
                     <div className='modal-content-protocol'>
-                        <div >                        
-                            <div className="content-item" >1、只允许对1个月以内的慢病处方记录发起续方申请</div>
+                        <div >       
+
+                             <div className="content-item" >1、仅支持慢病患者院内1个月内的历史处方记录续方申请；</div>
+                            <div className="content-item" >2、最大配药量遵循医保规定执行；
+                            </div>
+                            <div className="content-item" >3、<span style={{color:'red'}}>包含门诊费和药品费</span>两种业务类型缴费，请依次完成支付；
+                            </div>
+                            <div className="content-item" >4、<span style={{color:'red'}}>医师接诊后，网络门诊费不予退费。</span>若24h内医生未接诊，系统将在<span style={{color:'red'}}>3个工作日内</span>自动为您退回网络门诊费；
+                            </div>
+                            <div className="content-item" >5、订单支付成功后，可凭电子处方笺（条形码）<span style={{color:'red'}}>到渝中院区（门诊楼1楼）或两江院区药房取药</span>；
+                            </div>
+                            <div className="content-item" >6、通过本平台开配的药物原则上不予退换。如需退费退药，请到医院窗口申请。
+                            </div>
+                      
+
+                            {/* <div className="content-item" >1、只允许对1个月以内的慢病处方记录发起续方申请</div>
                             <div className="content-item" >2、医师接诊后，网络门诊费不予退费。
                             </div>
                             <div className="content-item" >3、若发送申请后超过24h医生未回复，系统将在3个工作日自动为您退回网络门诊费。
@@ -817,7 +831,7 @@ expandMore(Visit_no){
                             <div className="content-item" >6、该网络平台上所配药品原则上不予退药，如属特殊情况的，可通过平台进行退费申请，若药房审核通过则可线上直接退费，审核不通过或已经取药的患者，概不给予退费。
                             </div>
                             <div className="content-item" >7、药品订单支付成功后，可凭手机缴费详情页面到渝中院区（门诊大楼1楼）或两江院区药房取药。
-                            </div>                               
+                            </div>                                */}
                                                                                    
                         </div>
                     </div>
@@ -939,7 +953,7 @@ expandMore(Visit_no){
                                     onClick={()=>{
                                         this.setState({
                                             showIOS1:true,
-                                            msg:'对不起，该处方中存在不可在线开具的药品信息，您可选择到院就诊.'
+                                            msg:'您好，该处方中存在不可在线开具的药品，建议您到医院就诊。'
                                         })
                                     }} 
                                     >

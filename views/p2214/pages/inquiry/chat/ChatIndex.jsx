@@ -2054,6 +2054,7 @@ onChange = (files,file,index) => {
                                             <p className='search'
                                             >查看详情</p>
                                             </div>}
+
                                             { item.content &&item.action == 'applyChronic' && <div className='text' 
                                             onClick={()=>{
                                                 this.context.router.push({
@@ -2070,11 +2071,12 @@ onChange = (files,file,index) => {
                                                            <p className='info-item'>就诊科室：<span>{!!item.checkContent&&!!item.checkContent.deptName&&item.checkContent.deptName}</span></p>
                                                            <p className='info-item'>就诊医生：<span>{!!item.checkContent&&!!item.checkContent.doctorName&&item.checkContent.doctorName}</span></p>
                                                            <p className='info-item'>诊    断：<span>{!!item.checkContent&&!!item.checkContent.diagnosis&&item.checkContent.diagnosis}</span></p>
-
+                                                           <p className='f12'><span style={{color:'red'}}>医师接诊后，网络门诊费不予退费；</span>若<span style={{color:'red'}}>24h内</span>医生未接诊，系统将在<span style={{color:'red'}}>3个工作日内</span>自动为您退回网络门诊费</p>
                                                        </div>
                                                     </div>
                                                     <p className='apply-search'>查看详情</p>  
                                                      </div>}
+
                                             
                                             {item.content &&item.action == 'reportApply'&&
                                             <div className='text apply' 
@@ -2233,6 +2235,7 @@ onChange = (files,file,index) => {
                                                     </div>
                                                     <p className='search'>查看详情</p>
                                                      </div>}
+
                                                      { item.content &&item.action == 'applyChronic' && <div className='text' 
                                                     onClick={()=>{
                                                 this.context.router.push({
@@ -2248,11 +2251,14 @@ onChange = (files,file,index) => {
                                                            <p className='info-item'>就诊科室：<span>{!!item.checkContent&&!!item.checkContent.deptName&&item.checkContent.deptName}</span></p>
                                                            <p className='info-item'>就诊医生：<span>{!!item.checkContent&&!!item.checkContent.doctorName&&item.checkContent.doctorName}</span></p>
                                                            <p className='info-item'>诊    断：<span>{!!item.checkContent&&!!item.checkContent.diagnosis&&item.checkContent.diagnosis}</span></p>
+                                                           <p className='f12'><span style={{color:'red'}}>医师接诊后，网络门诊费不予退费；</span>若<span style={{color:'red'}}>24h内</span>医生未接诊，系统将在<span style={{color:'red'}}>3个工作日内</span>自动为您退回网络门诊费</p>
 
                                                        </div>
                                                     </div>
                                                     <p className='apply-search'>查看详情</p>  
                                                      </div>}
+
+
                                              {item.content &&item.action == 'reportApply'&&
                                              <div className='text apply' 
                                              onClick={()=>{ 
