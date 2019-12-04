@@ -285,6 +285,12 @@ class Widget extends Component {
       }
   render() {
     const {msg,describeDetail,showType,mainDiagnosis,phone,orderDetail,leftTimeFlag,leftTime}=this.state
+    let diagnosis =''
+    if(!!describeDetail.diagnosis){
+       diagnosis = describeDetail.diagnosis.split('|').length>2?describeDetail.diagnosis.split('|').splice(0,describeDetail.diagnosis.split('|').length-1).join('|') :describeDetail.diagnosis
+
+    }
+
     return (
         <div className="container page-describe-detail">
             <div className="home "><span className="jian"
@@ -427,7 +433,7 @@ class Widget extends Component {
                   <div className='title-tip'>
                       <img src='./././resources/images/des_zhen.png'/>诊断</div>
                   <div className="items">
-                      {describeDetail.diagnosis}
+                      {diagnosis}
                 </div> 
           </div>
           
