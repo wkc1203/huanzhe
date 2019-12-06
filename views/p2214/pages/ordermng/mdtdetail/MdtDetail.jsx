@@ -343,20 +343,48 @@ class Widget extends Component {
             <Toptips {...this.state.tipsConfig}>{this.state.tipsText}</Toptips>  
             <div className="mdt-info">
 
-             {!!mdtDetail&&!!mdtDetail.amount&&mdtDetail.status=='2'&&<div className='waitingForPayment'>
+             {!!mdtDetail&&!!mdtDetail.amount&&<div className='waitingForPayment'>
                 <div className='tp'> 
-                  <img src='./././resources/images/des_daipay.png'></img>
+
+                  {
+                    mdtDetail.status=='1'?
+                  <img src='./././resources/images/sh@2x.png'></img>
+                    :mdtDetail.status=='2'?
+                    <img src='./././resources/images/des_daipay.png'></img>
+                    :mdtDetail.status=='3'||mdtDetail.status=='4'||mdtDetail.status=='5'||mdtDetail.status=='7'||mdtDetail.status=='0'?
+                    <img src='./././resources/images/jfcg@2x.png'></img>
+                    :mdtDetail.status=='6'||mdtDetail.status=='9'||mdtDetail.status=='10'?
+                    <img src='./././resources/images/jfsb@2x.png'></img>
+                    :mdtDetail.status=='8'||mdtDetail.status=='13'?
+                    <img src='./././resources/images/qxddcg@2x.png'></img>                    
+                    :''
+                  }
+
                   <div>
-                    <p>{!!mdtDetail.statusName&&mdtDetail.statusName}</p> 
+                    <p>
+                    {mdtDetail.status=='1'?'待审核':
+                    mdtDetail.status=='2'?'待缴费':
+                    mdtDetail.status=='3'||mdtDetail.status=='4'||mdtDetail.status=='5'||mdtDetail.status=='7'||mdtDetail.status=='0'?'缴费成功':
+                    mdtDetail.status=='6'?'申请审核未通过':
+                    mdtDetail.status=='8'?'已取消':
+                    mdtDetail.status=='9'?'缴费失败':
+                    mdtDetail.status=='10'?'缴费异常':
+                    mdtDetail.status=='13'?'超时自动取消':''
+                    }
+                    </p> 
                     <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p>
                   </div>
                 </div> 
                 <div className="pb18">{!!mdtDetail.amount&&mdtDetail.auditTimeName}</div> 
               </div>}
+              
+{/* 
 
               {!!mdtDetail&&!!mdtDetail.amount&&mdtDetail.status=='3'&&<div className='waitingForPayment'>
                 <div className='tp'> 
+
                   <img src='./././resources/images/jfcg@2x.png'></img>
+
                   <div>
                     <p>{!!mdtDetail.statusName&&mdtDetail.statusName}</p> 
                     <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p>
@@ -367,7 +395,9 @@ class Widget extends Component {
 
               {!!mdtDetail&&!!mdtDetail.amount&& (mdtDetail.status=='13' || mdtDetail.status=='6' ) &&<div className='waitingForPayment'>
                 <div className='tp'> 
+
                   <img src='./././resources/images/jfsb@2x.png'></img>
+
                   <div>
                     <p>{!!mdtDetail.statusName&&mdtDetail.statusName}</p> 
                     <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p>
@@ -378,7 +408,9 @@ class Widget extends Component {
 
               {!!mdtDetail&&!!mdtDetail.amount&&mdtDetail.status=='8'&&<div className='waitingForPayment'>
                 <div className='tp'> 
+
                   <img src='./././resources/images/qxddcg@2x.png'></img>
+
                   <div>
                     <p>{!!mdtDetail.statusName&&mdtDetail.statusName}</p> 
                     <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p>
@@ -389,14 +421,16 @@ class Widget extends Component {
 
               {!!mdtDetail&&!!mdtDetail.amount&&(mdtDetail.status=='1')&&<div className='waitingForPayment'>
                 <div className='tp'> 
+
                   <img src='./././resources/images/sh@2x.png'></img>
+
                   <div>
                     <p>{mdtDetail.status=='5'?mdtDetail.reportName:mdtDetail.statusName}</p> 
-                    {/* <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p> */}
+                    <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p>
                   </div>
                 </div> 
                 <div className="pb18"></div> 
-              </div>}
+              </div>} */}
 
               
 

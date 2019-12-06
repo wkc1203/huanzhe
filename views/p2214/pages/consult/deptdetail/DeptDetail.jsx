@@ -421,7 +421,7 @@ class Widget extends Component {
         console.log("doc11", docInfo)
         return (
 
-            <div className="page-dept-detail container1">
+            <div className="page-dept-detail container1" style={{height:'auto'}}>
                 <div className='share ' onClick={()=>{                  
                     this.setState({
                         hidden:false     

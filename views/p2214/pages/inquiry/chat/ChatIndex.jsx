@@ -1999,9 +1999,14 @@ onChange = (files,file,index) => {
                                 {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' && item.voiceTime == 0 &&
                                 <div className='left'
                                     >
+                                    <Link  to={{
+                                        pathname:'consult/deptdetail',
+                                        query:{doctorId:doctorid,deptId:deptid,resource:2}
+                                    }}>
                                     <div className='img'>
                                         <span style={{fontSize:'10px'}}> {doctorName}</span>
                                     </div>
+                                    </Link>
                                     {item.content &&item.action !== 'addChecklist'&&item.action!='reportApply'&&item.action!='add'&&item.action!='mdt'&&item.action!='applyChronic'&&item.action!='receiveChronic'&&
                                         <div className='text'>
                                         {item.content}
@@ -2049,6 +2054,7 @@ onChange = (files,file,index) => {
                                             <p className='search'
                                             >查看详情</p>
                                             </div>}
+
                                             { item.content &&item.action == 'applyChronic' && <div className='text' 
                                             onClick={()=>{
                                                 this.context.router.push({
@@ -2065,11 +2071,12 @@ onChange = (files,file,index) => {
                                                            <p className='info-item'>就诊科室：<span>{!!item.checkContent&&!!item.checkContent.deptName&&item.checkContent.deptName}</span></p>
                                                            <p className='info-item'>就诊医生：<span>{!!item.checkContent&&!!item.checkContent.doctorName&&item.checkContent.doctorName}</span></p>
                                                            <p className='info-item'>诊    断：<span>{!!item.checkContent&&!!item.checkContent.diagnosis&&item.checkContent.diagnosis}</span></p>
-
+                                                           <p className='f12'><span style={{color:'red'}}>医师接诊后，网络门诊费不予退费；</span>若<span style={{color:'red'}}>24h内</span>医生未接诊，系统将在<span style={{color:'red'}}>3个工作日内</span>自动为您退回网络门诊费</p>
                                                        </div>
                                                     </div>
                                                     <p className='apply-search'>查看详情</p>  
                                                      </div>}
+
                                             
                                             {item.content &&item.action == 'reportApply'&&
                                             <div className='text apply' 
@@ -2137,9 +2144,16 @@ onChange = (files,file,index) => {
                                   {item.url && <div className='flex'></div>}
                                 </div>}
                                 {item.type == 'BIZ' && item.direction == 'TO_USER' && item.userIsShow == '1' &&item.voiceTime > 0 && <div id="a" className='left slide'>
+
+                                    <Link  to={{
+                                        pathname:'consult/deptdetail',
+                                        query:{doctorId:doctorid,deptId:deptid,resource:2}
+                                    }}>
                                     <div className='img'>
                                         <span style={{fontSize:'10px'}}> {doctorName}</span>
                                     </div>
+                                    </Link>
+
                                     {item.voiceTime && <div
                                         onClick={()=>{
                                                 this.play('s'+item.id,item,index)
@@ -2221,6 +2235,7 @@ onChange = (files,file,index) => {
                                                     </div>
                                                     <p className='search'>查看详情</p>
                                                      </div>}
+
                                                      { item.content &&item.action == 'applyChronic' && <div className='text' 
                                                     onClick={()=>{
                                                 this.context.router.push({
@@ -2236,11 +2251,14 @@ onChange = (files,file,index) => {
                                                            <p className='info-item'>就诊科室：<span>{!!item.checkContent&&!!item.checkContent.deptName&&item.checkContent.deptName}</span></p>
                                                            <p className='info-item'>就诊医生：<span>{!!item.checkContent&&!!item.checkContent.doctorName&&item.checkContent.doctorName}</span></p>
                                                            <p className='info-item'>诊    断：<span>{!!item.checkContent&&!!item.checkContent.diagnosis&&item.checkContent.diagnosis}</span></p>
+                                                           <p className='f12'><span style={{color:'red'}}>医师接诊后，网络门诊费不予退费；</span>若<span style={{color:'red'}}>24h内</span>医生未接诊，系统将在<span style={{color:'red'}}>3个工作日内</span>自动为您退回网络门诊费</p>
 
                                                        </div>
                                                     </div>
                                                     <p className='apply-search'>查看详情</p>  
                                                      </div>}
+
+
                                              {item.content &&item.action == 'reportApply'&&
                                              <div className='text apply' 
                                              onClick={()=>{ 

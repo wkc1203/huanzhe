@@ -159,7 +159,7 @@ class Widget extends Component {
                         e.stopPropagation()
                         }}>
                         <div className='modal-content'>
-                            <p className='sub-title'>处方码仅用于个人向医院提供使用</p>
+                            <p className='sub-title'>处方码仅限于患者向医院展示使用</p>
                             <div className='barcode' onClick={()=>{
                                 console.log(this._barcodeSVGS11,this._barcodeSVGS,this._barcodeSVG)
                             }}> 
@@ -183,7 +183,7 @@ class Widget extends Component {
                                 e.stopPropagation()
                                 }}>
                                 <div className='modal-content'>
-                                    <p className='sub-title'>处方码仅用于个人向医院提供使用</p>
+                                    <p className='sub-title'>处方码仅限于患者向医院展示使用</p>
                                     <div className='barcode'>
                                         <svg  ref={(ref)=>this._barcodeSVG= ref}></svg>              
                                     </div>
@@ -194,7 +194,7 @@ class Widget extends Component {
             <div className='main-content'>
             <div className='check-title'>
                  <p className='hospital'>重庆医科大学附属儿童医院</p>
-                  <p className='sub-title'>门诊处方笺</p>
+                  <p className='sub-title'>电子处方笺</p>
                     {!!detail.hospitalVisitDate&&<div className='barcode' onClick={()=>{
                         
                         this.setState({
