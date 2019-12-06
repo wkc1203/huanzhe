@@ -883,6 +883,7 @@ getmdtList() {
         {item5Show&&!!describeList&&describeList.length>0&&describeList!='1'&&
             <div className='reportlist'>
             {describeList.map((item,index)=>{
+                const diagnosis = item.diagnosis.split('|').length>2?item.diagnosis.split('|').splice(0,item.diagnosis.split('|').length-1).join('|') :item.diagnosis
                 return(
                     <div className="describe-item" key={index} onClick={(e)=>{
                         e.stopPropagation();
@@ -902,7 +903,7 @@ getmdtList() {
                                 <p className="right status">{item.statusName}</p>
                             </div> 
                             <div className="des">
-                              <p className="left">诊断：<span>{item.diagnosis}</span></p>
+                              <p className="left">诊断：<span>{diagnosis}</span></p>
                             
                             </div>
                         </div>

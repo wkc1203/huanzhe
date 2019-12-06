@@ -598,7 +598,7 @@ class Widget extends Component {
                  {(checkDetail.status=='0'||checkDetail.status=='1')&&addInfo.hasPay=='0'&&<span style={{color:'red'}}>
                  因此处存在两种业务类型缴费，所以您需要分两次完成支付，网络门诊费支付后将不支持退款。
                  </span>}
-                 请于今日内完成支付，若未支付，订单将会自动取消
+                 请于今日23:15之前完成支付，若未支付，订单将自动取消
                  </p>}
                 {<div className='btn'>
                     {orderInfo.canPayFlag == 1 &&leftTimeFlag&&this.props.location.query.source!=="check"&&
