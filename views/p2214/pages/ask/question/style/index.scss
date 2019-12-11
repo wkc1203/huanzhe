@@ -204,6 +204,9 @@
         font-weight: bold;
         text-align: left;
         color: #333;
+        span{
+          color:red;
+        }
       }
       .answer{
         
@@ -229,6 +232,9 @@
             left: 0;
             top: 11px;
           }
+        }
+        .text-area{
+          border: 1px solid #ccc;
         }
       }
     }

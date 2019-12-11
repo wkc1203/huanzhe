@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import {Carousel} from 'antd-mobile';
-import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
+import { Button, Toptips,Switch,Dialog,Toast,TextArea } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
+import _ from 'lodash';
 import * as Api from './questionApi';
 import './style/index.scss';
 import * as Utils from '../../../utils/utils';
@@ -11,6 +12,7 @@ import * as Utils from '../../../utils/utils';
 import { ImagePicker } from 'antd-mobile';
 import hashHistory from 'react-router/lib/hashHistory';
 var files = new Array();
+
 class Widget extends Component {
     static contextTypes = {
         router: React.PropTypes.object,
@@ -26,6 +28,7 @@ class Widget extends Component {
         showIOS2: false,
         showAndroid1: false,
         showAndroid2: false,
+        text:[],
         style1: {
             buttons: [
                 {
@@ -84,74 +87,112 @@ class Widget extends Component {
     }
     submitData(){
         var has=true;
-        console.log(this.state.info.followedTemplateVo)
+        console.log('this.state.info.followedTemplateVo=',this.state.info.followedTemplateVo)
+        
         var list=this.state.info.followedTemplateVo;
-        console.log(list.followedQuestionVoList.length)
        for(var i=0;i<list.followedQuestionVoList.length;i++){
             var flag=0;
-           if(list.followedQuestionVoList[i].type=='1'){
-               for(var j=0;j<list.followedQuestionVoList[i].followedQuestionOptionVoList.length;j++){
-                   if(list.followedQuestionVoList[i].followedQuestionOptionVoList[j].checked=='1'){
-                       flag++;
-                   }
-               }
-               console.log("flag",flag)
-               if(flag==0){
-                   has=false;
-                this.setState({
-                    showIOS1:true,
-                    msg:'请将问题补充完整'
-                })
-               }
-                 
-           }else{
-            console.log("flag1",flag)
-            for(var j=0;j<list.followedQuestionVoList[i].followedQuestionOptionVoList.length;j++){
-                if(list.followedQuestionVoList[i].followedQuestionOptionVoList[j].checked=='1'){
-                    flag++;
-                }
-            }
-            if(flag==0){
-                has=false;
-                this.setState({
-                    showIOS1:true,
-                    msg:'请将问题补充完整'
-                })
-               }
-           }
-       }
-      if(has){
-  
-            console.log(":ewe") 
-            this.showLoading();
-            Api
-            .submitQuestion({ 
-                hisId:'2214',
-                id:this.state.info.id,
-                answers:JSON.stringify(this.state.info.followedTemplateVo)
-            })
-            .then((res) => {
-                this.hideLoading();
-                if(res.code==0){
-                    this.setState({
-                        add:true
-                    })
-                }
-               
-              
-            }, (e) => {
-                this.hideLoading();
+           if(list.followedQuestionVoList[i].necessary=='0'){
+                if(list.followedQuestionVoList[i].type=='3'){
+                    console.log('typesds=',list.followedQuestionVoList[i])
+                    // if(list.followedQuestionVoList[i].fillinContent&&list.followedQuestionVoList[i].fillinContent!=''){
+                    //     flag++;
+                    // }else{
+                        const textobj=document.getElementsByClassName('text-area') 
+                        if(textobj.length>0){
+                            console.log('bttextobj=',textobj)
+                            console.log('bt=',list.followedQuestionVoList[i])
+                            for(let ii=0;ii<textobj.length;ii++){
+                                console.log('bttextobj[i]=',textobj[ii])
+                                let id=textobj[ii].getAttribute('data-info')
+                                let inputId=textobj[ii].getAttribute('data-id')
+                                console.log('inputId=',inputId)
+                                let neirong=textobj[ii].value
+                                console.log('bid=',list.followedQuestionVoList[i].id)
+                                
+                                if(inputId==list.followedQuestionVoList[i].id){
+                                    if(neirong!=''){
+                                        console.log('==55555=========')
+                                        this.adds(id,inputId,'','3','0',neirong)
+                                    }else{
+                                        console.log('===========')
+                                        this.setState({
+                                            showIOS1:true,
+                                            msg:'请将问题补充完整'
+                                        })
+                                        return
+                                    }
+                                }
+                            }
+                        }
+                        
+                    // }
+                }else{
+                    if(list.followedQuestionVoList[i].followedQuestionOptionVoList.length>0){
+                        for(var j=0;j<list.followedQuestionVoList[i].followedQuestionOptionVoList.length;j++){
+                           if(list.followedQuestionVoList[i].followedQuestionOptionVoList[j].checked=='1'){
+                               flag++;
+                           }
+                       }
+                    }
+                    if(flag==0){
+                       has=false;
                     this.setState({
                         showIOS1:true,
-                        msg:!!e.msg?e.msg:""
+                        msg:'请将问题补充完整'
                     })
-            });
-         
+                   }
+                }
+               console.log("flag",flag)
+           }
+       }
+       
+      if(has){
+        
+        this.showLoading();
+        console.log(":ewe") 
+        Api
+        .getQuestion({
+            hisId:'2214',
+            status:status,
+            id:this.props.location.query.id
+        }).then((res)=>{
+            if(res.code==0&&res.data){
+                let followedTemplateVot={}
+                if(!!res.data.answers&&res.data.answers!=null){
+                     followedTemplateVot=JSON.parse(res.data.answers)
+                 }else{
+                     followedTemplateVot=res.data.followedTemplateVo
+                 }
+                Api
+                .submitQuestion({ 
+                    hisId:'2214',
+                    id:this.state.info.id,
+                    answers:JSON.stringify(followedTemplateVot)
+                })
+                .then((res) => {
+                    this.hideLoading();
+                    if(res.code==0){
+                        this.setState({
+                            add:true
+                        })
+                    }
+                }, (e) => {
+                    this.hideLoading();
+                        this.setState({
+                            showIOS1:true,
+                            msg:!!e.msg?e.msg:""
+                        })
+                });
+            }
+        })
+            
        } 
 
     }
-    adds(id,followedQuestionOptinonId,followedQuestionId,type,check){
+    adds(id,followedQuestionOptinonId,followedQuestionId,type,check,fillinContent=''){
         console.log(":ewe")
+        console.log('this.state=',this.state)
         Api
         .addQuestion({
             hisId:'2214',
@@ -160,6 +201,7 @@ class Widget extends Component {
             followedRecordId:id,
             patientId:this.state.info.patientId,
             type:type,
+            fillinContent:fillinContent,
             oper:check=='0'?'unchecked':'checked'
         })
         .then((res) => {
@@ -219,8 +261,54 @@ class Widget extends Component {
             showAndroid2: false,
         });
     }
-   
-    
+    // 内容动态保存
+    throttle(func, delay=3000) {            
+        let preTime=Date.now()
+        console.log(56565)
+        return (even)=>{
+            const context=this
+            even.persist && even.persist();
+            let doTime=Date.now()
+            if(doTime-preTime>=delay){
+                func.apply(context)
+                preTime=Date.now()
+            }
+        }
+    }
+    setText=(id,inputId)=>{
+        console.log('eee=',id,inputId)
+        return this.throttle((id,inputId)=>{
+            console.log('e=',id,inputId)
+            let obj=document.getElementsByClassName('text-area')
+            console.log('obj=',obj)
+            let text=[]
+            if(obj&&obj.length>0){
+                for(let i=0;i<obj.length;i++){
+                    let neirongi=obj[i].value
+                    let idi=obj[i].getAttribute('data-info')
+                    let inputIdi=obj[i].getAttribute('data-id')
+                    let sendObj={id:idi,inputId:inputIdi,neirong:neirongi}
+                    text.push(sendObj)
+                }
+            }
+            console.log('state=',this.state)
+            if(text.length>0){
+                for(let i=0;i<text.length;i++){
+                    if(this.state.text.length>0){
+                        for(let j=0;j<this.state.text.length;j++){
+                            if(text[i].inputId==this.state.text[j].inputId&&text[i].neirong!=this.state.text[j].neirong&&text[i].neirong!=''){
+                                this.adds(text[i].id,text[i].inputId,'','3','0',text[i].neirong)
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            this.setState({
+                text
+            })
+        })
+    }
     
   render() {
      const {
@@ -229,6 +317,7 @@ class Widget extends Component {
          edit,
          add,
          }=this.state;
+    
     return (
         /*首页*/
       <div className="page-ask-question">
@@ -275,7 +364,7 @@ class Widget extends Component {
                 return(
                     <div className="item" key={index}>
                     <p className="tit">
-                    {index+1}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item.question}</p>
+                    {item.necessary=='0'?<span>*</span>:null}{index+1}.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item.question}</p>
                     <div className="answer">
                     {item.followedQuestionOptionVoList&&item.followedQuestionOptionVoList.map((item1,index1)=>{
                         if(item.type=='1'){
@@ -299,7 +388,8 @@ class Widget extends Component {
                                 {item1.content}
                             </p>
                             )
-                        }else{
+                        }
+                        else{
                             return(
                                 <p key={index1} onClick={()=>{
                                     if((info.status=='1'||info.status=='4')){
@@ -323,6 +413,14 @@ class Widget extends Component {
                         }
                        
                     })}
+                    {
+                        item.type=='3'?
+                            (info.status=='1'||info.status=='4')?
+                                <TextArea placeholder="请输入内容" defaultValue={item.fillinContent} data-info={info.id} data-id={item.id} className='text-area' onChange={this.setText(info.id,item.id)}></TextArea>
+                                :
+                                <TextArea placeholder="请输入内容" defaultValue={item.fillinContent} className='text-area' readOnly></TextArea>
+                                :null
+                    }
                      </div>
                  </div>
                 )

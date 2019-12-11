@@ -209,13 +209,19 @@ class Widget extends Component {
                   {!!detail.hospitalVisitDate&&<p className="large">点击可放大</p>}
                  
             </div>  
+
+            {!!detail.pControlResultNo&&<div className='person-info'>
+                    <p style={{fontSize:'14px'}}>电子处方平台流水号：</p>
+                    <p style={{fontSize:'14px'}}>{detail.pControlResultNo}</p>
+            </div>}
+
                <div className='person-info'>
                     <div className='person-item'>
                         <p>就诊人：<span>{detail.patientName}</span></p>
                         <p>就诊卡号：<span>{detail.patCardNo}</span></p>
                     </div>
                     <div className='person-item'>
-                        <p>性别：<span>{detail.patCardNo}</span></p>
+                        <p>性别：<span>{detail.patientSex}</span></p>
                         <p>年龄：<span >{detail.patientAge}</span> </p>
                     </div>
                     <div className='person-item'>
