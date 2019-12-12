@@ -122,7 +122,7 @@ class Widget extends Component {
                 this.sum(2,this.props.location.query.deptId);
              }else{
                  var code='';
-                if(window.location.origin=='https://tih.cqkqinfo.com'){
+                if(window.location.hostname=='tih.cqkqinfo.com'){
                     code='ff80808165b46560016817f20bbc00b3';
                   }else{
                     code='ff80808165b46560016817f30cc500b4';

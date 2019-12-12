@@ -161,7 +161,7 @@ class Widget extends Component {
             Utils.sum('inquiry_img',1);
          }else{
              var code='';
-            if(window.location.origin=='https://tih.cqkqinfo.com'){
+            if(window.location.hostname=='tih.cqkqinfo.com'){
                 code='ff80808165b46560016817f20bbc00b3';          
               }else{
                 code='ff80808165b46560016817f30cc500b4';
@@ -760,7 +760,7 @@ class Widget extends Component {
         .then((res) => {
             if (res.code == 0) {
                   var url='';
-                  if(window.location.origin=='https://tih.cqkqinfo.com'){
+                  if(window.location.hostname=='tih.cqkqinfo.com'){
                     url='https://aiimage.wecity.qq.com/guide-h5-prediagnosis/pages/prediagnosis?partnerId='+res.data.partnerId+'&hospitalId='+res.data.hospitalId+'&registerId='+res.data.inquiryId;
                   }else{
                     url='https://miying.qq.com/guide-h5-prediagnosis/pages/prediagnosis?partnerId='+res.data.partnerId+'&hospitalId='+res.data.hospitalId+'&registerId='+res.data.inquiryId;

@@ -239,7 +239,7 @@ class Widget extends Component {
         if(!!window.localStorage.openId){
          }else{
              var code='';
-            if(window.location.origin=='https://tih.cqkqinfo.com'){
+            if(window.location.hostname=='tih.cqkqinfo.com'){
                 code='ff80808165b46560016817f20bbc00b3';          
               }else{
                 code='ff80808165b46560016817f30cc500b4';

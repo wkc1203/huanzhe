@@ -160,7 +160,7 @@ hideDialog() {
      
     if(!window.localStorage.login_access_token){
         var code;
-        if(window.location.origin=='https://tih.cqkqinfo.com'){
+        if(window.location.hostname=='tih.cqkqinfo.com'){
             code='ff80808165b46560016817f20bbc00b3';
           }else{
             code='ff80808165b46560016817f30cc500b4';
@@ -379,7 +379,7 @@ hideDialog() {
                   }, e=> {
                       this.hideLoading();
                     var code;
-                    if(window.location.origin=='https://tih.cqkqinfo.com'){
+                    if(window.location.hostname=='tih.cqkqinfo.com'){
                         code='ff80808165b46560016817f20bbc00b3';
                       }else{
                         code='ff80808165b46560016817f30cc500b4';

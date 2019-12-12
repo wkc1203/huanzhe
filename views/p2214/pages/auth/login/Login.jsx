@@ -90,7 +90,7 @@ class Widget extends Component {
 
       }else{
           var code='';
-        if(window.location.origin=='https://tih.cqkqinfo.com'){
+        if(window.location.hostname=='tih.cqkqinfo.com'){
             code='ff80808165b46560016817f5569d00b5';
       
           }else{

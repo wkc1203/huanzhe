@@ -95,7 +95,7 @@ componentWillReceiveProps (nextProps){
     goHref(){
         if(window.localStorage.getItem('href')=='t'){
             var code='';
-          if(window.location.origin=='https://tih.cqkqinfo.com'){
+          if(window.location.hostname=='tih.cqkqinfo.com'){
               code='ff80808165b465600168276e19d200e6';
             }else{
               code='ff80808165b46560016827701f7e00e7';
@@ -125,7 +125,7 @@ componentWillReceiveProps (nextProps){
                         //加入缓存
                         window.localStorage.isOpenId=2;
                         var code='';
-                       if(window.location.origin=='https://tih.cqkqinfo.com'){
+                       if(window.location.hostname=='tih.cqkqinfo.com'){
                         code='ff80808165b465600168276e19d200e6';
                     }else{
                         code='ff80808165b46560016827701f7e00e7';
