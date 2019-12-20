@@ -563,7 +563,7 @@ class Widget extends Component {
                                 return (
                                     <div
                                         key={index2}
-                                        className={`${item2.type == '1' && item2.isOnDuty == '0' && item2.isFull !== '1' ? 'inquity-item' : 'disNo'}`}>
+                                        className={`${item2.type == '1' && item2.isOnDuty == '0' ? 'inquity-item' : 'disNo'}`}>
                                         <div className='icon no-data1'>
                                             <span>离线</span>
                                             <img src="./././resources/images/doctor-picture.png" />
