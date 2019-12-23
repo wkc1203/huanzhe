@@ -133,7 +133,7 @@ class Widget extends Component {
             preAsk:false,
             showMore:false,
             showAIreport:true,
-            isShowAI:true,
+            isShowAI:false,
             
         };
     }
@@ -458,7 +458,9 @@ class Widget extends Component {
                                     selectName: cardList[0].patientName,
                                     selectSex: cardList[0].patientSex == 'M' ? '男' : '女',
                                     selectBirthday: cardList[0].birthday,
-                                    selectPatientId: cardList[0].patientId
+                                    selectPatientId: cardList[0].patientId,
+                                    isShowAI:true,
+
                                 })
                             }
  
