@@ -14,7 +14,7 @@ class QueSheng extends Component {
   render(){
     return(
       <div className='queshen'>
-        <img className='queshen-img' src='../../resources/images/quesheng.jpg' />
+        <img className='queshen-img' src='././resources/images/quesheng.jpg' />
         <div>
           请在手机微信客户端打开链接
         </div>
