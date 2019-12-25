@@ -1,0 +1,16 @@
+.queshen{
+	background-color: #fff;
+	height: 100%;
+	padding: 30px;
+	&-img{
+	    display: block;
+		margin: 30px auto;
+		margin-bottom: 10px;
+		width: 127px;
+	}
+	div{
+	    margin-bottom: 25px;
+    	padding: 0 20px;
+    	text-align: center;
+	}
+}
