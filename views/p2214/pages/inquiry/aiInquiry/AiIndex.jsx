@@ -409,10 +409,11 @@ class Widget extends Component {
                 console.log(res,'prediagnosissss')
                 console.log(choice,"jjjj")
                 console.log(res.data.data.questions.query,"qqqqqqqqqq")
+                const current=this.getCurrentDate()
                 let obj={
                     content:res.data.data.questions.query,
                     choice:choice.toString(),
-                    choiceTime:"",
+                    choiceTime:current,
                     type:1,
                     prediagnosisId:this.state.reportDate.id || "",
                     inquiryId:this.state.prediagnosishead.inquiryId,

@@ -47,8 +47,11 @@ class Widget extends Component {
             userInfo: JSON.parse(window.localStorage.getItem('userInfo')),
             doctorid: '',
             deptid: '',
+            doctorType:"",
             inquiryList:0,
             doctorName: '',
+            deptName:"",
+            type:"",
             dian:'',
             status: '',
             canStop:true,
@@ -156,15 +159,19 @@ class Widget extends Component {
             files:[],
             canEnd:false,//是否可以结束
             noDoctor:false,//医生是否回复
+            tipShow:false,//时间没到提示不可结束
             isIos:false,
             freeReport:false,//是否是免费报告解读
             hieghtMore:false,//发送按钮位置
             docPlace:false,//是否显示输入
             hisPlace:false,
+            isadvise:false,//建议按钮
         };
     }
     componentDidMount() {
-          imgList=[];
+       // document.getElementsByClassName("content2").scrollIntoView()
+       
+        imgList=[];
         var ua = navigator.userAgent.toLowerCase();//获取浏览器的userAgent,并转化为小写——注：userAgent是用户可以修改的
         var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
         this.setState({
@@ -185,8 +192,8 @@ class Widget extends Component {
         })
         this.getChat(3);
         this.getAIReport();
-        document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height
-        );
+        document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height);
+        this.toBottom()
     }
     componentWillMount(){
         this.mounted = true;
@@ -350,11 +357,19 @@ class Widget extends Component {
         }
         return h + " : " + m + " : " + s;
     }
+
+    //滑动到页面底部
+    toBottom(){
+        console.log("scrollHeight",document.getElementById("content2").scrollHeight)
+        window.scrollTo(0,document.getElementById("content2").scrollHeight)
+        
+    }
     /*获取咨询信息*/
     getChat(type) {
         if(type==3){
-            console.log(3);
+            console.log(333333,type)
             this.showLoading();
+           
         }
         if(this.state.showPlus&&window.location.hash.indexOf('chat')!=-1){
             document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height
@@ -367,6 +382,7 @@ class Widget extends Component {
             .getChat({inquiryId: this.props.location.query.inquiryId, operator: 'user'})
             .then((res) => {
                 if (res.code == 0) {
+                     console.log("resdata",res)
                     if(this.mounted){ 
                         this.setState({
                             userData:res.data.patient,
@@ -377,11 +393,25 @@ class Widget extends Component {
                             orderId: res.data.inquiry.orderId,
                             patHisNo: !!res.data.patient&&res.data.patient.patHisNo,
                             status: res.data.inquiry.status, 
-                            freeReport:res.data.inquiry.purposeType=='9'?true:false
+                            freeReport:res.data.inquiry.purposeType=='9'?true:false,
+                            doctorid:res.data.inquiry.doctorId,
+                            deptid: res.data.inquiry.deptId,
+                            doctorType: res.data.inquiry.doctorType,
+                            deptName:res.data.inquiry.deptName,
+                            doctorName:res.data.inquiry.doctorName,
+                            type:res.data.inquiry.type
                         })
+                        if(this.state.status=="2" || this.state.status=="3"){
+                            this.setState({
+                                isadvise:true
+                            })
+                        }
+                       
                     }
                     if(type==3){
-                        this.getDocDet(res.data.inquiry.orderId);
+                        console.log(30,type)
+                        console.log(res.data.inquiry.orderId,"orderId")
+                        this.getDocDet(res.data.inquiry.orderId,res.data.inquiry.doctorId);
                     }
                     if(res.data.inquiry.status!='0'&&res.data.inquiry.status!='1') {
                         this.getEvaluate(res.data.inquiry.orderId);
@@ -519,20 +549,23 @@ class Widget extends Component {
                              if(nowTime-startTime<=36000000){
                                
                                  this.setState({
-                                     canEnd:false
+                                     canEnd:false,
+                                    
                                  })
                                 
                              }else{
                                
                                 this.setState({
-                                    canEnd:true
+                                    canEnd:true,
+                                    
                                 })
                             
                              }  
                         }else{
                            
                             this.setState({
-                                canEnd:true
+                                canEnd:true,
+                        
                             })
                         
                         }
@@ -596,6 +629,7 @@ class Widget extends Component {
                         }
                         }
                         if (res.data.inquiry.status != 1 && res.data.inquiry.status != 0) {
+                            
                             if(this.mounted){
                             this.setState({
                                 isEnd: true
@@ -732,17 +766,21 @@ class Widget extends Component {
             });
     }
    /*获取医生信息*/
-    getDocDet(orderId) {
+    getDocDet(orderId,doctorId) {
+     console.log(orderId,doctorId,"11111111")
         Api
-            .getDocDet({orderId: orderId})
+            .getDocDet({orderId,doctorId})
             .then((res) => {
+                console.log("rrrrr",res)
                 if (res.code == 0) {
                     this.setState({
                         docInfo: res.data,
                         doctorid: res.data.doctorId,
                         deptid: res.data.deptId
                     })
+                    console.log("doctoriddddd", res.data.doctorId)
                 }
+                
             }, (e) => {
                 this.hideLoading();
                 this.setState({
@@ -1060,22 +1098,25 @@ class Widget extends Component {
                 });
     }
     /*是否结束咨询*/
-    openModal() {
-        console.log("dhshdhd")
-        this.setState({
-            isShow: true
-        })
-    }
+    // openModal() {
+    //     console.log("结束咨询")
+    //     this.setState({
+    //        // isShow: true,
+    //        tipShow:true
+    //     })
+    // }
    /*不结束咨询*/
     cancel() {
         this.setState({
             isShow: false,
+            tipShow:false,
         })
     }
 /*结束咨询*/
     sure() {
         this.setState({
           isShow: false,
+          isadvise:true,
         })
         this.closure();
     }
@@ -1127,8 +1168,8 @@ class Widget extends Component {
     }
     sureNo() {
         this.setState({
-            isShow: false,
-            isOk: false,
+             isShow: false,
+             isOk: false,
         })
     }
 //评价标签
@@ -1762,7 +1803,8 @@ onChange = (files,file,index) => {
     const {userData,reportDate,isEvaluate,files,freeReport,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,
         name,match,hieghtMore,docList,uId,hisList,score,txtNum,txtNum1,t1,t2,t3,t4,t5,timeShow,numEnd,pics,innerAudioContext,
         canEnd,appraisal,appraisal1,pingShow,newScore,itemList,detail,payBack,isOk,newText ,isDuration,newItem,status,
-        hisPlace,docPlace,newTime,doctorName,noDoctor,docScore,msg,hisScore,end,sign,signature,formData,policy,callback,OSSAccessKeyId,key,evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText}=this.state
+        hisPlace,docPlace,newTime,doctorName,deptName,noDoctor,tipShow,docScore,msg,hisScore,end,sign,signature,formData,policy,callback,OSSAccessKeyId,key,
+        evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText,isadvise,doctorType,type}=this.state
         return (
             <div style={{height:'100%'}} className="chat">
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
@@ -1792,14 +1834,51 @@ onChange = (files,file,index) => {
                     <span 
                     className={`${!canEnd&&freeReport?'endGrey':''}`}
                     onClick={()=>{ 
-                        console.log(canEnd);  
-                        if(canEnd){ 
-                            this.openModal()
+                        // console.log(canEnd);  
+                        // if(canEnd){ 
+                        //     this.openModal()
+                        // }
+                        if(canEnd==false){
+                            console.log(canEnd,"canEnd")
+                             this.setState({
+                                tipShow:true
+                             })
+                        }else {
+                            this.setState({
+                                tipShow:false,
+                                isShow:true
+                             })
                         }
+
+                      
+
                     }}>结束咨询</span>
                 </div>
             </div>}
+            {
+                isadvise &&
+               <img  className='isadvise' src='./././resources/images/jy@2x.png'
+                onClick={()=>{
+                    console.log("docInfo.type",docInfo.type)
+                                this.context.router.push({
+                                    pathname:'usercenter/complain',
+                                    query:{type,deptName,deptId:deptid,doctorName,doctorId:doctorid,docType:doctorType}
+                                })
+                                }}
+               />
+            }
+            {  status==3  &&
+                    <div className="consult-agains">
+                    <Link className="agains"
+                          to={{
+                                pathname:'/consult/deptdetail',
+                                query:{doctorId:doctorid,deptId:deptid,}
+                                }}
+                        >再次咨询</Link>
+                    </div>
+                }
             {!isEnd && <div className='operation-box'>
+            
                 <div className='top'>
                     <TextArea autosize rows="1" cols="3" value={msgText} id="inputText"
                               onFocus={(e)=>{ this.btnShow(e)}}
@@ -1828,6 +1907,8 @@ onChange = (files,file,index) => {
                                         }
                                         }>发送</span>}
                 </div>
+                
+                
                 {showPlus && 
                  <div className='bottom'>
                     <div className='allow'>
@@ -1852,9 +1933,10 @@ onChange = (files,file,index) => {
                       <div className='img'>
                             <img src='./././resources/images/plusSample.png'
                             onClick={()=>{
+                                
                                 this.context.router.push({
                                     pathname:'usercenter/complain',
-                                    query:{type:2,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId,docType:docInfo.type}
+                                    query:{type:2,deptName,deptId:deptid,doctorName,doctorId:doctorid,docType:doctorType}
                                 })
                                 }}
                             />
@@ -1874,8 +1956,19 @@ onChange = (files,file,index) => {
                         this.hidePlus()
                        }
                             }}>
+              {/* { status=="3"  &&
+                    <div className="consult-agains">
+                    <Link className="agains"
+                          to={{
+                                pathname:'/consult/deptdetail',
+                                query:{doctorId:doctorid,deptId:deptid}
+                                }}
+                        >再次咨询</Link>
+                    </div>
+                } */}
                 <div className='content2' id="content2">
 
+                
 
 
                 {!!reportDate&&<div className="reasons" >
@@ -1981,7 +2074,7 @@ onChange = (files,file,index) => {
 
                     {list.reverse() && list.reverse().map((item, index)=> {
                         return (
-                            <div key={index} className="content-item">
+                            <div key={index} className="content-item" id="content-item">
                                 {item.type == 'SYSTEM' && item.userIsShow == '1' &&
                                 <div
                                     className={`msg ${item.content.indexOf("text")!=-1?'redColor':''}`}>
@@ -2008,7 +2101,7 @@ onChange = (files,file,index) => {
                                     </div>
                                     </Link>
                                     {item.content &&item.action !== 'addChecklist'&&item.action!='reportApply'&&item.action!='add'&&item.action!='mdt'&&item.action!='applyChronic'&&item.action!='receiveChronic'&&
-                                        <div className='text'>
+                                        <div className='text'id="text">
                                         {item.content}
                                         <span className='angle'></span>
                                     </div>}
@@ -2324,7 +2417,8 @@ onChange = (files,file,index) => {
                     </div>}
                     {isShow && <div className='modal'>
                         <div className='modal-body'>
-                            <div className='modal-title'>是否结束咨询会话？</div>
+                            <div className='modal-title'>确定取消咨询吗？</div>
+                             <p></p>
                             {noDoctor&&<div className='modal-content'>结束咨询会话后您可以对本次咨询进行评分</div>}
                             <div className='modal-footer'>
                                         <span onClick={()=>{
@@ -2333,6 +2427,17 @@ onChange = (files,file,index) => {
                                         <span onClick={()=>{
                                         this.sure()
                                         }}>结束</span>
+                            </div>
+                        </div>
+                    </div>}
+                    {tipShow && <div className='modal'>
+                        <div className='modal-body nocancel'>
+                            <div className='modal-title'>医生回复咨询需一定时间，建议耐心等待，若医生未在10小时内回复咨询，您可主动结束咨询，关闭后系统将自动为您退款。</div>
+                            {/* {noDoctor&&<div className='modal-content'>结束咨询会话后您可以对本次咨询进行评分</div>} */}
+                            <div className='modal-footer topborder'>
+                                        <span onClick={()=>{
+                                        this.cancel()
+                                        }}>确定</span>
                             </div>
                         </div>
                     </div>}

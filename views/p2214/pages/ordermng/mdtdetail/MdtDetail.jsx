@@ -373,10 +373,19 @@ class Widget extends Component {
                     }
                     </p> 
                     <p>￥{!!mdtDetail.amount&&mdtDetail.amount}</p>
+                    
                   </div>
                 </div> 
                 <div className="pb18">{!!mdtDetail.amount&&mdtDetail.auditTimeName}</div> 
-              </div>}
+                
+              </div>} 
+            
+                <p className="fail">{
+                      mdtDetail.status=='9'?"对不起，由于系统网络原因导致本次系统缴费失败，我们将在三个工作日内为您及时处理":
+                      mdtDetail.status=='10'?'对不起，由于系统网络原因导致本次系统缴费异常，我们将在三个工作日内为您及时处理':""
+                      }
+                 </p>
+               
               
 {/* 
 
