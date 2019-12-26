@@ -37,6 +37,7 @@ class Widget extends Component {
             hid: false,
             sign:{},
             showToast: false,
+            jiazhai:false,
             showLoading: false,
             toastTimer: null,
             loadingTimer: null,
@@ -173,7 +174,7 @@ class Widget extends Component {
               // return false;
                  var storage=window.localStorage;
                  //加入缓存
-                 storage.url=window.location.href;             
+                 storage.url=window.location.href;
          }
         imgList=[];
         var ua = navigator.userAgent.toLowerCase();//获取浏览器的userAgent,并转化为小写——注：userAgent是用户可以修改的
@@ -290,7 +291,7 @@ class Widget extends Component {
             .sameCard(param)
             .then((res) => {
                 if (res.code == 0) {
-                    this.hideLoading();
+                    // this.hideLoading();
                     this.getCardList()
                 }
             }, (e) => {
@@ -304,6 +305,7 @@ class Widget extends Component {
     }
     //获取公众号添加的卡信息
     syncUser(cardNo){
+        this.showLoading();
         Api
             .getCardList1()
             .then((res) => {
@@ -319,6 +321,7 @@ class Widget extends Component {
                                 this.addPerson(res.data[i])
                             }
                         }
+                        this.hideLoading();
                     }else {
                         this.hideLoading();
                     }
@@ -332,6 +335,13 @@ class Widget extends Component {
         this.setState({showToast: true});
         this.state.toastTimer = setTimeout(()=> {
             this.setState({showToast: false});
+        }, 2000);
+    }
+    // 显示Loading
+    showLoad() {
+        this.setState({jiazhai: true});
+        this.state.toastTimer = setTimeout(()=> {
+            this.setState({jiazhai: false});
         }, 2000);
     }
     goMain(){
@@ -418,7 +428,9 @@ class Widget extends Component {
     }
     /*获取就诊人列表*/
     getCardList() {
-        this.showLoading();
+        // this.showToast();
+        // this.setState({jiazhai:true})
+        this.showLoad();
         Api
             .getCardList()
             .then((res) => {
@@ -427,57 +439,55 @@ class Widget extends Component {
                         leftBindNum: res.data.leftBindNum
                     })
                     if (res.data.cardList.length > 0) {
-
                         var cardList = res.data.cardList;
-                             
                             if(this.mounted){
                                 this.setState({
                                     leftBindNum: res.data.leftBindNum,
                                     cardList: cardList,
                                 })
-                            this.hideLoading();
-                            if(cardList.length>1){
 
-                                if(!!this.props.location.query.reportDate){
-                                    this.changePat(this.props.location.query.selectPatientId)
-
+                                if(cardList.length>1){
+                                    if(!!this.props.location.query.reportDate){
+                                        this.changePat(this.props.location.query.selectPatientId)
+                                    }else{
+                                        this.setState({
+                                            patientShow:true,
+                                            isShowAI:false,
+                                        })
+                                    }
                                 }else{
+                                    cardList[0].active=true;
                                     this.setState({
-                                        patientShow:true,
-                                        isShowAI:false,
+                                        preAsk:true,
+                                        patCardNo:cardList[0].patCardNo,
+                                        selectName: cardList[0].patientName,
+                                        selectSex: cardList[0].patientSex == 'M' ? '男' : '女',
+                                        selectBirthday: cardList[0].birthday,
+                                        selectPatientId: cardList[0].patientId,
+                                        isShowAI:true,
+
                                     })
                                 }
-
-                           
-
-                            }else{
-                                cardList[0].active=true;
-                                this.setState({
-                                    preAsk:true,
-                                    patCardNo:cardList[0].patCardNo,
-                                    selectName: cardList[0].patientName,
-                                    selectSex: cardList[0].patientSex == 'M' ? '男' : '女',
-                                    selectBirthday: cardList[0].birthday,
-                                    selectPatientId: cardList[0].patientId,
-                                    isShowAI:true,
-
-                                })
-                            }
- 
                         }
-                    }else{
+                        // this.setState({showToast: false,jiazhai:false});
                         this.hideLoading();
+                    }else{
+                        // this.setState({showToast: false,jiazhai:false});
+                        this.hideLoading()
                     }
                 }
             }, (e) => {
-                this.hideLoading();
+                // this.setState({showToast: false});
+                this.hideLoading()
             });
     }
    /*获取医生信息*/
     getDocDetail(doctorId, deptId) {
+        this.showLoading();
         Api
             .getDocDetail({doctorId: doctorId, deptId: deptId})
             .then((res) => {
+                this.hideLoading();
                 if (res.code == 0 && res.data != null) {
                     if(this.mounted){
                       this.setState({docInfo: res.data.doctor});
@@ -1147,7 +1157,7 @@ onChange = (files,file,index) => {
   }
 
     render() {
-        const {showAIreport,selectPatientId,isShowAI,patientShow,codeUrl,cardShow,preAsk,msg,showMore,OSSAccessKeyId,open1,docInfo,cardList,consultList1,consultList,imgArr,leftBindNum,
+        const {jiazhai,showAIreport,selectPatientId,isShowAI,patientShow,codeUrl,cardShow,preAsk,msg,showMore,OSSAccessKeyId,open1,docInfo,cardList,consultList1,consultList,imgArr,leftBindNum,
             selectName,isIos,sign,selectSex,selectBirthday,toptip,files,type}=this.state;
             console.log("selectName",selectName)
         
@@ -1173,6 +1183,7 @@ onChange = (files,file,index) => {
                     ></span>图文咨询
                 </div>
                 <Toast icon="success-no-circle" show={this.state.showToast}>一次最多只能上传四张图片</Toast>
+                <Toast icon="loading" show={this.state.jiazhai}>加载中....</Toast>
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
                         show={this.state.showIOS1}>
                     {msg}
@@ -1192,7 +1203,8 @@ onChange = (files,file,index) => {
                       <p className='patient-title'>请选择就诊人</p>
                       <p className='back'></p>
                        <div className="pat-list">
-                      {cardList && cardList.map((item, index)=> {
+                      {
+                        cardList&&cardList.map((item, index)=> {
                         return (
                             <div
                                 key={index}
@@ -1217,7 +1229,8 @@ onChange = (files,file,index) => {
 
                             </div>
                         )
-                    })}
+                    })
+                    }
                     </div>
                        
                         <button onClick={()=>{

@@ -296,7 +296,7 @@ export function getPlatformSource() {
 // 判断是否是微信
 export function getIsWeiXin() {
   const ua = window.navigator.userAgent.toLowerCase();
-  if (/micromessenger/.test(ua)) {
+  if (/micromessenger/.test(ua)&&(isIOS()||isAndroid())) {
     return true
   } else {
     return false
