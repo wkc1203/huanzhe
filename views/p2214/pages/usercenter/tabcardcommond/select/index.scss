@@ -1,0 +1,33 @@
+
+.name-tabone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 0 0 15px 15px;
+}
+
+.name-tabtwo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #fff;
+}
+.name-select {
+  display: flex;
+  justify-content: space-around;
+  background: #4cabcf;
+  border-radius: 15px 15px 0 0;
+  border: none;
+  &-option {
+    height: 40px;
+    background: #4cabcf;
+    border: none;
+    color: #fff;
+  }
+}
+.name-action {
+  margin: 28px 20px;
+}

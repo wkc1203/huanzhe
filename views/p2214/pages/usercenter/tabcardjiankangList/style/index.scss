@@ -1,0 +1,85 @@
+.xuanjiao {
+  height: 100%;
+  &-search{
+    background: #fff;
+    padding: 10px;
+    padding-bottom: 20px;
+    &-input{
+      background-color: #e5e5e5;
+      height: 50px;
+      border-radius: 15px;
+      text-align: center;
+      border: none;
+      width: 100%;
+    }
+  }
+  .weui-cells{
+    margin-top:0;
+  }
+}
+.jiankang-list {
+  display: flex;
+  flex-wrap: wrap;
+  &-title {
+    float: left;
+    margin-right: 10px;
+  }
+  &-houzui {
+    display: inline-block;
+    border: 1px solid #4cabcf;
+    border-radius: 20px;
+    font-size: 12px;
+    min-width: 30px;
+    float: right;
+    color: #4cabcf;
+    padding: 2px;
+    text-align: center;
+  }
+  &-biaoqian {
+    color:#ccc;
+    font-size: 15px;
+  }
+
+}
+.xuanjiao-img{
+  height: 50px;
+  width: 50px;
+}
+.jiankang-pat {
+  background: #e5e5e5;
+    height: 100%;
+    .patient{
+         height:60px;
+         line-height: 60px;
+         display: flex;
+         .pat-item{
+             flex:1;
+             text-align: center;
+             font-size:15px;
+             color:#333;
+         }
+         .active{
+             color:#4cabcf;
+             position:relative;
+             span{
+                width: 30%;
+                border-bottom: 2px solid #4cabcf;
+                display: block;
+                position: absolute;
+                left: 35%;
+                bottom: 10px;
+             }
+         }
+        
+     }
+  .info{
+    height: 100%;
+  }
+}
+
+.weui-search-bar::before{
+  border-top:none !important;
+}
+.weui-search-bar::after{
+  border-bottom:none !important;
+}

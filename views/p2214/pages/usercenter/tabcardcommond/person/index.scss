@@ -1,0 +1,60 @@
+
+.person-card {
+	padding: 15px;
+	&-list {
+		border-radius: 15px;
+	}
+	.xiugai-div {
+		padding-bottom: 20px;
+		margin: 50px 20px;
+		&-btn {
+			margin-bottom: 12px;
+		}
+		&-fanhui{
+			background-color: #fff;
+    		color: #4cabcf;
+		}
+		&-disable {
+			background-color: #ccc !important;
+		}
+	}
+	.huise {
+		.am-list-item.am-input-item{
+			border-radius: 16px;
+	    	background: rgba(238,238,238,0.5);
+		}
+		.weui-select{
+			border-radius: 16px;
+	    	background: rgba(238,238,238,0.5);
+		}
+		input {
+			text-align: center;
+		}
+		.am-input-extra{
+			flex:0.4;
+		}
+	}
+	.weui-cells{
+		overflow: visible;
+		margin-top: 0;
+	}
+}
+.person-card-end {
+	text-align: end;
+}
+
+.person-card-form {
+    background-color: #fff;
+	border-radius: 15px;
+	.weui-cell:before{
+		right:15px;
+	}
+
+	.am-list-body::before{
+		background-color:#fff !important;
+	}
+	.am-list-body::after{
+		background-color:#fff !important;
+	}
+}
+

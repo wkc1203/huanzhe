@@ -1,0 +1,19 @@
+
+.user-card-list {
+  display:flex;
+  background-color: #ffffff;
+  border-radius: 20px;
+  height: 150px;
+  margin: 25px 35px;
+  &-img {
+    margin: auto 48px;
+    margin-right: 0;
+    img{
+      width: 65px;
+      height: 60px;
+    }
+  }
+  &-info {
+      margin: auto;
+  }
+}

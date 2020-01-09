@@ -1,0 +1,24 @@
+.patient{
+         height:60px;
+         line-height: 60px;
+         display: flex;
+         .pat-item{
+             flex:1;
+             text-align: center;
+             font-size:15px;
+             color:#333;
+         }
+         .active{
+             color:#4cabcf;
+             position:relative;
+             span{
+                width: 30%;
+                border-bottom: 2px solid #4cabcf;
+                display: block;
+                position: absolute;
+                left: 35%;
+                bottom: 10px;
+             }
+         }
+        
+     }
