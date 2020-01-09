@@ -22,7 +22,10 @@ var imgList = [];
 var imgArr1 = [];
 var opens = false;
 var socket='';
-
+var content=[];
+var choice=[];
+var choiceTime=[]
+var sendList=[]
 let PickerTime = [
     [
       {
@@ -210,7 +213,11 @@ class Widget extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.location.query,"age88888")
           imgList=[];
+          content=[];
+          choice=[];
+          sendList=[];
         var ua = navigator.userAgent.toLowerCase();//获取浏览器的userAgent,并转化为小写——注：userAgent是用户可以修改的
         var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
         this.setState({
@@ -228,7 +235,6 @@ class Widget extends Component {
         })
 
         this.getAccessInfo();
-
         if(this.isAndroid()){
             document.getElementById("container1").style.overflow = 'hidden!important';
             document.getElementById("container1").style.position = 'relative';
@@ -260,8 +266,8 @@ class Widget extends Component {
     }
 
     prediagnosis(options){
-
-        const { msgText="" ,prediagnosishead,sex,age,questions, session_id} = this.state;
+        
+        const { msgText="",prediagnosishead,sex,age,questions,session_id} = this.state;
         const _self = this;
 
         const param = {
@@ -298,7 +304,7 @@ class Widget extends Component {
             .prediagnosis(param)
             .then((res) => {
                 this.hideLoading()
-
+                console.log(this.state.msgText,"ooooo")
                 if(res.code==0){
 
                     if(res.data.data.status==0){
@@ -308,7 +314,7 @@ class Widget extends Component {
                             
                             console.log(res.data.data.questions.options,'options')
 
-                            const option=  res.data.data.questions.options;
+                            const option=res.data.data.questions.options;
 
                             let b=[];
                             for(let i=0;i<option.length;i++){
@@ -317,7 +323,6 @@ class Widget extends Component {
                                 console.log(option[i],'option')
 
                                 for(let j=1;j<=option[i].range_item.end;j++ ){
-
                                     children.push({
                                         label:j,
                                         value:j,
@@ -343,7 +348,7 @@ class Widget extends Component {
 
                         }
 
-
+                       
 
                         this.setState({
                             prediagnosisDate:res.data||'',
@@ -360,7 +365,6 @@ class Widget extends Component {
                             msgText:'',
                             questions:'',
                             report_id:res.data.data.report_id
-
                         })
                         this.showLoading('报告生成中...')
 
@@ -373,14 +377,10 @@ class Widget extends Component {
                             this.hideLoading()
                             console.log(datereg,'datereg....')
                             if(datereg.code==0){
-                                
                                 this.setState({
                                     reportDate:datereg.data    
                                 },()=>{
-
                                     document.getElementById("container1").style.height = 'auto';
-
-
                                     // _self.addReport()
                                 })
                             }
@@ -392,20 +392,33 @@ class Widget extends Component {
                                 msg: e.msg,
                                 showIOS1: true
                             })
-            
                             console.log(e,'getReport')
                         })
-                        
 
                     }
-
-
-
-
                 }
-
-                console.log(res,'prediagnosis')
-              
+              let questionsData=res.data.data.questions.options
+              let choice=[]
+               for(let i=0;i<questionsData.length;i++){
+                    choice.push(questionsData[i].name)
+                   
+               } 
+               if(res.data.data.questions.can_skip&&res.data.data.questions.type!=4&&res.data.data.questions.type!=6){
+                        choice.push("不清楚","没有")
+                    }
+                console.log(res,'prediagnosissss')
+                console.log(choice,"jjjj")
+                console.log(res.data.data.questions.query,"qqqqqqqqqq")
+                const current=this.getCurrentDate()
+                let obj={
+                    content:res.data.data.questions.query,
+                    choice:choice.toString(),
+                    choiceTime:current,
+                    type:1,
+                    prediagnosisId:this.state.reportDate.id || "",
+                    inquiryId:this.state.prediagnosishead.inquiryId,
+                }
+                sendList.push(obj)
             },
             (e)=>{
                 this.hideLoading();
@@ -426,9 +439,19 @@ class Widget extends Component {
 
     questionsbtn(item){
 
-        // console.log(item,item typeof object)
-
+        console.log(item,typeof(item),"iiiitem")
+        const current=this.getCurrentDate()
         if(typeof item == 'object'){
+             console.log("object",item)
+            let obj={
+                content:item.name,
+                choice:"",
+                choiceTime:current,
+                type:2,
+                prediagnosisId:this.state.reportDate.id || "",
+                inquiryId:this.state.prediagnosishead.inquiryId,
+            }
+            sendList.push(obj)
             this.setState({
                 msgText:item.name
             },()=>{
@@ -436,7 +459,16 @@ class Widget extends Component {
                 this.prediagnosis({opt_id:item.opt_id,name:item.name})
             })
         }else if(typeof item == 'string' ){
-
+            console.log("string",item)
+            let obj={
+                content:item,
+                choice:"",
+                choiceTime:current,
+                type:2,
+                prediagnosisId:this.state.reportDate.id || "",
+                inquiryId:this.state.prediagnosishead.inquiryId,
+            }
+            sendList.push(obj)
             this.setState({
                 msgText:item
             },()=>{
@@ -608,8 +640,6 @@ class Widget extends Component {
                 deptId: _this.props.location.query.deptId||'',
                 totalFee: _this.props.location.query.totalFee||'',
                 selectPatientId:_this.props.location.query.selectPatientId||'',
-
-
             }
         })
 
@@ -639,11 +669,17 @@ class Widget extends Component {
        
     }
 
-
+//确定
     isgoReport(){
+        // for(let i=0;i<choice.length;i++){
+        //     if(choice[i]==""){
+        //         choice.splice(i,1)
+        //     } 
 
+        // }
+        // console.log("choice111",choice)
         const {reportDate,prediagnosishead} = this.state;
-
+       // console.log("11reportDate",reportDate,prediagnosishead)
         reportDate.visiting_status = !!this.props.location.query.visiting_status?this.props.location.query.visiting_status:1;
 
         const _this =this;
@@ -656,13 +692,36 @@ class Widget extends Component {
                 deptId: _this.props.location.query.deptId||'',
                 totalFee: _this.props.location.query.totalFee||'',
                 selectPatientId:_this.props.location.query.selectPatientId||'',
-
-
             }
         })
+        // const newsendList=sendList.map((item,i)=>{
+        //     return (
+        //        item["prediagnosisId"]=this.state.reportDate.id || "" 
+        //     )
+            
+        // })
+        for(let i=0;i<sendList.length;i++){
+            sendList[i]["prediagnosisId"]=reportDate.id || ""
+            if(i==sendList.length-1){
+               sendList.splice(i,1) 
+            }
+            
+        }
+        console.log(sendList,"newsendList")
+        const param=sendList
+        Api
+        .saveItem(param)
+        .then((res) => {
+            if(res.code==0){
+                //console.log("success")
+            }
+        },
+        (e)=>{
+            console.log(e,'res222')
+        })
+      
+      
     }
-
-
 
 
     componentWillMount(){
@@ -695,7 +754,7 @@ class Widget extends Component {
     
     bntsexage(){
         const {sexageval} = this.state;
-
+        
         this.setState({
             sex:sexageval,
             sexStr:sexageval[0]==1?'女':'男',
@@ -704,6 +763,7 @@ class Widget extends Component {
     }
 
     PickerView(e){
+      
         console.log(e,'PickerView')
         this.setState({
             datetime:e,
@@ -712,15 +772,24 @@ class Widget extends Component {
     }
     
     bntPickerTime(){
+        
         const {PickerView} = this.state;
-
         this.setState({
             msgText:PickerView
         },()=>{
             this.addRight();
             this.prediagnosis()
         })
-        console.log(PickerView)
+        console.log("PickerViewsss" ,PickerView)
+        let current=this.getCurrentDate()
+        let obj={
+            content:PickerView,
+            choice:"",
+            choiceTime:current,
+            type:2,
+            inquiryId:this.state.prediagnosishead.inquiryId,
+        }
+        sendList.push(obj)
     }
     
     addLeft(msgText=''){
@@ -815,21 +884,61 @@ class Widget extends Component {
         document.getElementsByClassName("content3")[0].scrollTop=500000;
 
     }
+//获取当前时间
 
+getCurrentDate(){
+              var timeStr = '-';
+              var curDate = new Date();
+              var curYear =curDate.getFullYear();  //获取完整的年份(4位,1970-????)
+              var curMonth = curDate.getMonth()+1;
+                if(curMonth<10) {
+                    curMonth = '0'+curMonth;
+                } //获取当前月份(0-11,0代表1月)
+ 
+              var curDay = curDate.getDate(); 
+                if(curDay<10) {
+                    curDay = '0'+curDay;
+                }  //获取当前日(1-31)
+            //  var curWeekDay = curDate.getDay();    //获取当前星期X(0-6,0代表星期天)
+              var curHour = curDate.getHours(); 
+                 if(curHour<10) {
+                    curHour = '0'+curHour;
+                }     //获取当前小时数(0-23)
+              var curMinute = curDate.getMinutes();
+                if(curMinute<10) {
+                    curMinute = '0'+curMinute;
+                }   // 获取当前分钟数(0-59)
+              var curSec =curDate.getSeconds();      //获取当前秒数(0-59)
+                if(curSec<10) {
+                    curSec = '0'+curSec;
+                }
+              var Current= curYear+timeStr+curMonth+timeStr+curDay+' '+curHour+':'+curMinute+':'+curSec;
+              console.log(Current);
+              // this.datetime=Current;
+              return Current;
+    }
     /*发送信息*/
     sendMsg1(e) {
+        console.log('e',e)
         e.stopPropagation();
         e.preventDefault();
         window.scrollTo(0,0);
-        
-        console.log(this.state.inputText, this.state.msgText,' this.state.msgText')
-
+        let current=this.getCurrentDate()
+        console.log(current,"发送current")
+        console.log(this.state.inputText, this.state.msgText,' this.state.msgText')    
+        //console.log(e.target.value,"e.target.value")
         if(this.state.inputText!=''){
-
-
             this.addRight();
-
             this.prediagnosis()
+            let obj={
+                content:this.state.inputText,
+                choice:"",
+                choiceTime:current,
+                type:2,
+                prediagnosisId:this.state.reportDate.id || "",
+                inquiryId:this.state.prediagnosishead.inquiryId,
+            }
+            sendList.push(obj)
             this.setState({
                 inputText:'',
                 msgText:'',
@@ -839,13 +948,7 @@ class Widget extends Component {
             var h=document.getElementsByClassName("content3")[0].scrollTop;
 
             console.log("ssss",s, h);
-
-
-
-
         }
-
-
     }
 
    /*获取焦点事件*/
@@ -869,10 +972,7 @@ class Widget extends Component {
             let h12 = document.getElementById("peopleMessage-my").offsetHeight;
             // let h133 = document.getElementById("container1").offsetHeight;
             document.getElementById("content3").style.marginBottom = '0px'
-    
             document.getElementById("content3").style.height= (appheight-h12-h11 - 44)+'px'
-
-
         }
 
     }
@@ -890,7 +990,6 @@ class Widget extends Component {
             document.getElementById("content3").style.marginBottom = h11+'px'
             // document.getElementsByTagName("body")[0].style.height = 'auto';
             
-
         }
 
     }
@@ -1484,11 +1583,10 @@ onChange = (files,file,index) => {
 
         const { selectName,visiting_status } = this.props.location.query
 
-        console.log(selectName,'selectName')
-
+        console.log('selectName22',selectName)
+        
         return (
             <div style={{height:'100%'}} className="chat">
-
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
                     show={this.state.showIOS1}>
                 {msg}
@@ -1529,6 +1627,8 @@ onChange = (files,file,index) => {
 
                         <PickerView
                             onChange={(e)=>this.sexage(e)}
+                            defaultValue={sexageval[0]}
+                            defaultData={sexageval[1]}
                             value={sexageval}
                             data={sexage}
                             cascade={false}
@@ -1557,7 +1657,9 @@ onChange = (files,file,index) => {
                                     onClick={ (e)=>{
                                         e.stopPropagation();
                                         e.preventDefault();
+                                        
                                         this.sendMsg1(e)
+                                       
                                     }}
                                 >发送</span>
 
@@ -1670,7 +1772,7 @@ onChange = (files,file,index) => {
                                 <span></span>现病史
                         </div>
                         <div className="pre_info">
-                        {reportDate&&reportDate.currentHistory}
+                        {reportDate&&reportDate.currentHistory}  
                         </div>
                         </div>}
 

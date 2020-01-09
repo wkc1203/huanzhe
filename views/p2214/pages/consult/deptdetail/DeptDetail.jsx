@@ -73,6 +73,7 @@ class Widget extends Component {
             leftTime: 7,
             inquiryId: '',
             type: '1',
+            stopDocter:false //停用医生弹窗
         };
     }
     componentDidMount() {
@@ -114,6 +115,7 @@ class Widget extends Component {
         if(window.localStorage.showTip==1){
             this.jumpConfirminfo(1)
         }
+        
     }
     changeStyle() {
         this.setState({
@@ -416,12 +418,12 @@ class Widget extends Component {
     
     render() {
         const { docInfo, isShowTip, msg, footShow, isShowProtocol, isFavorite, evaluate, currentPage, pageCount,
-            totalCount, totalFee, leftTime, toastTitle, type } = this.state;
+            totalCount, totalFee, leftTime, toastTitle, type,stopDocter } = this.state;
         console.log('33333')
         console.log("doc11", docInfo)
         return (
 
-            <div className="page-dept-detail container1">
+            <div className="page-dept-detail container1" style={{height:'auto'}}>
                 <div className='share ' onClick={()=>{                  
                     this.setState({
                         hidden:false     
@@ -563,7 +565,7 @@ class Widget extends Component {
                                 return (
                                     <div
                                         key={index2}
-                                        className={`${item2.type == '1' && item2.isOnDuty == '0' && item2.isFull !== '1' ? 'inquity-item' : 'disNo'}`}>
+                                        className={`${item2.type == '1' && item2.isOnDuty == '0' ? 'inquity-item' : 'disNo'}`}>
                                         <div className='icon no-data1'>
                                             <span>离线</span>
                                             <img src="./././resources/images/doctor-picture.png" />
@@ -680,7 +682,7 @@ class Widget extends Component {
                             </div>
                         </div>
                     </div>
-                    {footShow && <div className='modal-footer'>
+                    {footShow && <div className='modal-footer'> 
                         <span onClick={() => {
                             this.cancelModal()
                         }}>取消</span>
@@ -694,6 +696,25 @@ class Widget extends Component {
                     {!footShow && <div className='modal-footer'>
                         <div className="cutdown-time">请阅读 {leftTime} s</div>
                     </div>}
+                </div>}
+
+                {stopDocter && <div className='modal1'>
+                    <div className='modal-body-protocol'>
+                        <div className='modal-title'>温馨提示</div>
+                        <div className='modal-content-protocol'>
+                            <div className="content">
+                            您好，<span>{docInfo.name}</span>医生暂未加入咨询平台，如需咨询可选择在线医生进行咨询，更多科室和医生将会陆续上线，请您留意！给您带来的不便，敬请谅解
+                            </div>
+                        </div>
+                    </div>
+                    <div className='modal-footer'> 
+                        <Link
+                            to={{
+                                pathname: '/home/index',
+                                query: { doctorId: docInfo.doctorId, deptId: docInfo.deptId, totalFee: totalFee, com: 2, type: this.state.type }
+                            }}
+                        >确认</Link>
+                    </div>
                 </div>}
             </div>
         );

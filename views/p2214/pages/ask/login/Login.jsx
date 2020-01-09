@@ -65,7 +65,7 @@ class Widget extends Component {
         this.getPatientList();
      }else{
          var code='';
-        if(window.location.origin=='https://tih.cqkqinfo.com'){
+        if(window.location.hostname=='tih.cqkqinfo.com'){
             code='ff8080816b4bfb65016bb08126130000';
       
           }else{

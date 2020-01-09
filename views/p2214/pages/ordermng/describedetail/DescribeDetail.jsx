@@ -285,6 +285,12 @@ class Widget extends Component {
       }
   render() {
     const {msg,describeDetail,showType,mainDiagnosis,phone,orderDetail,leftTimeFlag,leftTime}=this.state
+    let diagnosis =''
+    if(!!describeDetail.diagnosis){
+       diagnosis = describeDetail.diagnosis.split('|').length>2?describeDetail.diagnosis.split('|').splice(0,describeDetail.diagnosis.split('|').length-1).join('|') :describeDetail.diagnosis
+
+    }
+
     return (
         <div className="container page-describe-detail">
             <div className="home "><span className="jian"
@@ -427,14 +433,14 @@ class Widget extends Component {
                   <div className='title-tip'>
                       <img src='./././resources/images/des_zhen.png'/>诊断</div>
                   <div className="items">
-                      {describeDetail.diagnosis}
+                      {diagnosis}
                 </div> 
           </div>
           
           {!!describeDetail.drugList&&!(describeDetail.status=='2'&&describeDetail.auditStatus=='0')&&<div className="handle main-info">
               <div className='title-tip'>
                 <img src='./././resources/images/des_chu.png'/>
-                处置
+                药品处方
                 <p className='title-info' onClick={()=>{
                   this.context.router.push({
                     pathname:'ordermng/describeinfo',
@@ -477,11 +483,11 @@ class Widget extends Component {
             
                 
           </div>} 
-          {!!describeDetail.diseaseDescribe&&<div className='diagnosis main-info'>
+          {!!describeDetail.caseInfo&&!!describeDetail.caseInfo.recommend&&<div className='diagnosis main-info'>
                 <div className='title-tip'>
                     <img src='./././resources/images/des_jian.png'/>建议</div>
                 <div className="items">
-                    {describeDetail.diseaseDescribe}
+                    {describeDetail.caseInfo.recommend}
                 </div> 
           </div>}
           <div className="confirm" >

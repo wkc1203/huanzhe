@@ -209,6 +209,7 @@ export const cancleDescribe = (param) => fetch.post('/api/ehis/health/api/chroni
 
 
 
+
 // 会诊评价
 
 export const getappraisalgetBy = (param) => fetch.post('/api/ehis/mdt/appraisal/getBy', param);
@@ -218,7 +219,8 @@ export const getappraisaladd = (param) => fetch.post('/api/ehis/mdt/appraisal/ad
 
 // AI预问诊
 
-
+//保存预问诊内容
+export const saveItem = (param) => fetchAI.post('/api/ehis/health/api/prediagnosis/saveItem', param);
 
 // export const getAccessHeader = (param) => fetch.post('/api/ehis/health/api/prediagnosis/getAccessHeader', param);
 

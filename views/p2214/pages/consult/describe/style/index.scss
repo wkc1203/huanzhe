@@ -22,6 +22,7 @@
     }
     .ant-upload-list{
         display:none;
+        
     }
     .modal{
         position:fixed !important;
@@ -258,7 +259,7 @@
         .pat-list{
             padding-bottom:20px;
             .pat-item{
-                margin-top: 20px;               
+               margin-top: 20px;               
                border: 1px solid #ccc;
                border-radius: 10px
             }
@@ -473,8 +474,11 @@
                         text-align: left;
                         color:#666;
                         flex:1;
+                        margin-top: 5px;
                         span{
                             color:#333;
+                           
+                            
                         }
                     }
                     .right{

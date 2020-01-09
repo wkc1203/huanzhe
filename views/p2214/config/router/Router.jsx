@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route } from 'react-router';
+import { Router, Route,Switch } from 'react-router';
 import hashHistory from 'react-router/lib/hashHistory';
 import IndexRedirect from 'react-router/lib/IndexRedirect';
 import Redirect from 'react-router/lib/Redirect';
@@ -7,7 +7,7 @@ import Redirect from 'react-router/lib/Redirect';
 import Root from '../../components/root/Root';
 import Connect from '../../components/connect/Connect';
 
-import { setTitle } from '../../utils/utils';
+import { setTitle,getIsWeiXin } from '../../utils/utils';
 import { INHOSP, TREAT } from '../../config/constant/constant';
 
 /**
@@ -139,7 +139,6 @@ import NewPhone from '../../pages/usercenter/newphone/NewPhone';
 import SameCard from '../../pages/usercenter/samecard/SameCard';
 import UserList from '../../pages/usercenter/userlist/UserList';
 import UserInfo from '../../pages/usercenter/userinfo/UserInfo';
-
 // 随访记录-首页
 import Tabcard from '../../pages/usercenter/tabcard/index'
 import UserCardInfo from '../../pages/usercenter/tabcardmap/index'
@@ -149,6 +148,8 @@ import UserCardJianCheList from '../../pages/usercenter/tabcardjianche/index'
 import XuanJiaoDetail from '../../pages/usercenter/tabcardxuanjiaodetail/index'
 import UserCardWenJuan from '../../pages/usercenter/tabcardwenjuan/index'
 
+// 缺省页
+import Queshengye from '../../pages/queshengye/index'
 
 class Routers extends React.Component {
   constructor(props) {
@@ -156,6 +157,7 @@ class Routers extends React.Component {
     this.state = {
       CLOSE_FUNCTION: [],
       apiLoading: true,
+      isWeiXin:true
     };
   }
 
@@ -163,14 +165,25 @@ class Routers extends React.Component {
     //this.getHisFunction();
     this.hideLoading();
     console.log(this.state);
+    const isWeiXin=getIsWeiXin()
+    if(!isWeiXin){
+      this.setState({
+        isWeiXin:false
+      })
+    }
     this.setState({ apiLoading: false });
   }
 
 
 
   render(){
-    const { CLOSE_FUNCTION, apiLoading } = this.state;
+    const { CLOSE_FUNCTION, apiLoading,isWeiXin } = this.state;
     return (
+      !isWeiXin?
+      <Router history={hashHistory}>
+          <Route path="/*" component={Queshengye}/>
+      </Router>
+      :
       apiLoading ? <div /> :
       <Router history={hashHistory}>
         {/*入口*/}

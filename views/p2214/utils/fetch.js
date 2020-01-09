@@ -37,7 +37,7 @@ export default {
     //   if(data.msg='参数openid不能为空'){
     //     //if(window.localStorage.getItem('href')=='t'){
     //       var code='';
-    //     if(window.location.origin=='https://tih.cqkqinfo.com'){
+    //     if(window.location.hostname=='tih.cqkqinfo.com'){
     //         code='ff80808165b465600168276e19d200e6';
     //       }else{
     //         code='ff80808165b46560016827701f7e00e7';
@@ -75,7 +75,7 @@ export default {
           const returnUrl = encodeURIComponent(`${protocol}//${host}${pathname}?returnRandomParam=${Date.now()}&${search.replace(/(\?)|(returnRandomParam=\d*)/g, '')}${hash}`);
           var code='';
           sessionStorage.setItem('systemOauthRedirect', 1);
-          if(window.location.origin=='https://tih.cqkqinfo.com'){
+          if(window.location.hostname=='tih.cqkqinfo.com'){
             code='ff80808165b46560016817f20bbc00b3';
       
           }else{

@@ -258,7 +258,7 @@ class Widget extends Component {
            
          }else{
              var code='';
-            if(window.location.origin=='https://tih.cqkqinfo.com'){
+            if(window.location.hostname=='tih.cqkqinfo.com'){
                 code='ff80808165b46560016817f20bbc00b3';          
               }else{
                 code='ff80808165b46560016817f30cc500b4';
@@ -538,7 +538,7 @@ class Widget extends Component {
    
     /*提示信息*/
     submitData() {
-         if(this.state.detail.length>0){
+         if(this.state.detail.length>9){
             const params = {
                 doctorId: this.state.docInfo.doctorId,
                 patientAge:this.state.content.Patient_age,
@@ -555,7 +555,7 @@ class Widget extends Component {
         }else{
             this.setState({
                 showIOS1:true,
-                msg:'请输入病情描述'
+                msg:'请输入病情描述,最少输入10个汉字'
             })
         }
     }
@@ -697,9 +697,12 @@ add(){
     }
 }
     saveContent(e){
+
         this.setState({
             detail: e.target.value
         })
+        
+
     }
 
 
@@ -923,7 +926,7 @@ add(){
                             onChange={(e)=>{
                         this.saveContent(e)
                         }}
-                            placeholder="请描述病情症状，目前是否好转，想要获得医生什么帮助。">
+                            placeholder="请详细描述您的病情症状、持续时间、目前有无好转、以及想要获得医生什么帮助（最少输入10个汉字）">
                         </textarea>
                     </div>
                 </div>

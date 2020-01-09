@@ -26,6 +26,8 @@ class Widget extends Component {
         defaultUser: {},
         patNum: 0,
         leftBindNum: 0,
+        // 是否显示就诊人列表
+        isLeftBindNum:true,
         articleData: {},
         pList:{},
         showToast: false,
@@ -206,17 +208,16 @@ getCardList() {
     Api
         .getCardList()
         .then((res) => {
-            this.hideLoading();
             if(res.code==0){
                  this.setState({
                      leftBindNum:res.data.leftBindNum,
+                     isLeftBindNum:false,
                      patNum:res.data.cardList.length,
                      defaultUser:res.data.cardList[0],
                      pList:res.data.cardList
                  })
             }
         },(e) => {
-
         });
 }
 //添加就诊卡
@@ -391,7 +392,7 @@ getCardList() {
     }
     
   render() {
-    const {phone,mobile,phoneShow,userInfo,codeUrl,cardShow,msg,leftTime,isSendValidate,isShow,patNum,defaultUser,leftBindNum,validatePass,userId,hasMsg}=this.state;
+    const {isLeftBindNum,phone,mobile,phoneShow,userInfo,codeUrl,cardShow,msg,leftTime,isSendValidate,isShow,patNum,defaultUser,leftBindNum,validatePass,userId,hasMsg}=this.state;
     return (
         <div className="h-page">
            <div className='toas'>
@@ -420,12 +421,18 @@ getCardList() {
             {leftBindNum < 2 &&
             <div className="m-card1">
                 <div className="card-info">
-                    <div className="info-main">
-                        <div className="main-name">
-                            <div className="name">{defaultUser.patientName}</div>
-                        </div>
+                  {
+                    isLeftBindNum?<div className="info-main">就诊人加载中....</div>:
+                    <div>
+                      <div className="info-main">
+                          <div className="main-name">
+                              <div className="name">{defaultUser.patientName}</div>
+                          </div>
+                      </div>
+                      <div className="info-extra">{defaultUser.patCardTypeName || '就诊卡'}：{defaultUser.patCardNo}</div>
                     </div>
-                    <div className="info-extra">{defaultUser.patCardTypeName || '就诊卡'}：{defaultUser.patCardNo}</div>
+                  }
+                    
                 </div>
             </div>
             }
