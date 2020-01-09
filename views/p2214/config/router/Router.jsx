@@ -140,7 +140,14 @@ import SameCard from '../../pages/usercenter/samecard/SameCard';
 import UserList from '../../pages/usercenter/userlist/UserList';
 import UserInfo from '../../pages/usercenter/userinfo/UserInfo';
 
-
+// 随访记录-首页
+import Tabcard from '../../pages/usercenter/tabcard/index'
+import UserCardInfo from '../../pages/usercenter/tabcardmap/index'
+import UserCardList from '../../pages/usercenter/tabcardlist/index'
+import UserCardXuanJiaoList from '../../pages/usercenter/tabcardjiankangList/index'
+import UserCardJianCheList from '../../pages/usercenter/tabcardjianche/index'
+import XuanJiaoDetail from '../../pages/usercenter/tabcardxuanjiaodetail/index'
+import UserCardWenJuan from '../../pages/usercenter/tabcardwenjuan/index'
 
 
 class Routers extends React.Component {
@@ -326,6 +333,20 @@ class Routers extends React.Component {
             <Route path="/ask/login" component={AskLogin} title='欢迎加入随访计划' />
             <Route path="/ask/question" component={AskQuestion} title='重医儿童医院' />
 
+            // 随访记录-首页
+            <Route path="/usercenter/tabcard" component={Tabcard} title='随访管理' />
+            // 随访记录-我的
+            <Route path="/usercenter/mytabcard" component={UserCardInfo} title='随访管理' />
+            // 随访记录-个人信息详情
+            <Route path="/usercenter/usercardlist" component={UserCardList} title='我的' />
+            // 随访记录-健康宣教 UserCardXuanJiaoList
+            <Route path="/usercenter/usercardxuanjiaolist" component={UserCardXuanJiaoList} title='健康宣教' />
+            // 随访记录-健康监测 usercardjianchelist
+            <Route path="/usercenter/usercardjianchelist" component={UserCardJianCheList} title='健康监测' />
+            // 随访记录-宣教详情 XuanJiaoDetail
+            <Route path="/usercenter/usercardxuanjiangdetail" component={XuanJiaoDetail} title='健康宣教' />
+            // 随访记录-问卷填写 UserCardWenJuan
+            <Route path="/usercenter/usercardwenjuan" component={UserCardWenJuan} title='健康宣教' />
             </Route>
 
         </Route>

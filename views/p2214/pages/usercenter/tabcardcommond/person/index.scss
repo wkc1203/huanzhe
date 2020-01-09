@@ -34,10 +34,6 @@
 			flex:0.4;
 		}
 	}
-	.weui-cells{
-		overflow: visible;
-		margin-top: 0;
-	}
 }
 .person-card-end {
 	text-align: end;
@@ -49,7 +45,6 @@
 	.weui-cell:before{
 		right:15px;
 	}
-
 	.am-list-body::before{
 		background-color:#fff !important;
 	}

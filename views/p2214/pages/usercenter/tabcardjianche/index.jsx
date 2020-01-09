@@ -1,50 +1,37 @@
 import React, { Component } from 'react';
 import hashHistory from 'react-router/lib/hashHistory';
-import { Button,Tab, NavBar, NavBarItem, TabBody, Dialog, Article, Cells, Cell, CellHeader, CellBody, CellFooter, Select,Label as Rlabel,Input } from 'react-weui';
+import { Tab, NavBar,Button as ButtonN, NavBarItem, TabBody, Dialog, Article, Cells, Cell, CellHeader, CellBody, CellFooter, Select,Label as Rlabel,Input } from 'react-weui';
 import { Form } from 'antd';
-import { Modal,Button as Buttona,Checkbox, Tabs, Flex, List, InputItem, Radio, Toast } from 'antd-mobile';
+import { Button, Checkbox, Tabs, Flex, List, InputItem, Radio, Toast } from 'antd-mobile';
 // 组件
 // import TabCardComponent from '../tabcardcommond/tab/index'
 // import TabCardSelect from '../tabcardcommond/select/index'
 import AddForm from '../tabcardcommond/tabcardForm/index'
 import Connect from '../../../components/connect/Connect';
 // 图表
-import echarts from 'echarts/lib/echarts';
-import 'echarts/lib/chart/line';  //折线图是line,饼图改为pie,柱形图改为bar
-import 'echarts/lib/component/tooltip';
-import 'echarts/lib/component/title';
-import 'echarts/lib/component/legend';
-import 'echarts/lib/component/markPoint';
-import ReactEcharts from 'echarts-for-react';
+// import Hightcharts from 'highcharts';
 
+import ReactEcharts from 'echarts-for-react';
+import echarts from 'echarts/lib/echarts';
 import * as Utils from '../../../utils/utils';
 import * as Api from '../../../components/Api/Api';
 import './style/index.scss';
 
-import locale from 'antd/lib/date-picker/locale/zh_CN';
-
-// const alert = Modal.alert;
 const AgreeItem = Checkbox.AgreeItem
-const echartTheme ={
-    color: [
-        '#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80',
-        '#8d98b3', '#e5cf0d', '#97b552', '#95706d', '#dc69aa',
-        '#07a2a4', '#9a7fd1', '#588dd5', '#f5994e', '#c05050',
-        '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
-    ]
-}
-const now=new Date()
-const year=now.getFullYear()
-const month=now.getMonth()+1
-const totleDay=(new Date(now.getFullYear(), parseInt(now.getMonth() + 1), 0)).getDate();
-// 明天
-const today=now.getDate()
-// 当月第一天
-const firstDate=year+'-'+month+'-'+'1'
-// 当月最后一天
-const lastDate=year+'-'+month+'-'+totleDay
+
+var now = new Date();
+var nowMonth = now.getMonth(); //当前月 
+var nowYear = now.getFullYear(); //当前年 
+//本月的开始时间
+var monthStartDate = new Date(nowYear, nowMonth, 1).getDate(); 
+//本月的结束时间
+var monthEndDate = new Date(nowYear, nowMonth+1, 0).getDate();
+// 当月
+let currentMonth=(nowMonth+1)>=10?(nowMonth+1):'0'+(nowMonth+1)
 // 当天
-const todayDate=year+'-'+month+'-'+today
+let currentDay=monthStartDate>=10?monthStartDate:'0'+monthStartDate
+let firstDay=nowYear+'-'+currentMonth+'-'+currentDay
+let endDay=nowYear+'-'+currentMonth+'-'+monthEndDate
 class UserCardJianChe extends Component {
   static contextTypes = {
     router: React.PropTypes.object
@@ -61,14 +48,6 @@ class UserCardJianChe extends Component {
       valueList:[],
       // 历史数据查询选中,糖尿病，身高，体重
       historyTypevalue:'',
-      // 
-      option:{},
-      // 提醒勾选提示
-      confirmTitle:'',
-      // 
-      tixingChecked:true,
-      // 图标是否显示
-      historyDataIsShow:false,
       msg:'',
         patList:[],
         status:'0',
@@ -87,9 +66,13 @@ class UserCardJianChe extends Component {
         tiaojianList:[],
         // 标签列表和监控单项列表对应
         daxiangItemDuiList:[],
+        // 标签数组字符串
+        tianjiaContentData:'',
+        // 今日数据提醒
+        isShowXuanZhong:true,
         show1:false,
         show2:false,
-        show3:false,
+        showIOS3:false,
         diseases:{},
         dept:{},
         recordList:[],
@@ -98,10 +81,8 @@ class UserCardJianChe extends Component {
         // 判断是否是第一次点击进入
         count:0,
         renyuanId:'',
-        // 历史数据查询开始时间
-        historytime:todayDate,
-        // 历史数据查询结束时间
-        // endHistorytime:lastDate,
+        // 历史数据查询当日时间
+        historytime:'',
         // 历史数据-监测单项列表
         jianceList:[],
         // 历史数据-监测单项所有数据
@@ -109,13 +90,20 @@ class UserCardJianChe extends Component {
         // 历史数据-睡前睡后列表
         historyIsSleep:[],
         historyIsSleepValue:'',
+        // 查询默认时间
+        todayHistoryDat:'',
         // 今日数据添加-监测单项列表
         jianceListToday:[],
+        // 添加数据 选中标签
+        tiaojianListChecked:[],
         // 历史数据图表
         historyChartData:[],
         historyChartTimeData:[],
         // 开始月份
         monthStart:'',
+        // 历史数据时间
+        todayHistoryDatStart:firstDay,
+        todayHistoryDatEnd:endDay,
         style1: {
             buttons: [
                 {
@@ -143,25 +131,31 @@ class UserCardJianChe extends Component {
                 {
                     type: 'default',
                     label: '取消',
-                    onClick: this.Confirmcancel.bind(this)
+                    onClick: this.tixingquxiao.bind(this)
                 },
                 {
                     type: 'primary',
                     label: '确定',
-                    onClick: this.ConfirmQueDing.bind(this)
+                    onClick: this.tixingbaocun.bind(this)
                 }
             ]
         },
+        option:{},
+        // 最高值
+        normalHigh:0,
+        normalLow:0,
+        // 历史数据展示
+        isShowHistoryTu:false,
     }
   }
 
   componentDidMount(){
+    window.scrollTo(0, 0);
     Utils.getJsByHide();
-    // let time = new Date()
+    let time = new Date()
     // let startMonth=time.getMonth()+1+'月'+''
     if(!!window.localStorage.openId){
         this.getDept();
-        this.getHistoryData()
      }else{
         var code='';
         if(window.location.origin=='https://tih.cqkqinfo.com'){
@@ -182,47 +176,71 @@ class UserCardJianChe extends Component {
      }
     
   }
-
   componentWillMount(){
-     echarts.registerTheme('Imooc',echartTheme);
-     window.addEventListener("resize", function() {
-          barChart.resize();
-        });
-  }
-  getOption =()=> {
-    const {
-      historyChartTimeData,
-      historyChartDataName,
-      historyChartData
-    }=this.state
-    console.log('getOption=',this.state)
-    let option = {
-      title:{
-        text:'',
-        x:'center'
-      },
-      tooltip:{
-        trigger:'axis',
-      },
-      xAxis:{
-        data:historyChartTimeData
-      },
-      yAxis:{
-        type:'value'
-      },
-      series:[
-        {
-          name:`${historyChartDataName}`,
-          type:'line',   //这块要定义type类型，柱形图是bar,饼图是pie
-          data:historyChartData
-        }
-      ]
-    }
-   this.setState({
-    option:option
-   })
+    
   }
 
+  // 绘制历史数据图标 myEchart.resize()
+  setHistoryMap=(histData,hisTimeData)=>{
+    this.setState({
+      isShowHistoryTu:true
+    })
+    console.log('this.state555=',histData)
+    let option = {
+      tooltip: {
+          trigger: 'axis'
+      },
+      legend: {
+          data:['最高','最低']
+      },
+      // toolbox: {
+      //     show: true,
+      //     feature: {
+      //         dataZoom: {
+      //             yAxisIndex: 'none'
+      //         },
+      //         dataView: {readOnly: false},
+      //         magicType: {type: ['line', 'bar']},
+      //         restore: {},
+      //         saveAsImage: {}
+      //     }
+      // },
+      xAxis:  {
+          type: 'category',
+          boundaryGap: false,
+          data: hisTimeData
+      },
+      yAxis: {
+          type: 'value',
+          axisLabel: {
+              formatter: '{value}'
+          }
+      },
+      series: [
+          {
+              name:'测量值',
+              type:'line',
+              data:histData,
+              color:'#4cabcf',
+              markPoint: {
+                  data: [
+                      {type: 'max', name: '最大值'},
+                      {type: 'min', name: '最小值'}
+                  ]
+              },
+              markLine: {
+                  data: [
+                      {type: 'max', name: '最高值'},
+                      {type: 'min', name: '最低值'},
+                  ]
+              }
+          }
+      ]
+    };
+    this.setState({
+      option,
+    })
+  }
   // 获取监测单项-历史
   danxianGetById(){
     this.setState({
@@ -251,34 +269,36 @@ class UserCardJianChe extends Component {
               ctb.push(isSleep)
             }
             daxiangHistoryItem.isSleep=ctb
+            daxiangHistoryItem.normalLow=res.data[it].normalLow
+            daxiangHistoryItem.normalHigh=res.data[it].normalHigh
           }
           
           danxiangListHistory.push(daxiangHistoryItem)
         }
         console.log('historyIsSleep=',danxiangListHistory[0].isSleep)
         console.log('historyIsSleep=',danxiangListHistory[0].isSleep[0])
-        console.log('historyIsSleep=',danxiangListHistory[0].isSleep[0].label)
+        // console.log('historyIsSleep=',danxiangListHistory[0].isSleep[0].label)
         this.setState({
           jianceList:danxiangListHistory,
+          normalLow:danxiangListHistory[0].normalLow,
+          normalHigh:danxiangListHistory[0].normalHigh,
           historyTypevalue:danxiangListHistory[0].value,
           historyIsSleep:danxiangListHistory[0].isSleep,
           historyIsSleepValue:danxiangListHistory[0].isSleep[0].label,
           historyDanXiang:res.data
-        },()=>{
-          console.log('historystate=',this.state)
-          this.getHistoryDat()
         })
+          this.getHistoryDat()
       }else{
-        Toast.info('未获取到监测单项数据',1)
+        Toast.info('未获取到监测单项数据',2)
       }
     },e=>{
-      Toast.info('未获取到监测单项数据',1)
+      Toast.info('未切换到监测单项数据',2)
     })
   }
   // 获取历史数据
   getHistoryData (){
     this.danxianGetById()
-    this.getHistoryDat()
+    // this.getHistoryDat()
     
     // new Promise()
   }
@@ -286,54 +306,42 @@ class UserCardJianChe extends Component {
   getHistoryDat(){
     console.log('historyIsSleepValue=',this.state.historyIsSleepValue)
     const {
-      cardNo,
-      historyTypevalue,
-      historyIsSleepValue,
-      historytime,
-      // endHistorytime
-    }=this.state
+      todayHistoryDatStart,
+      todayHistoryDatEnd
+    } = this.state
     Api
     .getHistoryData({
-      patientCardNo:cardNo,
+      patientCardNo:this.state.cardNo,
       hisId:'2214',
       deptId:this.state.dept.deptId,
       diseasesId:this.state.diseases.diseasesId,
-      monitorId:historyTypevalue,
+      monitorId:this.state.historyTypevalue,
       
-      monitorCondition:historyIsSleepValue,
+      monitorCondition:this.state.historyIsSleepValue,
       statisticsType:'',
-      // startDate:historytime,
-      endDate:historytime
+      startDate:todayHistoryDatStart,
+      endDate:todayHistoryDatEnd,
     }).then((res)=>{
+      let histData=[]
+      let hisTimeData=[]
       if(res.code==0&&res.data&&res.data.length>0){
-        // console.log('data=',res.data)
-        Toast.info('查询成功',2)
-        let histData=[]
-        let hisTimeData=[]
-        // res.data.map((item,index)=>{
-        //   histData.push(item.monitorValue)
-        //   hisTimeData.push(item.monitorTime)
-        // })
+        console.log('data=',res.data)
         for(let i=0;i<res.data.length;i++){
-          let dt=res.data[i]
-          histData.push(dt.monitorValue)
-          let nianyue=''
-          if(dt.monitorTime){
-            nianyue=dt.monitorTime.split(' ')[0]
-          }
-          hisTimeData.push(nianyue)
+          histData.push(res.data[i].monitorValue)
+          let time=res.data[i].monitorTime.split(' ')
+          let t=time.length>0?time[0]:''
+          hisTimeData.push(t)
         }
-        this.setState({
-          historyDataIsShow:true,
-          historyChartData:histData,
-          historyChartDataName:res.data[0].monitorName,
-          historyChartTimeData:hisTimeData
-        })
-        this.getOption()
+        console.log('histData=',histData)
+        // this.setState({
+        //   historyChartData:histData,
+        //   historyChartTimeData:hisTimeData
+        // })
+          
+          this.setHistoryMap(histData,hisTimeData)
       }else{
-        Toast.info('未查询到该时间段内的测量值',2)
         this.setState({
-          historyDataIsShow:false,
+          isShowHistoryTu:false
         })
       }
     })
@@ -350,9 +358,19 @@ class UserCardJianChe extends Component {
       const {
         celiangtime,
         cheliangzhi,
+        tiaojianListChecked,
         cardNo
       } = this.state
-      if (cheliangzhi.trim()==''){
+      if(tiaojianListChecked.length<=0){
+         this.setState({
+          showIOS2:false,
+          qiehuan:true,
+          showIOS1:true,
+          msg:'请选择一个标签'
+        })
+        return
+      }
+      if (cheliangzhi==''){
         this.setState({
           showIOS2:false,
           qiehuan:true,
@@ -397,65 +415,71 @@ class UserCardJianChe extends Component {
         monitorName:this.state.monitorName,
         monitorValue:cheliangzhi,
         monitorTime:requestTime,
-        monitorCondition:this.state.tiaojianContent,
+        // monitorCondition:this.state.tianjiaContentData,
+        monitorCondition:tiaojianListChecked[0].label,
         patientId:this.state.patientId,
         followedId:this.state.followedId,
       }).then((res)=>{
         console.log(res)
         if(res.code==0){
-          Toast.info('添加成功',2)
+          Toast.info('提交成功',2)
           this.setState({
-            cheliangzhi:'',
+            cheliangzhi:''
           })
           this.getTodayDat()
         }else{
-          Toast.info('添加失败',2)
+          this.setState({
+            showIOS1:true,
+            msg:'添加失败',
+          })
         }
       },(e) => {
         this.setState({
             showIOS1:true,
             msg:'未添加成功',
-            cheliangzhi:'',
         })
       })
       
     }
-    // 添加数据-下拉选
+    // 添加数据-下拉选 
     danxiangOnChange(ite){
+      
       var mId=ite[ite.selectedIndex].value
       var mName=ite[ite.selectedIndex].label
       console.log('ite=',ite)
       const {
         daxiangItemDuiList
       }=this.state
+      console.log('daxiangItemDuiList===',daxiangItemDuiList)
       for(let i=0;i<daxiangItemDuiList.length;i++){
         if(mId==daxiangItemDuiList[i].value){
           if(daxiangItemDuiList[i].contArr){
             this.setState({
               tiaojianList:daxiangItemDuiList[i].contArr,
-              // tiaojianContent:daxiangItemDuiList[i].contArr[0].label
-              tiaojianContent:daxiangItemDuiList[i].contArrString
+              tiaojianContent:daxiangItemDuiList[i].contArr[0].label,
+              tianjiaContentData:daxiangItemDuiList[i].contentArr
             })
           }else{
             this.setState({
               tiaojianList:[],
-              tiaojianContent:''
+              tiaojianContent:'',
+              tianjiaContentData:''
             })
           }
         }
-
       }
       this.setState({
         monitorId:mId,
         monitorName:mName,
       })
+      this.getHistoryDat()
     }
     // 添加数据-标签下拉选
     // biaoqianOnChange(ite){
     //   this.setState({tiaojianContent:ite[ite.selectedIndex].label})
     // }
-
   // 发送添加数据请求
+
   getDept(){
     Api
     .getDeseaseType({
@@ -485,8 +509,6 @@ class UserCardJianChe extends Component {
                 patientId:list[0].patientId,
                 dept:list[0].deptList[0],
                 diseases:list[0].deptList[0].diseasesList[0],
-            },()=>{
-              console.log('list.state=',this.state)
             })
             
             console.log(66625252)
@@ -529,65 +551,22 @@ class UserCardJianChe extends Component {
     });
   }
 
-  // 提醒确定
-  ConfirmQueDing(){
-    console.log('555555',this.state)
-    this.setState({
-      show3:false
-    })
-    Api
-    .getTodayFlag({
-      patCardNo:this.state.cardNo,
-      hisId:'2214',
-      deptId:this.state.dept.deptId,
-      diseasesId:this.state.diseases.diseasesId,
-      monitorNotifyFlag:this.state.tixingChecked?1:0
-    })
-    .then((res)=>{
-      if(res.code==0){
-        Toast.info('修改成功',2)
-        this.setState({
-          tixingChecked:!this.state.tixingChecked,
-        })
-      }else{
-
-        Toast.info('修改失败',2)
-      }
-    })
-  }
-  // 提醒取消
-  Confirmcancel(){
-    this.setState({
-      // tixingChecked:!this.state.tixingChecked,
-      show3:false,
-    })
-  }
-
-  // 今日数据提醒
-  setTodayFlag=(e)=>{
-     console.log('e=',e.target.checked)
-     let title=''
-    if(!e.target.checked){
-      title='您确定要取消提醒？'
-    }else{
-      title='开启后，系统会根据护士建议的测量频次进行提醒'
-    }
-    this.setState({
-        show3:true,
-        // tixingChecked:e.target.checked,
-        confirmTitle:title
-      })
-
-  }
-
   // 获取今日数据
   async getTodayDat(){
     console.log(55555)
     console.log('555state=',this.state)
+    // 获取今日时间
+    let datTime=new Date()
+    let tondayMonth=parseInt(datTime.getMonth())+1>=10?parseInt(datTime.getMonth())+1+'':'0'+(parseInt(datTime.getMonth())+1)
+    let todayDay=datTime.getDate()>=10?datTime.getDate()+'':'0'+datTime.getDate()
+    let todayDat=datTime.getFullYear().toString().concat(".",tondayMonth,'.',todayDay)
+    let todayHistoryDat=datTime.getFullYear().toString().concat("-",tondayMonth,'-',todayDay)
     this.setState({
       monitorName:'',
       monitorId:'',
       jianceListToday:'',
+      todayTime:todayDat,
+      todayHistoryDat,
       valueList:[]
     })
     const res =await Api
@@ -601,7 +580,7 @@ class UserCardJianChe extends Component {
       console.log('6666666')
       console.log('rest=',res)
       console.log('rest=',res.data)
-      console.log('rest=',res.data.length)
+      console.log('rest=',res.data[0].conditions)
       // if(res.code==0&&res.data&&res.data.length>0){
         console.log('858588') 
         let danxiangList=[]
@@ -616,20 +595,18 @@ class UserCardJianChe extends Component {
           let tiaojianDat=res.data[it].conditionArray
           if(tiaojianDat){
             for(let itd=0;itd<tiaojianDat.length;itd++){
-              let tiaojianItem={value:itd,label:tiaojianDat[itd]}
+              let tiaojianItem={value:itd,label:tiaojianDat[itd],isCheck:false}
+              if(itd==0){
+                  tiaojianItem.isCheck=true
+              }
               tiaojianList.push(tiaojianItem)
             }
             daxiangItemDui.contArr=tiaojianList
-            // contArr只有label的字符串 '测试，是一iidasdsa；侧阿达；车阿萨法萨芬；的撒的撒；奥术大师多撒；大大'
-            daxiangItemDui.contArrString=res.data[it].conditions
+            daxiangItemDui.contentArr=res.data[it].conditions
           }
             daxiangItemDuiList.push(daxiangItemDui)
         }
-        // 获取今日时间
-        let datTime=new Date()
-        let tondayMonth=parseInt(datTime.getMonth())+1>=10?parseInt(datTime.getMonth())+1+'':'0'+parseInt(datTime.getMonth())+1
-        let todayDay=datTime.getDate()>=10?datTime.getDate()+'':'0'+datTime.getDate()
-        let todayDat=datTime.getFullYear().toString().concat(".",tondayMonth,'.',todayDay)
+        
         // 第一次标签赋值
         this.setState({
           monitorName:danxiangList[0].label,
@@ -637,13 +614,17 @@ class UserCardJianChe extends Component {
           jianceListToday:danxiangList,
           valueList:res.data,
           daxiangItemDuiList,
-          todayTime:todayDat
+          
+          tianjiaContentData:res.data.length>0?res.data[0].conditions:''
         })
         if(daxiangItemDuiList.length>0&&daxiangItemDuiList[0].contArr){
+          console.log('daxiangItemDuiList=',daxiangItemDuiList[0])
+          let firstBiaoQianList=[]
+          firstBiaoQianList.push(daxiangItemDuiList[0].contArr[0])
           this.setState({
+            tiaojianListChecked:firstBiaoQianList,
             tiaojianList:daxiangItemDuiList[0].contArr,
-            // tiaojianContent:daxiangItemDuiList[0].contArr[0].label
-            tiaojianContent:daxiangItemDuiList[0].contArrString
+            tiaojianContent:daxiangItemDuiList[0].contArr[0].label
           })
         }
 
@@ -669,6 +650,63 @@ class UserCardJianChe extends Component {
     //     msg:'未获取到数据',
     //   })
     // })
+  }
+  // 添加数据 标签点击选中
+  biaoqianClick=(e)=>{
+    const { tiaojianList } = this.state
+    console.log('e=',e)
+    let tiaojianListChecked=[]
+    let newList=tiaojianList.map((item,index)=>{
+      if(item.value==e.value){
+        item.isCheck=true
+        tiaojianListChecked.push(item)
+      }else{
+        item.isCheck=false
+      }
+      return item
+    })
+    this.setState({
+      tiaojianList:newList,
+      tiaojianListChecked
+    })
+  }
+  //  提醒
+  tixing=(e)=>{
+    console.log('eeeee=',e.target.checked)
+    let msg=''
+    if(!this.state.isShowXuanZhong){
+      msg='开启后，系统会根据护士建议的测量频次进行提醒'
+    }else{
+      msg='取消后，系统将不进行提醒'
+    }
+    this.setState({
+      msg,
+      showIOS3:true
+    })
+    
+  }
+  // 提醒取消
+  tixingquxiao=()=>{
+    this.setState({
+      showIOS3:false,
+    })
+  }
+  // 确定提醒
+  tixingbaocun=()=>{
+    Api
+    .getnotifyFlag({
+      patCardNo:this.state.cardNo,
+      hisId:'2214',
+      deptId:this.state.dept.deptId,
+      diseasesId:this.state.diseases.diseasesId,
+      monitorNotifyFlag:!this.state.isShowXuanZhong?1:0
+    }).then((res)=>{
+      Toast.info('提交成功',2)
+      this.setState({
+        showIOS3:false,
+        isShowXuanZhong:!this.state.isShowXuanZhong
+      })
+    })
   }
   showDept(id,item){
         var list=this.state.deptList;
@@ -753,13 +791,45 @@ class UserCardJianChe extends Component {
                       list2[z].active=false;
                   }
               }
+
+              // this.setState({
+              //     deptList:list1,
+              //     diseases:list2[0],
+              //     diseasesList:list2,
+              //     cardNo:id,
+              //     followedId:item.followedId,
+              //     patientId:item.patientId,
+              // })
              
           }else{
               list[i].active=false;
           }
 
       }
+      // this.setState({
+      //     cardNo:id,
+      //     followedId:item.followedId,
+      //     patientId:item.patientId,
+      // })
 
+      // Object.keys(dt).forEach((key)=>{
+      //     console.log('dt[key]=',dt[key])
+      //     deptListd.push(dt[key].deptId)
+      //   })
+      // if(deptListd.length>0&&deptListd.indexOf(this.state.dept.deptId)<0){
+      //   console.log(888888)
+      //   this.setState({
+      //     dept:item.deptList[0],
+      //     deptList:item.deptList,
+      //     diseases:list2[0],
+      //     diseasesList:list2,
+      //     cardNo:id,
+      //     followedId:item.followedId,
+      //     patientId:item.patientId,
+      //   })
+      //   this.getTodayDat()
+      //   return
+      // }
 
          this.setState({
           dept:item.deptList[0],
@@ -791,15 +861,13 @@ class UserCardJianChe extends Component {
     let minutes=''
     // console.log('time=',time)
     if(time&&time!=''){
+
       // let date=new Date(time)
-      time = time.replace(/-/g,':').replace(' ',':');
-      time = time.split(':');
-      // console.log('tie',time)
-      // var date = new Date(time[0],(time[1]-1),time[2],time[3],time[4],time[5])
-      // hours=date.getHours()>=10?String(date.getHours()):'0'+String(date.getHours())
-      // minutes=date.getMinutes()>=10?String(date.getHours()):'0'+String(date.getHours())
-      hours=time[3]
-      minutes=time[4]
+      // hours=date.getHours()>=10?date.getHours()+'':'0'.concat(date.getHours())
+      // minutes=date.getMinutes()>=10?date.getMinutes()+'':'0'.concat(date.getMinutes())
+      let date = time.replace(/-/g,":").replace(' ',':').split(":");
+      hours=date[3]
+      minutes=date[4]
     }
     return hours!=''?hours.concat(":",minutes):'-'
   }
@@ -822,6 +890,8 @@ class UserCardJianChe extends Component {
   typeOnChange=(item)=>{
     console.log('checked=',item)
     this.setState({
+      normalHigh:item.normalHigh,
+      normalLow:item.normalLow,
       historyTypevalue:item.value,
       historyIsSleep:item.isSleep,
       historyIsSleepValue:item.isSleep[0].label
@@ -832,30 +902,38 @@ class UserCardJianChe extends Component {
   }
   // 历史记录查询选中-睡前睡后
   sleepOnChange=(item)=>{
-    console.log('sleepitem=',item)
+    console.log('sleepitem=',item.value)
     this.setState({
-      historyIsSleepValue:item.label
+      historyIsSleepValue:item.value
     },()=>{
       // 获取历史数据
       this.getHistoryDat()
     })
   }
-  // 历史记录查询选中-开始时间
-  dateOnChange=(item)=>{
+  // 历史记录查询选中-时间
+  dateOnChangeStart=(item)=>{
     console.log('datachange=',item)
     this.setState({
-      historytime:item
+      todayHistoryDatStart:item
     },()=>{
       // 获取历史数据
       this.getHistoryDat()
     })
   }
-
-  
-
+  // 历史记录查询选中结束时间
+  dateOnChangeEnd=(item)=>{
+    console.log('item=',item)
+    this.setState({
+      todayHistoryDatEnd:item
+    },()=>{
+      // 获取历史数据
+      this.getHistoryDat()
+    })
+  }
 
   render() {
     const {
+      isShowXuanZhong,
       kemudata,
       valueList,
       isShow,
@@ -864,6 +942,7 @@ class UserCardJianChe extends Component {
       historyTypevalue,
       tiaojianList,
       todayTime,
+      todayHistoryDat,
       msg,
        deptList,
        patList,
@@ -878,9 +957,11 @@ class UserCardJianChe extends Component {
        cheliangzhi,
        historytime,
        historyIsSleep,
-       historyDataIsShow
+       isShowHistoryTu,
+       todayHistoryDatEnd,
+       todayHistoryDatStart
     } = this.state
-    console.log('this.state555=',this.state)
+    console.log('msg====',this.state)
     return(
       <div className="page-ask-indext">
         {show1&&<div className='selectDept' onClick={()=>{
@@ -939,27 +1020,29 @@ class UserCardJianChe extends Component {
         <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
             {msg}
         </Dialog>
-        <Dialog type="ios"  buttons={this.state.style3.buttons} show={this.state.show3}>
-            {this.state.confirmTitle}
+        <Dialog type="ios" buttons={this.state.style3.buttons} show={this.state.showIOS3}>
+            {msg}
         </Dialog>
         <Dialog type="ios" buttons={this.state.style2.buttons} show={this.state.showIOS2} className='jianche-dialog'>
             <Flex className='dialog'>
               <Flex.Item>
                   <Rlabel>数据类型</Rlabel>
               </Flex.Item>
-              <Flex.Item className='add-form-flex bbt'>
-                  <List>
-                  <select className='add-form-select' onChange={e=>{this.danxiangOnChange(e.target)}}>
+              <Flex.Item className='add-form-flex'>
+                  {/*ist>
+                  <Select className='add-form-select' data={jianceListToday} onChange={e=>{this.danxiangOnChange(e.target)}}/>
+                </List>*/}
+                <select className='add-form-select historyDingwei' onChange={e=>{this.danxiangOnChange(e.target)}}>
                   {
-                    jianceListToday&&jianceListToday.map((jianceListTodayIt,jianceListTodayIn)=>{
+                    jianceListToday&&jianceListToday.length>0?
+                    jianceListToday.map((item,index)=>{
                       return(
-                        <option value={jianceListTodayIt.value}>{jianceListTodayIt.label}</option>
+                        <option key={index} value={item.value}>{item.label}</option>
                       )
-                    })
+                    }):null
                   }
-                  </select>
-                  <span className='add-form-flex-jiantoutype'></span>
-                </List>
+                </select>
+                <span className='add-form-select-jiantou'></span>
               </Flex.Item>
             </Flex>
             {
@@ -968,18 +1051,18 @@ class UserCardJianChe extends Component {
                 <Flex.Item>
                     <Rlabel>标签</Rlabel>
                 </Flex.Item>
-                <Flex.Item className='dialog-biaoqian'>
+                  <Flex className='add-form-flex-biaoqian'>
                     {
                         tiaojianList.map((tiaojItem,tiaojIndex)=>{
                           if(tiaojIndex<5)
                            return(
-                              <div key={tiaojIndex}>
+                              <div key={tiaojIndex} className={`add-form-flex-div ${tiaojItem.isCheck?'checkColor':'unCheckColor'}`} onClick={e=>this.biaoqianClick(tiaojItem)}>
                                 {tiaojItem.label}
                               </div>
                             )
                         })
                     }
-                </Flex.Item>
+                  </Flex>
               </Flex>:null
             }
             <Flex className='add-data'>
@@ -987,7 +1070,7 @@ class UserCardJianChe extends Component {
                   <Rlabel>测量值</Rlabel>
               </Flex.Item>
               <Flex.Item className='add-form-flex'>
-                  <input type="number" className='add-data-celiangzhi' value={cheliangzhi} pattern="[0-9]*" name='cheliangzhi' placeholder="请输入测量值" onChange={ e=> {this.setState({cheliangzhi:e.target.value})}}/>
+                  <Input type="number" pattern="[0-9]*" name='cheliangzhi' value={cheliangzhi} placeholder="请输入测量值" onChange={ e=> {this.setState({cheliangzhi:e.target.value})}}/>
               </Flex.Item>
             </Flex>
             <Flex className='add-form-oneflex'>
@@ -995,8 +1078,8 @@ class UserCardJianChe extends Component {
                   <Rlabel>测量时间</Rlabel>
               </Flex.Item>
               <Flex.Item className='add-form-flex'>
-                  <Input type="datetime-local" defaultValue='' onChange={ e => {this.setState({celiangtime:e.target.value})}}/>
-                  <span className='add-form-flex-jiantou'></span>
+                  <Input type="datetime-local" defaultValue='' onChange={ e => {console.log(e.target.value);this.setState({celiangtime:e.target.value})}}/>
+                  <span className='add-form-select-input-jiantou'></span>
               </Flex.Item>
             </Flex>
             
@@ -1080,18 +1163,21 @@ class UserCardJianChe extends Component {
                                     return (
                                       <Flex key={index} className='jianche-flex-list'>
                                         <img src="./././resources/images/xtzx@2x.png" />
-                                        <span>{ item.monitorValue }</span>
-                                        <div className='jianche-flex-list-modile'>
-                                          {
-                                            item.monitorCondition&&item.monitorCondition.split('；').length>0?
-                                              item.monitorCondition.split('；').map((mItem,mIndex)=>{
-                                                return (<span key={mIndex} className='jianche-flex-list-span'>{ mItem }</span>)
-                                              }):null
-                                          }
-                                        </div>
-                                        <Flex.Item className='jianche-flex-list-item'>
-                                          { this.changeTime(item.monitorTime) }
+                                            <div>{ item.monitorValue }</div>
+                                        <Flex.Item>
+                                          <div>
+                                            <div className='jianche-flex-list-biaoqian'>{
+                                              item.monitorCondition&&item.monitorCondition.split('；').map((itemt,index)=>{
+                                                return(
+                                                  <span className='jianche-flex-list-span'>{itemt}</span>
+                                                )
+                                              })
+                                            }</div>
+                                          </div>
                                         </Flex.Item >
+                                        <div className='jianche-flex-list-item'>
+                                          { this.changeTime(item.monitorTime) }
+                                        </div >  
                                       </Flex>
                                     )
                                   }):
@@ -1109,12 +1195,13 @@ class UserCardJianChe extends Component {
                       valueList&&valueList.length>0?
                         <div>
                           <div>
-                            <Button type='primary' onClick = { ()=>{this.setState({showIOS2:true,cheliangzhi:'',})} }>添加数据</Button>
+                            <ButtonN type='primary' onClick = { ()=>{this.setState({showIOS2:true})} }>添加数据</ButtonN>
                           </div>
-                          <div>
-                            <AgreeItem data-seed="logId" checked={this.state.tixingChecked} onChange={e => this.setTodayFlag(e)} >
+                          <div className='tixing'>
+                            <AgreeItem data-seed="logId" checked={isShowXuanZhong} defaultChecked={true} onChange={this.tixing} >
                               数据监测提醒
                             </AgreeItem>
+
                           </div>
                         </div>:
                         <div className='jianche-type-neirong'>
@@ -1132,7 +1219,7 @@ class UserCardJianChe extends Component {
                         {
                           jianceList?jianceList.map((typeItem,typeIndex)=>{
                               return(
-                                <div className={`history-data-biaoqian ${historyTypevalue==typeItem.value?'addcolor':''}`} key={typeItem.value} onClick={()=>this.typeOnChange(typeItem)}>
+                                <div className={`history-data-flex ${historyTypevalue==typeItem.value?'addcolor':''}`} key={typeItem.value} onClick={()=>this.typeOnChange(typeItem)}>
                                   {typeItem.label}
                                 </div>
                               )
@@ -1144,47 +1231,55 @@ class UserCardJianChe extends Component {
                     </Flex>
                     {
                       jianceList&&jianceList.length>0?
-                        <div>
                         <Flex className='history-data'>
-                          <Flex.Item className='history-data-suimian'>
-                            <List>
-                              
-                                <select className='history-form-select' onChange={e=>{this.sleepOnChange(e.target)}}>
-                                {
-                                  historyIsSleep&&historyIsSleep.map((historyIsSleepIt,historyIsSleepIn)=>{
-                                    return(
-                                      <option value={historyIsSleepIt.value}>{historyIsSleepIt.label}</option>
-                                    )
-                                  })
-                                }
-                                </select>
-                                <span className='history-form-flex-jiantoutype'></span>
-                            </List>
+                          <span>开始时间：</span>
+                          <Flex.Item className='history-data-flex historyDingwei historyStart'>
+                            <Input type="date" defaultValue={todayHistoryDatStart} onChange={ e => { this.dateOnChangeStart(e.target.value)}}/>
+                            <span className='add-form-select-input-jiantou'></span>
                           </Flex.Item>
-                          <Flex.Item className='history-data-flex bbc'>
-                            <Input type="date" defaultValue={historytime} onChange={ e => {this.dateOnChange(e.target.value)}}/>
-                            <span className='history-form-flex-jiantou'></span>
+                          <span>结束时间：</span>
+                          <Flex.Item className='history-data-flex historyDingwei historyStart'>
+                            <Input type="date" defaultValue={todayHistoryDatEnd} onChange={ e => { this.dateOnChangeEnd(e.target.value)}}/>
+                            <span className='add-form-select-input-jiantou'></span>
                           </Flex.Item>
-                        </Flex>
-                        </div>
-                        :
+                          
+                        </Flex>:
                         <div className='jianche-type-neirong'>
                           <span>暂未添加数据</span>
                         </div>
                     }
+                    {
+                      jianceList?
+                      <Flex className='history-data historyDingwei'>
+                        <Flex.Item>
+                          {/*<List>
+                            <Select className='history-form-select' data={historyIsSleep} onChange={e=>{this.sleepOnChange(e.target)}}/>
+                          </List>*/}
+                          <select className='history-form-select' onChange={e=>{this.sleepOnChange(e.target)}}>
+                            {
+                              historyIsSleep&&historyIsSleep.length>0?
+                              historyIsSleep.map((item,index)=>{
+                                return(
+                                  <option key={index} value={item.label}>{item.label}</option>
+                                )
+                              }):null
+                            }
+                          </select>
+                          <span className='add-form-select-jiantou'></span>
+                        </Flex.Item>
+                      </Flex>:null
+                    }
                   </div>
-                  {/*<div id='quxiaotu'>
-                  </div>*/}
                   {
-                    historyDataIsShow?
-                      <div title="历史数据">
-                          <ReactEcharts option={this.state.option} theme="Imooc"  style={{height:'400px'}}/>
-                      </div>:null
+                    !isShowHistoryTu?
+                    <div className='jianche-type-neirong'>
+                      <span>暂未添加数据</span>
+                    </div>:
+                    <ReactEcharts option={this.state.option} height={300}/>
                   }
                 </div>
            </div>
         </div>
-          
         </div>
          }
       </div>

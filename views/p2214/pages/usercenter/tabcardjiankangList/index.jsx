@@ -3,11 +3,9 @@ import hashHistory from 'react-router/lib/hashHistory';
 import { Button, Cells, Cell, CellBody, CellFooter, SearchBar } from 'react-weui';
 import { Result, ListView } from 'antd-mobile';
 import Connect from '../../../components/connect/Connect';
-// import TabManNav from '../tabcardcommond/tabman/index'
-import TarbarNav from '../tabcardcommond/tarbar/index';
+import TabManNav from '../tabcardcommond/tabman/index'
 import cs from 'classnames';
 import * as Utils from '../../../utils/utils';
-
 import * as Api from '../../../components/Api/Api';
 import './style/index.scss';
 
@@ -29,6 +27,19 @@ import './style/index.scss';
   //   keshi:'内分泌科',
   //   biaoqian:'糖尿病；饮食；日常生活'
   // }
+var throttle = function(func, delay) {            
+          var timer = null;            
+          return function() {                
+              var context = this;               
+              var args = arguments;                
+              if (!timer) {                    
+                  timer = setTimeout(function() {                        
+                      func.apply(context, args);                        
+                      timer = null;                    
+                  }, delay);                
+              }            
+          }        
+      }
 // 健康宣教
 class UserCardXuanJiaoList extends Component {
   static contextTypes = {
@@ -68,47 +79,21 @@ class UserCardXuanJiaoList extends Component {
 
 
   //搜索是页面搜索还是去查询数据库
-  // handleChange = (text, e) => {
-  //   console.log(text,e)
-  //   if(text){
-  //     this.setState({
-  //       searchText:text
-  //     })
-  //     Utils.throttle(this.getXuanJiaoList(text),1000)
-      
-  //   }
-  // }
-  // throttle(func, delay=3000) {            
-  //       let preTime=Date.now()
-  //       console.log(56565)
-  //       return (even)=>{
-  //           const context=this
-  //           even.persist && even.persist();
-  //           let doTime=Date.now()
-  //           if(doTime-preTime>=delay){
-  //               func.apply(context)
-  //               preTime=Date.now()
-  //           }
-  //       }
-  //   }
-  // 搜索
-  handleChanget=(e)=>{
-    console.log('e=',e)
-    this.getXuanJiaoList(e)
-    // return this.throttle((e)=>{
-    //   console.log('ee=',e)
-    //   let input=document.getElementsByClassName('xuanjiao-search-input')
-    //   let neirong=input[0].value
-    //   console.log('neirong=',neirong)
-    //   this.getXuanJiaoList(neirong)
-    // },2000)
+  handleChange = (text, e) => {
+    console.log(text,e)
+    if(text){
+      this.setState({
+        searchText:text
+      })
+      throttle(this.getXuanJiaoList(text),1000)
+    }
   }
   // search =()=>{
-  //   this.getXuanJiaoList('工作')
+  //   this.getXuanJiaoList()
   // }
   handleClick = (data,e) => {
     console.log('data=',data)
-    if (data.linkUrl) {
+    if (data.linkUrl&&data.linkUrl.startsWith('http')) {
       window.location.href=data.linkUrl
       return
     }
@@ -223,14 +208,14 @@ class UserCardXuanJiaoList extends Component {
       }else{
         this.setState({
           isShowSecond:true,
-          message:'未查询到数据'
+          message:'未查询到'
         })
       }
     },e=>{
       console.log(66666)
       this.setState({
         isShowSecond:true,
-        message:'未查询到数据'
+        message:'未查询到'
       })
     })
   }
@@ -269,21 +254,19 @@ class UserCardXuanJiaoList extends Component {
         <div className="info">
             <div className='xuanjiao'>
               {
-                !!patList&&isShow ?
+                isShow ?
                   <Result
                     className='xuanjiao'
                     img={<img src='../../../resources/images/no-result.png' className={classString} alt="" />}
                     title={message}
                   >
                   </Result>:
-                  <div>
+                  <div className='xuanjiao-search'>
                     {/*<SearchBar
                       onChange = { this.handleChange.bind(this) }
-                      placeholder = '输入信息查找内容'
+                      placeholder = '检查项目A' 
                     />*/}
-                    <div className='xuanjiao-search'>
-                      <input className='xuanjiao-search-input' placeholder = '输入信息查找内容' onChange = { e=>this.handleChanget(e.target.value) }></input>
-                    </div>
+                    <input className='xuanjiao-search-input' placeholder = '请输入关键字' onChange = {e=>this.getXuanJiaoList(e.target.value)}/>
                     <Cells>
                       {
                         !isShowSecond?results.map((item,index) => {
@@ -319,17 +302,16 @@ class UserCardXuanJiaoList extends Component {
               }
             </div>
           </div>
-          <div className="suifang-tarbar" style={{background: '#f2f2f2;'}}>
-            <div onClick={()=>this.context.router.push({pathname:'/ask/index'})}>
-              <img  src="./././resources/images/suifang.jpg"/>
-              <div >随访</div>
+          <div className="tarbar">
+            <div  onClick={()=> {hashHistory.replace({pathname:'/ask/index'})}}>
+            <img  src="./././resources/images/suifang.jpg"/>
+            <div>随访管理</div>
             </div>
-            <div>  
-              <img  src="./././resources/images/hightMy.jpg"/>
-              <div style={{color:'#4FABCA'}}>我的</div>
+            <div className='inquiry'  onClick={()=> {hashHistory.replace({pathname:'/usercenter/mytabcard'})}}>
+            <img  src="./././resources/images/hightMy.jpg"/>
+            <div>我的</div>
             </div>
-            <div className='suifang-tarbar-second'>
-            </div>
+            <div style={{display:'none'}}></div>
           </div>
       </div>
     )

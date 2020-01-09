@@ -139,7 +139,7 @@ class UserCardList extends Component {
           ]
         var daixiuList=[]
         var otherContentList=[]
-        if(res.data.options&&res.data.otherContent){
+        if(res.data.otherContent&&res.data.options){
           console.log('res.data.otherContent=',res.data.otherContent)
           const otherContentObj=JSON.parse(res.data.otherContent)
           console.log('res.data.otherContent=',otherContentObj)
@@ -149,7 +149,7 @@ class UserCardList extends Component {
             otherContentList.push(objItem)
           })
 
-          if(res.data.options&&res.data.options.length>0&&res.data.otherContent&&res.data.otherContent.length>0){
+          if(res.data.options&&res.data.options.length>0){
             for(let it=0;it<res.data.options.length;it++){
               res.data.options[it].value=otherContentObj[res.data.options[it].title]
               if(res.data.options[it].title=='是否独生子女'){
@@ -160,7 +160,7 @@ class UserCardList extends Component {
             }
           }
 
-        }else if(res.data.options&&(!res.data.otherContent||res.data.otherContent.length<=0)){
+        }else if(res.data.options&&!res.data.otherContent){
           if(res.data.options&&res.data.options.length>0){
             for(let it=0;it<res.data.options.length;it++){
               res.data.options[it].value=''
@@ -168,7 +168,6 @@ class UserCardList extends Component {
             }
           }
         }
-        console.log('otherContentList=',otherContentList)
         this.setState({
           daixiugaiList:daixiuList,
           otherContent:otherContentList,
@@ -257,7 +256,7 @@ class UserCardList extends Component {
       patientTemplateId
     } = this.state
     return (
-      <div className="manageInfo">
+      <div>
         <div className="patient">
          {!!patList&&patList.length>0&&patList.map((item,index)=>{
            return(
@@ -285,21 +284,6 @@ class UserCardList extends Component {
               baocun={this.baocun}
               setXiuGaiFlg ={this.setXiuGaiFlg}
             />:<div className='queshengye'>未获取到用户信息</div>
-        }
-        {
-          !!patList?
-            <div className="suifang-tarbar" style={{background: '#f2f2f2;'}}>
-              <div onClick={()=>this.context.router.push({pathname:'/ask/index'})}>
-                <img  src="./././resources/images/suifang.jpg"/>
-                <div >随访</div>
-              </div>
-              <div> 
-                <img  src="./././resources/images/hightMy.jpg"/>
-                <div style={{color:'#4FABCA'}}>我的</div>
-              </div>
-              <div className='suifang-tarbar-second'>
-              </div>
-            </div>:null
         }
       </div>
     )

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import hashHistory from 'react-router/lib/hashHistory';
 import { Tab, TabBarItem, Article, CellsTitle, CellHeader, Cells, Cell, CellBody, CellFooter,
     FormCell, Label, Select, Button as ButtonN, ButtonArea} from 'react-weui';
 import { Flex, List, InputItem, Toast,Button } from 'antd-mobile';
@@ -24,7 +25,7 @@ class TabCardPerson extends Component {
   }
   componentDidMount (){
     console.log('st66999999ate=')
-    
+    window.scrollTo(0, 0);
   }
   componentWillUnmount(){
     
@@ -84,10 +85,6 @@ class TabCardPerson extends Component {
     },e=>{
       Toast.info('修改失败',2)
     })
-  }
-  // 输入框回弹
-  huitan=()=>{
-    $("html,body").animate({scrollTop: document.documentElement.clientHeight},500);
   }
 
   // 修改
@@ -179,7 +176,6 @@ class TabCardPerson extends Component {
                           <List>
                             <InputItem
                               placeholder="请输入"
-                              onBlur={this.huitan}
                               {
                                 ...getFieldProps(`${waitItem.title}`,{
                                   rules: [{required:waitItem.need==1?true:false,message:`请输入${waitItem.title}`}],
@@ -203,6 +199,17 @@ class TabCardPerson extends Component {
                 </Form.Item>
             </Form>
         }
+        <div className="tarbar">
+          <div  onClick={()=> {hashHistory.replace({pathname:'/ask/index'})}}>
+          <img  src="./././resources/images/suifang.jpg"/>
+          <div>随访管理</div>
+          </div>
+          <div className='inquiry'  onClick={()=> {hashHistory.replace({pathname:'/usercenter/mytabcard'})}}>
+          <img  src="./././resources/images/hightMy.jpg"/>
+          <div>我的</div>
+          </div>
+          <div style={{display:'none'}}></div>
+        </div>
       </div>
     )
   }

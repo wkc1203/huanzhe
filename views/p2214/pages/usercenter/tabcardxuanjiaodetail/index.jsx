@@ -19,7 +19,6 @@ class XuanJiaoDetail extends Component {
       biaoqian:'',
       content:'',
       time:'',
-      msg:'',
       showIOS1:false,
       style1: {
         buttons: [
@@ -53,9 +52,7 @@ class XuanJiaoDetail extends Component {
     .getJiankangXuanJiaoDetail({
       id:id
     }).then((res)=>{
-      console.log('res=',res)
       if(res.code==0&&res.data){
-        console.log('res=',res.data)
         const {
           title,
           deptName,
@@ -71,7 +68,6 @@ class XuanJiaoDetail extends Component {
           time:createTime
         })
       }else{
-        console.log('77777')
         this.setState({
           showIOS1:true,
           msg:'未获取到数据',
@@ -95,14 +91,11 @@ class XuanJiaoDetail extends Component {
       title,
       keshi,
       biaoqian,
-      content,
-      msg
+      content
     } = this.state
     return(
       <div>
         <h3 className='xuanjiao-detail-tile'>{title}</h3>
-        {/*<div className='xuanjiao-detail-keshi'>{keshi}</div>
-        <div className='xuanjiao-detail-tile'>{biaoqian}</div>*/}
         <div dangerouslySetInnerHTML={{__html:content}}>
         </div>
       </div>

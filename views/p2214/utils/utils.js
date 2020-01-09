@@ -293,16 +293,6 @@ export function getPlatformSource() {
   }
 }
 
-// 判断是否是微信
-export function getIsWeiXin() {
-  const ua = window.navigator.userAgent.toLowerCase();
-  if (/micromessenger/.test(ua)) {
-    return true
-  } else {
-    return false
-  }
-}
-
 export function isIOS() {
   const ua = window.navigator.userAgent.toLowerCase();
   return !!ua.match(/iPhone|iPad|iPod|iOS/i);
@@ -383,4 +373,16 @@ export function hideDialog() {
         showAndroid1: false,
         showAndroid2: false,
     });
+}
+// 获取get值？
+export function getRequestParamt() {
+  const url = window.location.href;
+  const paramArr = (url.split('?')[1] || '').split('&');
+  const paramObj = {};
+  for (let i = 0; i < paramArr.length; i++) {
+    if (paramArr[i].indexOf('=') != -1) {
+      paramObj[paramArr[i].split('=')[0]] = paramArr[i].split('=')[1];
+    }
+  }
+  return paramObj;
 }

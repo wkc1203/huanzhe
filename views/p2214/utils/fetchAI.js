@@ -44,7 +44,7 @@ export default {
       //     const returnUrl = encodeURIComponent(`${protocol}//${host}${pathname}?returnRandomParam=${Date.now()}&${search.replace(/(\?)|(returnRandomParam=\d*)/g, '')}${hash}`);
       //     var code='';
       //     sessionStorage.setItem('systemOauthRedirect', 1);
-      //     if(window.location.hostname=='tih.cqkqinfo.com'){
+      //     if(window.location.origin=='https://tih.cqkqinfo.com'){
       //       code='ff8080816b4bfb65016bb08126130000';
       
       //     }else{

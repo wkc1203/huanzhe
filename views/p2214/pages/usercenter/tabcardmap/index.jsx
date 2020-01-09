@@ -5,7 +5,7 @@ import Connect from '../../../components/connect/Connect';
 
 // 组件
 import UserCardList from '../tabcardlist/index'
-import TarbarNav from '../tabcardcommond/tarbar/index';
+
 import * as Utils from '../../../utils/utils';
 import * as Api from '../../../components/Api/Api';
 import './style/index.scss';
@@ -67,17 +67,16 @@ class UserCardInfo extends Component {
             <span>儿童护理知识早知道</span>
           </div>
         </div>
-        <div className="suifang-tarbar" style={{background: '#f2f2f2;'}}>
-          <div onClick={()=>this.context.router.push({pathname:'/ask/index'})}>
-            <img  src="./././resources/images/suifang.jpg"/>
-            <div >随访</div>
+        <div className="tarbar">
+          <div  onClick={()=> {hashHistory.replace({pathname:'/ask/index'})}}>
+          <img  src="../../../resources/images/suifang.jpg"/>
+          <div>随访管理</div>
           </div>
-          <div> 
-            <img  src="./././resources/images/hightMy.jpg"/>
-            <div style={{color:'#4FABCA'}}>我的</div>
+          <div className='inquiry'>
+          <img  src="../../../resources/images/hightMy.jpg"/>
+          <div>我的</div>
           </div>
-          <div className='suifang-tarbar-second'>
-          </div>
+          <div style={{display:'none'}}></div>
         </div>
       </div>
       

@@ -57,7 +57,7 @@ export default {
           const { protocol, host, pathname, search, hash } = window.location;
           const returnUrl = encodeURIComponent(`${protocol}//${host}${pathname}?returnRandomParam=${Date.now()}&${search.replace(/(\?)|(returnRandomParam=\d*)/g, '')}${hash}`);
           var code1='';
-          if(window.location.hostname=='tih.cqkqinfo.com'){
+          if(window.location.origin=='https://tih.cqkqinfo.com'){
             code1='ff80808165b46560016817f5569d00b5';  
       
           }else{     

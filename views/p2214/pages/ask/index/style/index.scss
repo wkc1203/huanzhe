@@ -19,6 +19,9 @@
       align-items: flex-end;
       justify-content: center;
       .contents{
+              position: absolute;
+              bottom:0;
+              z-index: 10001;
               box-sizing: border-box;
               border-radius: 5px;
               background: #fff;
@@ -90,8 +93,7 @@
   }
     .manageInfo{
         background: #e5e5e5;
-
-        height: 100%;       
+        overflow-y:auto; 
      .patient{
          height:60px;
          line-height: 60px;
@@ -117,8 +119,10 @@
         
      }
      .info{
-        background: #4cabcf;
-        padding: 0 10px 40px;
+        // background: #4cabcf;
+        background: #fff;
+        // padding: 0 10px 40px;
+        height: 70%;
         margin: 0 20px;
           border-radius: 10px;
           .no-data{
@@ -134,13 +138,15 @@
              }
           }
           .dept{
+              background: #4cabcf;
               height: 55px;
               line-height: 55px;
               text-align: center;
               display:flex;
               font-size:15px;
               color:white;
-              border-bottom:1px dashed white;
+              border-radius: 10px 10px 0 0;
+              // border-bottom:1px dashed white;
               .dept-item{
                   flex:1;
                   position:relative;
@@ -162,13 +168,14 @@
                 line-height: 40px;
               display:flex;
               font-size:16px;
-              color:white;
+              color:#333;
               .type-item{
                   flex:1;
                   text-align: center;
 
               }
               .active{
+                height: 100%;
                 border-top-left-radius: 10px;
                 -webkit-border-top-right-radius: 10px;
                 -moz-border-radius-topright: 10px;
