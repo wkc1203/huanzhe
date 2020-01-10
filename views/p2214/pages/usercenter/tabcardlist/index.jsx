@@ -28,6 +28,7 @@ class UserCardList extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      isShowJiaZai:true,
       showLoading: false,
       patList:[],
       // 姓名，性别，年龄
@@ -77,6 +78,9 @@ class UserCardList extends Component {
     })
     .then((res) => {
       console.log(res)
+      this.setState({
+        isShowJiaZai:false
+      })
       if(res.code==0&&res.data&&res.data.patientList.length>0){
         var list=res.data.patientList;
         for(var i=0;i<list.length;i++){
@@ -246,6 +250,7 @@ class UserCardList extends Component {
   }
   render () {
     const {
+      isShowJiaZai,
       patList,
       personGuDing,
       daixiugaiList,
@@ -270,9 +275,15 @@ class UserCardList extends Component {
              )
           })
         }
+        {
+          !!patList&&patList.length<=0&& <div  className={`no-data ${!!patList&&patList.length<=0?'noyanse':'yanse'}`}>
+          <img src='../../../resources/images/no-result.png'/>
+          <div style={{paddingBottom:'350px'}}>{isShowJiaZai?'加载中...':'暂未查询到相关信息'}</div>
+          </div>
+        }
         </div>
         {
-          status=='1'?
+          !!patList&&patList.length>0&&status=='1'?
             <TabCardPerson
               key={cardNo}
               patientTemplateId={patientTemplateId}
@@ -283,7 +294,18 @@ class UserCardList extends Component {
               patientCardNo={cardNo}
               baocun={this.baocun}
               setXiuGaiFlg ={this.setXiuGaiFlg}
-            />:<div className='queshengye'>未获取到用户信息</div>
+            />:
+            <div className="tarbar">
+            <div  onClick={()=> {hashHistory.replace({pathname:'/ask/index'})}}>
+            <img  src="./././resources/images/suifang.jpg"/>
+            <div>随访管理</div>
+            </div>
+            <div className='inquiry'  onClick={()=> {hashHistory.replace({pathname:'/usercenter/mytabcard'})}}>
+            <img  src="./././resources/images/hightMy.jpg"/>
+            <div>我的</div>
+            </div>
+            <div style={{display:'none'}}></div>
+          </div>
         }
       </div>
     )

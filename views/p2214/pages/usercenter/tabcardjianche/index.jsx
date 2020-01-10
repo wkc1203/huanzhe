@@ -14,6 +14,7 @@ import Connect from '../../../components/connect/Connect';
 import ReactEcharts from 'echarts-for-react';
 import echarts from 'echarts/lib/echarts';
 import * as Utils from '../../../utils/utils';
+import { dateTimeDate } from '../../../utils/utils';
 import * as Api from '../../../components/Api/Api';
 import './style/index.scss';
 
@@ -29,6 +30,8 @@ var monthEndDate = new Date(nowYear, nowMonth+1, 0).getDate();
 // 当月
 let currentMonth=(nowMonth+1)>=10?(nowMonth+1):'0'+(nowMonth+1)
 // 当天
+let currnt=now.getDate()>=10?now.getDate():'0'+now.getDate()
+// 当天
 let currentDay=monthStartDate>=10?monthStartDate:'0'+monthStartDate
 let firstDay=nowYear+'-'+currentMonth+'-'+currentDay
 let endDay=nowYear+'-'+currentMonth+'-'+monthEndDate
@@ -40,6 +43,8 @@ class UserCardJianChe extends Component {
     super(props)
     this.state = {
       tab:0,
+      // 进入页面显示加载
+      isShowJiaZai:true,
       // 弹框是否显示
       isShow:false,
       celiangtime:'',
@@ -407,11 +412,22 @@ class UserCardJianChe extends Component {
       this.setState({
         showIOS2: false
       })
+      console.log('celiangtime=',celiangtime)
       // let weizhiT=celiangtime.indexOf('T')
       // let requestTime=celiangtime.substring(0,weizhiT).concat(' ',celiangtime.substring(weizhiT+1),':00')
-      let weizhiTime=new Date(celiangtime)
-      let requestTime=weizhiTime.getFullYear()+'-'+(weizhiTime.getMonth()+1)+'-'+weizhiTime.getDate()+' '+weizhiTime.getHours()+":"
-        +weizhiTime.getMinutes()+':'+(weizhiTime.getSeconds()>10?weizhiTime.getSeconds():'0'+weizhiTime.getSeconds())
+      console.log('celiangtime===',celiangtime)
+      // let weizhiTime=new Date(celiangtime)
+      let weizhiTime=dateTimeDate(celiangtime)
+      // let xiaoshi=weizhiTime.getHours()
+      
+      //   +weizhiTime.getMinutes()+':'+'00'
+      //   alert(requestTime)
+      // console.log('weizhiTime=',weizhiTime)
+      let hourTime=weizhiTime.split(" ")
+      let ttt=hourTime[hourTime.length-1]
+      let requestTime=nowYear+'-'+currentMonth+'-'+currnt+' '+ttt
+      // console.log('hourTime=',weizhiTime.split(" "),hourTime)
+      // let requestTime=weizhiTime
       // 发送请求
       Api
       .addTodayData({
@@ -497,6 +513,9 @@ class UserCardJianChe extends Component {
     })
     .then((res) => {
         console.log(res)
+        this.setState({
+          isShowJiaZai:false
+        })
         if(res.code==0&&res.data&&res.data.patientList.length>0){
             var list=res.data.patientList;
             console.log('list=',list)
@@ -540,23 +559,24 @@ class UserCardJianChe extends Component {
             }
             this.setState({
                 deptList:list1,
-                diseasesList:list2
+                diseasesList:list2,
+
             })
 
             this.getTodayDat()
 
         }else{
-          this.setState({
-              showIOS1:true,
-              msg:'未获取到数据'
-          })
+          // this.setState({
+          //     showIOS1:true,
+          //     msg:'未获取到数据'
+          // })
         }
       
     }, (e) => {
-      this.setState({
-          showIOS1:true,
-          msg:'未获取到数据',
-      })
+      // this.setState({
+      //     showIOS1:true,
+      //     msg:'未获取到数据',
+      // })
     });
   }
 
@@ -943,6 +963,7 @@ class UserCardJianChe extends Component {
 
   render() {
     const {
+      isShowJiaZai,
       isShowXuanZhong,
       kemudata,
       valueList,
@@ -1088,8 +1109,9 @@ class UserCardJianChe extends Component {
               <Flex.Item>
                   <Rlabel>测量时间</Rlabel>
               </Flex.Item>
-              <Flex.Item className='add-form-flex'>
+              <Flex.Item className='add-form-flex dtdj'>
                   <Input type="datetime-local" defaultValue='' onChange={ e => {console.log(e.target.value);this.setState({celiangtime:e.target.value})}}/>
+                  <span className='datetime-local-span'></span>
               </Flex.Item>
             </Flex>
             
@@ -1097,7 +1119,7 @@ class UserCardJianChe extends Component {
         {
             !!patList&&patList.length<=0&& <div  className='no-data' style={{background:'white'}}>
             <img src='../../../resources/images/no-result.png'/>
-            <div style={{paddingBottom:'350px'}}>暂未查询到相关信息</div>
+            <div style={{paddingBottom:'350px'}}>{isShowJiaZai?'加载中...':'暂未查询到相关信息'}</div>
             </div>
           }
           {!!patList&&patList.length>0&&<div className="manageInfo">
@@ -1254,12 +1276,10 @@ class UserCardJianChe extends Component {
                           </Flex.Item>
                           
                         </Flex>:
-                        <div className='jianche-type-neirong'>
-                          <span>暂未添加数据</span>
-                        </div>
+                        null
                     }
                     {
-                      jianceList?
+                      jianceList&&jianceList.length>0?
                       <Flex className='history-data historyDingwei'>
                         <Flex.Item>
                           {/*<List>

@@ -1,5 +1,5 @@
-export const DOMAIN = 'https://tih.cqkqinfo.com/';
-// export const DOMAIN = ''
+// export const DOMAIN = 'https://tih.cqkqinfo.com/';
+export const DOMAIN = ''
 
 /**
  * 平台id

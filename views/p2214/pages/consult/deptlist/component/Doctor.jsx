@@ -56,11 +56,11 @@ class Widget extends Component {
                               <div key={index2}
                                    className={`${item2.type!=='1'?'disNo':'flex22'} ${item2.isFull != '1' &&item2.type=='1'&&item2.isOnDuty == '1'?'status-item1':'grey-item1'}`}>
                                    {item2.isFull =='1' &&item2.type=='1'&& item2.isOnDuty=='1'&&
-                                   <div>图文咨询(满)</div>}
+                                   <div>图文咨询<p>(满)</p></div>}
                                    {item2.isFull != '1' &&item2.type=='1'&& item2.isOnDuty == '1' &&
                                    <div>图文咨询</div>}
                                    {item2.type=='1'&& item2.isOnDuty == '0' &&
-                                   <div>图文咨询(离)</div>}
+                                   <div>图文咨询<p>(离)</p></div>}
                               </div>
                           )
                       })

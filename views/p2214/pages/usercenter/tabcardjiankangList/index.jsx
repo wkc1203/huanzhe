@@ -48,6 +48,7 @@ class UserCardXuanJiaoList extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      isShowJiaZai:true,
       searchText:'',
       message:'',
       isShow:false,
@@ -137,6 +138,9 @@ class UserCardXuanJiaoList extends Component {
     })
     .then((res) => {
         console.log(res)
+        this.setState({
+          isShowJiaZai:false
+        })
         if(res.code==0&&res.data&&res.data.patientList.length>0){
             var list=res.data.patientList;
             for(var i=0;i<list.length;i++){
@@ -172,18 +176,19 @@ class UserCardXuanJiaoList extends Component {
           results:list,
           isShow:false
         })
-      }else{
-        this.setState({
-          isShow:true,
-          message:'暂无宣教'
-        })
       }
+      // else{
+      //   this.setState({
+      //     isShow:true,
+      //     message:'暂无宣教'
+      //   })
+      // }
     },e=>{
       console.log(66666)
-      this.setState({
-        isShow:true,
-        message:'暂无宣教'
-      })
+      // this.setState({
+      //   isShow:true,
+      //   message:'暂无宣教'
+      // })
     })
   }
   // 模糊查询获取列表
@@ -205,23 +210,25 @@ class UserCardXuanJiaoList extends Component {
           results:list,
           isShowSecond:false
         })
-      }else{
-        this.setState({
-          isShowSecond:true,
-          message:'未查询到'
-        })
       }
+      // else{
+      //   this.setState({
+      //     isShowSecond:true,
+      //     message:'未查询到'
+      //   })
+      // }
     },e=>{
       console.log(66666)
-      this.setState({
-        isShowSecond:true,
-        message:'未查询到'
-      })
+      // this.setState({
+      //   isShowSecond:true,
+      //   message:'未查询到'
+      // })
     })
   }
 
   render () {
     const {
+      isShowJiaZai,
       name,
       sex,
       age,
@@ -237,7 +244,7 @@ class UserCardXuanJiaoList extends Component {
     const classString=cs('spe','am-icon','am-icon-md','xuanjiao-img')
     return (
       <div className='jiankang-pat'>
-        <div className="patient">
+        <div className={`patient ${!!patList&&patList.length<=0?'yingchang':''}`}>
          {!!patList&&patList.length>0&&patList.map((item,index)=>{
            return(
               <div className={`${item.active?'pat-item active':'pat-item'}`} key={index}
@@ -250,7 +257,16 @@ class UserCardXuanJiaoList extends Component {
              )
           })
         }
+        
         </div>
+        {
+          !!patList&&patList.length<=0&& <div  className='no-data' style={{background:'white'}}>
+          <img src='../../../resources/images/no-result.png'/>
+          <div style={{paddingBottom:'350px'}}>{isShowJiaZai?'加载中...':'暂未查询到相关信息'}</div>
+          </div>
+        }
+        {
+          !!patList&&patList.length>0&&
         <div className="info">
             <div className='xuanjiao'>
               {
@@ -266,7 +282,11 @@ class UserCardXuanJiaoList extends Component {
                       onChange = { this.handleChange.bind(this) }
                       placeholder = '检查项目A' 
                     />*/}
-                    <input className='xuanjiao-search-input' placeholder = '请输入关键字' onChange = {e=>this.getXuanJiaoList(e.target.value)}/>
+                    {
+                      !!patList&&patList.length>0?
+                      <input className='xuanjiao-search-input' placeholder = '请输入关键字' onChange = {e=>this.getXuanJiaoList(e.target.value)}/>
+                      :null
+                    }
                     <Cells>
                       {
                         !isShowSecond?results.map((item,index) => {
@@ -302,6 +322,7 @@ class UserCardXuanJiaoList extends Component {
               }
             </div>
           </div>
+        }
           <div className="tarbar">
             <div  onClick={()=> {hashHistory.replace({pathname:'/ask/index'})}}>
             <img  src="./././resources/images/suifang.jpg"/>

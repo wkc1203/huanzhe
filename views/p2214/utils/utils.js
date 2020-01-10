@@ -66,6 +66,42 @@ export function dateTime(time) {
   return year+"-"+month+"-"+date+"   "+hour+":"+minute;
 }
 
+// 添加数据-时间
+export function dateTimeDate(time) {
+
+  var newTime= time.replace("T"," ");
+  var t=newTime.substr(0,19);
+  var now =new Date(t.replace(/-/g,'/'))
+  var year = now.getFullYear();
+  var month = now.getMonth()+1;
+  if(month.toString().length == 1){
+      month = "0" + month;
+  }
+  var date=now.getDate();
+  if(date.toString().length == 1){
+      date = "0" + date;
+  }
+  var hour=now.getHours()
+  // var hour=now.getHours()+8;
+  // if(hour>23){
+  //     hour=hour-24;
+  //     date+=1;
+  // }
+  var minute=now.getMinutes();
+  var second=now.getSeconds();
+  if(hour.toString().length == 1){
+      hour = "0" + hour;
+  }
+  var minute=now.getMinutes();
+  if(minute.toString().length == 1){
+      minute = "0" + minute;
+  }
+  var second=now.getSeconds();
+  if(second.toString().length == 1){
+      second = "0" + second;
+  }
+  return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+"00";
+}
 //去儿童医院就诊卡绑定页面
 export function goMain(){
   window.location.href='http://wx.cqkqinfo.com/wx3/p/03/p/card_choose.cgi'

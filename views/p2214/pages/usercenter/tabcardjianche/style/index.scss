@@ -136,6 +136,17 @@ select{
   height: 44px;
   line-height: 44px;
 }
+.dtdj{
+    position: relative;
+    .datetime-local-span{
+      position: absolute;
+      border-width: 7px;
+      border-style: solid;
+      border-color: #888888 transparent transparent transparent;
+      top: 18px;
+      left: 172px;
+    }
+  }
 .add-form-oneflex {
   height: 44px;
   line-height: 44px;
