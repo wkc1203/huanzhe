@@ -99,6 +99,8 @@ class UserCardJianChe extends Component {
         // 历史数据图表
         historyChartData:[],
         historyChartTimeData:[],
+        // 添加数据-数值单位
+        unit:'',
         // 开始月份
         monthStart:'',
         // 历史数据时间
@@ -151,6 +153,7 @@ class UserCardJianChe extends Component {
 
   componentDidMount(){
     window.scrollTo(0, 0);
+    console.log('test this question')
     Utils.getJsByHide();
     let time = new Date()
     // let startMonth=time.getMonth()+1+'月'+''
@@ -181,11 +184,15 @@ class UserCardJianChe extends Component {
   }
 
   // 绘制历史数据图标 myEchart.resize()
-  setHistoryMap=(histData,hisTimeData)=>{
+  setHistoryMap=(histData,hisTimeData,normalHigh,normalLow)=>{
     this.setState({
-      isShowHistoryTu:true
+      isShowHistoryTu:true,
     })
-    console.log('this.state555=',histData)
+    // const {
+    //   normalHigh,
+    //   normalLow
+    // } = this.state
+    console.log('this.state55566=',normalHigh,normalLow)
     let option = {
       tooltip: {
           trigger: 'axis'
@@ -222,16 +229,14 @@ class UserCardJianChe extends Component {
               type:'line',
               data:histData,
               color:'#4cabcf',
-              markPoint: {
-                  data: [
-                      {type: 'max', name: '最大值'},
-                      {type: 'min', name: '最小值'}
-                  ]
-              },
               markLine: {
+                  symbol:"none",
+                  label:{
+                    position:'end'
+                  },
                   data: [
-                      {type: 'max', name: '最高值'},
-                      {type: 'min', name: '最低值'},
+                      {name: '最高值', yAxis: normalHigh, lineStyle:{type:'dotted',color:'red'}},
+                      { name: '最低值',yAxis: normalLow, lineStyle:{type:'dotted',color:'red'}},
                   ]
               }
           }
@@ -307,7 +312,9 @@ class UserCardJianChe extends Component {
     console.log('historyIsSleepValue=',this.state.historyIsSleepValue)
     const {
       todayHistoryDatStart,
-      todayHistoryDatEnd
+      todayHistoryDatEnd,
+      normalHigh,
+      normalLow
     } = this.state
     Api
     .getHistoryData({
@@ -338,7 +345,7 @@ class UserCardJianChe extends Component {
         //   historyChartTimeData:hisTimeData
         // })
           
-          this.setHistoryMap(histData,hisTimeData)
+          this.setHistoryMap(histData,hisTimeData,normalHigh,normalLow)
       }else{
         this.setState({
           isShowHistoryTu:false
@@ -446,6 +453,7 @@ class UserCardJianChe extends Component {
       
       var mId=ite[ite.selectedIndex].value
       var mName=ite[ite.selectedIndex].label
+      var mUnit=ite[ite.selectedIndex].unit
       console.log('ite=',ite)
       const {
         daxiangItemDuiList
@@ -471,6 +479,7 @@ class UserCardJianChe extends Component {
       this.setState({
         monitorId:mId,
         monitorName:mName,
+        unit:mUnit
       })
       this.getHistoryDat()
     }
@@ -588,7 +597,7 @@ class UserCardJianChe extends Component {
         
         for(let it=0;it<res.data.length;it++){
           let daxiangItemDui={value:res.data[it].id} 
-          let daxiangItem={value:res.data[it].id,label:res.data[it].name}
+          let daxiangItem={value:res.data[it].id,label:res.data[it].name,unit:res.data[it].unit}
           danxiangList.push(daxiangItem)
           // 存储标签
           let tiaojianList=[]  
@@ -612,6 +621,7 @@ class UserCardJianChe extends Component {
           monitorName:danxiangList[0].label,
           monitorId:danxiangList[0].value,
           jianceListToday:danxiangList,
+          unit:danxiangList[0].unit,
           valueList:res.data,
           daxiangItemDuiList,
           
@@ -959,7 +969,8 @@ class UserCardJianChe extends Component {
        historyIsSleep,
        isShowHistoryTu,
        todayHistoryDatEnd,
-       todayHistoryDatStart
+       todayHistoryDatStart,
+       unit
     } = this.state
     console.log('msg====',this.state)
     return(
@@ -1070,7 +1081,7 @@ class UserCardJianChe extends Component {
                   <Rlabel>测量值</Rlabel>
               </Flex.Item>
               <Flex.Item className='add-form-flex'>
-                  <Input type="number" pattern="[0-9]*" name='cheliangzhi' value={cheliangzhi} placeholder="请输入测量值" onChange={ e=> {this.setState({cheliangzhi:e.target.value})}}/>
+                  <Input type="number" pattern="[0-9]*" name='cheliangzhi' value={cheliangzhi} placeholder={unit} onChange={ e=> {this.setState({cheliangzhi:e.target.value})}}/>
               </Flex.Item>
             </Flex>
             <Flex className='add-form-oneflex'>
@@ -1079,7 +1090,6 @@ class UserCardJianChe extends Component {
               </Flex.Item>
               <Flex.Item className='add-form-flex'>
                   <Input type="datetime-local" defaultValue='' onChange={ e => {console.log(e.target.value);this.setState({celiangtime:e.target.value})}}/>
-                  <span className='add-form-select-input-jiantou'></span>
               </Flex.Item>
             </Flex>
             
@@ -1163,7 +1173,7 @@ class UserCardJianChe extends Component {
                                     return (
                                       <Flex key={index} className='jianche-flex-list'>
                                         <img src="./././resources/images/xtzx@2x.png" />
-                                            <div>{ item.monitorValue }</div>
+                                            <div>{ item.monitorValue }{itemt.unit}</div>
                                         <Flex.Item>
                                           <div>
                                             <div className='jianche-flex-list-biaoqian'>{
