@@ -157,7 +157,26 @@ hideDialog() {
       this.getCardList();
       this.getUser();
       window.localStorage.report_register='1';
-     
+    //   if(!!window.localStorage.openId){
+
+    //         Utils.sum('online_checkList',1);
+    //      }else{
+    //          var code='';
+    //         if(window.location.hostname=='tih.cqkqinfo.com'){
+    //             code='ff80808165b46560016817f20bbc00b3';
+    //           }else{
+    //             code='ff80808165b46560016817f30cc500b4';
+    //           }
+    //           var storage=window.localStorage;
+    //           //加入缓存
+    //           storage.isOpenId=1;
+    //           window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
+    //           // return false;
+    //              var storage=window.localStorage;
+    //              //加入缓存
+    //              storage.url=window.location.href;
+    //      }
+
     if(!window.localStorage.login_access_token){
         var code;
         if(window.location.hostname=='tih.cqkqinfo.com'){

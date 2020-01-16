@@ -35,7 +35,16 @@
 
 }
 .page-dept-detail{
-
+     position: relative;
+     .write{
+         width: 100%;
+         height: 100%;
+         position: absolute;
+         top:0;
+         left: 0;
+         background-color: #fff;
+         z-index: 130;
+     }
     .f-color-red{
         color: $hc-color-pink;
     }
@@ -591,6 +600,9 @@
                 color: $hc-color-gray;
                 line-height: 1.5;
                 text-align: left;
+                .contentStop{
+                    text-align:center;
+                }
                 .content-title {
                     color: $hc-color-title;
                     line-height: 24px;
@@ -608,6 +620,9 @@
                 }
             }
 
+        }
+        .matop{
+            margin-top:40% !important;
         }
         .modal-footer{
             border-top: 1px solid $hc-color-border;

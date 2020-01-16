@@ -80,24 +80,25 @@ class Widget extends Component {
         }
         const that = this; // 为解决不同context的问题
         let timeCount;
-        if(!!window.localStorage.openId){
-            Utils.sum('dept',1);
-         }else{
-             var code='';
-            if(window.location.hostname=='tih.cqkqinfo.com'){
-                code='ff80808165b46560016817f20bbc00b3';
-              }else{
-                code='ff80808165b46560016817f30cc500b4';
-              }
-              var storage=window.localStorage;
-              //加入缓存
-              storage.isOpenId=1;
-              window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
-              // return false;
-                 var storage=window.localStorage;
-                 //加入缓存
-                 storage.url=window.location.href;
-         }
+        // if(!!window.localStorage.openId){
+
+        //     Utils.sums('inquiry_img_banner',1,1);
+        //  }else{
+        //      var code='';
+        //     if(window.location.hostname=='tih.cqkqinfo.com'){
+        //         code='ff80808165b46560016817f20bbc00b3';
+        //       }else{
+        //         code='ff80808165b46560016817f30cc500b4';
+        //       }
+        //       var storage=window.localStorage;
+        //       //加入缓存
+        //       storage.isOpenId=1;
+        //       window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/"+code+"?scope=snsapi_base";
+        //       // return false;
+        //          var storage=window.localStorage;
+        //          //加入缓存
+        //          storage.url=window.location.href;
+        //  }
         window.addEventListener('scroll', function () {
             if (this.state.isLoadingMore) {
                 return ;

@@ -7,6 +7,7 @@ const { TextArea } = Input;
 import * as Api from './evaluateApi';
 import './style/index.scss';
 import hashHistory from 'react-router/lib/hashHistory';
+
 class Widget extends Component {
     static contextTypes = {
         router: React.PropTypes.object,
@@ -524,6 +525,7 @@ class Widget extends Component {
 
                         }}> 确定评价 </button>
                   <Link
+               
                       to={{
                         pathname:'/consult/deptdetail',
                         query:{doctorId:doctorid,deptId:deptid}
@@ -577,6 +579,7 @@ class Widget extends Component {
                 </div>
                 <div className="consult-again">
                     <Link   className="again"
+                
                             to={{
                         pathname:'/consult/deptdetail',
                         query:{doctorId:doctorid,deptId:deptid}

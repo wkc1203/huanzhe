@@ -73,10 +73,11 @@ class Widget extends Component {
             leftTime: 7,
             inquiryId: '',
             type: '1',
-            stopDocter:false //停用医生弹窗
+            stopDocter:"" //停用医生弹窗
         };
     }
     componentDidMount() {
+        //console.log(this.props.location.query,"this.props.location.query")
         
         if (window.localStorage.login_access_token) {
             window.localStorage.login_access_token1 = window.localStorage.login_access_token;
@@ -186,11 +187,16 @@ class Widget extends Component {
         Api
             .getDeptDetail({ doctorId: doctorId, deptId: deptId })
             .then((res) => {
+                console.log(res,"ressss")
                 this.hideLoading();
                 this.setState({
+                    stopDocter:res.code,
                     isFavorite: res.data.isFavorite,
-                    docInfo: res.data.doctor
+                    docInfo: res.data.doctor,
+                    
                 });
+                console.log(this.state.stopDocter,"stopDocter");
+                
                 this.setState({
                     type: res.data.doctor.type == '2' ? '2' : '1'
                 })
@@ -233,6 +239,11 @@ class Widget extends Component {
                 })
             }, (e) => {
                 this.hideLoading();
+                this.setState({
+                    stopDocter:e.code,
+                })
+                console.log(e,11111)
+                
             });
     }
     /*获取评价列表*/
@@ -698,11 +709,11 @@ class Widget extends Component {
                     </div>}
                 </div>}
 
-                {stopDocter && <div className='modal1'>
-                    <div className='modal-body-protocol'>
+                {stopDocter==-1 && <div className='modal1'>
+                    <div className='modal-body-protocol matop'>
                         <div className='modal-title'>温馨提示</div>
                         <div className='modal-content-protocol'>
-                            <div className="content">
+                            <div className="contentStop">
                             您好，<span>{docInfo.name}</span>医生暂未加入咨询平台，如需咨询可选择在线医生进行咨询，更多科室和医生将会陆续上线，请您留意！给您带来的不便，敬请谅解
                             </div>
                         </div>
@@ -716,6 +727,11 @@ class Widget extends Component {
                         >确认</Link>
                     </div>
                 </div>}
+                { stopDocter==-1&&
+                    <div className="write">
+
+                    </div>
+                }
             </div>
         );
     }

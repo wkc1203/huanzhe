@@ -207,7 +207,7 @@ class Widget extends Component {
                 this.sum(2,this.props.location.query.deptId);
              }else{
                  var code='';
-                if(window.location.hostname=='tih.cqkqinfo.com'){
+                if(window.location.origin=='https://tih.cqkqinfo.com'){
                     code='ff80808165b46560016817f20bbc00b3';
                   }else{
                     code='ff80808165b46560016817f30cc500b4';
@@ -1120,10 +1120,10 @@ class Widget extends Component {
                         <div className="saixuan-con">
 
                             <div id="alldcep"  onClick={(e)=>{ this.deptFilter(e,'alldcep')}}>全部科室</div>                            
-                            {
+                            {/* {
                                 console.log('测试'),
                                 console.log(deptAllListStatus)
-                            }
+                            } */}
                             {deptAllListStatus&&!!deptAllListStatus.length>0&&deptAllListStatus.map((item,index)=>{
                                 // console.log(item,index)
                                 let isact = false;

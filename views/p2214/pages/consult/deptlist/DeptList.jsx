@@ -118,6 +118,7 @@ class Widget extends Component {
         })
 
         if(this.props.location.query.source==5){
+            console.log(this.props.location.query,"5555")
             if(!!window.localStorage.openId){
                 this.sum(2,this.props.location.query.deptId);
              }else{

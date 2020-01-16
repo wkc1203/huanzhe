@@ -1861,7 +1861,7 @@ onChange = (files,file,index) => {
                 onClick={()=>{
                     console.log("docInfo.type",docInfo.type)
                                 this.context.router.push({
-                                    pathname:'usercenter/complain',
+                                    pathname:'usercenter/mysuggestion',
                                     query:{type,deptName,deptId:deptid,doctorName,doctorId:doctorid,docType:doctorType}
                                 })
                                 }}
@@ -1870,7 +1870,10 @@ onChange = (files,file,index) => {
             {  status==3  &&
                     <div className="consult-agains">
                     <Link className="agains"
-                          to={{
+                         onClick={()=>{
+                             Utils.sums('inquiry_again',2,1);
+                         }}
+                          to={{ 
                                 pathname:'/consult/deptdetail',
                                 query:{doctorId:doctorid,deptId:deptid,}
                                 }}
@@ -2486,6 +2489,9 @@ onChange = (files,file,index) => {
                     </div>
                     <div className="consult-again">
                         <Link className="again"
+                        onClick={()=>{
+                             Utils.sums('inquiry_again',2,1);
+                        }}
                               to={{
                                     pathname:'/consult/deptdetail',
                                     query:{doctorId:doctorid,deptId:deptid}
@@ -2647,6 +2653,9 @@ onChange = (files,file,index) => {
                                 }}> 确定评价
                         </button>
                         <Link
+                        onClick={()=>{
+                            Utils.sums('inquiry_again',2,1);
+                        }}
                             to={{
                                 pathname:'/consult/deptdetail',
                                 query:{doctorId:doctorid,deptId:deptid}
