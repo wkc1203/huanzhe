@@ -207,7 +207,7 @@ class Widget extends Component {
                 this.sum(2,this.props.location.query.deptId);
              }else{
                  var code='';
-                if(window.location.origin=='https://tih.cqkqinfo.com'){
+                 if(window.location.hostname=='tih.cqkqinfo.com'){
                     code='ff80808165b46560016817f20bbc00b3';
                   }else{
                     code='ff80808165b46560016817f30cc500b4';
@@ -1383,7 +1383,7 @@ class Widget extends Component {
 
             <Drawer
                 className="my-drawer"
-                style={ !!open?{minHeight: document.documentElement.clientHeight,zIndex:'100000' } :{minHeight: document.documentElement.clientHeight,zIndex:'-1' } }
+                style={ !!open?{minHeight: document.documentElement.clientHeight,zIndex:'100000',top:0 } :{minHeight: document.documentElement.clientHeight,zIndex:'-1' } }
                 enableDragHandle
                 sidebar={sidebar}
                 position="right" 

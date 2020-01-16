@@ -411,7 +411,7 @@ class Widget extends Component {
                     if(type==3){
                         console.log(30,type)
                         console.log(res.data.inquiry.orderId,"orderId")
-                        this.getDocDet(res.data.inquiry.orderId,res.data.inquiry.doctorId);
+                       // this.getDocDet(res.data.inquiry.orderId,res.data.inquiry.doctorId);
                     }
                     if(res.data.inquiry.status!='0'&&res.data.inquiry.status!='1') {
                         this.getEvaluate(res.data.inquiry.orderId);
@@ -775,10 +775,10 @@ class Widget extends Component {
                 if (res.code == 0) {
                     this.setState({
                         docInfo: res.data,
-                        doctorid: res.data.doctorId,
-                        deptid: res.data.deptId
+                        // doctorid: res.data.doctorId,
+                        // deptid: res.data.deptId
                     })
-                    console.log("doctoriddddd", res.data.doctorId)
+                    // console.log("doctoriddddd", res.data.doctorId)
                 }
                 
             }, (e) => {
