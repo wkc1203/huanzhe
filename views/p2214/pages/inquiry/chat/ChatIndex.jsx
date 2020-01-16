@@ -1938,7 +1938,7 @@ onChange = (files,file,index) => {
                             onClick={()=>{
                                 
                                 this.context.router.push({
-                                    pathname:'usercenter/complain',
+                                    pathname:'/usercenter/mysuggestion',
                                     query:{type:2,deptName,deptId:deptid,doctorName,doctorId:doctorid,docType:doctorType}
                                 })
                                 }}

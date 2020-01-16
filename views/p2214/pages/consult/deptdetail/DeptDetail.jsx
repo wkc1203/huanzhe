@@ -462,7 +462,7 @@ class Widget extends Component {
                                 storage.url = window.location.href;
                             } else {
                                 this.context.router.push({
-                                    pathname: 'usercenter/complain',
+                                    pathname: '/usercenter/mysuggestion',
                                     query: { type: 1, deptName: docInfo.deptName, deptId: docInfo.deptId, doctorName: docInfo.name, doctorId: docInfo.doctorId, resource: this.props.location.resource,docType:type }
                                 })
                             }
