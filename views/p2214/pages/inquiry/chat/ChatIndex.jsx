@@ -421,7 +421,7 @@ class Widget extends Component {
                     if(type==3){
                         console.log(30,type)
                         console.log(res.data.inquiry.orderId,"orderId")
-                        this.getDocDet(res.data.inquiry.orderId,res.data.inquiry.doctorId);
+                       // this.getDocDet(res.data.inquiry.orderId,res.data.inquiry.doctorId);
                     }
                     if(res.data.inquiry.status!='0'&&res.data.inquiry.status!='1') {
                         this.getEvaluate(res.data.inquiry.orderId);
@@ -808,12 +808,13 @@ class Widget extends Component {
             .then((res) => {
                 console.log("rrrrr",res)
                 if (res.code == 0) {
-                    // this.setState({
-                    //     docInfo: res.data,
-                    //     doctorid: res.data.doctorId,
-                    //     deptid: res.data.deptId
-                    // })
-                    console.log("doctoriddddd", res.data.doctorId)
+                    this.setState({
+                        docInfo: res.data,
+                        // doctorid: res.data.doctorId,
+                        // deptid: res.data.deptId
+                    })
+                   // console.log("doctoriddddd", res.data.doctorId)
+                    // console.log("doctoriddddd", res.data.doctorId)
                 }
                 
             }, (e) => {
@@ -1902,7 +1903,7 @@ onChange = (files,file,index) => {
                 onClick={()=>{
                     console.log("docInfo.type",docInfo.type)
                                 this.context.router.push({
-                                    pathname:'usercenter/complain',
+                                    pathname:'usercenter/mysuggestion',
                                     query:{type,deptName,deptId:deptid,doctorName,doctorId:doctorid,docType:doctorType}
                                 })
                                 }}
@@ -1911,7 +1912,10 @@ onChange = (files,file,index) => {
             {  status==3  &&
                     <div className="consult-agains">
                     <Link className="agains"
-                          to={{
+                         onClick={()=>{
+                             Utils.sums('inquiry_again',2,1);
+                         }}
+                          to={{ 
                                 pathname:'/consult/deptdetail',
                                 query:{doctorId:doctorid,deptId:deptid,}
                                 }}
@@ -2064,7 +2068,7 @@ onChange = (files,file,index) => {
                             onClick={()=>{
                                 
                                 this.context.router.push({
-                                    pathname:'usercenter/complain',
+                                    pathname:'/usercenter/mysuggestion',
                                     query:{type:2,deptName,deptId:deptid,doctorName,doctorId:doctorid,docType:doctorType}
                                 })
                                 }}
@@ -2615,6 +2619,9 @@ onChange = (files,file,index) => {
                     </div>
                     <div className="consult-again">
                         <Link className="again"
+                        onClick={()=>{
+                             Utils.sums('inquiry_again',2,1);
+                        }}
                               to={{
                                     pathname:'/consult/deptdetail',
                                     query:{doctorId:doctorid,deptId:deptid}
@@ -2776,6 +2783,9 @@ onChange = (files,file,index) => {
                                 }}> 确定评价
                         </button>
                         <Link
+                        onClick={()=>{
+                            Utils.sums('inquiry_again',2,1);
+                        }}
                             to={{
                                 pathname:'/consult/deptdetail',
                                 query:{doctorId:doctorid,deptId:deptid}

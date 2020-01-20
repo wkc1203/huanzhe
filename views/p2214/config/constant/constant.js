@@ -1,4 +1,4 @@
-// export const DOMAIN = 'https://tih.cqkqinfo.com/';
+//  export const DOMAIN = 'https://tih.cqkqinfo.com';
 export const DOMAIN = ''
 
 /**

@@ -1555,7 +1555,7 @@ onChange = (files,file,index) => {
                                     <img src='./././resources/images/plusSample.png'
                                     onClick={()=>{
                                         this.context.router.push({
-                                            pathname:'usercenter/complain',
+                                            pathname:'/usercenter/mysuggestion',
                                             query:{type:2,deptName:docInfo.deptName,deptId:docInfo.deptId,doctorName:docInfo.doctorName,doctorId:docInfo.doctorId,docType:docInfo.type}
                                         })
                                         }}

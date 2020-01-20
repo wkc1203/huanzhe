@@ -3,6 +3,7 @@ import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
 import { Link } from 'react-router';
+import * as Utils from '../../../utils/utils';
 import { Input,Upload,Anchor,Icon, Modal} from 'antd';
 const { TextArea } = Input;
 
@@ -1369,6 +1370,9 @@ class Widget extends Component {
                     </div>
                     <div className="consult-again">
                         <Link className="again"
+                                   onClick={()=>{
+                                    Utils.sums('inquiry_again',1,1);
+                               }}
                               to={{
                                     pathname:'/consult/deptdetail',
                                     query:{doctorId:doctorid,deptId:deptid}
@@ -1469,6 +1473,9 @@ class Widget extends Component {
                                 }}> 确定评价
                         </button>
                         <Link
+                             onClick={()=>{
+                                Utils.sums('inquiry_again',1,1);
+                           }}
                             to={{
                                 pathname:'/consult/deptdetail',
                                 query:{doctorId:doctorid,deptId:deptid}

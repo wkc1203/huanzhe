@@ -1,0 +1,102 @@
+@charset "utf-8";
+@import "../../../../resources/styles/mixins";
+.replyhome{
+    z-index: 0 !important; 
+}
+.hc-toptip{
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    background-color: #FFDECD;
+    color: #FF613B;
+    font-size: 15px;
+    background-size: 30px;
+    background-position: 15px center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index:150;
+    box-shadow: 0px 3px 7px 0px rgba(241,243,246,1);
+}
+.complain-suggest{
+   margin-bottom:10px;
+   padding:0 20px;
+   .suggest-title{
+       font-size: 16px;
+       margin: 10px  0;
+   }
+   .area-box {
+       margin-bottom:10px;
+            textarea::-webkit-input-placeholder{
+                color: $hc-color-info;
+                font-size: 17px;
+            }
+            height: 90px;
+            border: 1px solid $hc-color-border;
+            border-radius: 4px;
+            padding: 5px;
+            font-size: 17px;
+            textarea{
+                height: 90px;
+                resize:none;
+                border:none;
+                font-size:12pt;
+                width:100%;
+            }
+        }
+        
+}
+
+.image-box{
+    padding:0 20px;
+    .img-title{
+       margin: 10px  0;
+       font-size: 16px;
+    }
+    .img-choose-box{
+        margin-top:10px;
+        margin-bottom:30px;
+    }
+    .img-item {
+                    position: relative;
+                    display: inline-block;
+                    width: 60px;
+                    background-image: url('../../../../resources/images/add-img.png');
+                    height: 60px;
+                    border: 1px solid $hc-color-border;
+                    border-radius: 4px;
+                    background-size: 50% 50%;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    input{
+                        position: absolute;
+                        left: 0px;
+                        top: 1px;
+                        height: inherit;
+                        width: inherit;
+                        opacity: 0;
+                    }
+                    img{
+                        width: 27px;
+                        height: 27px;
+                        padding: 17px;
+                    }
+                }
+                .img-add{
+                    position: relative;
+                    width: 60px;
+                    height: 60px;
+                    border: 1px solid $hc-color-border;
+                    border-radius: 4px;
+                    icon {
+                        position: absolute;
+                        right: -10px;
+                        top: -10px;
+                    }
+                    img{
+                        width: 55px;
+                        height: 55px;
+                    }
+                }
+}

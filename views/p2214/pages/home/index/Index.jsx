@@ -71,6 +71,8 @@ class Widget extends Component {
         Utils.sum('index',1);
         Utils.sum('index_inquiry_img',1);
         Utils.sum('index_good_more',1);
+        Utils.sums('inquiry_img_banner',2,1);
+        Utils.sums('online_checkList',2,1);
      }else{
          /* var code='';  
         if(window.location.hostname=='tih.cqkqinfo.com'){
@@ -304,7 +306,7 @@ class Widget extends Component {
               <div className="f-pa">
               <div className="d-tab"
               onClick={()=>{
-                Utils.sum('index_inquiry_img',2);
+                Utils.sum('index_inquiry_img',);
                   this.context.router.push({
                       pathname: '/consult/alldeptlist'
                   })
@@ -398,6 +400,7 @@ class Widget extends Component {
                 <div>
                     <img src="./././resources/images/index-search.png" alt=""
                     onClick={()=>{
+                         Utils.sums('inquiry_img_banner',2,1);
                         this.context.router.push({
                             pathname: '/consult/alldeptlist'
                         })
@@ -406,6 +409,7 @@ class Widget extends Component {
                 <div>
                 <img    src="./././resources/images/index-report.png" alt=""
                 onClick={()=>{
+                    Utils.sums('online_checkList',2,1);
                     this.context.router.push({
                         pathname: '/report/reportlist'
                     }) }} />

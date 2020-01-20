@@ -1,0 +1,98 @@
+@charset "utf-8";
+@import "../../../../resources/styles/mixins";
+@import"../../complain/style/index";
+html,body{
+    height:100%;
+    width: 100%;
+}
+.totaldetial{
+    height:100%;
+    background-color: #fff;
+}
+.detailItem{
+    border-radius: 0px;
+    background-color: #fff;
+    padding: 0px !important;
+
+}
+.subSuggestItem{
+    
+    .sugText{
+        .sugImg{
+            display:flex;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            img{
+                height: 50px;
+                width: 50px;
+                border-radius:10px;
+                margin-right: 10px;
+            }
+           
+        }
+        .sugtextDetil{
+            color: black;
+            word-wrap: break-word;
+        }
+        .replayItem{
+          display: flex;
+          justify-content: space-between;
+          .sugtitles{
+              text-align-last:left;
+               color: #999999;
+          }
+          .submitTime{
+              color: #999999;
+          }
+    }
+      .sugcontext{
+              margin-bottom:20px;
+               word-wrap: break-word;
+               word-break: normal;
+              color:black;
+          }
+            .sugtexts{
+            color: black;
+            word-wrap: break-word;
+            margin-bottom: 20px;
+            }
+    }
+    .line{
+        margin-top: 10px;
+        background-color: #ccc;
+        height: 1px;
+        border: none;
+
+    }
+}
+.reply{
+            border:none;
+            background-color: $hc-color-primary;
+            color: #fff;
+            font-size: 18px;
+            height: 47px;
+            border-radius: 4px;
+            position:relative;
+            display:block;
+
+            width:332px;
+            margin:0 auto;
+            padding-left:14px;
+            padding-right:14px;
+            box-sizing:border-box;
+
+            text-align:center;
+            text-decoration:none;
+            line-height:2.55555556;
+
+           // -webkit-tap-highlight-color:transparent;
+            overflow:hidden;
+    // background-color: #50abca;
+    // margin-top: 20px;
+    // border-radius: 10px !important;
+}
+.back{
+    color: black !important;
+    background-color: #fff !important;
+    margin-bottom: 50px;
+}

@@ -193,7 +193,19 @@ export function sum(code,type){
       hisId:'2214',
       code:code,
       type:type,
-      openId:window.localStorage.openId
+      openId:window.localStorage.openId,
+  })
+  .then((res) => {
+  }, (e) => {
+  });
+}
+export function sums(code,type,source){
+  getSum({
+      hisId:'2214',
+      code:code,
+      type:type,
+      openId:window.localStorage.openId,
+      source:source
   })
   .then((res) => {
   }, (e) => {

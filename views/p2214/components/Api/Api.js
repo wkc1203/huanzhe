@@ -41,8 +41,14 @@ export const checkTime = param => fetch.post('/api/ehis/user/personal/userCheckM
 export const getMsg = (param) => fetch.post('/api/ehis/health/api/inquiry/message', param);
 
 export const getHisInfo = param => fetch.post('api/ehis/common/cache/get/branner_his', param);
-
+//投诉建议
 export const complain = (param) => fetch.post('/api/ehis/user/complaints/addcomplaintsinfo', param);
+//追加回复
+export const addReply = (param) => fetch.post('/api/ehis/user/complaints/appendReply', param);
+//获取投诉列表
+export const getcomplaintslist = (param) => fetch.post('/api/ehis/user/complaints/getcomplaintslist', param);
+//获取投诉详情
+export const getcomplaintDetail = (param) => fetch.post('/api/ehis/user/complaints/getcomplaintsdetailinfo', param);
 
 export const getSign = (param) => fetch.post('/api/ehis/health/api/file/sign', param);
 
