@@ -16,9 +16,9 @@ class Widget extends Component {
         super(props);
         this.state = {
             reasonList: [],
-            replyList:[],
+            replyList: [],
             img: [],
-            replyUrl:[],
+            replyUrl: [],
             modalIsOpen: false,
             index: 0,
             isOpen: false,
@@ -27,7 +27,7 @@ class Widget extends Component {
     };
     /* 获取我的建议 */
     componentDidMount() {
-        this.tosuggestdetail() 
+        this.tosuggestdetail()
     }
 
 
@@ -46,29 +46,50 @@ class Widget extends Component {
             .then((res) => {
                 console.log("resss", res);
                 if (res.code == 0) {
-                    // this.hideLoading();
+                   this.hideLoading();
                     this.setState({
                         reasonList: res.data,
-                        replyList: res.data.replyList
+                        replyList: res.data.replyList,
                     })
+                    // if( res.data.replyList.replyUrl!=""){
+                    //     this.setState({
+                    //         replyUrl:res.data.replyList.replyUrl.split(",")
+                    //     })
+                    // }
                     console.log(this.state.reasonList, "reasonList")
-                    console.log(this.state.replyList,"replyList")
-                    if(res.data.complaintsCert!==""){  
-                       const img=this.state.reasonList.complaintsCert.split(",")
-                        
-                       this.setState({
-                        img:img,
-                    })
-                     console.log(this.state.img,"stateimgs")
-                   }
+                    console.log(this.state.replyList, "replyList")
+                    if (res.data.complaintsCert !== "") {
+                        const img = this.state.reasonList.complaintsCert.split(",")
+
+                        this.setState({
+                            img: img,
+
+                        })
+                        console.log(this.state.img, "stateimgs")
+                    }
 
                 }
             })
 
     }
 
+   /*预览图片*/
+   previewImg(url,urls) {
+    event.stopPropagation();
+    event.preventDefault();
+    // const arr = [];
+    // this.state.img.map(item => {
+    //     if (item) {
+    //         arr.push(item);
+    //     }
+    // });
+    wx.previewImage({
+        current: url, // 当前显示图片的http链接
+        urls:urls?urls:this.state.img // 需要预览的图片http链接列表
+    }); 
 
-    
+}
+
     render() {
         const BackButtonStyle = {
             display: 'inline-block',
@@ -80,7 +101,7 @@ class Widget extends Component {
             left: '15px'
         }
 
-        const { reasonList,replyList,replyUrl,index,isOpen,img,showMultiple } = this.state
+        const { reasonList, replyList, replyUrl, index, isOpen, img, showMultiple } = this.state
         // const time = new Date(reasonList.createTime)
         // let _year = time.getFullYear();
         // let _month = (time.getMonth() + 1) < 10 ? '0' + (time.getMonth() + 1) : (time.getMonth() + 1);
@@ -109,89 +130,82 @@ class Widget extends Component {
                             <div className="subSuggestItem detailItem">
 
                                 <div className="sugText">
-                                  <p><span className="sugtitle">提交时间：</span> <span className="sugtext">{reasonList.createDate}</span></p>
-                                   <p><span className="sugtitle">提交人：</span> <span className="sugtext">{reasonList.patientName}</span></p>
+                                    <p><span className="sugtitle">提交时间：</span> <span className="sugtext">{reasonList.createDate}</span></p>
+                                    <p><span className="sugtitle">提交人：</span> <span className="sugtext">{reasonList.patientName}</span></p>
                                     <p><span className="sugtitle">投诉建议原因：</span> <span className="sugtext">{reasonList.complaintsReason}</span></p>
                                     <p><span className="sugtitle">投诉建议内容：</span ></p>
-                                    <div className="sugtextDetil">{reasonList.complaintsContent}</div>
+                                    <div className="sugtextDetil">{reasonList.complaintsContent?reasonList.complaintsContent: "暂无"}</div>
                                     {this.state.img.length > 0 &&
-                                    <div className="sugImg">         
-                                        {
-                                            img.length > 0 && 
-                                            img.map((item, index) => {
-                                                return (
-                                                   <img src={item} alt="" key={index} onClick={()=>this.setState({ showMultiple: true})}/> 
-                                               
-                                                )
-                                            })
-                                        }
-                                        {  showMultiple&&
-                                         <Gallery src={img} show={showMultiple} onClick={(e)=>this.setState({ showMultiple: false})}>
-                                            {/* <Button
-                                                style={BackButtonStyle}
-                                                onClick={e=>this.setState({ showSingle: false})}
-                                                plain
-                                            >
-                                                Back
-                                            </Button> */}
-                                            {/* <GalleryDelete
-                                                onClick={ (e, i)=> alert('click deleted id:' + i) }
-                                            /> */}
-                                        </Gallery>
-                                        }
-                                    </div>
-                                   }
-                                          { replyList && replyList.map((reply,index)=>{
-                                            if(reply.type==2){
-                                            return(
-                                                <div>
-                                                    <p className="replayItem">
-                                                        <span className="sugtitles">处理回复</span>
-                                                        
-                                                        <span className="submitTime">{reply.createDate}</span>
-                                                    
-                                                    </p>
-                                                        <div className="sugcontext" key={index}>{reply.replyContent}</div>
-                                                 </div>
-                                            )
-                                             }
-                                        })
-                                    //    }
-                                          }
-
-                            
-                                </div>         
-                                  {  replyList.length>0 &&    
-                                        <hr className="line"/>}
-                                 { replyList.length>0 && replyList.map((reply,index)=>{
-                                     return(
-                                         <div className="sugText" key={index}>
-                                       
-                                       <p className="replayItem">
-                                        <span className="sugtitles">追加回复</span>
-                                        <span className="submitTime">
-                                        {reply.createDate}
-                                        </span>
-                                       </p> 
-                                       <div className="sugcontext">{reply.replyContent}</div>
-                                     { replyUrl.length > 0 &&
-                                          <div className="sugImg">
+                                        <div className="sugImg">
                                             {
-                                               replyUrl.map((items, index) => {
+                                                img.length > 0 &&
+                                                img.map((item, index) => {
                                                     return (
-                                                        <img src={items} alt="" key={index} /> 
+                                                        <img src={item.indexOf("ihoss") == '-1' ? item : item + "?x-oss-process=image/resize,w_105"} alt="" key={index} 
+                                                        onClick={() => {
+                                                            this.previewImg(item)
+                                                        }} />
+
                                                     )
                                                 })
                                             }
-                                           </div>
-                                       
-                                       } 
-                                     </div>
-                                     )
-                                    
-                                 }) 
-                                
-                                 }
+                                        </div>
+                                    }
+                                    {/* {replyList && replyList.map((reply, index) => {
+                                        if (reply.type == 2) {
+                                            return (
+                                                <div>
+                                                    <p className="replayItem">
+                                                        <span className="sugtitles">处理回复</span>
+
+                                                        <span className="submitTime">{reply.createDate}</span>
+
+                                                    </p>
+                                                    <div className="sugcontext" key={index}>{reply.replyContent}</div>
+                                                </div>
+                                            )
+                                        }
+                                    })
+                                        //    }
+                                    } */}
+
+
+                                </div>
+                                {/* {replyList.length > 0 &&
+                                    <hr className="line" />} */}
+                                {replyList.length > 0 && replyList.map((reply, index) => {
+                                    return (
+                                        <div className="sugText" key={index}>
+
+                                            <p className="replayItem">
+                                                <span className="sugtitles">{reply.replyName}</span>
+                                                <span className="submitTime">
+                                                    {reply.createDate}
+                                                </span>
+                                            </p>
+                                            <div className="sugcontext">{reply.replyContent}</div>
+                                            {reply.replyUrl!=""&&
+                                                <div className="sugImg">
+                                                    {
+                                                       reply.replyUrl.split(",").map((items, index) => {
+                                                            return (
+                                                                <img src={items} 
+                                                                onClick={() => {
+                                                                    this.previewImg(items,reply.replyUrl.split(","))
+                                                                }}
+                                                                alt="" key={index} />
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+
+                                            }
+                                        </div>
+                                    )
+
+                                })
+
+                                }
 
 
                             </div>
@@ -206,7 +220,10 @@ class Widget extends Component {
                             >追加回复</Button>
                             <Button className="reply back"
                                 onClick={() => {
-                                    this.props.history.go(-1)
+                                    this.context.router.push({
+                                        pathname: '/usercenter/complain',
+                                       // query: { id: this.props.location.query.id }
+                                    })
                                 }
                                 }
                             >返回</Button>

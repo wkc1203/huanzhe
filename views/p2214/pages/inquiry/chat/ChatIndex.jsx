@@ -1861,7 +1861,7 @@ onChange = (files,file,index) => {
                 onClick={()=>{
                     console.log("docInfo.type",docInfo.type)
                                 this.context.router.push({
-                                    pathname:'usercenter/mysuggestion',
+                                    pathname:'/usercenter/mysuggestion',
                                     query:{type,deptName,deptId:deptid,doctorName,doctorId:doctorid,docType:doctorType}
                                 })
                                 }}

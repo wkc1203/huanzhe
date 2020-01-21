@@ -134,15 +134,15 @@ import IUHome from '../../pages/usercenter/home/Home';
 import AddCard from '../../pages/usercenter/addcard/AddCard';
 import ICardTip from '../../pages/usercenter/cardtip/CardTip';
 import ICollect from '../../pages/usercenter/collect/CollectIndex';
-// import IComplain from '../../pages/usercenter/complain/ComplainIndex';
+import IComplain from '../../pages/usercenter/complain/ComplainIndex';
 import NewPhone from '../../pages/usercenter/newphone/NewPhone';
 import SameCard from '../../pages/usercenter/samecard/SameCard';
 import UserList from '../../pages/usercenter/userlist/UserList';
 import UserInfo from '../../pages/usercenter/userinfo/UserInfo';
 // //投诉建议
-// import suggestDetail from '../../pages/usercenter/suggestDetail/suggestDetail';
+ import suggestDetail from '../../pages/usercenter/suggestDetail/suggestDetail';
 import Suggestion from '../../pages/usercenter/mySuggestion/mySuggestion'; 
-// import Replay from '../../pages/usercenter/replay/replay';
+import Replay from '../../pages/usercenter/replay/replay';
 // 随访记录-首页
 import Tabcard from '../../pages/usercenter/tabcard/index'
 import UserCardInfo from '../../pages/usercenter/tabcardmap/index'
@@ -330,16 +330,16 @@ class Routers extends React.Component {
             <Route path="/usercenter/home" component={IUHome} title='个人中心' />
             <Route path="/usercenter/addcard" component={AddCard} title='重医儿童医院咨询平台' />
             <Route path="/usercenter/cardtip" component={ICardTip} title='重医儿童医院咨询平台' />
-            {/* <Route path="/usercenter/complain" component={IComplain} title='重医儿童医院咨询平台' /> */}
+            <Route path="/usercenter/complain" component={IComplain} title='重医儿童医院咨询平台' />
             <Route path="/usercenter/collect" component={ICollect} title='重医儿童医院咨询平台' />
             <Route path="/usercenter/newphone" component={NewPhone} title='重医儿童医院咨询平台' />
             <Route path="/usercenter/samecard" component={SameCard} title='重医儿童医院咨询平台' />
             <Route path="/usercenter/userinfo" component={UserInfo} title='重医儿童医院咨询平台' />
             <Route path="/usercenter/userlist" component={UserList} title='重医儿童医院咨询平台' />
              {/* 投诉建议 */}
-             {/* <Route path="/usercenter/suggestdetail" component={suggestDetail} title='重医儿童医院咨询平台' /> */}
+             <Route path="/usercenter/suggestdetail" component={suggestDetail} title='重医儿童医院咨询平台' />
             <Route path="/usercenter/mysuggestion" component={Suggestion} title='重医儿童医院咨询平台' /> 
-            {/* <Route path="/usercenter/replay" component={Replay} title='重医儿童医院咨询平台' /> */}
+            <Route path="/usercenter/replay" component={Replay} title='重医儿童医院咨询平台' />
           </Route>
 
           {/* 首页 */}

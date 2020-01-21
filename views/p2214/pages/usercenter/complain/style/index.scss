@@ -21,19 +21,21 @@
                    display: flex;
                 .sugtitle{
                     color: #999999;
-                    //flex: 0 0 120px;
-                    display:inline-block;
-                 // text-align-last: justify;
-                    //text-align:justify;
+                   // flex: 0 0 120px;
+                    //display:inline-block;
+                   // text-align-last: justify;
+                   // text-align:justify;
               
-              .sugtext{
-                 // flex: 1;
-                  color: black !important;
+              
+               }
+               .sugtextss{
+                  max-width:180px;
+                  //flex: 1;
+                  color: black;
                   overflow: hidden; 
                   text-overflow: ellipsis;
                   white-space: nowrap;
               }
-               }
             }
               
               .line{
@@ -64,15 +66,13 @@
         }
         
      }
-       .sugtImg{
+       .linkImg{
         position: fixed;
         bottom: 80px;
         right: 20px;
             img{
-                
-                width: 40px;
-                height: 40px;
-              
+               // width: 40px;
+                height: 50px;
             }
         }     
     }

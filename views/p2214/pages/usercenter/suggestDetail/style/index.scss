@@ -5,18 +5,26 @@ html,body{
     height:100%;
     width: 100%;
 }
+
+.wgt-container{
+    height: ""!important;
+}
 .totaldetial{
-    height:100%;
+     //height:100%;
     background-color: #fff;
 }
 .detailItem{
+
     border-radius: 0px;
     background-color: #fff;
     padding: 0px !important;
 
 }
+.suggestItem{
+    height:100%;
+}
 .subSuggestItem{
-    
+    height:100%;
     .sugText{
         .sugImg{
             display:flex;

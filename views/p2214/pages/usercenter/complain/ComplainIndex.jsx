@@ -98,17 +98,17 @@ class Widget extends Component {
                                     <PanelBody>
                                         <MediaBox>
                                             <MediaBoxDescription className="sugText">
-                                                <p><span className="sugtitle">投诉建议原因：</span> <span className="sugtext">{item.complaintsReason}</span></p>
-                                                <p><span className="sugtitle">提交时间：</span> <span className="sugtext">{item.createDate}</span></p>
-                                                <p><span className="sugtitle">提交人：</span> <span className="sugtext">{item.patientName}</span></p>
-                                                <p><span className="sugtitle">投诉建议内容：</span > <span  className="sugtext">{item.complaintsContent}</span></p>
+                                                <p><span className="sugtitle">投诉建议原因：</span> <span className="sugtextss">{item.complaintsReason}</span></p>
+                                                <p><span className="sugtitle">提交时间：</span> <span className="sugtextss">{item.createDate}</span></p>
+                                                <p><span className="sugtitle">提交人：</span> <span className="sugtextss">{item.patientName}</span></p>
+                                                <p><span className="sugtitle">投诉建议内容：</span > <span className="sugtextss">{item.complaintsContent?item.complaintsContent: " 暂无 "}</span></p>
                                                { reasonList[index].replyList!=[]&&
                                                   reasonList[index].replyList.map((iitem,id)=>{
                                                       if(iitem.type==2){
                                                          return(
-                                                        <p key={id}><span className="sugtitle">处理回复：</span>
+                                                        <p key={0}><span className="sugtitle">处理回复：</span>
                                                         
-                                                         <span  className="sugtext">{iitem.replyContent}</span>
+                                                         <span  className="sugtextss">{iitem.replyContent}</span>
                                                        
                                                          </p>  
                                                       )  
@@ -145,14 +145,14 @@ class Widget extends Component {
 
                         })
                     }
-                    <Link className="sugtImg" 
+                    <Link className="linkImg" 
                                       to={{
                                             pathname:'/usercenter/mysuggestion',
                                             //query:{doctorId:doctorid,deptId:deptid,resource:2}
                                       } }
                                     
                                     >
-                                       <img  src="../../../resources/images/upload-xzlx.png" alt=""/>
+                                       <img  src="../../../resources/images/u37.svg" alt=""/>
                     </Link>
                 </div>
             </div>
