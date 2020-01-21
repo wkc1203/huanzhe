@@ -150,14 +150,14 @@ class Widget extends Component {
             }else{
               this.setState({
                   showIOS1:true,
-                  msg:'您暂无加入随访计划'
+                  msg:'您暂未加入随访计划'
               })
             }
           
         }, (e) => {
                 this.setState({
                     showIOS1:true,
-                    msg:'您暂无加入随访计划',
+                    msg:'您暂未加入随访计划',
                 })
         });
     } 

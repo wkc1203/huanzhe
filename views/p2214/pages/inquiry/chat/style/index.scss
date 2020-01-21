@@ -877,6 +877,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
 .pingJia{
     width:100%;
     padding-bottom: 120px;
@@ -993,6 +994,53 @@
         }
     }
     
+  }
+    // .myPajin{
+    //     height: auto !important;
+    //     position: fixed !important;
+    //     top: auto !important;
+    //     padding-bottom: 0
+    // }
+.unshowpingjia{
+    display: none;
+}
+.xing-title-biaoqian{
+    display: inline-block;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 3px;
+    text-align: center;
+    border:1px solid #4cabcf;
+    color: #4cabcf;
+    margin-left: 10px;
+    border-radius: 10px;
+    min-width: 30px;
+}
+.pingjia-btn{
+    margin-bottom: 80px;
+}
+.xing-title-time{
+    float: right;
+    color: #ccc;
+}
+.wordLine{
+    font-size: 14px;
+    word-break:break-all;
+}
+.xing-content{
+    word-break:break-all;
+    margin-bottom:5px;
+    height: 100px;
+    overflow-y:auto; 
+}
+.heightAuto{
+    max-height: 70px !important;
+    line-height: 20px !important;
+    overflow-y: auto;
+    margin-bottom: 5px;
+}
+.fontWeight{
+    font-weight: 900;
 }
 .ping-btn{
     position: absolute;

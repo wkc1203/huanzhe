@@ -89,6 +89,14 @@ class Widget extends Component {
             appraisal1: '',
             pingShow: true,
             newScore: '',
+            // 医院评价星级
+            newHisScore:'',
+            // 医生评价详情
+            doctorPingjia:'',
+            // 医院评价详情
+            newHisText:'',
+            // 管理员回复
+            gmPingJia:'',
             itemList: 0,
             detail: '',
             payBack:true,
@@ -166,6 +174,8 @@ class Widget extends Component {
             docPlace:false,//是否显示输入
             hisPlace:false,
             isadvise:false,//建议按钮
+            // 评价显示
+            isPingJia:false,
         };
     }
     componentDidMount() {
@@ -383,7 +393,7 @@ class Widget extends Component {
             .then((res) => {
                 if (res.code == 0) {
                      console.log("resdata",res)
-                    if(this.mounted){ 
+                    if(this.mounted){
                         this.setState({
                             userData:res.data.patient,
                             patientName: res.data.inquiry.patientName,
@@ -689,9 +699,14 @@ class Widget extends Component {
             .then((res) => {
                 if (res.data.length > 0) {
                     this.setState({
+                        isPingJia:true,
                         isEvaluate: true,
                         newScore: res.data[0].score ? res.data[0].score : '',
+                        newHisScore: res.data[0].hisScore ? res.data[0].hisScore : '',
                         newText: res.data[0].appraisal ? res.data[0].appraisal : '',
+                        gmPingJia: res.data[0].replyAppraisal?JSON.parse(res.data[0].replyAppraisal):'',
+                        newHisText:res.data[0].hisAppraisal ? res.data[0].hisAppraisal : '',
+                        newHisItem:res.data[0].hisAppraisalLabel ? res.data[0].hisAppraisalLabel : '',
                         newItem: res.data[0].appraisalLabel ? res.data[0].appraisalLabel : '',
                         newTime: this.dateTime(res.data[0].createTime ? res.data[0].createTime : ''),
                     })
@@ -701,8 +716,28 @@ class Widget extends Component {
                     var str = this.state.newItem;
                     var s = [];
                     s = str.split("-");
+                    console.log('hisAppraisalLabel=',res.data[0].appraisalLabel)
+                    if(res.data[0].appraisalLabel&&res.data[0].appraisalLabel.length>0){
+                      let newitem=s.map((item,index)=>{
+                        return "#".concat(item,'#')
+                      })
+                      this.setState({
+                        doctorPingjia:newitem.concat(res.data[0].appraisal)
+                      })
+                    }
+                    
+                    let hisPinjia=this.state.newHisItem
+                    if(hisPinjia&&hisPinjia.split("-").length>0){
+                      let newhisitem=hisPinjia.split("-").map((item,index)=>{
+                        return "#".concat(item,'#')
+                      })
+                      this.setState({
+                        historyPingjia:newhisitem.concat(res.data[0].hisAppraisal)
+                      })
+                    }
+                    console.log('doctorPingjia=',this.state)
                     this.setState({
-                        itemList: 0
+                        itemList: 0,
                     })
                     for (var i = 0; i < s.length; i++) {
                         if (s[i] == this.state.t1.text) {
@@ -778,6 +813,7 @@ class Widget extends Component {
                         // doctorid: res.data.doctorId,
                         // deptid: res.data.deptId
                     })
+                   // console.log("doctoriddddd", res.data.doctorId)
                     // console.log("doctoriddddd", res.data.doctorId)
                 }
                 
@@ -1243,6 +1279,12 @@ class Widget extends Component {
             txtNum: e.target.value.length,
             appraisal: e.target.value
         })
+    }
+    // 评价弹框关闭
+    closePingJia(){
+      this.setState({
+        isPingJia:false
+      })
     }
     saveContent1(e) {
         this.setState({
@@ -1800,11 +1842,11 @@ onChange = (files,file,index) => {
   }
       
     render() {
-    const {userData,reportDate,isEvaluate,files,freeReport,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,
+    const {isPingJia,userData,reportDate,isEvaluate,files,freeReport,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,
         name,match,hieghtMore,docList,uId,hisList,score,txtNum,txtNum1,t1,t2,t3,t4,t5,timeShow,numEnd,pics,innerAudioContext,
-        canEnd,appraisal,appraisal1,pingShow,newScore,itemList,detail,payBack,isOk,newText ,isDuration,newItem,status,
+        canEnd,appraisal,appraisal1,pingShow,newScore,newHisScore,itemList,detail,payBack,isOk,newText ,newHisText,doctorPingjia,gmPingJia,isDuration,newItem,status,
         hisPlace,docPlace,newTime,doctorName,deptName,noDoctor,tipShow,docScore,msg,hisScore,end,sign,signature,formData,policy,callback,OSSAccessKeyId,key,
-        evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText,isadvise,doctorType,type}=this.state
+        evaluateTime,isBtn,inputText,isPlay,prevText,nextprevText,isadvise,doctorType,type,historyPingjia}=this.state
         return (
             <div style={{height:'100%'}} className="chat">
             <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
@@ -1878,6 +1920,94 @@ onChange = (files,file,index) => {
                                 query:{doctorId:doctorid,deptId:deptid,}
                                 }}
                         >再次咨询</Link>
+                        {
+                          isPingJia?
+                        <div className={`modal-pingJia ${isPingJia?'':'showTxt'}`} onClick={e=>this.closePingJia(e)}>
+                          <div className="pingJia" style={{height: 'auto',position: 'fixed',top: 'auto',paddingBottom: '0px'}}>
+                            <div className="title">我的评价</div>
+                            <div className="ping">
+                              <div className="xing">
+                                <span>医生评价:</span>
+                                <div className="star">
+                                    {newScore < 1 && <img src="../../../resources/images/starH.png"/>}
+                                    {newScore >= 1 && <img src="../../../resources/images/starS.png"/>}
+                                </div>
+                                <div className="star">
+                                    {newScore < 2 && <img src="../../../resources/images/starH.png"/>}
+                                    {newScore >= 2 && <img src="../../../resources/images/starS.png"/>}
+                                </div>
+                                <div className="star">
+                                    {newScore < 3 && <img src="../../../resources/images/starH.png"/>}
+                                    {newScore >= 3 && <img src="../../../resources/images/starS.png"/>}
+                                </div>
+                                <div className="star">
+                                    {newScore < 4 && <img src="../../../resources/images/starH.png"/>}
+                                    {newScore >= 4 && <img src="../../../resources/images/starS.png"/>}
+                                </div>
+                                <div className="star">
+                                    {newScore < 5 && <img src="../../../resources/images/starH.png"/>}
+                                    {newScore >= 5 && <img src="../../../resources/images/starS.png"/>}
+                                </div>
+                              </div>
+                              <div className="xing">
+                                <span>医院评价:</span>
+                                <div className="star">
+                                    {newHisScore < 1 && <img src="../../../resources/images/starH.png"/>}
+                                    {newHisScore >= 1 && <img src="../../../resources/images/starS.png"/>}
+                                </div>
+                                <div className="star">
+                                    {newHisScore < 2 && <img src="../../../resources/images/starH.png"/>}
+                                    {newHisScore >= 2 && <img src="../../../resources/images/starS.png"/>}
+                                </div>
+                                <div className="star">
+                                    {newHisScore < 3 && <img src="../../../resources/images/starH.png"/>}
+                                    {newHisScore >= 3 && <img src="../../../resources/images/starS.png"/>}
+                                </div>
+                                <div className="star">
+                                    {newHisScore < 4 && <img src="../../../resources/images/starH.png"/>}
+                                    {newHisScore >= 4 && <img src="../../../resources/images/starS.png"/>}
+                                </div>
+                                <div className="star">
+                                    {newHisScore < 5 && <img src="../../../resources/images/starH.png"/>}
+                                    {newHisScore >= 5 && <img src="../../../resources/images/starS.png"/>}
+                                </div>
+                              </div>
+                              <div className="heightAuto">
+                                <span>医生评价详情:</span>
+                                <span className="text2 wordLine">{!!doctorPingjia ? doctorPingjia : '无'}</span>
+                              </div>
+                              <div className="heightAuto">
+                                <span>医院评价详情:</span>
+                                <span className="text2 wordLine">{!!historyPingjia ? historyPingjia : '无'}</span>
+                              </div>
+                              <div className="xing">
+                                <span>评价时间:</span>
+                                <span className="text2">{newTime}</span>
+                              </div>
+                              {
+                                gmPingJia?
+                                  <div>
+                                    <div className="xing">
+                                      <span className='fontWeight'>医院小助手<span className='xing-title-biaoqian'>官方</span></span>
+                                      <span className='xing-title-time'>{gmPingJia.replyTime}</span>
+                                    </div>
+                                    <div className='xing-content'>
+                                      {
+                                        gmPingJia.replyContent
+                                      }
+                                    </div>
+                                    </div>:null
+                              }
+                            </div>
+                            <Button
+                                onClick={(e)=>{
+                                this.closePingJia(e)
+                                }}> 关闭
+                            </Button>
+                          </div>
+                          
+                        </div>:null
+                        }
                     </div>
                 }
             {!isEnd && <div className='operation-box'>
