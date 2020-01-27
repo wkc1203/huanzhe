@@ -287,7 +287,8 @@ class Widget extends Component {
         const {msg,docList,searchValue,searchList,search1,searchDoctorList,doctorShow}=this.state;
         return (
             <div className='dept'>
-                <div className="home"><span className="jian"
+                <div className="home">
+                   {/* <span className="jian"
                                             onClick={()=>{
                                             if(this.props.location.query.source==1){
                                             this.context.router.push({
@@ -302,7 +303,8 @@ class Widget extends Component {
 
 
                                       }}
-                    ></span>找专家咨询
+                    ></span>*/}
+                    找专家咨询
                 </div>
 
             <div className="allSearch">

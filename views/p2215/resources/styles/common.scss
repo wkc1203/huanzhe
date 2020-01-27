@@ -34,8 +34,8 @@ html, body {
     top: 50%;
     width: 9px;
     height: 9px;
-    border-left: 2px solid rgba(255, 255, 255, 0.95);
-    border-top: 2px solid #f1f3f6;
+    //border-left: 2px solid rgba(255, 255, 255, 0.95);
+    //border-top: 2px solid #f1f3f6;
     -webkit-transform: translate(-4px, -50%) rotate(-45deg);
     -moz-transform: translate(-4px, -50%) rotate(-45deg);
     -ms-transform: translate(-4px, -50%) rotate(-45deg);
@@ -82,7 +82,7 @@ html, body {
   }
 }
 
-//Ò³½Å
+//Ò³ï¿½ï¿½
 .wgt-footer{
   position: relative;
   z-index: 1;
@@ -105,20 +105,20 @@ html, body {
   }
 }
 
-//Ò³ÃæÈÝÆ÷
+//Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 .wgt-page {
   -webkit-overflow-scrolling: touch;
-  //z-index: 1; »áÒýÆðpupupÃÉ²ãÎÞ·¨¸²¸Çfooter
+  //z-index: 1; ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pupupï¿½É²ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½footer
   /*	flex: 1;
       position: relative;*/
 }
 
-//Ò½ÉúÍ·Ïñ
+//Ò½ï¿½ï¿½Í·ï¿½ï¿½
 .wgt-header-img {
   width: .35rem;
 }
 
-//ÓÃ»§Í·Ïñ
+//ï¿½Ã»ï¿½Í·ï¿½ï¿½
 .wgt-user-img {
   width: .44rem;
   text-align: center;
@@ -131,7 +131,7 @@ html, body {
   }
 }
 
-//¼ÓÔØÖÐ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 .wgt-loading {
   padding-top: 1.2rem;
 
@@ -142,7 +142,7 @@ html, body {
   }
 }
 
-//ÎÞ½á¹û
+//ï¿½Þ½ï¿½ï¿½
 .wgt-noresult {
   text-align: center;
 
@@ -162,13 +162,13 @@ html, body {
 
 }
 
-//»ñÈ¡Êý¾ÝµÈ´ý
+//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ÝµÈ´ï¿½
 .wgt-getdata {
   text-align: center;
   padding: .20rem 0;
 }
 
-//ÐÞÕý¸ßÇåÎÊÌâ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 .hairline-remove-right-bottom {
   border-bottom: 0;

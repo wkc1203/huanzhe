@@ -227,7 +227,7 @@ this.getJs();
                     <img src='../../../resources/images/no-result.png'/>
                     <div>暂未查询到相关信息</div>
                 </div>}
-                <div className="tarbar">
+                {/*<div className="tarbar">
                     <div onClick={
                                 ()=>{
                                 this.toNext(1)
@@ -252,7 +252,7 @@ this.getJs();
                             src="../../../resources/images/my.png"/>
                         <div>我的</div>
                     </div>
-                </div>
+                </div>*/}
             </div>
         );
     }

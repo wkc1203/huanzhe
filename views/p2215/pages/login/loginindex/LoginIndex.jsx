@@ -433,9 +433,9 @@ class Widget extends Component {
                     {msg}
                 </Dialog>
 
-                <div className="logo-img">
-                    <img src="../../../resources/images/logo.png"/>
-                </div>
+                {/*<div className="logo-img">*/}
+                {/*    <img src="../../../resources/images/logo.png"/>*/}
+                {/*</div>*/}
                 <div className="register-input">
                     <div >
                         <div className="register-list">

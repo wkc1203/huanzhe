@@ -386,7 +386,7 @@ class Widget extends Component {
                                             }}
                                     src='../../../resources/images/collect-active.png'/>}
                             </div>
-                            <div>{docInfo.hisName}</div>
+                            {/*<div>{docInfo.hisName}</div>*/}
                             <div>{docInfo.deptName} | {docInfo.level}</div>
                         </div>
                     </div>
@@ -496,7 +496,7 @@ class Widget extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='evaluate'>
+                {/*<div className='evaluate'>
                     <div className='eva-title'>
                         <div>
                         </div>
@@ -577,7 +577,7 @@ class Widget extends Component {
                             }}
                         >查看更多评价
                     </div>}
-                </div>
+                </div>*/}
                 {isShowProtocol && <div className='modal1'>
                     <div className='modal-body-protocol'>
                         <div className='modal-title'>温馨提示：</div>

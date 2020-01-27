@@ -5,7 +5,7 @@ import {  Toptips,Switch,Dialog,Toast,Icon } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
 import hashHistory from 'react-router/lib/hashHistory';
-import * as Api from './confirmInfoApi';
+import * as Api from './confirmInfoApi';   
 import 'style/index.scss';
 var imgArr1 = [];
 var uuList = [];
@@ -39,6 +39,7 @@ class Widget extends Component {
             loadingTimer: null,
             showIOS1: false,
             showIOS2: false,
+            showIOS3: false,
             showAndroid1: false,
             showAndroid2: false,
             cardShow:false,
@@ -65,12 +66,26 @@ class Widget extends Component {
                         onClick: this.goMain.bind(this)
                     }
                 ]
+            },style3: {
+                title: '提示',
+                buttons: [
+                    {
+                        type: 'default',
+                        label: '取消',
+                        onClick: this.hideDialog.bind(this)
+                    },
+                    {
+                        type: 'primary',
+                        label: '继续咨询',
+                        onClick: this.goInquiry.bind(this)
+                    }
+                ]
             },
             msg: '',
             consultList: [
                 {reason: '咨询', id: 1},
                 {reason: '复诊', id: 2},
-                {reason: '报告解读', id: 3},
+                // {reason: '报告解读', id: 3},
                 {reason: '其他', id: 4},
             ],
             imgArr: [],
@@ -100,7 +115,21 @@ class Widget extends Component {
             cardNo:'0014492503',
         };
     }
+    componentWillMount(){
+        this.mounted = true;
+        this.setState({
+            type:this.props.location.query.type=='2'?'2':'1'
+        })
+    }
+    componentWillUnmount() {
+        imgList=[];
+        this.setState({
+            imgArr:[]
+        })
+        clearInterval(interval1);
+        this.mounted = false;
 
+    }
     componentDidMount() {
         document.getElementById("home").scrollIntoView();
         this.getJs();
@@ -247,6 +276,19 @@ class Widget extends Component {
     goMain(){
         window.location.href='http://wx.cqkqinfo.com/wx3/p/03/p/card_choose.cgi'
     }
+    goInquiry(){
+        this.setState({
+            showIOS1: false,
+            showIOS2: false,
+            showIOS3:false,
+            showAndroid1: false,
+            showAndroid2: false,
+        });
+        this.context.router.push({
+            pathname:'/inquiry/chat',
+            query:{inquiryId:this.state.inquiryId}
+        })
+    }
     isAdd(){
         this.setState({
             showIOS2:false
@@ -264,6 +306,7 @@ class Widget extends Component {
         this.setState({
             showIOS1: false,
             showIOS2: false,
+            showIOS3:false,
             showAndroid1: false,
             showAndroid2: false,
         });
@@ -281,7 +324,7 @@ class Widget extends Component {
                             })
                         }else{
                             this.setState({
-                                cardShow: true
+                                cardShow: false
                             })
                             var storage = window.localStorage;
                             //加入缓存
@@ -475,18 +518,65 @@ class Widget extends Component {
             .createOrder(params)
             .then((res) => {
                 if (res.code == 0) {
-                    imgList=[];
-                    var replaceUrl="https://tih.cqkqinfo.com/views/p2215/#/consult/pay?orderId="+res.data.orderId+"&totalFee="+
-                        this.state.totalFee+"&inquiryId="+res.data.id;
-                              console.log(replaceUrl)
-                   top.window.location.replace(replaceUrl);
+                   //  imgList=[];
+                   //  var replaceUrl="https://tih.cqkqinfo.com/views/p2215/#/consult/pay?orderId="+res.data.orderId+"&totalFee="+
+                   //      this.state.totalFee+"&inquiryId="+res.data.id;
+                   //            console.log(replaceUrl)
+                   // top.window.location.replace(replaceUrl);
+                    this.setState({
+                        inquiryId:res.data.id||'',
+                    })
+                    this.context.router.push({
+                        pathname:'/inquiry/chat',
+                        query:{inquiryId:this.state.inquiryId}
+                    })
+                }else{
+                    window.scrollTo(0,0);
+                    this.hideLoading();
+                    if (res.code==-2) {
+                        console.log("1")
+
+                        if(res.msg!=null&&res.msg!=''){
+                            if(this.mounted){
+                                this.setState({
+                                    inquiryId:res.msg||'',
+                                    msg:'当前咨询完成后，才能对医生发起新的咨询',
+                                    showIOS3:true
+                                })
+                            }
+                        }
+
+                    }else{
+                        if(this.mounted){
+                            this.setState({
+                                msg: res.msg,
+                                showIOS1: true
+                            })
+                        }
+                    }
                 }
             }, (e) => {
+                window.scrollTo(0,0);
                 this.hideLoading();
-                this.setState({
-                    msg: e.msg,
-                    showIOS1: true
-                })
+                if (e.code==-2) {
+                    if(e.msg!=null&&e.msg!=''){
+                        if(this.mounted){
+                            console.log("111")
+                            this.setState({
+                                inquiryId:e.msg||'',
+                                msg:'当前咨询完成后，才能对医生发起新的咨询',
+                                showIOS3:true
+                            })
+                        }
+                    }
+                }else{
+                    if(this.mounted){
+                        this.setState({
+                            msg: e.msg,
+                            showIOS1: true
+                        })
+                    }
+                }
             });
     }
    /*切换就诊人*/
@@ -794,6 +884,9 @@ class Widget extends Component {
                 </Dialog>
                 <Dialog type="ios" title={this.state.style2.title} buttons={this.state.style2.buttons} show={this.state.showIOS2}>
                 </Dialog>
+                <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={this.state.showIOS3}>
+                    你还有对当前医生的咨询未完成
+                </Dialog>
                 {cardShow && <div className='modal'
                                   onClick={(e)=>{
                     this.setState({
@@ -834,7 +927,7 @@ class Widget extends Component {
                         <img className="doc-img" src='../../../resources/images/doc.png' alt="医生头像"/>}
                         <div className="text2-box">
                             <div className="doc-name">{docInfo.name}</div>
-                            <div className="doc-des">{docInfo.hisName}</div>
+                            {/*<div className="doc-des">{docInfo.hisName}</div>*/}
                             <div className="doc-des">{docInfo.deptName } | {docInfo.level}</div>
                         </div>
                     </div>
@@ -862,7 +955,7 @@ class Widget extends Component {
                         {leftBindNum > 0 && <div className="pat-img"
                                                  onClick={
                                                     ()=>{
-                                                    this.addCard()
+                                                        this.isAdd()
 
                                                     }}>
                             <img src="../../../resources/images/plus.png"/>
@@ -884,9 +977,9 @@ class Widget extends Component {
                             )
                         })
                         }
-                        <div className="reason-item f-bg-gray">预约手术</div>
-                        <div className="reason-item f-bg-gray">预约检查</div>
-                        <div className="reason-item f-bg-gray">在线开处方</div>
+                        {/*<div className="reason-item f-bg-gray">预约手术</div>*/}
+                        {/*<div className="reason-item f-bg-gray">预约检查</div>*/}
+                        {/*<div className="reason-item f-bg-gray">在线开处方</div>*/}
                     </div>
                 </div>
                 <div className="describe">
