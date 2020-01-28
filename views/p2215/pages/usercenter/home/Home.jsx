@@ -414,10 +414,10 @@ class Widget extends Component {
              this.addCard()
             }}>
                 <div className="t1">绑定就诊卡</div>
-                <div className="t2">绑定就诊卡立即享重医儿童医院专家为您一对一服务</div>
+                <div className="t2">绑定就诊卡立即享专家为您一对一服务</div>
             </div>
             }
-                     <div className="m-function">
+                     {/*<div className="m-function">
                          <Link className="function-list"  to={{
                           pathname:'/ordermng/orderlist',
                           query:{userId:userId}
@@ -434,7 +434,7 @@ class Widget extends Component {
                                  </div>
                              </div>
                          </Link>
-                  </div>
+                  </div>*/}
             {/*<div className="m-function">
                     <Link className="function-list"
                         to={{pathname:'/add/manageList',query:{userId:userId}}}>
@@ -454,10 +454,8 @@ class Widget extends Component {
 
                     
                 */}
-                <div className="m-function" onClick={()=>{
-                    /*this.setState({
-                        phoneShow:true
-                    })*/
+                {/*<div className="m-function" onClick={()=>{
+
                 }}>
                 <Link className="function-list"
                     to={{
@@ -509,7 +507,7 @@ class Widget extends Component {
                     </div>
                     </div>
                     </Link>
-                    </div>
+                    </div>*/}
             {cardShow && <div className='modal'
                               onClick={(e)=>{
                     this.setState({
@@ -599,7 +597,7 @@ class Widget extends Component {
                     
                 </div>}
           <div className="tarbar">
-            <div  onClick={
+            {/*<div  onClick={
               ()=> {
                 this.toNext(1);
               }
@@ -608,7 +606,7 @@ class Widget extends Component {
                   src="../../../resources/images/index.png"
                   />
               <div >首页</div>
-            </div>
+            </div>*/}
             <div  onClick={
               ()=> {
                 this.toNext(2);
