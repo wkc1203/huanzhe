@@ -581,29 +581,29 @@ class Widget extends Component {
     }
    /*切换就诊人*/
     changePat(id) {
-        // var cardList = this.state.cardList.map(item => {
-        //     item.active = item.patientId == id ? true : false;
-        //     return item;
-        // });
-        // cardList.map(item => {
-        //     if (item.active) {
-        //         this.setState({
-        //             selectName: item.patientName,
-        //             selectSex: item.patientSex == 'F' ? '女' : '男',
-        //             selectBirthday: item.birthday,
-        //             selectPatientId: item.patientId
-        //         })
-        //     }
-        // });
-        // this.setState({
-        //     cardList: cardList
-        // })
-        this.context.router.push({
-            pathname:'/consult/patientinfo',
-            // query:{
-            //     type:1,
-            // }
+        var cardList = this.state.cardList.map(item => {
+            item.active = item.patientId == id ? true : false;
+            return item;
+        });
+        cardList.map(item => {
+            if (item.active) {
+                this.setState({
+                    selectName: item.patientName,
+                    selectSex: item.patientSex == 'F' ? '女' : '男',
+                    selectBirthday: item.birthday,
+                    selectPatientId: item.patientId
+                })
+            }
+        });
+        this.setState({
+            cardList: cardList
         })
+        // this.context.router.push({
+        //     pathname:'/consult/patientinfo',
+        //     // query:{
+        //     //     type:1,
+        //     // }
+        // })
     }
     /*是否注册*/
     isRegister() {

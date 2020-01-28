@@ -276,6 +276,9 @@ input::-webkit-input-placeholder{
 .coderight{
     top: 0 !important;
 }
+.colorwrite{
+    color: #fff !important;
+}
 .listitems-ft{
    line-height: 36px;
     width: 100px;
@@ -294,4 +297,10 @@ word-break: break-all;
     height: 10px;
     width: 100%;
     background-color: #f2f2f2;
+}
+.padleft{
+   margin-left: -15px !important;
+}
+.colorccc{
+    color: #ccc !important;
 }
