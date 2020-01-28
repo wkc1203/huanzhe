@@ -62,6 +62,8 @@ import DeptList from '../../pages/consult/deptlist/DeptList';
 import AllDeptList from '../../pages/consult/alldeptlist/AllDeptList';
 import Pay from '../../pages/consult/pay/Pay';
 import Waiting from '../../pages/consult/waiting/Waiting';
+import PatientInfo from '../../pages/consult/patientinfo/patientinfo';
+import addPatient from '../../pages/consult/addpatient/addpatient'
 
 
 
@@ -174,6 +176,9 @@ class Routers extends React.Component {
             <Route path="/consult/deptlist" component={DeptList} title='发热门诊' />
             <Route path="/consult/waiting" component={Waiting} title='支付处理中' />
             <Route path="/consult/pay" component={Pay} title='发热门诊' />
+            <Route path="/consult/patientinfo" component={PatientInfo} title='发热门诊' />
+            <Route path="/consult/addpatient" component={addPatient} title='发热门诊' />
+
           </Route>
           {/* 订单*/}
           <Route path="/ordermng">
@@ -242,6 +247,8 @@ class Routers extends React.Component {
             <Route path="/usercenter/samecard" component={SameCard} title='发热门诊' />
             <Route path="/usercenter/userinfo" component={UserInfo} title='发热门诊' />
             <Route path="/usercenter/userlist" component={UserList} title='发热门诊' />
+            
+
           </Route>
 
           {/* 首页 */}
