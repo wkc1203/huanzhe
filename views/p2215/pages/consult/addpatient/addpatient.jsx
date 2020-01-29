@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Button, Toptips, Switch, Dialog, Toast, Popup, } from 'react-weui';
-import { Link } from 'react-router';
+//import { Link } from 'react-router';
 import { Picker, List, WhiteSpace } from 'antd-mobile';
-import { createForm } from 'rc-form';
-import arrayTreeFilter from 'array-tree-filter';
+//import { createForm } from 'rc-form';
+//import arrayTreeFilter from 'array-tree-filter';
 
-import { getBirthdayByIdCard, validators } from '../../../utils/validator';
-import hashHistory from 'react-router/lib/hashHistory';
+//import { getBirthdayByIdCard, validators } from '../../../utils/validator';
+//import hashHistory from 'react-router/lib/hashHistory';
 import Connect from '../../../components/connect/Connect';
-import NoResult from '../../../components/noresult/NoResult';
+//import NoResult from '../../../components/noresult/NoResult';
 //import zhCN from 'antd/lib/date-picker/locale/zh_CN';
 import * as Api from './addpatientapi';
 import './style/index.scss';
