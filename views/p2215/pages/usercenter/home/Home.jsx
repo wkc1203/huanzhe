@@ -190,7 +190,8 @@ class Widget extends Component {
             showIOS2:false
         })
         this.context.router.push({
-            pathname:'usercenter/addcard',
+            // pathname:'usercenter/addcard',
+            pathname:'/consult/addpatient',
             query:{
                 type:0,
             }
@@ -406,12 +407,12 @@ class Widget extends Component {
                             <div className="name">{defaultUser.patientName}</div>
                         </div>
                     </div>
-                    <div className="info-extra">{defaultUser.patCardTypeName || '就诊卡'}：{defaultUser.patCardNo}</div>
+                    <div className="info-extra">{defaultUser.patCardTypeName || '证件号码'}：{defaultUser.idNo}</div>
                 </div>
             </div>
             }
             {leftBindNum==2&&<div className="m-nocard"  onClick={()=>{
-             this.addCard()
+                this.isAdd()
             }}>
                 <div className="t1">绑定就诊卡</div>
                 <div className="t2">绑定就诊卡立即享专家为您一对一服务</div>

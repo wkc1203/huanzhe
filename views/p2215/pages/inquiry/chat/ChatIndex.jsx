@@ -150,7 +150,7 @@ class Widget extends Component {
         document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height
         );
         
-            interval = setInterval(() => this.getChat(1), 1000);
+            interval = setInterval(() => this.getChat(1), 5000);
         }
 
     }
@@ -274,9 +274,12 @@ class Widget extends Component {
                         orderId: res.data.inquiry.orderId,
                         patHisNo: res.data.patient.patHisNo,
                         status: res.data.inquiry.status,
+                        doctorid: res.data.inquiry.doctorId,
+                        deptid: res.data.inquiry.deptId
                     })
+
                     if(type==3){
-                        this.getDocDet(res.data.inquiry.orderId);
+                        // this.getDocDet(res.data.inquiry.orderId);
                     }
                     if(res.data.inquiry.status!='0'&&res.data.inquiry.status!='1') {
                         this.getEvaluate(res.data.inquiry.orderId);
@@ -349,7 +352,7 @@ class Widget extends Component {
                             } else {
                                     document.getElementsByTagName("body")[0].setAttribute("style", "position:inherit")
                             }
-                        },2000)
+                        },5000)
 
                         if (res.data.inquiry.refundStatus ==1) {
                             this.setState({
@@ -485,6 +488,7 @@ class Widget extends Component {
         Api
             .getDocDet({orderId: orderId})
             .then((res) => {
+                console.log("0000000000"+res.data);
                 if (res.code == 0) {
                     this.setState({
                         docInfo: res.data,
@@ -804,8 +808,6 @@ class Widget extends Component {
     sure() {
         this.setState({
             isShow: false,
-            isEnd: true,
-            isEvaluate: false,
         })
         this.closure();
 
@@ -816,10 +818,13 @@ class Widget extends Component {
             .then((res) => {
                 this.hideLoading();
                 if (res.code == 0) {
-                    this.getChat(2);
                     this.setState({
-                        isEvaluate: false
+                        isShow: false,
+                        isEnd: true,
+                        isEvaluate: false,
                     })
+                    this.getChat(2);
+
                 }
             }, (e) => {
                 this.setState({

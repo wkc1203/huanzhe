@@ -295,9 +295,9 @@ class Widget extends Component {
         })
         this.context.router.push({
             pathname:'/consult/addpatient',
-            // query:{
-            //     type:1,
-            // }
+            query:{
+                type:1,
+            }
         })
 
     }
