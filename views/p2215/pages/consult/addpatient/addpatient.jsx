@@ -36,7 +36,7 @@ class Widget extends Component {
         super(props);
         this.state = {
             citydetail: "",
-            validateCode: '',
+            validate: '',
             phone: '',
             isSendValidate: false,
             type: 0,
@@ -182,6 +182,12 @@ class Widget extends Component {
                         clearTimeout(timer);
 
                     }, 2000);
+                }else{
+                    // this.hideLoading();
+                    this.setState({
+                        msg: e.msg,
+                        showIOS1: true
+                    })
                 }
             }
                 , (e) => {
@@ -290,7 +296,7 @@ class Widget extends Component {
             //  patCardNo,
             // birthday,
             phone,
-            validateCode,
+            validate,
             //   isNewCard,
             // isNoCard
         } = this.state;
@@ -298,7 +304,7 @@ class Widget extends Component {
             patientName: patientName,
             idNo: idNo,
             // idType: '1',
-            validateCode,
+            validate,
             city_value,
             citydetail,
             patientMobile: phone,
@@ -333,9 +339,9 @@ class Widget extends Component {
                 phone: e.target.value
             })
         }
-        if (type == 'validateCode') {
+        if (type == 'validate') {
             this.setState({
-                validateCode: e.target.value
+                validate: e.target.value
             })
         }
         if (type == 'citydetail') {
@@ -364,7 +370,7 @@ class Widget extends Component {
     //     }
     //     if (type == 'cardAdd') {
     //         this.setState({
-    //             validateCode: e.target.value
+    //             validate: e.target.value
     //         })
     //     }
     //     // if(id=='patCardNo'){
@@ -507,7 +513,7 @@ class Widget extends Component {
             });
     }
     render() {
-        const { msg, patCardNo, idNo, patientName, toptip, kong, errorElement, phone, validateCode, isSendValidate, leftTime, citydetail } = this.state;
+        const { msg, patCardNo, idNo, patientName, toptip, kong, errorElement, phone, validate, isSendValidate, leftTime, citydetail } = this.state;
         return (
             <div>
                 <div className="home"><span className="jian"
@@ -523,9 +529,9 @@ class Widget extends Component {
                 ></span>添加就诊人
             </div>
                 <Toast icon="success-no-circle" show={this.state.showToast}>添加成功</Toast>
-                {/* <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
+                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
                 {msg}
-            </Dialog> */}
+            </Dialog>
                 <Toptips type="warn" show={toptip != ''}>{toptip}</Toptips>
                 <div >
 
@@ -692,9 +698,9 @@ class Widget extends Component {
                                     <div className="listitem-body">
                                         <input className="m1-content" placeholder="请输入验证码"
                                             type="number"
-                                            id="validateCode"
-                                            className={`m1-content ${errorElement.validateCode ? 'o-error' : ''}`}
-                                            value={validateCode}
+                                            id="validate"
+                                            className={`m1-content ${errorElement.validate ? 'o-error' : ''}`}
+                                            value={validate}
                                             maxLength="6"
                                             onBlur={(e) => {
                                                 window.scrollTo(0, 0);
