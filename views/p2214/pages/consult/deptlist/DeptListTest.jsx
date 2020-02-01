@@ -1249,14 +1249,14 @@ class Widget extends Component {
                                 </div>
                                
                             </div>
-                            <div className=' ok'>
+                            <div className='ok'>
                                     <span onClick={() => {
                                         this.cancelModal()
                                     }}>确认</span>
 
-                                </div>
                         </div>
-                      
+                        </div>
+                        
                     </div>}
                     <div className="home"><span className="jian"
                         onClick={() => {

@@ -612,14 +612,20 @@ max-width: 80%;
         }
     }
 }
+.modal1{
+    overflow: scroll;
+}
 .showtips{
     margin: 0 !important;
     width: 100% !important;
-    height:80% !important;
+    height:495px !important;
     margin-bottom: 0 !important;
     overflow: scroll;
-    margin-top: 30% !important;
-    
+    position: absolute;
+    bottom:0;
+    left: 0;
+
+
 }
 .modal-content-protocol{
     font-size: 14px !important;
@@ -635,6 +641,13 @@ max-width: 80%;
     }
 }
 .ok{
+    //border-top: 1px solid $hc-color-border;
+    // display: flex;
+    // position: relative;
+    // top: 0%;
+    // width:100%;
+   // left:12%;
+    background-color:#fff;
     text-align: center;
     padding: 10px 0;
     color: #4FABCA;
