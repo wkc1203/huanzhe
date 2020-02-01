@@ -18,7 +18,7 @@ class Widget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tips: false,
+           
             deptName: '筛选科室',
             deptList: [],
             isFunnel: true,
@@ -112,11 +112,8 @@ class Widget extends Component {
 
     }
     componentDidMount() {
-        if (this.props.location.query.deptId == 144) {
-            this.setState({
-                tips: true
-            })
-        }
+        console.log("111")
+       
         const that = this; // 为解决不同context的问题
         let timeCount;
         this.setState({
@@ -227,12 +224,7 @@ class Widget extends Component {
             }
         }
     }
-    cancelModal() {
-        this.setState({
-            tips: false,
-            footShow: false
-        })
-    }
+    
     getJs() {
         Api
             .getJsApiConfig({ url: window.location.href.substring(0, window.location.href.indexOf("#")) })
@@ -600,31 +592,7 @@ class Widget extends Component {
         const { msg, docList, canAdd, searchValue, searchList, search1, searchDoctorList, doctorShow, type, DrawerShow ,tips} = this.state;
         return (
             <div className='dept'>
-                {tips && <div className='modal1'>
-                    <div className='modal-body-protocol'>
-                        <div className='modal-title'>温馨提示</div>
-                        <div className='modal-content-protocol'>
-                            <div className="contentred">
-                                由于目前医院医生资源紧张，请大家务必不要重复咨询！医生会尽快回复，夜间的咨询回复会相对较慢，
-                                请耐心等待。新冠肺炎咨询仅限排查新型冠状病毒感染，其他症状的患者请咨询其他对症科室。
-                            </div>
-                            <div className="blackContent">
-                               <p>1、请大家不要恐慌、焦虑。</p> 
-                               <p> 2、去过武汉的人员，无症状，无不适者，请自行执行居家隔离。</p>
-                               <p>3、对于发热症状完全消失的确诊病人，最好经过2周的隔离期，否则与之接触的人，仍有被感染的风险。</p>
-                               <p>4、如果有密切接触确认病人或发热史，请一定要告诉医务人员您有这样的病史，不要刻意隐瞒病史，以减少更多人感染的风险。</p>
-                               <p>5、充足的休息和足够营养是提高免疫力的最好措施，避免过度的紧张、焦虑和恐慌。</p>
-                               <p>6、医生的回答仅仅是健康咨询类建议，不作为诊断、治疗、处方等诊疗性依据，若是急、重患者请佩戴口罩后及时到院就诊。</p>
-                            </div>
-                        </div>
-                    </div>
-                   <div className='modal-footer'>
-                        <span onClick={() => {
-                            this.cancelModal()
-                        }}>确认</span>
-                        
-                    </div>
-                </div>}
+               
                 <div className="home"><span className="jian"
                     onClick={() => {
                         if (this.props.location.query.source == 1 || this.props.location.query.source == 5) {

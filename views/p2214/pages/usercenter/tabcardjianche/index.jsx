@@ -11,7 +11,7 @@ import Connect from '../../../components/connect/Connect';
 // 图表
 // import Hightcharts from 'highcharts';
 
-import ReactEcharts from 'echarts-for-react';
+//import ReactEcharts from 'echarts-for-react';
 import echarts from 'echarts/lib/echarts';
 import * as Utils from '../../../utils/utils';
 import { dateTimeDate } from '../../../utils/utils';

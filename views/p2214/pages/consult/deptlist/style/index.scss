@@ -612,9 +612,18 @@ max-width: 80%;
         }
     }
 }
-
+.showtips{
+    margin: 0 !important;
+    width: 100% !important;
+    height:80% !important;
+    margin-bottom: 0 !important;
+    overflow: scroll;
+    margin-top: 30% !important;
+    
+}
 .modal-content-protocol{
-    font-size: 14px;
+    font-size: 14px !important;
+    border-bottom: 1px solid #ccc !important;
     .contentred{
         color: red;
     }
@@ -624,4 +633,9 @@ max-width: 80%;
             text-indent: 10px;
         }
     }
+}
+.ok{
+    text-align: center;
+    padding: 10px 0;
+    color: #4FABCA;
 }
