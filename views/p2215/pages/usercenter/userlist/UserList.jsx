@@ -345,7 +345,7 @@ class Widget extends Component {
                                    {item.isDefault == 1&&<div className="status" >默认</div>}
                                </div>
                            </div>
-                           <div className="info-extra">{item.patCardTypeName || '就诊卡'}：{item.patCardNo}</div>
+                           <div className="info-extra">{item.patCardTypeName || '证件号码'}：{item.idNo}</div>
                            <div className="info-extra">电话号码：{item.patientMobile}</div>
                        </div>
                    </Link>

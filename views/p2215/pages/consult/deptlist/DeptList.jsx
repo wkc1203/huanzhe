@@ -313,7 +313,7 @@ class Widget extends Component {
                         show={this.state.showIOS1}>
                     {msg}
                 </Dialog>
-                <div className="m-search active">
+                {/*<div className="m-search active">
                     <div className="search-ipt">
                         <div className="ipt-icon">
                             <img src="../../../resources/images/search.png"/>
@@ -344,7 +344,7 @@ class Widget extends Component {
                                 />
                         </form>
                     </div>
-                </div>
+                </div>*/}
                 <div className="page-dept-list">
                     {search1 &&
                     <div className="m-search-content">

@@ -144,14 +144,15 @@ class Widget extends Component {
                 errTip: '请输入2-8位合法姓名'
             },
             idNo: {
-                regexp: (() => {
-                    const regexp = validators.idCard;
-                    if (typeof regexp === 'function') {
-                        return val => regexp(val.idNo);
-                    } else {
-                        return /^\S+$/;
-                    }
-                })(),
+                // regexp: (() => {
+                //     const regexp = validators.idCard;
+                //     if (typeof regexp === 'function') {
+                //         return val => regexp(val.idNo);
+                //     } else {
+                //         return /^\S+$/;
+                //     }
+                // })(),
+                regexp: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
                 errTip: '请输入正确的身份证'
             },
             phone: {
@@ -466,7 +467,7 @@ class Widget extends Component {
                                 <div className="listitem-body">
                                     <input
                                         className={`m-content ${errorElement.idNo?'o-error':''}`} placeholder="请输入身份证号"
-                                        type="number"
+                                      //  type="number"
                                         id="idNo" value={idNo}
                                         onBlur={(e)=>{
                                             this.validator1('idNo')

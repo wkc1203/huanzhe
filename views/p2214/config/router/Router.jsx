@@ -214,94 +214,94 @@ class Routers extends React.Component {
           {/* 医院信息 */}
           <Route path="/hospitalInformation">
             <IndexRedirect to="/hospitalInformation/hospitalInformation" />
-            <Route path="/hospitalInformation/hospitalInformation" component={HospitalInformation} title='重医儿童医院咨询平台' />
+            <Route path="/hospitalInformation/hospitalInformation" component={HospitalInformation} title='重医儿童医院互联网医院' />
           </Route>
           {/* 科室医生 */}
           {/* 检查单 */}
           <Route path="/check">
             <IndexRedirect to="/check/confirmCheck" />
-            <Route path="/check/confirmCheck" component={ConfirmCheck} title='重医儿童医院咨询平台' />
-            <Route path="/check/checkInfo" component={CheckInfo} title='重医儿童医院咨询平台' />
-            <Route path="/check/registerInfo" component={RegisterInfo} title='重医儿童医院咨询平台' />
-            <Route path="/check/checkPay" component={CheckPay} title='重医儿童医院咨询平台' />
-            <Route path="/check/checkList" component={CheckList} title='重医儿童医院咨询平台' />
+            <Route path="/check/confirmCheck" component={ConfirmCheck} title='重医儿童医院互联网医院' />
+            <Route path="/check/checkInfo" component={CheckInfo} title='重医儿童医院互联网医院' />
+            <Route path="/check/registerInfo" component={RegisterInfo} title='重医儿童医院互联网医院' />
+            <Route path="/check/checkPay" component={CheckPay} title='重医儿童医院互联网医院' />
+            <Route path="/check/checkList" component={CheckList} title='重医儿童医院互联网医院' />
            
           </Route>
           {/* 医院信息 */}
           <Route path="/hospitalInformation">
             <IndexRedirect to="/hospitalInformation/hospitalInformation" />
-            <Route path="/hospitalInformation/hospitalInformation" component={HospitalInformation} title='重医儿童医院咨询平台' />
+            <Route path="/hospitalInformation/hospitalInformation" component={HospitalInformation} title='重医儿童医院互联网医院' />
           </Route>
           {/* 科室医生 */}
           <Route path="/consult">
             <IndexRedirect to="/consult/confirminfo" />
-            <Route path="/consult/confirminfo" component={ConfirmInfo} title='重医儿童医院咨询平台' />
-            <Route path="/consult/deptdetail" component={DeptDetail} title='重医儿童医院咨询平台' />
-            <Route path="/consult/alldeptlist" component={AllDeptList} title='重医儿童医院咨询平台' />
-            <Route path="/consult/deptlist" component={DeptListTest} title='重医儿童医院咨询平台' />
-            {/* <Route path="/consult/deptlistest" component={DeptListTest} title='重医儿童医院咨询平台' /> */}
+            <Route path="/consult/confirminfo" component={ConfirmInfo} title='重医儿童医院互联网医院' />
+            <Route path="/consult/deptdetail" component={DeptDetail} title='重医儿童医院互联网医院' />
+            <Route path="/consult/alldeptlist" component={AllDeptList} title='重医儿童医院互联网医院' />
+            <Route path="/consult/deptlist" component={DeptListTest} title='重医儿童医院互联网医院' />
+            {/* <Route path="/consult/deptlistest" component={DeptListTest} title='重医儿童医院互联网医院' /> */}
             <Route path="/consult/waiting" component={Waiting} title='支付处理中' />
-            <Route path="/consult/pay" component={Pay} title='重医儿童医院咨询平台' />
-            <Route path="/consult/report" component={FreeReport} title='重医儿童医院咨询平台' />
-            <Route path="/consult/describe" component={Describe} title='重医儿童医院咨询平台' />
-            <Route path="/consult/submitdesc" component={SubmitDesc} title='重医儿童医院咨询平台' />
+            <Route path="/consult/pay" component={Pay} title='重医儿童医院互联网医院' />
+            <Route path="/consult/report" component={FreeReport} title='重医儿童医院互联网医院' />
+            <Route path="/consult/describe" component={Describe} title='重医儿童医院互联网医院' />
+            <Route path="/consult/submitdesc" component={SubmitDesc} title='重医儿童医院互联网医院' />
 
             </Route>
           
           {/* mdt*/}
           <Route path="/mdt">
             <IndexRedirect to="/mdt/list" />
-              <Route path="/mdt/list" component={MdtList} title='重医儿童医院咨询平台' />
-              <Route path="/mdt/detail" component={MdtDetail} title='重医儿童医院咨询平台' />
-              <Route path="/mdt/apply" component={MdtApply} title='重医儿童医院咨询平台' />
-              <Route path="/mdt/upload" component={MdtUpload} title='重医儿童医院咨询平台' />
-              <Route path="/mdt/report" component={MdtReport} title='重医儿童医院咨询平台' />
+              <Route path="/mdt/list" component={MdtList} title='重医儿童医院互联网医院' />
+              <Route path="/mdt/detail" component={MdtDetail} title='重医儿童医院互联网医院' />
+              <Route path="/mdt/apply" component={MdtApply} title='重医儿童医院互联网医院' />
+              <Route path="/mdt/upload" component={MdtUpload} title='重医儿童医院互联网医院' />
+              <Route path="/mdt/report" component={MdtReport} title='重医儿童医院互联网医院' />
 
             </Route>
           <Route path="/ordermng">
             <IndexRedirect to="/ordermng/evaluate" />
-            <Route path="/ordermng/evaluate" component={Evaluate} title='重医儿童医院咨询平台' />
-            <Route path="/ordermng/orderdetail" component={OrderDetail} title='重医儿童医院咨询平台' />
-            <Route path="/ordermng/orderlist" component={OrderList} title='重医儿童医院咨询平台' />
-            <Route path="/ordermng/checkdetail" component={CheckDetail} title='重医儿童医院咨询平台' />
-            <Route path="/ordermng/checkorder" component={CheckOrder} title='重医儿童医院咨询平台' />
-            <Route path="/ordermng/checkadd" component={CheckAdd} title='重医儿童医院咨询平台' />
-            {<Route path="/ordermng/mdtdetail" component={MdtOrder} title='重医儿童医院咨询平台' />}
-            <Route path="/ordermng/describedetail" component={DescribeDetail} title='重医儿童医院咨询平台' />
-            <Route path="/ordermng/describeinfo" component={DescribeInfo} title='重医儿童医院咨询平台' />     
+            <Route path="/ordermng/evaluate" component={Evaluate} title='重医儿童医院互联网医院' />
+            <Route path="/ordermng/orderdetail" component={OrderDetail} title='重医儿童医院互联网医院' />
+            <Route path="/ordermng/orderlist" component={OrderList} title='重医儿童医院互联网医院' />
+            <Route path="/ordermng/checkdetail" component={CheckDetail} title='重医儿童医院互联网医院' />
+            <Route path="/ordermng/checkorder" component={CheckOrder} title='重医儿童医院互联网医院' />
+            <Route path="/ordermng/checkadd" component={CheckAdd} title='重医儿童医院互联网医院' />
+            {<Route path="/ordermng/mdtdetail" component={MdtOrder} title='重医儿童医院互联网医院' />}
+            <Route path="/ordermng/describedetail" component={DescribeDetail} title='重医儿童医院互联网医院' />
+            <Route path="/ordermng/describeinfo" component={DescribeInfo} title='重医儿童医院互联网医院' />     
             </Route>
 
 
           {/* 登录 */}
           <Route path="/login">
             <IndexRedirect to="/login/loginindex" />
-            <Route path="/login/loginindex" component={LoginIndex} title='重医儿童医院咨询平台' />
-            <Route path="/login/noregister" component={NoRegister} title='重医儿童医院咨询平台' />
+            <Route path="/login/loginindex" component={LoginIndex} title='重医儿童医院互联网医院' />
+            <Route path="/login/noregister" component={NoRegister} title='重医儿童医院互联网医院' />
           </Route>
           {/* 报告 */}
           <Route path="/report">
             <IndexRedirect to="/report/reportList" />
-            <Route path="/report/reportList" component={ReportList} title='重医儿童医院咨询平台' />
-            <Route path="/report/reportInfo" component={ReportInfo} title='重医儿童医院咨询平台' />
+            <Route path="/report/reportList" component={ReportList} title='重医儿童医院互联网医院' />
+            <Route path="/report/reportInfo" component={ReportInfo} title='重医儿童医院互联网医院' />
           </Route>
           {/* 常用服务 */}
           <Route path="/microweb">
             <IndexRedirect to="/microweb/deptinfo" />
-            <Route path="/microweb/deptinfo" component={DeptInfo} title='重医儿童医院咨询平台' />
-            <Route path="/microweb/deptlist" component={MDeptList} title='重医儿童医院咨询平台' />
-            <Route path="/microweb/deptlistfordoc" component={DeptListForDoc} title='重医儿童医院咨询平台' />
-            <Route path="/microweb/doctorinfo" component={MDoctorInfo} title='重医儿童医院咨询平台' />
-            <Route path="/microweb/news" component={News} title='重医儿童医院咨询平台' />
-            <Route path="/microweb/notice" component={Notice} title='重医儿童医院咨询平台' />
-            <Route path="/microweb/article" component={ArticleIndex} title='重医儿童医院咨询平台' />
+            <Route path="/microweb/deptinfo" component={DeptInfo} title='重医儿童医院互联网医院' />
+            <Route path="/microweb/deptlist" component={MDeptList} title='重医儿童医院互联网医院' />
+            <Route path="/microweb/deptlistfordoc" component={DeptListForDoc} title='重医儿童医院互联网医院' />
+            <Route path="/microweb/doctorinfo" component={MDoctorInfo} title='重医儿童医院互联网医院' />
+            <Route path="/microweb/news" component={News} title='重医儿童医院互联网医院' />
+            <Route path="/microweb/notice" component={Notice} title='重医儿童医院互联网医院' />
+            <Route path="/microweb/article" component={ArticleIndex} title='重医儿童医院互联网医院' />
           </Route>
 
           {/* 权限 */}
           <Route path="/auth">
             <IndexRedirect to="/auth/getuserinfo" />
-            <Route path="/auth/getuserinfo" component={GetUserInfo} title='重医儿童医院咨询平台' />
-            <Route path="/auth/developing" component={Developing} title='重医儿童医院咨询平台' />
-            <Route path="/auth/follow" component={Follow} title='重医儿童医院咨询平台' />
+            <Route path="/auth/getuserinfo" component={GetUserInfo} title='重医儿童医院互联网医院' />
+            <Route path="/auth/developing" component={Developing} title='重医儿童医院互联网医院' />
+            <Route path="/auth/follow" component={Follow} title='重医儿童医院互联网医院' />
             <Route path="/auth/login" component={userLogin} title='订阅' />
 
           </Route>
@@ -309,9 +309,9 @@ class Routers extends React.Component {
           <Route path="/inquiry">
             <IndexRedirect to="/inquiry/inquirylist" />
             <Route path="/inquiry/inquirylist" component={Inquiry} title='咨询会话' />
-            <Route path="/inquiry/chat" component={ChatIndex} title='重医儿童医院咨询平台' />
-            <Route path="/inquiry/mdtInquiry" component={MdtInquiry} title='重医儿童医院咨询平台' />
-            <Route path="/inquiry/AiInquiry" component={AiInquiry} title='重医儿童医院咨询平台' />
+            <Route path="/inquiry/chat" component={ChatIndex} title='重医儿童医院互联网医院' />
+            <Route path="/inquiry/mdtInquiry" component={MdtInquiry} title='重医儿童医院互联网医院' />
+            <Route path="/inquiry/AiInquiry" component={AiInquiry} title='重医儿童医院互联网医院' />
 
             
           
@@ -319,33 +319,33 @@ class Routers extends React.Component {
           {/* 门诊加号 */}
           <Route path="/add">
             <IndexRedirect to="/add/addManage" />
-            <Route path="/add/addManage" component={AddManage} title='重医儿童医院咨询平台' />
-            <Route path="/add/cardtip" component={CardTip} title='重医儿童医院咨询平台' />
-            <Route path="/add/manageList" component={ManageList} title='重医儿童医院咨询平台' />
+            <Route path="/add/addManage" component={AddManage} title='重医儿童医院互联网医院' />
+            <Route path="/add/cardtip" component={CardTip} title='重医儿童医院互联网医院' />
+            <Route path="/add/manageList" component={ManageList} title='重医儿童医院互联网医院' />
           </Route>
 
           {/* 个人中心 */}
           <Route path="/usercenter">
             <IndexRedirect to="/usercenter/home" />
             <Route path="/usercenter/home" component={IUHome} title='个人中心' />
-            <Route path="/usercenter/addcard" component={AddCard} title='重医儿童医院咨询平台' />
-            <Route path="/usercenter/cardtip" component={ICardTip} title='重医儿童医院咨询平台' />
-            <Route path="/usercenter/complain" component={IComplain} title='重医儿童医院咨询平台' />
-            <Route path="/usercenter/collect" component={ICollect} title='重医儿童医院咨询平台' />
-            <Route path="/usercenter/newphone" component={NewPhone} title='重医儿童医院咨询平台' />
-            <Route path="/usercenter/samecard" component={SameCard} title='重医儿童医院咨询平台' />
-            <Route path="/usercenter/userinfo" component={UserInfo} title='重医儿童医院咨询平台' />
-            <Route path="/usercenter/userlist" component={UserList} title='重医儿童医院咨询平台' />
+            <Route path="/usercenter/addcard" component={AddCard} title='重医儿童医院互联网医院' />
+            <Route path="/usercenter/cardtip" component={ICardTip} title='重医儿童医院互联网医院' />
+            <Route path="/usercenter/complain" component={IComplain} title='重医儿童医院互联网医院' />
+            <Route path="/usercenter/collect" component={ICollect} title='重医儿童医院互联网医院' />
+            <Route path="/usercenter/newphone" component={NewPhone} title='重医儿童医院互联网医院' />
+            <Route path="/usercenter/samecard" component={SameCard} title='重医儿童医院互联网医院' />
+            <Route path="/usercenter/userinfo" component={UserInfo} title='重医儿童医院互联网医院' />
+            <Route path="/usercenter/userlist" component={UserList} title='重医儿童医院互联网医院' />
              {/* 投诉建议 */}
-             <Route path="/usercenter/suggestdetail" component={suggestDetail} title='重医儿童医院咨询平台' />
-            <Route path="/usercenter/mysuggestion" component={Suggestion} title='重医儿童医院咨询平台' /> 
-            <Route path="/usercenter/replay" component={Replay} title='重医儿童医院咨询平台' />
+             <Route path="/usercenter/suggestdetail" component={suggestDetail} title='重医儿童医院互联网医院' />
+            <Route path="/usercenter/mysuggestion" component={Suggestion} title='重医儿童医院互联网医院' /> 
+            <Route path="/usercenter/replay" component={Replay} title='重医儿童医院互联网医院' />
           </Route>
 
           {/* 首页 */}
           <Route path="/home">
             <IndexRedirect to="/home/index" />
-            <Route path="/home/index" component={MicroIndex} title='重医儿童医院咨询平台' />
+            <Route path="/home/index" component={MicroIndex} title='重医儿童医院互联网医院' />
           </Route>
           {/* 随访 */}
           <Route path="/ask">

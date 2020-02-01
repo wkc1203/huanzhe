@@ -246,14 +246,14 @@ class Widget extends Component {
                 <Dialog type="ios" title={this.state.style2.title} buttons={this.state.style2.buttons} show={this.state.showIOS2}>
                     {msg}
                 </Dialog>
-            <div className='code'>
-              <div className='qrcode'>
-                  {userInfo&&<QRCode value={cardNo} size={120} />}
-              </div>
-               <div className='barcode'>
-                   <svg ref={(ref)=>this._barcodeSVG = ref}></svg>
-               </div>
-            </div>
+            {/*<div className='code'>*/}
+            {/*  <div className='qrcode'>*/}
+            {/*      {userInfo&&<QRCode value={cardNo} size={120} />}*/}
+            {/*  </div>*/}
+            {/*   <div className='barcode'>*/}
+            {/*       <svg ref={(ref)=>this._barcodeSVG = ref}></svg>*/}
+            {/*   </div>*/}
+            {/*</div>*/}
                 <div className="mu-card">
                     <div className="card-info">
                         <div className="info-main">
@@ -262,9 +262,9 @@ class Widget extends Component {
                                 {userInfo.isDefalut == 1&&<div className="status" >默认</div>}
                             </div>
                         </div>
-                        <div className="info-extra">
-                            {userInfo.patCardTypeName || '就诊卡'}：{userInfo.patCardNo||userInfo.idNo}
-                        </div>
+                        {/*<div className="info-extra">*/}
+                        {/*    {userInfo.patCardTypeName || '就诊卡'}：{userInfo.patCardNo||userInfo.idNo}*/}
+                        {/*</div>*/}
                     </div>
                 </div>
 
@@ -286,10 +286,10 @@ class Widget extends Component {
                         <div className="item-tit">手机号</div>
                         <div className="item-txt">{userInfo.mobile}</div>
                     </div>
-                    <div className="userinfo-item">
-                        <div className="item-tit">就诊卡号</div>
-                        <div className="item-txt">{userInfo.patCardNo||userInfo.idNo}</div>
-                    </div>
+                    {/*<div className="userinfo-item">*/}
+                    {/*    <div className="item-tit">就诊卡号</div>*/}
+                    {/*    <div className="item-txt">{userInfo.patCardNo||userInfo.idNo}</div>*/}
+                    {/*</div>*/}
                 </div>
 
 

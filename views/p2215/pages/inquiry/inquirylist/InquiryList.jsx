@@ -202,7 +202,9 @@ this.getJs();
                                 </div>
                                 <div className="msg-item">
                                     <div className='msg-box'>
-                                        <div className='msg-text'>{item.content ? item.content : '[图片]'}</div>
+                                        <div className='msg-text'>
+                                            {item.content&&item.content.indexOf('checkItem')!=-1?'[检查单]':item.content&&item.content.indexOf('PIC')!=-1?'[图片]':item.content&&item.content.indexOf('.mp3')!=-1?'[语音]':item.content&&item.content.indexOf('recipelList')!=-1?'[慢病续方]':item.content&&item.content.indexOf('慢病续方')!='-1'?'[慢病续方]':item.content&&item.content.indexOf('dept')!='-1'?'[专家会诊]':item.content&&item.content.length>0?item.content:'  '}
+                                        </div>
                                         {item.userReaded == '0' && <div className="read-status">未读</div>}
                                     </div>
                                     <div className="msg-date">{item.createDate}</div>
@@ -227,17 +229,17 @@ this.getJs();
                     <img src='../../../resources/images/no-result.png'/>
                     <div>暂未查询到相关信息</div>
                 </div>}
-                {/*<div className="tarbar">
-                    <div onClick={
-                                ()=>{
-                                this.toNext(1)
-                                }
-                                }>
-                        <img
-                            src="../../../resources/images/index.png"
-                            />
-                        <div >首页</div>
-                    </div>
+                <div className="tarbar">
+                    {/*<div onClick={*/}
+                    {/*            ()=>{*/}
+                    {/*            this.toNext(1)*/}
+                    {/*            }*/}
+                    {/*            }>*/}
+                    {/*    <img*/}
+                    {/*        src="../../../resources/images/index.png"*/}
+                    {/*        />*/}
+                    {/*    <div >首页</div>*/}
+                    {/*</div>*/}
                     <div >
                         <img
                             src="../../../resources/images/inquiry-active.png"/>
@@ -252,7 +254,7 @@ this.getJs();
                             src="../../../resources/images/my.png"/>
                         <div>我的</div>
                     </div>
-                </div>*/}
+                </div>
             </div>
         );
     }
