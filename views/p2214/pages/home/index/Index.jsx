@@ -167,7 +167,7 @@ class Widget extends Component {
                         })
                         wx.onMenuShareAppMessage({
                             title: '重医儿童医院互联网医院', // 分享标题
-                            desc: '立即找医生咨询', // 分享描述
+                            desc: '重庆首家公立互联网医院，新型冠状病毒感染肺炎免费在线咨询！', // 分享描述
                             link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                             imgUrl: 'http://ihoss.oss-cn-beijing.aliyuncs.com/PIC/hospital/logo-2214.png', // 分享图标
                             type: '', // 分享类型,music、video或link，不填默认为link
@@ -293,7 +293,7 @@ class Widget extends Component {
                 </Dialog>
                 {<div className="header" >
                     <img
-                        src="./././resources/images/index-banner-new.png"
+                        src="./././resources/images/index-banner-new.jpg"
                         alt=""
                     />
                     {<span className='moreInformation'
@@ -430,7 +430,8 @@ class Widget extends Component {
                                     onClick={() => {
                                         Utils.sums('inquiry_img_banner', 2, 1);
                                         this.context.router.push({
-                                            pathname: '/consult/deptlist'
+                                            pathname:'/consult/deptlist',
+                                            query:{deptName:'新型冠状病毒感染肺炎',deptId:144,source:1,type:1}
                                         })
                                     }} />
                             </div>
@@ -467,7 +468,7 @@ class Widget extends Component {
                         e.stopPropagation()
                     }}>
                         <div className='modal-content-tip'>
-                            <div className="content-item">正在努力建设中...</div>
+                            <div className="content-item">该医生暂未开通此服务...</div>
                             <div className="img">
                                 <img src="./././resources/images/no-open.png" alt=""></img>
                             </div>

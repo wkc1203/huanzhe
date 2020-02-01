@@ -196,7 +196,7 @@ class Widget extends Component {
 
     }
     componentDidMount() {
-        if (this.props.location.query.deptId == 144) {
+        if (this.props.location.query.deptName == '新型冠状病毒感染肺炎') {
             this.setState({
                 tips: true
             })
@@ -1249,14 +1249,14 @@ class Widget extends Component {
                                 </div>
                                
                             </div>
-                            <div className=' ok'>
-                                    <span onClick={() => {
-                                        this.cancelModal()
-                                    }}>确认</span>
+                            <div className='ok' onClick={() => {
+                                this.cancelModal()
+                            }}>
+                                    <span>确认</span>
 
                                 </div>
                         </div>
-                      
+
                     </div>}
                     <div className="home"><span className="jian"
                         onClick={() => {
