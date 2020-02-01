@@ -227,6 +227,12 @@ class Widget extends Component {
             }
         }
     }
+    cancelModal() {
+        this.setState({
+            tips: false,
+            footShow: false
+        })
+    }
     getJs() {
         Api
             .getJsApiConfig({ url: window.location.href.substring(0, window.location.href.indexOf("#")) })
@@ -591,7 +597,7 @@ class Widget extends Component {
     }
 
     render() {
-        const { msg, docList, canAdd, searchValue, searchList, search1, searchDoctorList, doctorShow, type, DrawerShow } = this.state;
+        const { msg, docList, canAdd, searchValue, searchList, search1, searchDoctorList, doctorShow, type, DrawerShow ,tips} = this.state;
         return (
             <div className='dept'>
                 {tips && <div className='modal1'>
@@ -612,20 +618,12 @@ class Widget extends Component {
                             </div>
                         </div>
                     </div>
-                    {footShow && <div className='modal-footer'>
+                   <div className='modal-footer'>
                         <span onClick={() => {
                             this.cancelModal()
-                        }}>取消</span>
-                        <Link
-                            to={{
-                                pathname: 'consult/confirminfo',
-                                query: { doctorId: docInfo.doctorId, deptId: docInfo.deptId, totalFee: totalFee, com: 2, type: this.state.type }
-                            }}
-                        >确认</Link>
-                    </div>}
-                    {!footShow && <div className='modal-footer'>
-                        <div className="cutdown-time">请阅读 {leftTime} s</div>
-                    </div>}
+                        }}>确认</span>
+                        
+                    </div>
                 </div>}
                 <div className="home"><span className="jian"
                     onClick={() => {
