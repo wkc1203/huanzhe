@@ -315,6 +315,11 @@ class Widget extends Component {
                                         src="./././resources/images/gzzx.png"
                                         alt=""
                                     />
+                                     <img
+                                        className="news"
+                                        src="./././resources/images/new.png"
+                                        alt=""
+                                    />
                                 </div>
                                 <div className='text1'>新冠肺炎咨询</div>
                                 <div className='text2'>新型冠状病毒免费咨询</div>
@@ -331,11 +336,7 @@ class Widget extends Component {
                                         src="./././resources/images/index-inquiry-doctor.png"
                                         alt=""
                                     />
-                                    <img
-                                        className="news"
-                                        src="./././resources/images/new.png"
-                                        alt=""
-                                    />
+                                   
                                 </div>
                                 <div className='text1 text-acitve'>医生咨询 </div>
                                 <div className='text2'>健康问题问医生</div>
