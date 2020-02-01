@@ -287,13 +287,22 @@
         }
         .d-tab {
             .icon {
+                position: relative;
                 text-align: center;
                 img {
                     height: 43px;
                     width: 42px;
                 }
-                
+                .news{
+                    position: absolute;
+                    top: 0;
+                    right:35px;
+                   
+                        height: 20px;
+                        
+                    }
             }
+            
             .text1{
                 padding-top: 7px;
                 font-size: 14px;
