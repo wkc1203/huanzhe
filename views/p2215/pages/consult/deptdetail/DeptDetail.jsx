@@ -424,7 +424,7 @@ class Widget extends Component {
                                         <div>图文咨询</div>
                                         <div>使用图片、文字等咨询医生</div>
                                     </div>
-                                    <div className='des-fee'>￥{(item1.remune / 100).toFixed(2)}<span>/次</span></div>
+                                    {/*<div className='des-fee'>￥{(item1.remune / 100).toFixed(2)}<span>/次</span></div>*/}
                                 </div>
                             )
                         })}
@@ -443,13 +443,13 @@ class Widget extends Component {
                                             </div>
                                             <div>使用图片、文字等咨询医生</div>
                                         </div>
-                                        <div className='des'>￥{(item2.remune / 100).toFixed(2)}<span>/次</span></div>
+                                        {/*<div className='des'>￥{(item2.remune / 100).toFixed(2)}<span>/次</span></div>*/}
                                     </div>
                                 )
                             }
                         )}
 
-                        <div className="inquity-item"
+                        {/*<div className="inquity-item"
                              onClick={
                                 ()=>{
                                 this.switchTip(1)
@@ -476,7 +476,7 @@ class Widget extends Component {
                                 <div>电话咨询</div>
                                 <div>一对一电话咨询</div>
                             </div>
-                        </div>
+                        </div>*/}
                     </div>
                     <div className='doc-intro'>
                         <div>
@@ -583,10 +583,9 @@ class Widget extends Component {
                         <div className='modal-title'>温馨提示：</div>
                         <div className='modal-content-protocol'>
                             <div className="content">
-                                <div className="content-item">1、您即将向{docInfo.name}医生进行图文咨询，<span
-                                    className="f-color-red">试运行期间咨询费{(totalFee / 100).toFixed(2)}元/次，平台正式上线后将调整咨询费</span>，本次咨询有效期48小时，有效期内您可以对咨询问题进行补充；
+                                <div className="content-item">1、您即将向{docInfo.name}医生进行图文咨询，本次咨询有效期48小时，有效期内您可以对咨询问题进行补充；
                                 </div>
-                                <div className="content-item">2、付款成功后，医生将在24小时内回复您的咨询，<span className="f-color-red">若医生未在24小时内回复您的咨询，系统将自动关闭本次咨询并自动为您退款；</span>
+                                <div className="content-item">2、付款成功后，医生将在24小时内回复您的咨询，<span className="f-color-red">若医生未在24小时内回复您的咨询，系统将自动关闭本次咨询；</span>
                                 </div>
                                 <div className="content-item">3、咨询过程中您需提供真实、完整、详细的信息，医生将尽可能利用所掌握的医学知识及临床经验给予一定的解惑，<span
                                     className="f-color-red">如需获得更详细、全方位和更确切的医疗信息和诊疗服务，请前往医院挂号就诊；</span></div>
