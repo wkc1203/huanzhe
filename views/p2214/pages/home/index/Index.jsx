@@ -17,6 +17,7 @@ class Widget extends Component {
     constructor(props) {
         super(props);
         this.state = {
+           
             hasMsg: false,
             isOpen: false,
             doc: false,
@@ -59,6 +60,7 @@ class Widget extends Component {
         };
     }
     componentDidMount() {
+       
         console.log("id", this.props.location.query.userId)
         if (!!this.props.location.query.userId) {
 

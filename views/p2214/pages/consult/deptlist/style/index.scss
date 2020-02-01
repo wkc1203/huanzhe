@@ -612,3 +612,16 @@ max-width: 80%;
         }
     }
 }
+
+.modal-content-protocol{
+    font-size: 14px;
+    .contentred{
+        color: red;
+    }
+    .blackContent{
+        color: black;
+        p{
+            text-indent: 10px;
+        }
+    }
+}
