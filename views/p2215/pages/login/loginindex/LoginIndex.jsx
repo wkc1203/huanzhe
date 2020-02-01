@@ -428,7 +428,7 @@ class Widget extends Component {
         return (
             <div className="container page-login">
                 <Toast icon="success-no-circle" show={this.state.showToast}>注册成功</Toast>
-                <Toast icon="success-no-circle" show={this.state.showToast1}>检测到你曾经使用过儿童医院小程序，账户已同步。</Toast>
+                <Toast icon="success-no-circle" show={this.state.showToast1}>检测到你曾经使用过，账户已同步。</Toast>
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
                         show={this.state.showIOS1}>
                     {msg}
@@ -566,7 +566,7 @@ class Widget extends Component {
                         <div className='modal-content-protocol'>
                             <div >
                                 <div className="content-title">
-                                凯桥医疗科技公众号（以下简称本平台）是由重庆互联网医院提供医疗专家团队，重庆凯桥信息技术有限公司负责建设与运营的儿童健康管理平台。
+                                凯桥医疗科技公众号（以下简称本平台）是由重庆互联网医院提供医疗专家团队，重庆凯桥信息技术有限公司负责建设与运营的健康管理平台。
                                 </div>
                                 <div className="content-title">一、条款确认</div>
                                 <div className="content-item">1.1 用户注册使用前应仔细阅读本《用户协议》（以下简称本协议）。</div>

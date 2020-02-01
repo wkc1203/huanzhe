@@ -224,7 +224,7 @@ class Widget extends Component {
             showIOS2:false
         })
         this.context.router.push({
-            pathname:'usercenter/addcard',
+            pathname:'/consult/addpatient',
             query:{
                 type:0,
             }
@@ -353,7 +353,7 @@ class Widget extends Component {
 
             })}
             {2-cardList.length>0&&<div  className="m-adduser" onClick={()=>{
-           this.addCard()
+                this.isAdd()
             }}>
                 <div><img src="../../../resources/images/plus.png" /></div>
                 <div>

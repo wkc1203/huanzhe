@@ -1408,7 +1408,7 @@ class Widget extends Component {
                                                 {item.content}
                                             </div>}
                                             <div className='img'>
-                                                <img src={userInfo.headImage}/>
+                                                <img src={userInfo.headImage?userInfo.headImage:'/views/p2215/resources/images/defautImg.png'}/>
                                             </div>
                                         </div>}
                                     </div>

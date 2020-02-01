@@ -424,8 +424,8 @@ class Widget extends Component {
                                                         )
                                                     })
                                                     }
-                                                    <div className='grey-item1'>电话咨询<p>(待上线)</p></div>
-                                                    <div className='grey-item1' style={{marginRight:'0'}}>视频咨询<p>(待上线)</p></div>
+                                                    {/*<div className='grey-item1'>电话咨询<p>(待上线)</p></div>
+                                                    <div className='grey-item1' style={{marginRight:'0'}}>视频咨询<p>(待上线)</p></div>*/}
                                                 </div>
                                             </div>
 
@@ -495,8 +495,8 @@ class Widget extends Component {
                                                     )
                                                 })
                                                 }
-                                                <div className='grey-item1'>电话咨询<p>(待上线)</p></div>
-                                                <div className='grey-item1' style={{marginRight:'0'}}>视频咨询<p>(待上线)</p></div>
+                                                {/*<div className='grey-item1'>电话咨询<p>(待上线)</p></div>
+                                                <div className='grey-item1' style={{marginRight:'0'}}>视频咨询<p>(待上线)</p></div>*/}
                                             </div>
                                         </div>
 

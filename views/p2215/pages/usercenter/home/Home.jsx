@@ -386,7 +386,7 @@ class Widget extends Component {
             </Dialog>
           <div className="m-wxinfo">
             <div className="user-info">
-              <img className="m-wxicon" src={userInfo.headImage?userInfo.headImage:'./././resources/images/defautImg.png'} />
+              <img className="m-wxicon" src={userInfo.headImage?userInfo.headImage:'/views/p2215/resources/images/defautImg.png'} />
                 {userInfo.realName&&<div className="m-nickname" >{userInfo.realName}</div>}
                 {!userInfo.realName&&<Link className="m-nickname unlogin"
                     to={{pathname:'login/loginindex'}}>注册</Link>}
