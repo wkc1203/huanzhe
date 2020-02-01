@@ -644,11 +644,22 @@ class Widget extends Component {
             .createOrder(params)
             .then((res) => {
                 if (res.code == 0) {
-                    imgList=[];
-                    var replaceUrl=window.location.origin+"/views/p2214/#/consult/pay?orderId="+res.data.orderId+"&totalFee="+
-                        this.state.totalFee+"&inquiryId="+res.data.id+"&type="+this.state.type;
-                              console.log(replaceUrl)
-                   top.window.location.replace(replaceUrl);
+                    //免费订单跳转到咨询会话
+                    if(res.data.free==='1'){
+                        this.setState({
+                            inquiryId:res.data.id||'',
+                        })
+                        this.context.router.push({
+                            pathname:'/inquiry/chat',
+                            query:{inquiryId:this.state.inquiryId}
+                        })
+                    }else{
+                        imgList=[];
+                        var replaceUrl=window.location.origin+"/views/p2214/#/consult/pay?orderId="+res.data.orderId+"&totalFee="+
+                            this.state.totalFee+"&inquiryId="+res.data.id+"&type="+this.state.type;
+                                  console.log(replaceUrl)
+                       top.window.location.replace(replaceUrl);
+                    }
                 }else{
                     window.scrollTo(0,0);
                     this.hideLoading();
