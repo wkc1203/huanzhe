@@ -74,7 +74,7 @@ class Widget extends Component {
             Utils.sums('inquiry_img_banner', 2, 1);
             Utils.sums('online_checkList', 2, 1);
         } else {
-            /* var code='';  
+            /* var code='';
            if(window.location.hostname=='tih.cqkqinfo.com'){
                code='ff80808165b46560016817f20bbc00b3';
              }else{
@@ -171,7 +171,7 @@ class Widget extends Component {
                             type: '', // 分享类型,music、video或link，不填默认为link
                             dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                             success: function () {
-                                // 用户点击了分享后执行的回调函数 
+                                // 用户点击了分享后执行的回调函数
                             }
                         });
                     });
@@ -291,7 +291,7 @@ class Widget extends Component {
                 </Dialog>
                 {<div className="header" >
                     <img
-                        src="./././resources/images/index-banner.png"
+                        src="./././resources/images/index-banner-new.png"
                         alt=""
                     />
                     {<span className='moreInformation'
@@ -307,7 +307,8 @@ class Widget extends Component {
                             <div className="d-tab" onClick={() => {
                                 Utils.sum('index_inquiry_img');
                                 this.context.router.push({
-                                    pathname: '/consult/deptlist'
+                                    pathname:'/consult/deptlist',
+                                    query:{deptName:'新型冠状病毒感染肺炎',deptId:144,source:1,type:1}
                                 })
                             }}>
                                 <div className="icon">
@@ -321,7 +322,7 @@ class Widget extends Component {
                                         alt=""
                                     />
                                 </div>
-                                <div className='text1'>新冠肺炎咨询</div>
+                                <div className='text1 text-acitve'>新冠肺炎咨询</div>
                                 <div className='text2'>新型冠状病毒免费咨询</div>
                             </div>
                             <div className="d-tab"
@@ -351,10 +352,10 @@ class Widget extends Component {
                           />
                     </div>
                       <div className='text1'>用药咨询</div>
-                      <div className='text2'>合理用药问药师</div> 
+                      <div className='text2'>合理用药问药师</div>
                 </div> */}
                             {/* <div className="d-tab" onClick={()=>{
-                        
+
                     this.switchOpen(1) 
                        }}>
                         <div className="icon">
