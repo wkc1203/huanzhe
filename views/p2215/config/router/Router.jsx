@@ -8,7 +8,7 @@ import Root from '../../components/root/Root';
 import Connect from '../../components/connect/Connect';
 
 import * as Api from './routerApi';
-import { setTitle } from '../../utils/utils';
+import { setTitle,getIsWeiXin } from '../../utils/utils';
 import { INHOSP, TREAT } from '../../config/constant/constant';
 
 /**
@@ -119,6 +119,7 @@ class Routers extends React.Component {
     this.state = {
       CLOSE_FUNCTION: [],
       apiLoading: true,
+      isWeiXin:true
     };
   }
 
@@ -126,14 +127,25 @@ class Routers extends React.Component {
     //this.getHisFunction();
     this.hideLoading();
     console.log(this.state);
+    const isWeiXin=getIsWeiXin()
+    if(!isWeiXin){
+      this.setState({
+        isWeiXin:false
+      })
+    }
     this.setState({ apiLoading: false });
   }
 
 
 
   render(){
-    const { CLOSE_FUNCTION, apiLoading } = this.state;
+    const { CLOSE_FUNCTION, apiLoading,isWeiXin } = this.state;
     return (
+      !isWeiXin?
+      <Router history={hashHistory}>
+          <Route path="/*" component={Queshengye}/>
+      </Router>
+      :
       apiLoading ? <div /> :
       <Router history={hashHistory}>
         {/*入口*/}

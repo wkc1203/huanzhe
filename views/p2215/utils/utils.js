@@ -119,6 +119,16 @@ export function getPlatformSource() {
   }
 }
 
+
+// 判断是否是微信
+export function getIsWeiXin() {
+  const ua = window.navigator.userAgent.toLowerCase();
+  if (/micromessenger/.test(ua)&&(isIOS()||isAndroid())) {
+    return true
+  } else {
+    return false
+  }
+}
 export function isIOS() {
   const ua = window.navigator.userAgent.toLowerCase();
   return !!ua.match(/iPhone|iPad|iPod|iOS/i);
