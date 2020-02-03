@@ -686,8 +686,12 @@ class Widget extends Component {
                         <div className='modal-content-protocol'>
                             <div className="content">
                                 <div className="content-item">您即将向{docInfo.name}{type == '2' ? '护士' : '医生'}进行图文咨询，
-                                试运行期间<span
-                                        className="f-color-red">咨询费{(totalFee / 100).toFixed(2)}元/次，每次咨询可追问4个问题，若{type == '2' ? '护士' : '医生'}回复咨询，有效期为48小时</span>。
+                                {
+                                    totalFee!=0?
+                                    <span>试运行期间<span
+                                        className="f-color-red">咨询费{(totalFee / 100).toFixed(2)}元/次,</span></span>:null
+                                }
+                                <span className="f-color-red">每次咨询可追问4个问题，若{type == '2' ? '护士' : '医生'}回复咨询，有效期为48小时。</span>
                                 若{type == '2' ? '护士' : '医生'}未在24小时内回复您的咨询，系统将自动关闭本次咨询并自动为您退款，因{type == '2' ? '护士' : '医生'}回复咨询需一定的时间，<span className="f-color-red">如需急诊的患者，请自行前往医院就诊。</span>
                                 </div>
                             </div>
