@@ -110,7 +110,8 @@ import SameCard from '../../pages/usercenter/samecard/SameCard';
 import UserList from '../../pages/usercenter/userlist/UserList';
 import UserInfo from '../../pages/usercenter/userinfo/UserInfo';
 
-
+// 缺省页
+import Queshengye from '../../pages/queshengye/index'
 
 
 class Routers extends React.Component {
