@@ -591,7 +591,7 @@ class Widget extends Component {
                             <div className="content">
                                 <div className="content-item">1、您即将向{docInfo.name}医生进行图文咨询，本次咨询有效期48小时，有效期内您可以对咨询问题进行补充；
                                 </div>
-                                <div className="content-item">2、付款成功后，医生将在24小时内回复您的咨询，<span className="f-color-red">若医生未在24小时内回复您的咨询，系统将自动关闭本次咨询；</span>
+                                <div className="content-item">2、咨询发起后，医生将在24小时内回复您的咨询，<span className="f-color-red">若医生未在24小时内回复您的咨询，系统将自动关闭本次咨询；</span>
                                 </div>
                                 <div className="content-item">3、咨询过程中您需提供真实、完整、详细的信息，医生将尽可能利用所掌握的医学知识及临床经验给予一定的解惑，<span
                                     className="f-color-red">如需获得更详细、全方位和更确切的医疗信息和诊疗服务，请前往医院挂号就诊；</span></div>

@@ -160,64 +160,64 @@ class Routers extends React.Component {
           {/* 检查单 */}
           <Route path="/check">
             <IndexRedirect to="/check/confirmCheck" />
-            <Route path="/check/confirmCheck" component={ConfirmCheck} title='发热门诊' />
-            <Route path="/check/checkInfo" component={CheckInfo} title='发热门诊' />
-            <Route path="/check/registerInfo" component={RegisterInfo} title='发热门诊' />
-            <Route path="/check/checkPay" component={CheckPay} title='发热门诊' />
-            <Route path="/check/checkList" component={CheckList} title='发热门诊' />
+            <Route path="/check/confirmCheck" component={ConfirmCheck} title='在线咨询' />
+            <Route path="/check/checkInfo" component={CheckInfo} title='在线咨询' />
+            <Route path="/check/registerInfo" component={RegisterInfo} title='在线咨询' />
+            <Route path="/check/checkPay" component={CheckPay} title='在线咨询' />
+            <Route path="/check/checkList" component={CheckList} title='在线咨询' />
 
           </Route>
           {/* 科室医生 */}
           <Route path="/consult">
             <IndexRedirect to="/consult/confirminfo" />
-            <Route path="/consult/confirminfo" component={ConfirmInfo} title='发热门诊' />
-            <Route path="/consult/deptdetail" component={DeptDetail} title='发热门诊' />
-            <Route path="/consult/alldeptlist" component={AllDeptList} title='发热门诊' />
-            <Route path="/consult/deptlist" component={DeptList} title='发热门诊' />
+            <Route path="/consult/confirminfo" component={ConfirmInfo} title='在线咨询' />
+            <Route path="/consult/deptdetail" component={DeptDetail} title='在线咨询' />
+            <Route path="/consult/alldeptlist" component={AllDeptList} title='在线咨询' />
+            <Route path="/consult/deptlist" component={DeptList} title='在线咨询' />
             <Route path="/consult/waiting" component={Waiting} title='支付处理中' />
-            <Route path="/consult/pay" component={Pay} title='发热门诊' />
-            <Route path="/consult/patientinfo" component={PatientInfo} title='发热门诊' />
-            <Route path="/consult/addpatient" component={addPatient} title='发热门诊' />
+            <Route path="/consult/pay" component={Pay} title='在线咨询' />
+            <Route path="/consult/patientinfo" component={PatientInfo} title='在线咨询' />
+            <Route path="/consult/addpatient" component={addPatient} title='在线咨询' />
 
           </Route>
           {/* 订单*/}
           <Route path="/ordermng">
             <IndexRedirect to="/ordermng/evaluate" />
-            <Route path="/ordermng/evaluate" component={Evaluate} title='发热门诊' />
-            <Route path="/ordermng/orderdetail" component={OrderDetail} title='发热门诊' />
-            <Route path="/ordermng/orderlist" component={OrderList} title='发热门诊' />
-            <Route path="/ordermng/reportOrderlist" component={ReportOrderList} title='发热门诊' />
+            <Route path="/ordermng/evaluate" component={Evaluate} title='在线咨询' />
+            <Route path="/ordermng/orderdetail" component={OrderDetail} title='在线咨询' />
+            <Route path="/ordermng/orderlist" component={OrderList} title='在线咨询' />
+            <Route path="/ordermng/reportOrderlist" component={ReportOrderList} title='在线咨询' />
           </Route>
 
 
           {/* 登录 */}
           <Route path="/login">
             <IndexRedirect to="/login/loginindex" />
-            <Route path="/login/loginindex" component={LoginIndex} title='发热门诊' />
-            <Route path="/login/noregister" component={NoRegister} title='发热门诊' />
+            <Route path="/login/loginindex" component={LoginIndex} title='在线咨询' />
+            <Route path="/login/noregister" component={NoRegister} title='在线咨询' />
           </Route>
           {/* 报告 */}
           <Route path="/report">
             <IndexRedirect to="/report/reportList" />
-            <Route path="/report/reportList" component={ReportList} title='发热门诊' />
-            <Route path="/report/reportInfo" component={ReportInfo} title='发热门诊' />
+            <Route path="/report/reportList" component={ReportList} title='在线咨询' />
+            <Route path="/report/reportInfo" component={ReportInfo} title='在线咨询' />
           </Route>
           {/* 常用服务 */}
           <Route path="/microweb">
             <IndexRedirect to="/microweb/deptinfo" />
-            <Route path="/microweb/deptinfo" component={DeptInfo} title='发热门诊' />
-            <Route path="/microweb/deptlist" component={MDeptList} title='发热门诊' />
-            <Route path="/microweb/deptlistfordoc" component={DeptListForDoc} title='发热门诊' />
-            <Route path="/microweb/doctorinfo" component={MDoctorInfo} title='发热门诊' />
-            <Route path="/microweb/news" component={News} title='发热门诊' />
-            <Route path="/microweb/article" component={ArticleIndex} title='发热门诊' />
+            <Route path="/microweb/deptinfo" component={DeptInfo} title='在线咨询' />
+            <Route path="/microweb/deptlist" component={MDeptList} title='在线咨询' />
+            <Route path="/microweb/deptlistfordoc" component={DeptListForDoc} title='在线咨询' />
+            <Route path="/microweb/doctorinfo" component={MDoctorInfo} title='在线咨询' />
+            <Route path="/microweb/news" component={News} title='在线咨询' />
+            <Route path="/microweb/article" component={ArticleIndex} title='在线咨询' />
           </Route>
 
           {/* 权限 */}
           <Route path="/auth">
             <IndexRedirect to="/auth/getuserinfo" />
-            <Route path="/auth/getuserinfo" component={GetUserInfo} title='发热门诊' />
-            <Route path="/auth/developing" component={Developing} title='发热门诊' />
+            <Route path="/auth/getuserinfo" component={GetUserInfo} title='在线咨询' />
+            <Route path="/auth/developing" component={Developing} title='在线咨询' />
             <Route path="/auth/login" component={userLogin} title='订阅' />
 
           </Route>
@@ -225,28 +225,28 @@ class Routers extends React.Component {
           <Route path="/inquiry">
             <IndexRedirect to="/inquiry/inquirylist" />
             <Route path="/inquiry/inquirylist" component={Inquiry} title='咨询会话' />
-            <Route path="/inquiry/chat" component={ChatIndex} title='发热门诊' />
+            <Route path="/inquiry/chat" component={ChatIndex} title='在线咨询' />
           </Route>
           {/* 门诊加号 */}
           <Route path="/add">
             <IndexRedirect to="/add/addManage" />
-            <Route path="/add/addManage" component={AddManage} title='发热门诊' />
-            <Route path="/add/cardtip" component={CardTip} title='发热门诊' />
-            <Route path="/add/manageList" component={ManageList} title='发热门诊' />
+            <Route path="/add/addManage" component={AddManage} title='在线咨询' />
+            <Route path="/add/cardtip" component={CardTip} title='在线咨询' />
+            <Route path="/add/manageList" component={ManageList} title='在线咨询' />
           </Route>
 
           {/* 个人中心 */}
           <Route path="/usercenter">
             <IndexRedirect to="/usercenter/home" />
             <Route path="/usercenter/home" component={IUHome} title='个人中心' />
-            <Route path="/usercenter/addcard" component={AddCard} title='发热门诊' />
-            <Route path="/usercenter/cardtip" component={ICardTip} title='发热门诊' />
-            <Route path="/usercenter/complain" component={IComplain} title='发热门诊' />
-            <Route path="/usercenter/collect" component={ICollect} title='发热门诊' />
-            <Route path="/usercenter/newphone" component={NewPhone} title='发热门诊' />
-            <Route path="/usercenter/samecard" component={SameCard} title='发热门诊' />
-            <Route path="/usercenter/userinfo" component={UserInfo} title='发热门诊' />
-            <Route path="/usercenter/userlist" component={UserList} title='发热门诊' />
+            <Route path="/usercenter/addcard" component={AddCard} title='在线咨询' />
+            <Route path="/usercenter/cardtip" component={ICardTip} title='在线咨询' />
+            <Route path="/usercenter/complain" component={IComplain} title='在线咨询' />
+            <Route path="/usercenter/collect" component={ICollect} title='在线咨询' />
+            <Route path="/usercenter/newphone" component={NewPhone} title='在线咨询' />
+            <Route path="/usercenter/samecard" component={SameCard} title='在线咨询' />
+            <Route path="/usercenter/userinfo" component={UserInfo} title='在线咨询' />
+            <Route path="/usercenter/userlist" component={UserList} title='在线咨询' />
             
 
           </Route>
@@ -254,7 +254,7 @@ class Routers extends React.Component {
           {/* 首页 */}
           <Route path="/home">
             <IndexRedirect to="/home/index" />
-            <Route path="/home/index" component={MicroIndex} title='发热门诊' />
+            <Route path="/home/index" component={MicroIndex} title='在线咨询' />
           </Route>
 
         </Route>
