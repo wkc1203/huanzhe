@@ -565,9 +565,9 @@ class Widget extends Component {
                         <div className='modal-title'>用户协议</div>
                         <div className='modal-content-protocol'>
                             <div >
-                                <div className="content-title">
+                                {/* <div className="content-title">
                                 凯桥医疗科技公众号（以下简称本平台）是由重庆互联网医院提供医疗专家团队，重庆凯桥信息技术有限公司负责建设与运营的健康管理平台。
-                                </div>
+                                </div> */}
                                 <div className="content-title">一、条款确认</div>
                                 <div className="content-item">1.1 用户注册使用前应仔细阅读本《用户协议》（以下简称本协议）。</div>
                                 <div className="content-item">1.2
@@ -685,8 +685,8 @@ class Widget extends Component {
                                 <div className="content-item">10.2
                                     因本协议产生之争议，由双方协商解决；协商不成的，任何一方都有权向有管辖权的中华人民共和国大陆地区法院提起诉讼。
                                 </div>
-                                <div className="content-end">凯桥医疗科技</div>
-                                <div className="content-end">二〇一八年七月</div>
+                                {/* <div className="content-end">凯桥医疗科技</div>
+                                <div className="content-end">二〇一八年七月</div> */}
                             </div>
                         </div>
                         <div className='modal-footer-protocol'>
