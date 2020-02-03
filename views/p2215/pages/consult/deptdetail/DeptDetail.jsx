@@ -241,6 +241,8 @@ class Widget extends Component {
                             isShowProtocol: true,
                             totalFee: remune
                         });
+                               
+                               
                         var html = document.getElementsByTagName('html')[0];
                         var body = document.getElementsByTagName('body')[0];
                         html.setAttribute('style', 'height:100%;overflow:hidden;');
@@ -414,6 +416,10 @@ class Widget extends Component {
                                      onClick={
                                             ()=>{
                                             this.jumpConfirminfo(item1.remune)
+                                            this.context.router.push({
+                                                pathname:'consult/confirminfo',
+                                                query:{doctorId:this.state.docInfo.doctorId,deptId:this.state.docInfo.deptId,totalFee:this.state.totalFee,com:2}
+                                            })
                                             }
                                             }
                                      className={` ${item1.type=='1'&&item1.isOnDuty=='1'?'inquity-item':'disNo'}`}>
