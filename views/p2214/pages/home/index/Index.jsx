@@ -97,7 +97,7 @@ class Widget extends Component {
         window.localStorage.deptAllShow = '1';
         // window.location.reload();
         window.localStorage.back = '0';
-        this.selectDept('全部科室', '');
+        this.selectDept('全部科室', '144');
         this.getJs();
         this.getMsg();
     }
@@ -229,7 +229,7 @@ class Widget extends Component {
                             doc: true,
                         });
                     } else {
-                        for (var i = 0; i < data.length - 1; i++) {
+                        for (var i = 0; i < data.length; i++) {
                             docList.push(data[i]);
                         }
                         this.setState({
@@ -271,7 +271,7 @@ class Widget extends Component {
         Utils.sum('index_good_more', 2);
         this.context.router.push({
             pathname: '/consult/deptlist',
-            query: { type: 1, source: 0 }
+            query: { type: 1, source: 0,deptId:'144' }
         })
     }
     render() {
