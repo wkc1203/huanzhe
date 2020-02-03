@@ -578,7 +578,7 @@ class Widget extends Component {
                         >查看更多评价
                     </div>}
                 </div>*/}
-                {isShowProtocol && <div className='modal1'>
+                {/* {isShowProtocol && <div className='modal1'>
                     <div className='modal-body-protocol'>
                         <div className='modal-title'>温馨提示：</div>
                         <div className='modal-content-protocol'>
@@ -609,7 +609,7 @@ class Widget extends Component {
                     {!footShow && <div className='modal-footer'>
                         <div className="cutdown-time">请阅读 {leftTime} s</div>
                     </div>}
-                </div>}
+                </div>} */}
 
 
                 {isShowTip && <div className='modal-tip1'>
