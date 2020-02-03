@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Carousel } from 'antd-mobile';
 import { Button, Toptips, Switch, Dialog, Toast } from 'react-weui';
+import HomeIndex from '../../consult/deptdetail/component/HomeIndex';
 import Connect from '../../../components/connect/Connect';
 import Func from './component/Func';
 import * as Api from '../../../components/Api/Api';
@@ -20,6 +21,7 @@ class Widget extends Component {
            
             hasMsg: false,
             isOpen: false,
+            isShowHome:true,
             doc: false,
             docList: [],
             showToast: false,
@@ -95,7 +97,7 @@ class Widget extends Component {
         window.localStorage.deptAllShow = '1';
         // window.location.reload();
         window.localStorage.back = '0';
-        this.selectDept('全部科室', '');
+        this.selectDept('全部科室', '144');
         this.getJs();
         this.getMsg();
     }
@@ -227,7 +229,7 @@ class Widget extends Component {
                             doc: true,
                         });
                     } else {
-                        for (var i = 0; i < data.length - 1; i++) {
+                        for (var i = 0; i < data.length; i++) {
                             docList.push(data[i]);
                         }
                         this.setState({
@@ -269,12 +271,13 @@ class Widget extends Component {
         Utils.sum('index_good_more', 2);
         this.context.router.push({
             pathname: '/consult/deptlist',
-            query: { type: 1, source: 0 }
+            query: { type: 1, source: 0,deptId:'144' }
         })
     }
     render() {
         const {
             isOpen,
+            isShowHome,
             show,
             docList,
             doc,
@@ -325,7 +328,9 @@ class Widget extends Component {
                                     />
                                 </div>
                                 <div className='text1 text-acitve'>新冠肺炎咨询</div>
-                                <div className='text2'>新型冠状病毒免费咨询</div>
+                                {/*<div className='text2'>新型冠状病毒免费咨询</div>*/}
+                                {/*<HomeIndex img='./././resources/images/doctor-phone.png' txt='慢病复诊'></HomeIndex>
+                                <HomeIndex img='./././resources/images/doctor-phone.png' txt='多学科会诊'></HomeIndex>*/}
                             </div>
                             <div className="d-tab"
                                 onClick={() => {
@@ -341,34 +346,39 @@ class Widget extends Component {
                                     />
                                    
                                 </div>
-                                <div className='text1 text-acitve'>医生咨询 </div>
-                                <div className='text2'>健康问题问医生</div>
+                                <div className='text1 text-acitve'>在线问诊 </div>
+                                {/*<div className='text2'>健康问题问医生</div>*/}
                             </div>
-                            {/* <div className="d-tab" onClick={()=>{
-                this.switchOpen(1)
-                }}>
-                    <div className="icon">
-                      <img
-                          src="./././resources/images/index-drug.png"
-                          alt=""
-                          />
-                    </div>
-                      <div className='text1'>用药咨询</div>
-                      <div className='text2'>合理用药问药师</div>
-                </div> */}
-                            {/* <div className="d-tab" onClick={()=>{
-
-                    this.switchOpen(1) 
+                             <div className="d-tab" onClick={()=>{
+                                this.setState({
+                                    isShowHome:false
+                                })
+                                this.switchOpen(1)
+                                }}>
+                                    <div className="icon">
+                                      <img
+                                          src="./././resources/images/manbin.png"
+                                          alt=""
+                                          />
+                                    </div>
+                                      <div className='text1'>慢病复诊</div>
+                                      {/*<div className='text2'>合理用药问药师</div>*/}
+                                </div>
+                            <div className="d-tab" onClick={()=>{
+                                this.setState({
+                                    isShowHome:false
+                                })
+                                this.switchOpen(1) 
                        }}>
                         <div className="icon">
                         <img
-                            src="./././resources/images/index-nurse.png"
+                            src="./././resources/images/duoxueke.png"
                             alt=""
                             />
                       </div>
-                      <div className='text1'>护理咨询</div>
-                      <div className='text2'>健康护理问护士</div>
-                </div> */}
+                      <div className='text1'>多学科会诊</div>
+                      {/*<div className='text2'>健康护理问护士</div>*/}
+                </div>
                         </div>
                     </div>
                     <div className='title1 rightTab'><img
@@ -468,7 +478,7 @@ class Widget extends Component {
                         e.stopPropagation()
                     }}>
                         <div className='modal-content-tip'>
-                            <div className="content-item">该医生暂未开通此服务...</div>
+                            <div className="content-item">{isShowHome?'该医生暂未开通此服务...':'正在努力建设中...'}</div>
                             <div className="img">
                                 <img src="./././resources/images/no-open.png" alt=""></img>
                             </div>

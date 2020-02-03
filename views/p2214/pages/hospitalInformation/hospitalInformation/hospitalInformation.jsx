@@ -46,7 +46,18 @@ class Information extends Component {
                 ></span>医院信息
             </div> 
             <div className = 'essentialInformation'>
-                <p><span>医疗机构名称</span><span>{hospitalInformations.name?hospitalInformations.name:'暂无信息'}</span></p>
+                <p className='jigou'>
+                    <span className='jigouname'>医疗机构名称</span>
+                    <div className='jigoucontent'>
+                        {hospitalInformations.name?
+                            hospitalInformations.name.split(" ").map((ite,index)=>{
+                                return (
+                                    <span>{ite}</span>
+                                )
+                            })
+                            :'暂无信息'}
+                    </div>
+                </p>
                 <p><span>医疗机构等级等次</span><span>{hospitalInformations.grading?hospitalInformations.grading:'暂无信息'}</span></p>
                 <p>
                     <span>医疗机构执业许可证书</span>
