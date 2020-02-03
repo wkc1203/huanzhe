@@ -446,11 +446,13 @@ class Widget extends Component {
                                     }} />
                             </div>
                             <div>
-                                <img src="./././resources/images/index-report.png" alt=""
+                                <img src="./././resources/images/second.jpg" alt=""
                                     onClick={() => {
                                         Utils.sums('online_checkList', 2, 1);
                                         this.context.router.push({
-                                            pathname: '/report/reportlist'
+                                            // pathname: '/report/reportlist'
+                                            pathname:'/consult/alldeptlist',
+                                            query:{deptName:'新型冠状病毒感染肺炎',deptId:144,source:1,type:1}
                                         })
                                     }} />
                             </div>
