@@ -36,7 +36,7 @@ class Widget extends Component {
             e.stopPropagation()
             }}>
             <div className='modal-content-tip'>
-                    <div className="content-item">正在努力建设中...</div>
+                    <div className="content-item">该医生暂未开通此服务...</div>
                  <div className="img">
                    <img  src="./././resources/images/no-open.png" alt=""></img>
                  </div>
