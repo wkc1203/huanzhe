@@ -341,12 +341,29 @@ class Widget extends Component {
                                 }}>
                                 <div className="icon">
                                     <img
-                                        src="./././resources/images/index-inquiry-doctor.png"
+                                        src="./././resources/images/zaixianwenzhen.png"
                                         alt=""
                                     />
                                    
                                 </div>
                                 <div className='text1 text-acitve'>在线问诊 </div>
+                                {/*<div className='text2'>健康问题问医生</div>*/}
+                            </div>
+                            <div className="d-tab"
+                                onClick={() => {
+                                    this.setState({
+                                        isShowHome:false
+                                    })
+                                    this.switchOpen(1)
+                                }}>
+                                <div className="icon">
+                                    <img
+                                        src="./././resources/images/fuzhengzhihui.png"
+                                        alt=""
+                                    />
+                                   
+                                </div>
+                                <div className='text1'>诊后复诊 </div>
                                 {/*<div className='text2'>健康问题问医生</div>*/}
                             </div>
                              <div className="d-tab" onClick={()=>{
@@ -361,7 +378,7 @@ class Widget extends Component {
                                           alt=""
                                           />
                                     </div>
-                                      <div className='text1'>慢病复诊</div>
+                                      <div className='text1'>慢病诊疗</div>
                                       {/*<div className='text2'>合理用药问药师</div>*/}
                                 </div>
                             <div className="d-tab" onClick={()=>{
@@ -372,7 +389,7 @@ class Widget extends Component {
                        }}>
                         <div className="icon">
                         <img
-                            src="./././resources/images/duoxueke.png"
+                            src="./././resources/images/huizhen.png"
                             alt=""
                             />
                       </div>
