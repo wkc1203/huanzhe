@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import hashHistory from 'react-router/lib/hashHistory';
+import { Toast } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import Doctor from './component/Doctor';
 import { addressMap } from '../../../config/constant/constant';
@@ -17,6 +18,7 @@ class Widget extends Component {
             deptName: '筛选科室',
             type:1,
             deptList: [],
+            showLoading:false,
             isFunnel: true,
             searchFocus: false,
             searchValue: '',
@@ -110,6 +112,7 @@ class Widget extends Component {
         }.bind(this), false);
         this.getJs();
     }
+
         callback() {
         const wrapper = this.refs.wrapper;
         const loadMoreDataFn = this.loadMoreDataFn;
@@ -202,6 +205,9 @@ class Widget extends Component {
     /*获取科室列表*/
     getDeptList() {
         this.showLoading();
+        this.setState({
+            showLoading:true
+        })
         Api
             .getDeptList()
             .then((res) => {
@@ -215,6 +221,7 @@ class Widget extends Component {
                      }
                     this.setState({
                         deptList: data || [],
+                        showLoading:false
                     })
                 }
             }, (e) => {
@@ -508,6 +515,7 @@ class Widget extends Component {
                     {type=='2'?'护理咨询':'找专家咨询'}
                 </div>
             <div className="allSearch">
+                
                 <div className="m-search active">
                     <div className="search-ipt">
                         <div className="ipt-icon">
@@ -614,6 +622,7 @@ class Widget extends Component {
             </div>
             {canAdd&&<div className="loadMore" ref="wrapper"  ></div>}
             </div>
+                <Toast icon="loading" show={this.state.showLoading}></Toast>
             </div>
         );
     }
