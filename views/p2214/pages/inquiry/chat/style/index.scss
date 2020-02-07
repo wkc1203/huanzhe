@@ -15,14 +15,19 @@
     color: red;
 }
 .sendtd-di{
-    display: inline-flex;
+    display: flex;
 }
 .send-di{
-    display: inline-flex;
+    display: flex;
     margin:auto;
     // height: 35px;
 }
+.send-img{
+    // display: inline-table;
+    flex-shrink: 0;
+}
 .second-fen{
+    display: inline-block;
     width: 15px;
     height: 15px;
     // margin: 10px;
@@ -59,6 +64,7 @@
 }
 .containers {
     height: 100%;
+
     background: #F2F2F2;
     .am-image-picker{
         input{

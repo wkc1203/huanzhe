@@ -1002,7 +1002,7 @@ class Widget extends Component {
     }
    /*发送*/
     send(param,qufen,formDatat,filenamet) {
-        this.showLoading('发送中');
+        // this.showLoading('发送中');
         Api.sendMsg(param)
             .then((res) => {
                 const {
@@ -1167,7 +1167,7 @@ class Widget extends Component {
         formData.append("signature",imgFormData[num].signature);
         formData.append("OSSAccessKeyId",imgFormData[num].OSSAccessKeyId); 
         formData.append('file',this.base64ToBlob(imgFormData[num].file)); 
-        this.showLoading('发送中');
+        // this.showLoading('发送中');
          $.ajax({
              url: 'https://ihoss.oss-cn-beijing.aliyuncs.com', 
              method: 'POST',
@@ -2657,8 +2657,8 @@ onChange = (files,file,index) => {
                                                 <img src={tanhao} className='second-fen' />
                                             </div>:null
                                         }
-                                        <img  
-                                         src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
+                                        <div><img  className='send-img'
+                                         src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/></div>
                                     </div>}
 
                                     {item.url && item.action == 'add' && <div

@@ -85,7 +85,7 @@ class Widget extends Component {
                 orderType:'2'
             })
         }else{
-            this.getInquiryList();
+            this.getInquiryList(1);
         }
         // window.addEventListener('scroll',this.pageList)
         let timeCount;
@@ -126,10 +126,12 @@ class Widget extends Component {
     getType(type){
         console.log(type)
         this.setState({
-            orderType:type
+            orderType:type,
+            pageNum:1,
+            ismsgList:true
         })
         if(type==1){
-            this.getInquiryList();
+            this.getInquiryList(1);
         }else{
             this.getMdtList();
         }
@@ -161,7 +163,7 @@ class Widget extends Component {
     getInquiryList(pageNum=1) {
         this.showLoading();
         Api
-            .getInquiryList({pageNum})
+            .getInquiryListNes({pageNum})
             .then((res) => {
                 this.setState({lock:false})
                 this.hideLoading();
@@ -418,6 +420,12 @@ class Widget extends Component {
                     <img src='../../../resources/images/no-result.png'/>
                     <div>暂未查询到相关信息</div>
                 </div>}
+                {
+                    !this.state.ismsgList&&<div className="no-des displaytextcenter">
+                            <img src='./././resources/images/mygddl.png'/>     
+                            <p>没有更多的了</p>
+                </div>
+                }
                 <div className="tarbar">
                     <div onClick={()=>{this.toNext(1)} }>
                         <img src="../../../resources/images/index.png"/>

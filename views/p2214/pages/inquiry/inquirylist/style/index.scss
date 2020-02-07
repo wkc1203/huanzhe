@@ -40,6 +40,7 @@
 }
 .page-inquiry-list {
     padding-bottom:40px;
+    // overflow-y:auto; 
     .orderType{
         height: 44px;
         display: flex;
@@ -62,6 +63,18 @@
                 position: absolute;
              }
          }
+    }
+    .displaytextcenter{
+        margin: 10px;
+        text-align: center;
+        img{
+            height: 40px;
+            width: 55px;
+        }
+        p{
+            font-size: 13px;
+            color: #b2b2b2;
+        }
     }
     .doc-item {
         max-height: 206px;

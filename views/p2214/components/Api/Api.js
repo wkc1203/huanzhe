@@ -122,6 +122,8 @@ export const getSum = (param) =>  fetch.post('/api/ehis/health/api/pageview/save
 export const getLoginValidate = param => fetch.post('/api/ehis/user/login/valicode', param);
 
 export const getInquiryList = (param) => fetch.post('/api/ehis/health/api/inquiry/userInquirys', param);
+// 
+export const getInquiryListNes = (param) => fetch.post('/api/ehis/health/api/inquiry/userInquirysPage', param);
 
 //获取咨询详情
 export const getChat = (param) => fetch.post('/api/ehis/health/api/inquiry/inquirys', param, false, false);
