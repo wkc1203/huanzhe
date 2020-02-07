@@ -2647,7 +2647,7 @@ onChange = (files,file,index) => {
                                 {item.type == 'BIZ' &&item.direction == 'TO_DOCTOR'&&item.userIsShow== '1'&&
                                 <div id="s" className='right'>
                                     <div className='flex'></div>
-                                    {item.url && item.action !== 'add' &&item.action !== 'addChecklist'&&item.action!='applyChronic'&& item.action!='receiveChronic' &&  <div className='image'
+                                    {item.url && item.action !== 'add' &&item.action !== 'addChecklist'&&item.action!='applyChronic'&& item.action!='receiveChronic' &&  <div className='image sendtd-di'
                                                                                onClick={()=>{
                                                                             this.previewImg(item.url)
                                                                              }} >
@@ -2662,7 +2662,7 @@ onChange = (files,file,index) => {
                                     </div>}
 
                                     {item.url && item.action == 'add' && <div
-                                     className='image'
+                                     className='image sendtd-di'
                                      onClick={()=>{
                                         this.into(item.actionTrigger)
                                         }}
