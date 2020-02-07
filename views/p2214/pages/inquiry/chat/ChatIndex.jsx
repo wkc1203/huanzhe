@@ -371,6 +371,7 @@ class Widget extends Component {
 
     //滑动到页面底部
     toBottom(){
+        console.log(111)
         document.getElementsByClassName("content2")[0].scrollIntoView(false)
     }
     /*获取咨询信息*/
