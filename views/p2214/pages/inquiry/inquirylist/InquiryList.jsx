@@ -92,6 +92,7 @@ class Widget extends Component {
         window.addEventListener('scroll',this.pageList)
 
         Utils.getJsByHide();
+        
     }
     componentWillUnmount(){
         window.removeEventListener('scroll',this.pageList)

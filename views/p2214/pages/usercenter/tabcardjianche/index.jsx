@@ -12,7 +12,7 @@ import Connect from '../../../components/connect/Connect';
 // import Hightcharts from 'highcharts';
 
 //import ReactEcharts from 'echarts-for-react';
-import echarts from 'echarts/lib/echarts';
+//import echarts from 'echarts/lib/echarts';
 import * as Utils from '../../../utils/utils';
 import { dateTimeDate } from '../../../utils/utils';
 import * as Api from '../../../components/Api/Api';

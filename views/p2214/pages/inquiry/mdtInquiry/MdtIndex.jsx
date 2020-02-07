@@ -195,6 +195,7 @@ class Widget extends Component {
         this.getChat(3);
         document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height
         );
+        this.toBottom()
     }
     componentWillMount(){
         this.mounted = true;
@@ -354,6 +355,15 @@ class Widget extends Component {
             s = seconds.toString();
         }
         return h + " : " + m + " : " + s;
+    }
+     //滑动到页面底部
+     toBottom(){
+       // console.log(222)
+      //  document.getElementsByClassName("content2")[0].scrollIntoView(false)
+        var s=document.getElementsByClassName("content2")[0];
+                console.log("ssstate6666");
+                document.getElementsByClassName("content2")[0].scrollTop=s.scrollHeight;
+                console.log(s,document.getElementsByClassName("content2")[0].scrollTop);
     }
     /*获取咨询信息*/
     getChat(type) {
