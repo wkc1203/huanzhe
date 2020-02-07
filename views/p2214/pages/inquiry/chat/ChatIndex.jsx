@@ -197,8 +197,7 @@ class Widget extends Component {
         };
     }
     componentDidMount() {
-       // document.getElementsByClassName("content2").scrollIntoView()
-       
+       // document.getElementsByClassName("content2").scrollIntoView()  
         imgList=[];
         var ua = navigator.userAgent.toLowerCase();//获取浏览器的userAgent,并转化为小写——注：userAgent是用户可以修改的
         var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);//判断是否是苹果手机，是则是true
@@ -221,8 +220,10 @@ class Widget extends Component {
         this.getChat(3);
         this.getAIReport();
         document.getElementById("txt").setAttribute("style", "padding-bottom:"+window.getComputedStyle(document.getElementsByClassName("operation-box")[0]).height);
-        this.toBottom()
+      //  this.toBottom()
     }
+ 
+  
     componentWillMount(){
         this.mounted = true;
     }
@@ -388,14 +389,12 @@ class Widget extends Component {
 
     //滑动到页面底部
     toBottom(){
-        console.log("scrollHeight",document.getElementById("content2").scrollHeight)
-        window.scrollTo(0,document.getElementById("content2").scrollHeight)
-        
+        document.getElementsByClassName("content2")[0].scrollIntoView(false)
     }
     /*获取咨询信息*/
     getChat(type) {
         if(type==3){
-            console.log(333333,type)
+            console.log(333,type)
             this.showLoading();
            
         }
@@ -411,6 +410,7 @@ class Widget extends Component {
             .then((res) => {
                 if (res.code == 0) {
                      console.log("resdata",res)
+                     this.toBottom()
                     if(this.mounted){
                         this.setState({
                             userData:res.data.patient,
@@ -694,8 +694,6 @@ class Widget extends Component {
                     }
                     
                 }
-                
-                
                         
             }, (e) => {
                 this.hideLoading();
