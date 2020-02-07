@@ -71,6 +71,18 @@ class Widget extends Component {
         describePage:1,
         maxPage1:'',
         isLoadingMore: false,
+        // 咨询列表查询 页码
+        listPageNum:1,
+        // 咨询列表 查询全部还某个个
+        listPatCardNo:'',
+        // 加号查询 页码
+        registerPageNum:1,
+        // 锁
+        lock:false,
+        // 滚动是否继续加重-显示
+        listPageStus:false,
+        // 滚动是否显示 没有数据了
+        jiahaoPageStus:false
     }
   }
   componentDidMount() {
@@ -119,7 +131,7 @@ class Widget extends Component {
             item4Show:true,
             item5Show:false,
         })
-        this.getmdtList(this.state.searchPage);
+        this.getmdtList();
         
     }
     if(this.props.location.query.busType=='describe'){
@@ -132,8 +144,9 @@ class Widget extends Component {
         })
         this.getdescribeList(this.state.describePage);
         
-    }  
-    let timeCount;
+    }
+
+    /*let timeCount;
     window.addEventListener('scroll', function () {
         if (this.state.isLoadingMore) {
             return ;
@@ -142,15 +155,73 @@ class Widget extends Component {
             clearTimeout(timeCount); 
         }
         timeCount = setTimeout(this.callback(), 5000);
-    }.bind(this), false);
+    }.bind(this), false);*/
+    window.scrollTo(0,0);
+    window.addEventListener('scroll',this.scrollEvent)
   }
-  callback() {
+
+  componentWillUnmount() {
+      this.setState({
+          patList:[],
+          patientName:'全部就诊人',
+          isPatShow:false,
+          orderList:[]
+      })
+    // 离开页面时结束所有可能异步逻辑
+    window.removeEventListener('scroll',this.scrollEvent)
+  }
+
+  delayScrollFunc(fn, delay) {
+      const now = new Date().getTime();
+      if (now - this.lastScrollCall < delay) return;
+      this.lastScrollCall = now;
+      setTimeout(() => {
+        fn;
+      }, 500);
+    }
+  scrollEvent=()=>{
+
+    var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    //滚动条滚动距离
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+    //窗口可视范围高度
+    var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight,document.body.clientHeight);
+    console.log('heiig=',scrollHeight,scrollTop,clientHeight)
+    if(clientHeight + scrollTop >= scrollHeight&&scrollTop!=44){
+      if(!this.state.lock){
+        this.setState({lock:true})
+        if(this.state.item1Show&&!this.state.listPageStus){
+            console.log('yyy')
+            this.delayScrollFunc(this.getOrderList(this.state.listPatCardNo,this.state.listPageNum+1),4000)
+        }
+        if(this.state.item2Show&&!this.state.jiahaoPageStus){
+            this.delayScrollFunc(this.getList(this.state.listPatCardNo,this.state.registerPageNum+1),4000)
+        }
+        if(this.state.item3Show&&this.state.searchPage<=this.state.maxPage){
+            this.delayScrollFunc(this.loadMoreDataFn(),4000)
+        }
+        if(this.state.item5Show&&this.state.describePage!=555){
+            this.delayScrollFunc(this.loadMoreDataFn1(),4000)
+            
+        }
+
+      }
+    }
+    
+  }
+ /* callback() {
     const wrapper = this.refs.wrapper;
     const loadMoreDataFn = this.loadMoreDataFn;
     const top = wrapper?wrapper.getBoundingClientRect().top:0;
     const windowHeight = window.screen.height;
     const that = this; // 为解决不同context的问题
     if (top && top < windowHeight) { 
+        if(this.state.item1Show){
+            this.getOrderList(this.state.listPageNum+1);
+        }
+        if(this.state.item2Show){
+            this.getList('全部',this.state.registerPageNum+1)
+        }
         // 当 wrapper 已经被滚动到页面可视范围之内触发
         if(that.state.item3Show&&that.state.searchPage<=this.state.maxPage){
             that.loadMoreDataFn();
@@ -160,7 +231,7 @@ class Widget extends Component {
         }
 
     }  
-    }
+  }*/
     loadMoreDataFn() { 
        
         this.setState({
@@ -185,7 +256,7 @@ class Widget extends Component {
             this.setState({showToast: false});
         }, 2000);
     }
-    getdescribeList(page){
+    getdescribeList(page=1){
         this.showLoading();
         Api 
             .getDescribeList({
@@ -196,7 +267,8 @@ class Widget extends Component {
                 numPerPage:10
             })
             .then((res) => {
-                if (res.code == 0&&res.data.recordList.length>0) {
+              this.setState({lock:false})
+                if (res.code == 0&&res.data&&res.data.recordList&&res.data.recordList.length>0) {
                      this.hideLoading();
                          this.setState({
                              maxPage1:res.data.pageCount
@@ -226,11 +298,10 @@ class Widget extends Component {
             }, e=> {
                 this.hideLoading();
                 this.setState({
-                    describeList: []
-                })
-                this.setState({
+                    describeList: [],
                     msg:e.msg,
-                    showIOS1:true
+                    showIOS1:true,
+                    lock:false
                 })
             });
     }
@@ -246,6 +317,7 @@ class Widget extends Component {
                 numPerPage:10
             })
             .then((res) => {
+              this.setState({lock:false})
                 if (res.code == 0&&res.data.recordList.length>0) {
                      this.hideLoading();
                      //if(page>=){
@@ -277,30 +349,23 @@ class Widget extends Component {
             }, e=> {
                 this.hideLoading();
                 this.setState({
-                    checkList: []
-                })
-                this.setState({
+                    checkList: [],
                     msg:e.msg,
-                    showIOS1:true
+                    showIOS1:true,
+                    lock:false
                 })
             });
    }
-  componentWillUnmount() {
-      this.setState({
-          patList:[],
-          patientName:'全部就诊人',
-          isPatShow:false,
-          orderList:[]
-      })
-    // 离开页面时结束所有可能异步逻辑
-
-  }
+  
     selectPat(patCardNo, patientName) {
         this.setState({
             patientName:patientName,
             isPatShow:false,
+            listPageNum:1,
+            listPageStus:false,
+            listPatCardNo:patCardNo
         })
-        this.getOrderList(patCardNo);
+        this.getOrderList(patCardNo,1);
     }
     openList() {
         this.setState({
@@ -324,85 +389,130 @@ class Widget extends Component {
              });
     }
     /*获取订单列表*/
-     getOrderList(patCardNo = '') {
+     getOrderList(patCardNo = '',pageNum=1) {
          this.showLoading();
          Api
-             .getOrderListByCard({patCardNo:patCardNo,type:'inquiry'})
+             .getOrderListByCardList({patCardNo:patCardNo,type:'inquiry',pageNum})
              .then((res) => {
+                this.setState({lock:false})
                 this.hideLoading();
-                 if (res.code == 0&&res.data.length>0) {
+
+                 if (res.code == 0&&res.data&&res.data.recordList.length>0) {
                     
                      const objStatus = { '-1': '待付款', '0': '咨询中', '1': '咨询中', '3': '已完成' };
-                     var items = res.data.map((item, index) => {
+                     var items = res.data.recordList.map((item, index) => {
                          item.statusName = objStatus[item.status];
                          return item;
                      });
-                     this.setState({ orderList: items});
+                     // console.log('this.state=',this.state,items)
+                     if(pageNum==1){
+                        this.setState({ orderList: items});
+                    }else{
+                     this.setState({ orderList: this.state.orderList.concat(items),listPageNum:pageNum});
+                    }
                  }else{
+                  if(pageNum==1){
                     this.setState({ orderList: []});
+                  }else{
+                    if(this.state.orderList.length>0){
+                      this.setState({listPageStus:true})
+                    }
+                  }
                  }
              }, e=> {
                  this.hideLoading();
                  this.setState({ orderList: []});
                  this.setState({
                      msg:e.msg,
-                     showIOS1:true
+                     showIOS1:true,
+                     lock:false
                  })
              });
     }
-  getList(id){
-   if(this.state.manageList.length>=1){
-       this.setState({
-           manageList:[]
-       })
-   }
-   if(id=='全部'){
-       
+  getList(id,registerPageNum=1){
+
+   console.log('id=',id)
+   if(this.state.listPatCardNo==''&&id==''){
+       this.showLoading();
        Api
-           .getRegister({userId:window.localStorage.userId,type:'subscribe'})
+           .getRegisterList({userId:window.localStorage.userId,type:'subscribe',pageNum:registerPageNum})
            .then((res) => {
-               if(res.code==0){
+              this.setState({lock:false})
                 this.hideLoading();
-                   if(res.data!=null){
-                    
-                       this.setState({
-                           manageList:res.data
-                       })
-                   }
+               if(res.code==0&&res.data&&res.data.recordList&&res.data.recordList.length>0){
+                   // if(){
+                  if(registerPageNum==1){
+                     this.setState({
+                         manageList:res.data.recordList
+                     })
+                  }else{
+                    this.setState({
+                         manageList:this.state.manageList.concat(res.data.recordList),
+                         registerPageNum
+                     })
+                  }
+                   // }
                }else{
-                this.setState({
-                    manageList:[]
-                })
+                if(registerPageNum==1){
+                    this.setState({
+                      manageList:[]
+                  })
+                }else{
+                  if(this.state.manageList.length>0){
+                    this.setState({
+                      jiahaoPageStus:true
+                    })
+
+                  }
+                }
                }
            }, (e) => {
                this.hideLoading();
                this.setState({
-                manageList:[]
+                manageList:[],
+                lock:false
             })
            });
    }else{
-       
+       this.showLoading();
        Api
-           .getRegister({userId:window.localStorage.userId, orderCarNo:id,type:'subscribe'})
+           .getRegisterList({userId:window.localStorage.userId, orderCarNo:id||this.state.listPatCardNo,type:'subscribe',pageNum:registerPageNum})
            .then((res) => {
               this.hideLoading();
-               if(res.code==0){
-                   if(res.data!=null){
+              this.setState({lock:false})
+               // if(){
+                   if(res.code==0&&res.data&&res.data.recordList&&res.data.recordList.length>0){
                       
-                       this.setState({
-                           manageList:res.data
-                       })
-                       console.log(this.state.manageList)
+                      if(registerPageNum==1){
+                         this.setState({
+                             manageList:res.data.recordList
+                         })
+                      }else{
+                        this.setState({
+                             manageList:this.state.manageList.concat(res.data.recordList),
+                             registerPageNum
+                         })
+                      }
                    }else{
-                    this.setState({
-                        manageList:[]
-                    })
+                    if(registerPageNum==1){
+                        this.setState({
+                          manageList:[]
+                      })
+                    }else{
+                      if(this.state.manageList.length>0){
+                        this.setState({
+                          jiahaoPageStus:true
+                        })
+
+                      }
+                    }
                    }
-               }
+               // }
            }, (e) => {
                this.hideLoading();
                 this.setState({
-                    manageList:[]
+                    manageList:[],
+                    lock:false
                 })
            });
    }
@@ -410,9 +520,11 @@ class Widget extends Component {
 switchStatus(type,index){
    if(type=='全部'){
         this.setState({
-            active111:true
+            active111:true,
+            registerPageNum:1,
+            jiahaoPageStus:false
         })
-       this.getList(type);
+       this.getList('',1);
    }else{
        var list=this.state.list;
        for(var i=0;i<list.length;i++){
@@ -424,9 +536,12 @@ switchStatus(type,index){
        }
        this.setState({
            list:list,
-           active111:false
+           active111:false,
+           registerPageNum:1,
+           jiahaoPageStus:false,
+           listPatCardNo:type
        })
-       this.getList(type);
+       this.getList(type,1);
    }
 }
 switchStatus3(type,index){
@@ -470,12 +585,14 @@ switchStatus3(type,index){
                 for (var i = 0; i < list.length; i++) {
                     list[i].active = false;
                 }
-                for (var i = 0; i < list.length; i++) {
-                    this.getList('全部');
-                }
+                // for (var i = 0; i < list.length; i++) {
+                    this.getList('',1);
+                // }
                 this.setState({
                     userId:window.localStorage.userId,
-                    list:list
+                    list:list,
+                    registerPageNum:1,
+                    jiahaoPageStus:false
                 })
             }
         },(e) => {
@@ -505,7 +622,10 @@ getmdtList() {
                 item2Show:false,
                 item3Show:false,
                 item4Show:false,
-                item5Show:false
+                item5Show:false,
+                lock:false,
+                jiahaoPageStus:false,
+                listPageStus:false,
             })
             }
             if(type==2){
@@ -516,7 +636,10 @@ getmdtList() {
                     item1Show:false,
                     item3Show:false,
                     item4Show:false,
-                    item5Show:false
+                    item5Show:false,
+                    lock:false,
+                    listPageStus:false,
+                    jiahaoPageStus:false
                 })
             }
             if(type==3){
@@ -527,19 +650,25 @@ getmdtList() {
                     item1Show:false,
                     item3Show:true,
                     item4Show:false,
-                    item5Show:false
+                    item5Show:false,
+                    lock:false,
+                    listPageStus:false,
+                    jiahaoPageStus:false
 
                 })
             }
             if(type==4){
-            this.getmdtList(this.state.searchPage);
+            this.getmdtList();
                 this.setState({
                     item2Show:false,
                     clickItem:555,
                     item1Show:false,
                     item3Show:false,
                     item4Show:true,
-                    item5Show:false
+                    item5Show:false,
+                    lock:false,
+                    listPageStus:false,
+                    jiahaoPageStus:false
                 })
 
             }
@@ -552,6 +681,10 @@ getmdtList() {
                     item3Show:false,
                     item4Show:false,
                     item5Show:true,
+                    lock:false,
+                    listPageStus:false,
+                    jiahaoPageStus:false
+                    // describePage:1
                 })
             
             }
@@ -691,6 +824,10 @@ getmdtList() {
                         暂时还没有加号信息。向医生咨询时，可向医生提出加号请求，医生会根据咨询情况判断，向您开出加号。
                     </div>
                 </div>}
+                {this.state.jiahaoPageStus&&<div className="no-des displaytextcenter">
+                            <img src='./././resources/images/mygddl.png'/>     
+                            <p>没有更多的了</p>
+                </div>}
             </div>
         </div>}
         {item1Show&&<div>
@@ -700,7 +837,7 @@ getmdtList() {
                         onClick={()=>{
                               this.openList()
                                 this.setState({
-                                 clickItem:555
+                                 clickItem:555,
                                 })}}
                         >全部就诊人</li>
                     {patList&&patList.map((item,index)=>{
@@ -709,7 +846,7 @@ getmdtList() {
                                 key={index}
                                 onClick={()=>{
                                 this.setState({
-                                 clickItem:index
+                                 clickItem:index,
                                 })
                          this.selectPat(item.patCardNo,item.patientName)
                         }}
@@ -750,6 +887,10 @@ getmdtList() {
             })}
             {orderList.length <= 0&&orderList!='1'&&<NoResult  msg='暂未查询到相关信息'/>
             }
+            {this.state.listPageStus&&<div className="no-des displaytextcenter">
+                            <img src='./././resources/images/mygddl.png'/>     
+                            <p>没有更多的了</p>
+                </div>}
          </div>}
         {item3Show&&
             <div className='reportlist'>

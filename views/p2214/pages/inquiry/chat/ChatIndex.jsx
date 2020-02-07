@@ -8,6 +8,8 @@ import { Input,Upload,Anchor,Icon, Modal} from 'antd';
 const { TextArea } = Input;
 import hashHistory from 'react-router/lib/hashHistory';
 import * as Utils from '../../../utils/utils';
+import { getTodayDate } from '../../../utils/utils';
+import tanhao from '../../../resources/images/tanhao.png';
 import * as Api from '../../../components/Api/Api';
 import './style/index.scss';
 var interval = '';
@@ -176,6 +178,22 @@ class Widget extends Component {
             isadvise:false,//建议按钮
             // 评价显示
             isPingJia:false,
+            // 没有发送出去，内容存储、
+            secondInputText:[],
+            // 没法送出去的文字次数
+            untextsendNumN:0,
+            // 图片没发送出去，内容存储
+            imgFormData:[],
+            // 没法送出去的图片base64
+            unsendImg:[],
+            // 没法送出去的图片名称
+            filenames:[],
+            // 没法送出去的图片次数
+            unimgsendNumN:0,
+            // 图片，文字没发出去的次数
+            // unsendNum:0,
+            // 图片，文字没发出去的对象内容
+            unsendList:[],
         };
     }
     componentDidMount() {
@@ -539,8 +557,9 @@ class Widget extends Component {
                             }  
                     
                     }
+                    // 追加页面未发送的数据
                   this.setState({
-                    list: list,
+                    list: list.concat(this.state.unsendList),
                   })
                         for(var j=0;j<this.state.list.length;j++){
                             if(this.state.list[j].direction=='TO_USER'&&this.state.list[j].type=='BIZ'){
@@ -897,9 +916,9 @@ class Widget extends Component {
                      msg:'一次只能发送4张图片',
                      showIOS1: true,
                  })
-                this.setState({
+                /*this.setState({
                     inputText: ''
-                })
+                })*/
             }
             }
         } else {
@@ -931,9 +950,9 @@ class Widget extends Component {
                     operator: 'user',
                     content: this.state.inputText,
                 });
-                this.setState({
-                    inputText:''
-                })
+                // this.setState({
+                //     inputText:''
+                // })
             }
        } else {
              if(this.mounted){
@@ -983,16 +1002,27 @@ class Widget extends Component {
         
     }
    /*发送*/
-    send(param) {
+    send(param,qufen,formDatat,filenamet) {
         this.showLoading('发送中');
         Api.sendMsg(param)
             .then((res) => {
+                const {
+                    unsendList
+                } = this.state
+                for(let i=0;i<unsendList.length;i++){
+                    if(unsendList[i].content&&unsendList[i].content==qufen){
+                        unsendList.splice(i,1)
+                    }
+                    if(unsendList[i]&&unsendList[i].url&&unsendList[i].url==qufen){
+                        unsendList.splice(i,1)
+                    }
+                }
                 if(this.mounted){
-                this.setState({
-                    isBtn: false,
-                    inputText: '',
-                })
-            } 
+                    this.setState({
+                        isBtn: false,
+                        inputText: '',
+                    })
+                } 
                 this.hideLoading();
                 if (res.code == 0) {
                     if(this.mounted){
@@ -1000,19 +1030,184 @@ class Widget extends Component {
                         imgArr:[]
                     })
                 }
-                     imgList=[];
+                    imgList=[];
                    this.getChat(2);
                 }
             }, (e) => {
-                this.getChat(2);
+                // this.getChat(2);
+                console.log('e=',e)
+                if(!e.code){
+                    const {
+                        formData,
+                        unsendImg,
+                        filenames,
+                        secondInputText
+                    } = this.state
+                    if(param&&param.content&&param.content!=''){
+                        let flg=false
+                        for(let i=0;i<secondInputText.length;i++){
+                            if(secondInputText[i]==qufen){
+                                flg=true
+                            }
+                        }
+                        if(!flg){
+                            let newNoSend={
+                                'content': param.content,
+                                'untextsendNumN':this.state.untextsendNumN,
+                                'createTime': getTodayDate(),
+                                'direction': "TO_DOCTOR",
+                                'doctorIsShow': "1",
+                                // id: 2002051000000017
+                                // inquiryId: 2002053000000003
+                                'type': "BIZ",
+                                // updateTime: "2020-02-05 10:14:50"
+                                // userId: 1477
+                                'userIsShow': "1",
+                                'isUnSend':true,
+                                'voiceTime': 0,
+                            }
+                            console.log('this.state.list=',this.state)
+                            let newList=this.state.list.reverse().unshift(newNoSend)
+                            let secondInputTextNew=this.state.secondInputText.push(param.content)
+                            let unsendListNew=this.state.unsendList.push(newNoSend)
+                            // console.log('newList=',newList)
+                            console.log('param=',secondInputTextNew)
+                            this.setState({
+                                list:this.state.list.reverse(),
+                                // secondInputText:secondInputTextNew,
+                                untextsendNumN:this.state.untextsendNumN+1,
+                                unsendNum:this.state.unsendNum+1,
+                                // unsendList:this.state.unsendList.push(newNoSend),
+                                inputText:'',
+                            })
+                            console.log('this.state.input=',this.state)
+                        }
+                    }
+                    if(param&&param.url&&param.url!=''){
+                        let flg=false
+                        for(let i=0;i<unsendImg.length;i++){
+                            if(unsendImg[i]==qufen){
+                                flg=true
+                            }
+                        }
+                        if(!flg){
+                            let newNoSend={
+                                'createTime': getTodayDate(),
+                                'direction': "TO_DOCTOR",
+                                'unimgsendNumN':this.state.unimgsendNumN,
+                                'doctorIsShow': "1",
+                                'type': "BIZ",
+                                'url': param.url,
+                                'userIsShow': "1",
+                                'voiceTime': 0,
+                                'isUnSend':true
+                            }
+                            let newList=this.state.list.reverse().unshift(newNoSend)
+                            this.state.imgFormData.push(formDatat)
+                            this.state.unsendImg.push(base64)
+                            this.state.filenames.push(filenamet)
+                            this.state.unsendList.push(newNoSend)
+                            this.setState({
+                                list:this.state.list.reverse(),
+                                // unsendNum:this.state.unsendNum+1,
+                                unimgsendNumN:this.state.unimgsendNumN+1,
+                                // imgFormData:this.state.imgFormData.push(formDatat),
+                                // unsendImg:this.state.unsendImg.push(base64),
+                                // filenames:this.state.filename.push(filenamet),
+                                // unsendList:this.state.unsendList.push(newNoSend)
+                            })
+                        }
+                    }
+
+                }
+
                 this.hideLoading();
-                if(this.mounted){
+                /*if(this.mounted){
+                    this.setState({
+                        msg: e.msg,
+                        showIOS1: true
+                    })
+                }*/
+            });
+    }
+    // 发送失败-再次发送
+    secondSend=(num)=>{
+        console.log('num=',num,this.state)
+        const {
+            inquiryId,
+            secondInputText,
+            numEnd
+        } = this.state
+        if(numEnd>0){
+            this.send({
+                inquiryId: inquiryId,
+                operator: 'user',
+                content: secondInputText[num],
+            },secondInputText[num]);
+        }else{
+            if(this.mounted){
                 this.setState({
-                    msg: e.msg,
-                    showIOS1: true
+                    isOk: true
                 })
             }
-            });
+        }
+    }
+    // 发送失败-再次发送图片
+    secondSendImg=(num)=>{
+        console.log('imgnum=',num,this.state)
+        const {
+            imgFormData,
+            filenames,
+            unsendImg
+        } = this.state
+        let that=this
+        const formData = new FormData();
+        formData.append('key',imgFormData[num].key);
+        formData.append("policy",imgFormData[num].policy);
+        formData.append("callback",imgFormData[num].callback);
+        formData.append("signature",imgFormData[num].signature);
+        formData.append("OSSAccessKeyId",imgFormData[num].OSSAccessKeyId); 
+        formData.append('file',this.base64ToBlob(imgFormData[num].file)); 
+        this.showLoading('发送中');
+         $.ajax({
+             url: 'https://ihoss.oss-cn-beijing.aliyuncs.com', 
+             method: 'POST',
+             processData: false,
+             contentType: false,
+             cache: false,
+             data: formData,
+             success: (e) => {
+                
+                 imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filenames[num]);
+                // alert("us")
+                 //alert(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename));
+                 if(that.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filenames[num])){
+                     
+                     that.send({
+                         inquiryId: that.state.inquiryId,
+                         operator: 'user',
+                         url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filenames[num],
+                     },unsendImg[num]);
+                     that.hideLoading();
+                     that.setState({
+                         imgArr:Array.from(new Set(imgList)),
+                         /*imgFormData:{},
+                         unsendImg:'',
+                         filename:'',*/
+                     })
+                 }else{
+                    var  intervals = setInterval(() => that.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filenames[num],imgList), 500);
+                    that.setState({
+                        intervals:intervals
+                    })
+                     
+                 }
+            },
+             error:(e) =>{
+                console.log('eee=',e)
+                that.hideLoading();
+             }
+        });
     }
    /*隐藏添加图片*/
     hidePlus() {
@@ -1725,67 +1920,117 @@ onChange = (files,file,index) => {
              day=myDate.getDate();
          }
      
-                 var base64='';
-         var that=this;
-                 var reader = new FileReader();//创建一个字符流对象
-             reader.readAsDataURL(files[i]);//读取本地图片
-             reader.onload = function(e) {
-                base64=this.result;
-                var date=new Date().getTime();
-         var m=ossPath+year+'/'+month+'/'+day+"/";
-         var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
-         var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
-         var filename=that.randomName()+Utils.uuid()+'.png';
-         formData.append('key',filename);
-         formData.append("policy",sign.policy);
-         formData.append("callback",sign.callback);
-         formData.append("signature",sign.signature);
-         formData.append("OSSAccessKeyId",sign.OSSAccessKeyId); 
-         formData.append('file',that.base64ToBlob(base64)); 
-         $.ajax({
-             url: 'https://ihoss.oss-cn-beijing.aliyuncs.com', 
-             method: 'POST',
-             processData: false,
-             contentType: false,
-             cache: false,
-             data: formData,
-             success: (e) => {
-                
-                 imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
-                // alert("us")
-                 //alert(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename));
-                 if(that.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
-                     
-                     that.send({
-                         inquiryId: that.state.inquiryId,
-                         operator: 'user',
-                         url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
-                     });
-                     that.hideLoading();
-                     that.setState({
-                         imgArr:Array.from(new Set(imgList))
-                     })
-                 }else{
-                    var  intervals = setInterval(() => that.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,imgList), 500);
-                    that.setState({
-                        intervals:intervals
-                    })
-                     
+        var base64='';
+        var that=this;
+        var reader = new FileReader();//创建一个字符流对象
+        reader.readAsDataURL(files[i]);//读取本地图片
+        reader.onload = function(e) {
+            base64=this.result;
+            var date=new Date().getTime();
+
+             var m=ossPath+year+'/'+month+'/'+day+"/";
+             var S4=(((1+Math.random())*0x10000)|0).toString(16).substring(1);
+             var uuid=S4+S4+"-"+S4+"-"+S4+"-"+S4+"-"+S4+S4+S4;
+             var filename=that.randomName()+Utils.uuid()+'.png';
+             formData.append('key',filename);
+             formData.append("policy",sign.policy);
+             formData.append("callback",sign.callback);
+             formData.append("signature",sign.signature);
+             formData.append("OSSAccessKeyId",sign.OSSAccessKeyId); 
+             formData.append('file',that.base64ToBlob(base64)); 
+
+             $.ajax({
+                 url: 'https://ihoss.oss-cn-beijing.aliyuncs.com', 
+                 method: 'POST',
+                 processData: false,
+                 contentType: false,
+                 cache: false,
+                 data: formData,
+                 success: (e) => {
+                    
+                     imgList.push('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename);
+                    // alert("us")
+                     //alert(this.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename));
+                     if(that.isHasImg('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename)){
+                         
+                         that.send({
+                             inquiryId: that.state.inquiryId,
+                             operator: 'user',
+                             url:'https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,
+                         },base64,{
+                            'key':filename,
+                            "policy":sign.policy,
+                            "callback":sign.callback,
+                            "signature":sign.signature,
+                            "OSSAccessKeyId":sign.OSSAccessKeyId,
+                            'file':base64
+                         },filename);
+                         that.hideLoading();
+                         that.setState({
+                             imgArr:Array.from(new Set(imgList)),
+                             /*imgFormData:{},
+                             unsendImg:'',
+                             filename:''*/
+                         })
+                     }else{
+                        var  intervals = setInterval(() => that.isHas('https://ihoss.oss-cn-beijing.aliyuncs.com/'+filename,imgList), 500);
+                        that.setState({
+                            intervals:intervals
+                        })
+                         
+                     }
+                },
+                 error:(e) =>{
+                    
+                    console.log(8989898)
+                    console.log('that.state.unsendImg=',that.state.unsendImg)
+                    if(base64!=''){
+                        let newNoSend={
+                            'createTime': getTodayDate(),
+                            'direction': "TO_DOCTOR",
+                            'unimgsendNumN':that.state.unimgsendNumN,
+                            'doctorIsShow': "1",
+                            // id: 2002051000000025
+                            // inquiryId: 2002053000000003
+                            'type': "BIZ",
+                            // updateTime: "2020-02-05 14:05:29"
+                            'url': base64,
+                            // userId: 1477
+                            'userIsShow': "1",
+                            'voiceTime': 0,
+                            'isUnSend':true
+                        }
+                        let newList=that.state.list.reverse().unshift(newNoSend)
+
+                        let newForm={
+                            'key':filename,
+                            "policy":sign.policy,
+                            "callback":sign.callback,
+                            "signature":sign.signature,
+                            "OSSAccessKeyId":sign.OSSAccessKeyId,
+                            'file':base64
+                         }
+                        that.state.imgFormData.push(newForm)
+                        that.state.unsendImg.push(base64)
+                        that.state.filenames.push(filename)
+                        that.state.unsendList.push(newNoSend)
+                        that.setState({
+                            list:that.state.list.reverse(),
+                            unimgsendNumN:that.state.unimgsendNumN+1,
+                            // unsendNum:that.state.unsendNum+1,
+                            // imgFormData:that.state.imgFormData.push(formData),
+                            // unsendImg:that.state.unsendImg.push(base64),
+                            // filenames:that.state.filename.push(filename),
+                            // unsendList:that.state.unsendList.push(newNoSend)
+                        })
+                        console.log('this.state.input=',that.state)
+                    }
+                    that.hideLoading();
                  }
-                 
-                
-               
-                
-             },
-             error:(e) =>{
-                 that.hideLoading();
-             }
-         });
-             };
-         
-     
- 
- }
+            });
+        };
+
+    }
    }
     
   };
@@ -2019,7 +2264,7 @@ onChange = (files,file,index) => {
                       onBlur={(e)=>{ this.btnHide(e) }}
                       onChange={(e)=>{ this.input(e)}}  />
                     {!isBtn &&
-                    <img src='../../../resources/images/plus.png' onClick={()=>{
+                    <img src='../../../resources/images/jiahao.png' onClick={()=>{
                     this.showPlus()
                     }}/>  
                     }
@@ -2205,7 +2450,7 @@ onChange = (files,file,index) => {
 
 
 
-                    {list.reverse() && list.reverse().map((item, index)=> {
+                    {list && list.map((item, index)=> {
                         return (
                             <div key={index} className="content-item" id="content-item">
                                 {item.type == 'SYSTEM' && item.userIsShow == '1' &&
@@ -2407,9 +2652,16 @@ onChange = (files,file,index) => {
                                                                                onClick={()=>{
                                                                             this.previewImg(item.url)
                                                                              }} >
+                                        {
+                                            item.isUnSend?
+                                            <div className='send-di' onClick={e=>{e.stopPropagation();this.secondSendImg(item.unimgsendNumN)}}>
+                                                <img src={tanhao} className='second-fen' />
+                                            </div>:null
+                                        }
                                         <img  
                                          src={item.url&&item.url.indexOf("ihoss")=='-1'?item.url:item.url+"?x-oss-process=image/resize,w_105"}/>
                                     </div>}
+
                                     {item.url && item.action == 'add' && <div
                                      className='image'
                                      onClick={()=>{
@@ -2417,9 +2669,12 @@ onChange = (files,file,index) => {
                                         }}
                                      ><img src={item.url} style={{width:'223px',height:'86px',maxWidth:'223px'}}/>
                                         </div>}
-                                    {item.content &&item.action !== 'addChecklist' &&item.action!='reportApply'&&item.action!='mdt'&&item.action!='add'&&item.action!='applyChronic'&&item.action!='receiveChronic'&& <div className='text'>
-                                    {item.content}
-                                    <span className='angle'></span>
+                                    {item.content &&item.action !== 'addChecklist' &&item.action!='reportApply'&&item.action!='mdt'&&item.action!='add'&&item.action!='applyChronic'&&item.action!='receiveChronic'&& <div className='send-di'>
+                                        {item.isUnSend?<div className='send-di' onClick={e=>{e.stopPropagation();this.secondSend(item.untextsendNumN)}}><img src={tanhao} className='second-fen' /></div>:null}
+                                        <div className='text'>
+                                            {item.content}
+                                            <span className='angle'></span>
+                                        </div>
                                     </div>}  
                                     { item.content &&item.action == 'addChecklist' && <div className='text' 
                                     onClick={()=>{

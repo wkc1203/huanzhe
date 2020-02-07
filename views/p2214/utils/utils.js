@@ -102,6 +102,33 @@ export function dateTimeDate(time) {
   }
   return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+"00";
 }
+
+// 获取当前时间 2020-2-5 12:23:21
+export function getTodayDate() {
+  var now =new Date()
+  var year = now.getFullYear();
+  var month = now.getMonth()+1;
+  if(month.toString().length == 1){
+      month = "0" + month;
+  }
+  var date = now.getDate();
+  if(date.toString().length == 1){
+      date = "0" + date;
+  }
+  var hour=now.getHours()
+  if(hour.toString().length == 1){
+      hour = "0" + hour;
+  }
+  var minute=now.getMinutes();
+  if(minute.toString().length == 1){
+      minute = "0" + minute;
+  }
+  var second=now.getSeconds();
+  if(second.toString().length == 1){
+      second = "0" + second;
+  }
+  return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+}
 //去儿童医院就诊卡绑定页面
 export function goMain(){
   window.location.href='http://wx.cqkqinfo.com/wx3/p/03/p/card_choose.cgi'

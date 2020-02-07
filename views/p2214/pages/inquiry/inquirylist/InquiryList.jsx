@@ -7,6 +7,20 @@ import * as Api from '../../../components/Api/Api';
 import * as Utils from '../../../utils/utils';
 import './style/index.scss';
 import hashHistory from 'react-router/lib/hashHistory';
+
+
+    var throttle = function(func, delay) {            
+    　　var prev = Date.now();            
+    　　return function() {                
+    　　　　var context = this;                
+    　　　　var args = arguments;                
+    　　　　var now = Date.now();                
+    　　　　if (now - prev >= delay) {                    
+    　　　　　　func.apply(context, args);                    
+    　　　　　　prev = Date.now();                
+    　　　　}            
+    　　}        
+    }   
 class Widget extends Component {
     static contextTypes = {
         router: React.PropTypes.object,
@@ -23,6 +37,10 @@ class Widget extends Component {
             showIOS1: false,
             showIOS2: false,
             showAndroid1: false,
+            // 分页
+            pageNum:1,
+            // 锁
+            lock:false,
             no:3,
             showAndroid2: false,
             style1: {
@@ -50,6 +68,8 @@ class Widget extends Component {
             },
             msg: '',
             orderType:1,
+            // 是否继续加载，请求
+            ismsgList:true
         };
     }
     componentDidMount() {
@@ -67,8 +87,40 @@ class Widget extends Component {
         }else{
             this.getInquiryList();
         }
-       
+        // window.addEventListener('scroll',this.pageList)
+        let timeCount;
+        window.addEventListener('scroll',this.pageList)
+
         Utils.getJsByHide();
+    }
+    componentWillUnmount(){
+        window.removeEventListener('scroll',this.pageList)
+    }
+
+
+    delayScrollFunc(fn, delay) {
+      const now = new Date().getTime();
+      if (now - this.lastScrollCall < delay) return;
+      this.lastScrollCall = now;
+      setTimeout(() => {
+        fn();
+      }, 500);
+    }
+
+    pageList=()=>{
+        var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+        //滚动条滚动距离
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        //窗口可视范围高度
+        var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight,document.body.clientHeight);
+        
+        if(clientHeight + scrollTop >= scrollHeight){
+            if(!this.state.lock&&this.state.ismsgList){
+                this.setState({lock:true})
+                throttle(this.getInquiryList(this.state.pageNum+1),2000)
+            }
+            
+        }
     }
     getType(type){
         console.log(type)
@@ -105,23 +157,31 @@ class Widget extends Component {
         }, 2000);
     }
    /*获取咨询列表*/
-    getInquiryList() {
+    getInquiryList(pageNum=1) {
         this.showLoading();
         Api
-            .getInquiryList()
+            .getInquiryList({pageNum})
             .then((res) => {
+                this.setState({lock:false})
                 this.hideLoading();
-                if (res.code == 0&&res.data.length>0) {
+                if (res.code == 0&&res.data&&res.data.recordList&&res.data.recordList.length>0) {
                     
                     var data=[];
-                    for(var i=0;i<res.data.length;i++){
-                        if(res.data[i].status!='4'&&res.data[i].status!='5'){
-                            data.push(res.data[i])
+                    for(var i=0;i<res.data.recordList.length;i++){
+                        if(res.data.recordList[i].status!='4'&&res.data.recordList[i].status!='5'){
+                            data.push(res.data.recordList[i])
                         }
                     }
-                    this.setState({
-                        msgList: data
-                    })
+                    if(pageNum>1){
+                        this.setState({
+                            pageNum,
+                            msgList: this.state.msgList.concat(data)
+                        })
+                    }else{
+                        this.setState({
+                            msgList: data
+                        })
+                    }
                     if(this.props.location.query.inquiryId&&this.props.location.query.s!=1){
                         window.location.href=window.location.href+"&s=1";
                         this.context.router.push({
@@ -135,14 +195,17 @@ class Widget extends Component {
                         })
                     }
                 }else{
-                    this.setState({
-                        msgList: []
-                    })
+                    if(pageNum==1){
+                        this.setState({msgList: []})
+                    }else{
+                        this.setState({ismsgList:false})
+                    }
                 }
             }, (e) => {
                 this.hideLoading();
                 this.setState({
-                    msgList: []
+                    msgList: [],
+                    lock:false
                 })
             });
     }
