@@ -70,6 +70,9 @@ export const getCheckReportDetailsOld = param => fetch.post('/api/front/customiz
 
 export const getOrderListByCard = (param) => fetch.post('/api/ehis/order/getorderlistByCard', param);
 
+// 订单管理咨询列表分页查询
+export const getOrderListByCardList = (param) => fetch.post('/api/ehis/order/getOrderListPageByCard', param);
+
 export const getCheckOrderList = (param) => fetch.post('/api/ehis/health/api/onlineCheckList/page', param);
 
 export const getUploadToken = (param) => fetch.post('/api/qiniu/fileUploadToken', param);
@@ -77,6 +80,8 @@ export const getUploadToken = (param) => fetch.post('/api/qiniu/fileUploadToken'
 export const getDocDetail = (param) => fetch.post('/api/ehis/health/api/doctor/doctor', param);
 
 export const getRegister= (param) =>fetch.post('/api/ehis/health/api/subscribe/getAllSubscribeByPatient',param);
+// 咨询列表-加号分页
+export const getRegisterList= (param) =>fetch.post('/api/ehis/health/api/subscribe/listPageSubscribeByPatient',param);
 
 export const getHisConfig = param => fetch.post('/api/personal/getbindcardprofile', param);
 

@@ -103,6 +103,7 @@ export default {
           resolve(data);
         } else {
           data.msg =data.msg|| '服务器异常';
+          console.log('rectrs=',data)
           reject(data);
         }
       });
