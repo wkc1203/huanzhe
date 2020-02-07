@@ -28,7 +28,10 @@ class Widget extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            // 在线咨询数据
             msgList: '1',
+            // 会诊数据
+            huizhenList:'1',
             quiryNum: 0,
             showToast: false,
             showLoading: false,
@@ -74,21 +77,21 @@ class Widget extends Component {
     }
     componentDidMount() {
         console.log("id",this.props.location.query.userId)
-        if(!!this.props.location.query.userId){
+        this.isRegistered();
+        /*if(!!this.props.location.query.userId){
           var storage=window.localStorage;
           
           storage.hasUserId=this.props.location.query.userId; 
-        }
-        if(this.props.location.query.type=='mdt'){
+        }*/
+        /*if(this.props.location.query.type=='mdt'){
             this.getMdtList();
             this.setState({
                 orderType:'2'
             })
         }else{
             this.getInquiryList(1);
-        }
+        }*/
         // window.addEventListener('scroll',this.pageList)
-        let timeCount;
         window.addEventListener('scroll',this.pageList)
 
         Utils.getJsByHide();
@@ -96,6 +99,28 @@ class Widget extends Component {
     }
     componentWillUnmount(){
         window.removeEventListener('scroll',this.pageList)
+    }
+    // 是否注册
+    isRegistered() {
+      Api
+        .isRegistered()
+        .then((res) => {
+               if(res.code==0){
+                if(!!this.props.location.query.userId){
+                  var storage=window.localStorage;
+                  storage.hasUserId=this.props.location.query.userId; 
+                }
+                 if(this.props.location.query.type=='mdt'){
+                      this.getMdtList();
+                      this.setState({
+                          orderType:'2'
+                      })
+                  }else{
+                      this.getInquiryList(1);
+                  }
+               }
+        }, (e) => {
+        });
     }
 
 
@@ -116,7 +141,7 @@ class Widget extends Component {
         var clientHeight = window.innerHeight || Math.min(document.documentElement.clientHeight,document.body.clientHeight);
         
         if(clientHeight + scrollTop >= scrollHeight){
-            if(!this.state.lock&&this.state.ismsgList){
+            if(!this.state.lock&&this.state.ismsgList&&this.state.orderType==1){
                 this.setState({lock:true})
                 throttle(this.getInquiryList(this.state.pageNum+1),2000)
             }
@@ -128,7 +153,9 @@ class Widget extends Component {
         this.setState({
             orderType:type,
             pageNum:1,
-            ismsgList:true
+            ismsgList:true,
+            msgList:'1',
+            huizhenList:'1'
         })
         if(type==1){
             this.getInquiryList(1);
@@ -230,7 +257,8 @@ class Widget extends Component {
                         
                     }
                     this.setState({
-                        msgList: data
+                        // msgList: data
+                        huizhenList:data
                     })
                    /*  if(this.props.location.query.inquiryId&&this.props.location.query.s!=1){
                         window.location.href=window.location.href+"&s=1";
@@ -246,13 +274,15 @@ class Widget extends Component {
                     }  */
                 }else{
                     this.setState({
-                        msgList: []
+                        // msgList: []
+                        huizhenList:[]
                     })
                 }
             }, (e) => {
                 this.hideLoading();
                 this.setState({
-                    msgList: []
+                    // msgList: []
+                    huizhenList:[]
                 })
             });
     }
@@ -269,7 +299,7 @@ class Widget extends Component {
         }
     }
     render() {
-        const {msgList,msg,orderType}=this.state
+        const {msgList,msg,orderType,huizhenList}=this.state
         return (
             <div className="container page-inquiry-list">
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
@@ -286,7 +316,7 @@ class Widget extends Component {
                     }}>医生会诊
                     <span></span></div>
                 </div>
-                {msgList&&msgList.length>0&&msgList!='1'&&orderType=='1' && msgList.map((item, index)=> {
+                {msgList&&msgList.length>0&&orderType=='1'&&msgList!='1' && msgList.map((item, index)=> {
                     return (
                         <div className='doc-item' key={index} onClick={(e)=>{
                             e.stopPropagation();
@@ -374,7 +404,7 @@ class Widget extends Component {
                                             </div> */}
                         </div>)
                 })}
-                {msgList&&msgList.length>0&&msgList!='1'&&orderType=='2' && msgList.map((item, index)=> {
+                {huizhenList&&huizhenList.length>0&&orderType=='2'&&huizhenList!='1' && huizhenList.map((item, index)=> {
                     return (
                         <div className='doc-item' key={index} onClick={(e)=>{
                             e.stopPropagation();
@@ -416,7 +446,11 @@ class Widget extends Component {
                             </div>
                         </div>)
                 })}
-                {msgList.length <= 0 &&msgList!='1'&& <div className='no-data'>
+                {orderType==1&&msgList.length <= 0 &&msgList!='1'&& <div className='no-data'>
+                    <img src='../../../resources/images/no-result.png'/>
+                    <div>暂未查询到相关信息</div>
+                </div>}
+                {orderType==2&&huizhenList&&huizhenList!='1'&&huizhenList.length <= 0 && <div className='no-data'>
                     <img src='../../../resources/images/no-result.png'/>
                     <div>暂未查询到相关信息</div>
                 </div>}
