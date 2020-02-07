@@ -358,12 +358,16 @@ class Widget extends Component {
     }
      //滑动到页面底部
      toBottom(){
-       // console.log(222)
-      //  document.getElementsByClassName("content2")[0].scrollIntoView(false)
-        var s=document.getElementsByClassName("content2")[0];
-                console.log("ssstate6666");
-                document.getElementsByClassName("content2")[0].scrollTop=s.scrollHeight;
-                console.log(s,document.getElementsByClassName("content2")[0].scrollTop);
+       console.log(222)
+        
+        if(window.location.hash.indexOf('mdtInquiry')!=-1){
+        this.state.chatTime=setTimeout(()=>{
+            var s=document.getElementsByClassName("content3")[0].scrollHeight;
+            document.getElementsByClassName("content3")[0].scrollTop=50000;
+            console.log(s,document.getElementsByClassName("content3")[0].scrollTop);
+            console.log("ssse");
+        },1000)
+    }
     }
     /*获取咨询信息*/
     getChat(type) {
