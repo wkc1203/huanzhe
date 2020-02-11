@@ -65,7 +65,7 @@ class Widget extends Component {
     this.getDoctorInfo({doctorId:doctorId});
 
     if(window.localStorage.showTip==1){
-      this.jumpConfirminfo(1)
+      this.jumpConfirminfo(window.localStorage.remune?window.localStorage.remune:1)
   }
   }
   componentWillUnmount() {
@@ -143,6 +143,7 @@ jumpConfirminfo(remune) {
                   //加入缓存
                   storage.isOpenId = 1;
                   storage.showTip=1;
+                  storage.remune=remune;
                   window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/" + code + "?scope=snsapi_base";
                   // return false;
                   var storage = window.localStorage;
@@ -151,10 +152,12 @@ jumpConfirminfo(remune) {
               }
           }else{
               window.localStorage.showTip=1;
+              window.localStorage.remune=remune;
           }
       }, (e) => {
           this.hideLoading();
           window.localStorage.showTip=1;
+          window.localStorage.remune=remune;
       });
 }
 

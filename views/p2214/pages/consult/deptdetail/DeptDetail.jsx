@@ -114,7 +114,7 @@ class Widget extends Component {
         this.getDeptDetail(this.props.location.query.doctorId, this.props.location.query.deptId);
         this.getEvaluateList(1, this.props.location.query.doctorId, this.props.location.query.deptId);
         if(window.localStorage.showTip==1){
-            this.jumpConfirminfo(1)
+            this.jumpConfirminfo(window.localStorage.remune?window.localStorage.remune:1)
         }
         
     }
@@ -327,6 +327,7 @@ class Widget extends Component {
                     this.setState({
                         isShowProtocol: true,
                         totalFee: remune
+                        // totalFee:res.data.doctor.inquirys[0].remune
                     });
                     var html = document.getElementsByTagName('html')[0];
                     var body = document.getElementsByTagName('body')[0];
@@ -339,6 +340,7 @@ class Widget extends Component {
     }
     /*进入新建咨询页面*/
     jumpConfirminfo(remune) {
+        console.log('remune=',remune)
         this.showLoading();
         Api
             .isRegister()
@@ -359,6 +361,7 @@ class Widget extends Component {
                         //加入缓存
                         storage.isOpenId = 1;
                         storage.showTip=1;
+                        storage.remune=remune;
                         window.location.href = "https://wx.cqkqinfo.com/wx/wechat/authorize/" + code + "?scope=snsapi_base";
                         // return false;
                         var storage = window.localStorage;
@@ -367,10 +370,12 @@ class Widget extends Component {
                     }
                 }else{
                     window.localStorage.showTip=1;
+                    window.localStorage.remune=remune;
                 }
             }, (e) => {
                 this.hideLoading();
                 window.localStorage.showTip=1;
+                window.localStorage.remune=remune;
             });
     }
     componentWillUnmount() {
