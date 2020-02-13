@@ -30,7 +30,6 @@ class Widget extends Component {
             toastTitle: '',
             loadingTimer: null,
             showIOS1: false,
-            showIOS2: false,
             showAndroid1: false,
             showAndroid2: false,
             style1: {
@@ -38,21 +37,6 @@ class Widget extends Component {
                     {
                         label: '确定',
                         onClick: Utils.hideDialog.bind(this)
-                    }
-                ]
-            },
-            style2: {
-                title: '你还有对当前医生的咨询未完成',
-                buttons: [
-                    {
-                        type: 'default',
-                        label: '取消',
-                        onClick: Utils.hideDialog.bind(this)
-                    },
-                    {
-                        type: 'primary',
-                        label: '继续咨询',
-                        onClick: this.goInquiry.bind(this)
                     }
                 ]
             },
@@ -143,7 +127,6 @@ class Widget extends Component {
     goInquiry() {
         this.setState({
             showIOS1: false,
-            showIOS2: false,
             showAndroid1: false,
             showAndroid2: false,
         });
@@ -492,10 +475,6 @@ class Widget extends Component {
                 <Toast icon="success-no-circle" show={this.state.showToast}>{toastTitle}</Toast>
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
                     show={this.state.showIOS1}>
-                    {msg}
-                </Dialog>
-                <Dialog type="ios" title={this.state.style2.title} buttons={this.state.style2.buttons}
-                    show={this.state.showIOS2}>
                     {msg}
                 </Dialog>
                 <div className='header2' id="head">

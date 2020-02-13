@@ -758,7 +758,7 @@ hideDialog() {
             {msg}
         </Dialog>
         <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={this.state.showIOS3}>
-        你还有对当前医生的咨询未完成
+        对不起，您还有该科室的咨询未结束，请结束该科室的咨询后，再发起新咨询
         </Dialog>
         <Dialog type="ios" title={this.state.style4.title} buttons={this.state.style4.buttons} show={this.state.showIOS4}>
         {msg}

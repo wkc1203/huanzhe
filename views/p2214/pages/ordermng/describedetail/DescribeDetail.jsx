@@ -403,7 +403,8 @@ class Widget extends Component {
                        </div> 
                     </div>
                 </div>}
-                <div className='patient main-info'>
+                {/*<div className='patient main-info'>*/}
+                <div className='main-info'>
                 <div className="title-tip">
                     <img src='./././resources/images/des_jiu.png'/>就诊人信息
                    

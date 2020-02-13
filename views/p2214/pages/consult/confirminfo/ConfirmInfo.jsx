@@ -1202,7 +1202,7 @@ onChange = (files,file,index) => {
                 <Dialog type="ios" title={this.state.style2.title} buttons={this.state.style2.buttons} show={this.state.showIOS2}>
                 </Dialog>
                 <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={this.state.showIOS3}>
-                你还有对当前医生的咨询未完成
+                    对不起，您还有该科室的咨询未结束，请结束该科室的咨询后，再发起新咨询
                 </Dialog>
 
                 {
