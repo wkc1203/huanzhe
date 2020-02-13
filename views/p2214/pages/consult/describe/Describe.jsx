@@ -749,7 +749,7 @@ expandMore(Visit_no){
                   {msg}
                 </Dialog>
                 <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={this.state.showIOS3}>
-                    对不起，您还有该科室的咨询未结束，请结束该科室的咨询后，再发起新咨询
+                    您还有对当前科室/医生的咨询未完结，请先完结当前科室/医生的咨询，再发起新的咨询。
                 </Dialog>
                 {
                     patientShow&&<div className='modal' style={{justifyContent:'flex-end'}}
