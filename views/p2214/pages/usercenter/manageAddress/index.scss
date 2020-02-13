@@ -1,0 +1,29 @@
+.page-manage-list{
+	.card{
+		padding: 10px;
+		margin-bottom: 15px;
+	}
+	.card-heard:after{
+		content:'';
+		background-color: #ccc;
+		height: 1px;
+		width:100%;
+		position: absolute;
+	};
+	.card-foot{
+		display: flex;
+		&-checked{
+			flex: 1;
+		}
+		&-caozuo{
+			display: flex;
+			margin-right: 10px;
+			&-edit{
+				margin-right: 5px;
+			}
+		}
+	}
+	.manage-add-btn{
+
+	}
+}

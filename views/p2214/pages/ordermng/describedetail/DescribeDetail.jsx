@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
-import { Button, Toptips,Switch,Dialog,Toast ,showTips} from 'react-weui';
+import { Button, Toptips,Dialog,Toast ,showTips} from 'react-weui';
+import { Switch,List } from 'antd-mobile'
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
 import * as Api from '../../../components/Api/Api';
@@ -91,6 +92,21 @@ class Widget extends Component {
                 }
             ]
         },
+        style3: {
+            title: '温馨提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '到院取药',
+                    onClick: this.goHosiptal.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '立即配送',
+                    onClick: this.goPeiSong.bind(this)
+                }
+            ]
+        },
         msg:'',
         describeDetail:{},
         edit:false,
@@ -98,6 +114,20 @@ class Widget extends Component {
         mainDiagnosis:'',
         showMore:false,
         showType:'1',
+        // 支付成功后，弹框选中取药方式
+        isShowGetType:true,
+        // 配送地址默认为不配送
+        checked:false,
+        // 是否显示地址切换按钮
+        isShowCheckType:true,
+        // 是否显示地址
+        isShowDiv:false,
+        sendName:'',
+        sendPhone:'',
+        province:'',
+        city:'',
+        area:'',
+        detailArea:''
     };
   }
   componentDidMount() {
@@ -116,6 +146,22 @@ class Widget extends Component {
     // 离开页面时结束所有可能异步逻辑
       this.state.leftTimer && clearInterval(this.state.leftTimer);
   }
+
+  // 到医院取药
+  goHosiptal=()=>{
+    this.setState({
+      isShowGetType:false
+    })
+  }
+  // 快递取药
+  goPeiSong=()=>{
+    this.setState({
+      isShowGetType:false,
+      checked:true
+    })
+    this.goGetAddress()
+  }
+
   pay() {
    /*  this.context.router.push({
         pathname:'consult/pay',
@@ -225,37 +271,37 @@ class Widget extends Component {
             })
         });
   }
-    /*获取订单详情*/
-    getDetail(id) {
-      this.showLoading();
-         Api
-             .getDescribeDetail({ 
-                 id:id,
-                 signFlag:'1',
-                 hisId:'2214'  
-             })
-             .then((res) => {
-                 if (res.code == 0) {
-                    this.hideLoading();
-                    var info=res.data;
-                    info.addInfo=!!res.data.subscribeInfo?JSON.parse(res.data.subscribeInfo):'';
-                    info.drugList=!!res.data.recipelList?JSON.parse(res.data.recipelList):'';
-                    console.log(info)
-                    this.setState({
-                        describeDetail:info
-                    })
-                    
-                 }else{
+  /*获取订单详情*/
+  getDetail(id) {
+    this.showLoading();
+       Api
+           .getDescribeDetail({ 
+               id:id,
+               signFlag:'1',
+               hisId:'2214'  
+           })
+           .then((res) => {
+               if (res.code == 0) {
                   this.hideLoading();
-                 }
-             }, e=> {
-              this.hideLoading();
-                 this.setState({
-                     msg:e.msg,
-                     showIOS1:true
-                 })
-             });
-    }
+                  var info=res.data;
+                  info.addInfo=!!res.data.subscribeInfo?JSON.parse(res.data.subscribeInfo):'';
+                  info.drugList=!!res.data.recipelList?JSON.parse(res.data.recipelList):'';
+                  console.log(info)
+                  this.setState({
+                      describeDetail:info
+                  })
+                  
+               }else{
+                this.hideLoading();
+               }
+           }, e=> {
+            this.hideLoading();
+               this.setState({
+                   msg:e.msg,
+                   showIOS1:true
+               })
+           });
+  }
     cancelConfirm(type) {
       this.setState({showType:type})
       if(type=='1'){
@@ -268,23 +314,86 @@ class Widget extends Component {
         this.setState({ dialogConfig1});
       }
         
-      }
-      closeDialog() {
-        const { dialogConfig } = this.state;
-        dialogConfig.show = false;
+    }
+    closeDialog() {
+      const { dialogConfig } = this.state;
+      dialogConfig.show = false;
+      this.setState({
+        dialogConfig
+      });
+    }
+    closeDialog1() {
+      const { dialogConfig1 } = this.state;
+      dialogConfig1.show = false;
+      this.setState({
+        dialogConfig1
+      });
+    }
+
+    // 开启配送
+    getAddress=(e)=>{
+      console.log('e=',e)
+      this.setState({
+        checked:e
+      })
+      if(e){
+        this.goGetAddress()
+      }else{
         this.setState({
-          dialogConfig
-        });
+          isShowDiv:false
+        })
       }
-      closeDialog1() {
-        const { dialogConfig1 } = this.state;
-        dialogConfig1.show = false;
-        this.setState({
-          dialogConfig1
-        });
-      }
+    }
+    goGetAddress=()=>{
+      // 获取默认地址
+        if(true){
+          this.setState({
+            isShowDiv:true,
+            sendName:'程传荣',
+            sendPhone:'13399868598',
+            province:'重庆市',
+            city:'江北区',
+            area:'',
+            detailArea:'中雨9号'
+          })
+        }else{
+          this.context.router.push({
+            pathname:'/usercenter/addAddress',
+            query:{
+              fromOrder:'1'
+            }
+          })
+        }
+    }
+
+    // 跳转到地址列表
+    goManageAddress=()=>{
+      this.context.router.push({
+            pathname:'/usercenter/manageaddress',
+            query:{
+              fromOrder:'1'
+            }
+          })
+    }
+    // 跳转到邮费支付页面
+    goPayMailMoney=()=>{
+      this.context.router.push({
+        pathname:'/consult/paymail'
+      })
+    }
+
   render() {
-    const {msg,describeDetail,showType,mainDiagnosis,phone,orderDetail,leftTimeFlag,leftTime}=this.state
+    const {
+      isShowDiv,sendName,
+      sendPhone,province,
+      city,area,detailArea,
+      isShowCheckType,checked,
+      isShowGetType,
+      msg,describeDetail,
+      showType,mainDiagnosis,
+      phone,orderDetail,
+      leftTimeFlag,leftTime
+    }=this.state
     let diagnosis =''
     if(!!describeDetail.diagnosis){
        diagnosis = describeDetail.diagnosis.split('|').length>2?describeDetail.diagnosis.split('|').splice(0,describeDetail.diagnosis.split('|').length-1).join('|') :describeDetail.diagnosis
@@ -403,7 +512,8 @@ class Widget extends Component {
                        </div> 
                     </div>
                 </div>}
-                <div className='patient main-info'>
+                {/*<div className='patient main-info'>*/}
+                <div className='main-info'>
                 <div className="title-tip">
                     <img src='./././resources/images/des_jiu.png'/>就诊人信息
                    
@@ -490,6 +600,75 @@ class Widget extends Component {
                     {describeDetail.caseInfo.recommend}
                 </div> 
           </div>}
+
+          <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={isShowGetType}>
+                您可选择到医院药房取药或直接将药品配送到家
+          </Dialog>
+          {!!describeDetail.caseInfo&&!!describeDetail.caseInfo.recommend&&<div className='diagnosis main-info'>
+                <div className='title-tip'>
+                    <img src='./././resources/images/des_jian.png'/>订单信息</div>
+                <div className="items">
+                    <div>
+                      <p>
+                        <span>
+                          医院订单号：
+                        </span>
+                        <span className='order-info-span'>
+                        1211224
+                        </span>
+                      </p>
+                      <p>
+                        <span>
+                          支付流水号：
+                        </span>
+                        <span className='order-info-span'>
+                        1211224
+                        </span>
+                      </p>
+                      <p>
+                        <span>
+                          支付时间：
+                        </span>
+                        <span className='order-info-span'>
+                        2020-2-12 15:25
+                        </span>
+                      </p>
+                    </div>
+                </div> 
+          </div>}
+          {!!describeDetail.caseInfo&&!!describeDetail.caseInfo.recommend&&<div className='diagnosis main-info'>
+                <div className='title-tip'>
+                    <img src='./././resources/images/des_jian.png'/>药品配送</div>
+                <div className="items yaopingpeisong">
+                      {
+                        isShowCheckType?
+                          <List>
+                            <List.Item
+                              extra={<Switch
+                                checked={this.state.checked}
+                                onChange={(e) => this.getAddress(e)}
+                              />}
+                            >将处方药品邮寄到家</List.Item>
+                          </List>:null
+
+                      }
+                      <div onClick={this.goManageAddress} className={`address-info ${isShowDiv?null:'unshow-address'}`}>
+                        <div className='address-info-left'>
+                          <p>
+                            <span>{sendName}</span>
+                            <span className='youji-phone'>{sendPhone}</span>
+                          </p>
+                          <p>
+                            <span>{province}</span>
+                            <span>{city}</span>
+                            <span>{area}</span>
+                            <span>{detailArea}</span>
+                          </p>
+                        </div>
+                        <img src='./././resources/images/des_xyjt.png' className='address-info-img'/>
+                      </div>
+                </div> 
+          </div>}
           <div className="confirm" >
               {describeDetail.status=='3'&&<p className='p1' onClick={()=>{
                   this.pay()
@@ -507,6 +686,13 @@ class Widget extends Component {
                   this.cancelConfirm(2)
                   // this.cancle()
               }}>申请退款</p>}
+    
+              {
+                isShowCheckType&&checked&&
+                <p className='p2' onClick={()=>{ 
+                    this.goPayMailMoney()
+                }}>下一步</p>
+              }
 
           </div>
           </div>

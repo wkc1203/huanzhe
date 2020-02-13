@@ -457,4 +457,41 @@
 }
   
 }
+  .yaopingpeisong{
+    .am-list-body:before{
+      display: none;
+    }
+    .am-list-body:after{
+      display: none;
+    }
+    .am-list-item{
+      padding-left: 0;
+      .am-list-line{
+        padding-right: 0;
+      }
+    }
+    .am-list-content{
+      color: #666 !important;
+    }
+    .address-info{
+      display: flex;
+      justify-content:space-between;
+      &-img{
+        display: block;
+        width: 12px;
+        margin: auto 0;
+      }
+    }
+    .unshow-address{
+      display: none;
+    }
+    .youji-phone{
+      margin-left: 15px;
+    }
+  }
+  .order-info{
+    &-span{
+      float: right;;
+    }
+  }
 }

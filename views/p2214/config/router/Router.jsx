@@ -152,6 +152,12 @@ import UserCardJianCheList from '../../pages/usercenter/tabcardjianche/index'
 import XuanJiaoDetail from '../../pages/usercenter/tabcardxuanjiaodetail/index'
 import UserCardWenJuan from '../../pages/usercenter/tabcardwenjuan/index'
 
+// 地址管理
+import ManageAddress from '../../pages/usercenter/manageAddress/index'
+import AddAddress from '../../pages/usercenter/addAddress/index'
+// 邮寄费用支付
+import PayMail from '../../pages/consult/paymail/index';
+
 // 缺省页
 import Queshengye from '../../pages/queshengye/index'
 
@@ -246,6 +252,9 @@ class Routers extends React.Component {
             <Route path="/consult/describe" component={Describe} title='重医儿童医院互联网医院' />
             <Route path="/consult/submitdesc" component={SubmitDesc} title='重医儿童医院互联网医院' />
 
+            {/*慢病续方邮费支付*/}
+            <Route path="/consult/paymail" component={PayMail} title='重医儿童医院互联网医院' />
+
             </Route>
           
           {/* mdt*/}
@@ -337,9 +346,13 @@ class Routers extends React.Component {
             <Route path="/usercenter/userinfo" component={UserInfo} title='重医儿童医院互联网医院' />
             <Route path="/usercenter/userlist" component={UserList} title='重医儿童医院互联网医院' />
              {/* 投诉建议 */}
-             <Route path="/usercenter/suggestdetail" component={suggestDetail} title='重医儿童医院互联网医院' />
+            <Route path="/usercenter/suggestdetail" component={suggestDetail} title='重医儿童医院互联网医院' />
             <Route path="/usercenter/mysuggestion" component={Suggestion} title='重医儿童医院互联网医院' /> 
             <Route path="/usercenter/replay" component={Replay} title='重医儿童医院互联网医院' />
+
+            {/* 地址管理 */}
+            <Route path="/usercenter/manageaddress" component={ManageAddress} title='地址管理' />
+            <Route path="/usercenter/addAddress" component={AddAddress} title='新增地址' />
           </Route>
 
           {/* 首页 */}
