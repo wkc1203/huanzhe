@@ -1,29 +1,73 @@
 .page-manage-list{
 	.card{
-		padding: 10px;
-		margin-bottom: 15px;
+		padding: 20px;
+		background-color: white;
+	    margin: 22px 20px 18px 20px;
+	    border-radius: 20px;
 	}
-	.card-heard:after{
-		content:'';
-		background-color: #ccc;
-		height: 1px;
-		width:100%;
-		position: absolute;
-	};
+	.card-body{
+		border-top: 1px solid #ccc;
+		margin-top: 12px;
+	}
+	.card-heard-foot{
+		color: #666;
+		word-break:break-all;
+	}
 	.card-foot{
 		display: flex;
+		margin-top: 15px;
 		&-checked{
 			flex: 1;
+			input{
+				display: none;
+			}
+			input[type="radio"]+label::before {
+	            content: "\a0";/*不换行空格*/
+	            display: inline-block;
+	            vertical-align: middle;
+	            font-size: 18px;
+	            width: 7px;
+	            height: 7px;
+	            margin: auto 5px;
+	            border-radius: 50%;
+	            border: 1px solid gray;
+	            padding: 4px;
+	        }
+	        /* 设置选中样式 */
+	        input[type="radio"]:checked+label::before {
+	            background-color: #50abca;
+	            background-clip: content-box;
+	            border: 2px solid #50abca;
+	            padding: 4px;
+	        }
 		}
 		&-caozuo{
 			display: flex;
 			margin-right: 10px;
 			&-edit{
 				margin-right: 5px;
+				background-color: transparent;
+				border-color: #4FABCA;
+				color: #4FABCA;
+			}
+			&-detel{
+				background-color: #4FABCA;
+				color: #fff;
 			}
 		}
 	}
+	.card-spant{
+		margin-left: 15px;
+	}
+	.card-yanse{
+		color: #333;
+	}
+	.checked-yanse{
+		color: #50abca;
+	}
 	.manage-add-btn{
-
+		margin:20px;
+		background-color: #4FABCA;
+		color: #fff;
 	}
 }

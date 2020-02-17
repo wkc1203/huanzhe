@@ -1,10 +1,11 @@
 ﻿import React, { Component } from 'react';
 import { Button, Toptips,Dialog,Toast ,showTips} from 'react-weui';
-import { Switch,List } from 'antd-mobile'
+import { Switch,List,Toast as Toasts } from 'antd-mobile'
 import Connect from '../../../components/connect/Connect';
 import Link from 'react-router/lib/Link';
 import * as Api from '../../../components/Api/Api';
 import * as Utils from '../../../utils/utils';
+import { dateTimeDate } from '../../../utils/utils';
 import './style/index.scss';
 import hashHistory from 'react-router/lib/hashHistory';
 class Widget extends Component {
@@ -62,6 +63,10 @@ class Widget extends Component {
         loadingTimer: null,
         showIOS1: false,
         showIOS2: false,
+        // 是否含有不可配送药，弹框
+        showIOS4: false,
+        // 没有地址，添加地址
+        showIOS5:false,
         showAndroid1: false,
         showAndroid2: false,
         tipsConfig: {
@@ -107,6 +112,37 @@ class Widget extends Component {
                 }
             ]
         },
+        style4: {
+            title: '温馨提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.bujieshou.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '接受到院取药',
+                    onClick: this.jieshouGoHosiptal.bind(this)
+                }
+            ]
+        },
+        style5: {
+            title: '温馨提示',
+            buttons: [
+                {
+                    type: 'default',
+                    label: '取消',
+                    onClick: this.notAddRess.bind(this)
+                },
+                {
+                    type: 'primary',
+                    label: '去添加地址',
+                    onClick: this.gotoAddress.bind(this)
+                }
+            ]
+        },
+        msg:'',
         msg:'',
         describeDetail:{},
         edit:false,
@@ -114,8 +150,10 @@ class Widget extends Component {
         mainDiagnosis:'',
         showMore:false,
         showType:'1',
+        // 邮寄费用Id
+        youjiAddressId:'',
         // 支付成功后，弹框选中取药方式
-        isShowGetType:true,
+        isShowGetType:false,
         // 配送地址默认为不配送
         checked:false,
         // 是否显示地址切换按钮
@@ -127,13 +165,48 @@ class Widget extends Component {
         province:'',
         city:'',
         area:'',
-        detailArea:''
+        detailArea:'',
+        // 快递单号
+        mailNum:'',
+        // 切换地址switch是否可选中
+        isCheckSwitch:false,
+        // 处方是否可以配送
+        isNotPeiSong:true,
+        // 药品配送几个字是否需要展示
+        isShowPeiSong:false,
+        // 订单信息
+        isOrderInfoShow:false,
     };
   }
   componentDidMount() {
         //隐藏分享等按钮
       Utils.getJsByHide();   
-      this.getDetail(this.props.location.query.id); 
+      this.getDetail(this.props.location.query.id);
+      // 支付成功后第一次查看，弹框选中配送方式
+      // this.setState({
+      //     isShowGetType:true
+      // })
+      // if(this.props.location.query){
+      //   const {
+      //     query:{
+      //       sendName='',
+      //       sendPhone='',
+      //       province='',
+      //       city='',
+      //       area='',
+      //       detailArea=''
+      //     }
+      //   } = this.props.location
+      //   this.setState({
+      //       isShowDiv:true,
+      //       sendName,
+      //       sendPhone,
+      //       province,
+      //       city,
+      //       area,
+      //       detailArea
+      //     })
+      // }
   }
 
     showToast() {
@@ -150,7 +223,8 @@ class Widget extends Component {
   // 到医院取药
   goHosiptal=()=>{
     this.setState({
-      isShowGetType:false
+      isShowGetType:false,
+      isShowDiv:false
     })
   }
   // 快递取药
@@ -167,12 +241,33 @@ class Widget extends Component {
         pathname:'consult/pay',
         query:{hospitalUserId:this.state.describeDetail.hospitalUserId,source:'describe1',hospitalTradeno:this.state.describeDetail.subscribeOrderNo}
     })  */
+    // 判断是否含有不可配送药品
+    if(this.state.isNotPeiSong){
+      this.setState({
+        showIOS4:true
+      })
+    }else{
+      this.context.router.push({
+          pathname:'consult/pay',
+          query:{userId:this.state.describeDetail.userId,source:'describe2',id:this.state.describeDetail.id,orderId:this.state.describeDetail.orderStr}
+      })
+    }
+  }
+  // 不接受到院取药
+  bujieshou=()=>{
+    this.setState({
+      showIOS4:false
+    })
+  }
+  // 接受到院取药
+  jieshouGoHosiptal=()=>{
+    this.bujieshou()
     this.context.router.push({
         pathname:'consult/pay',
         query:{userId:this.state.describeDetail.userId,source:'describe2',id:this.state.describeDetail.id,orderId:this.state.describeDetail.orderStr}
-    }) 
-       
+    })
   }
+
   cancelOrder()
     {
     var select = '';
@@ -287,6 +382,105 @@ class Widget extends Component {
                   info.addInfo=!!res.data.subscribeInfo?JSON.parse(res.data.subscribeInfo):'';
                   info.drugList=!!res.data.recipelList?JSON.parse(res.data.recipelList):'';
                   console.log(info)
+                  
+                    // 是否可以配送
+                    if(info.drugList&&info.drugList!=''&&info.drugList.length>0){
+                      let ziti=info.drugList.map((item,index)=>{
+                        if(item.Express_flag==1){
+                          return true
+                        }else{
+                          return false
+                        }
+                      })
+                      if(ziti.toString().indexOf('false')>-1){
+                        window.localStorage.setItem('isziti',2)
+                        this.setState({
+                          isNotPeiSong:true,
+                          // isShowPeiSong:false
+                        })
+                      }else{
+                        window.localStorage.setItem('isziti',1)
+                        this.setState({
+                          isNotPeiSong:false
+                        })
+                      }
+
+                      if(info.status==4){
+                        this.setState({
+                          isOrderInfoShow:true
+                        })
+                        // 没有选中过，
+                        if(window.localStorage.getItem('isziti')&&window.localStorage.getItem('isziti')==1){
+                          this.setState({
+                           isShowPeiSong:true
+                          })
+                          if(info.deliveryDrugVo){
+                            if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==0){
+                              let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
+                              this.setState({
+                                isShowCheckType:true,
+                                youjiAddressId:addr.id,
+                                mailNum:info.deliveryDrugVo.billNo,
+                                sendName:addr.name,
+                                sendPhone:addr.phone,
+                                province:addr.province,
+                                city:addr.city,
+                                area:addr.district,
+                                detailArea:addr.address
+                              })
+                            }
+                            if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==1){
+                              let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
+                              this.setState({
+                                isShowCheckType:false,
+                                youjiAddressId:addr.id,
+                                mailNum:info.deliveryDrugVo.billNo,
+                                sendName:addr.name,
+                                sendPhone:addr.phone,
+                                province:addr.province,
+                                city:addr.city,
+                                area:addr.district,
+                                detailArea:addr.address
+                              })
+                            }
+                            if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==2){
+                              this.setState({
+                                isCheckSwitch:true
+                              })
+                            }
+                          }else{
+                            if(this.props.location.query.fromOrder=='1'){
+                              console.log('ts=',this.props.location.query)
+                              this.setState({
+                                isShowPeiSong:true,
+                                isShowCheckType:true,
+                                checked:true,
+                                isShowDiv:true,
+                                youjiAddressId:this.props.location.query.id,
+                                sendName:this.props.location.query.sendName,
+                                sendPhone:this.props.location.query.sendPhone,
+                                province:this.props.location.query.province,
+                                city:this.props.location.query.city,
+                                area:this.props.location.query.area,
+                                detailArea:this.props.location.query.detailArea
+                            
+                              })
+                            }else{
+                              this.setState({
+                                isShowGetType:true,
+                              })
+                            }
+                          }
+                        }else{
+                          this.setState({
+                            isShowPeiSong:false
+                          })
+                        }
+
+                      }
+
+                    }
+
                   this.setState({
                       describeDetail:info
                   })
@@ -344,26 +538,68 @@ class Widget extends Component {
         })
       }
     }
+
+    // 获取地址列表
     goGetAddress=()=>{
-      // 获取默认地址
-        if(true){
-          this.setState({
-            isShowDiv:true,
-            sendName:'程传荣',
-            sendPhone:'13399868598',
-            province:'重庆市',
-            city:'江北区',
-            area:'',
-            detailArea:'中雨9号'
-          })
-        }else{
-          this.context.router.push({
-            pathname:'/usercenter/addAddress',
-            query:{
-              fromOrder:'1'
+      Api.
+        getAddressList({
+          userId:window.localStorage.getItem('userId'),
+          pageNum:1
+        }).
+        then(res=>{
+          if(res.code==0&&res.data&&res.data.recordList.length>0){
+            let checkItem=''
+            for(let i=0;i<res.data.recordList.length;i++){
+              if(res.data.recordList[i].defaultFlag==1){
+                checkItem=res.data.recordList[i]
+              }
             }
-          })
+            console.log('checkItem=',checkItem)
+            if(checkItem==''){
+              checkItem=res.data.recordList[0]
+            }
+              this.setState({
+                isShowDiv:true,
+                youjiAddressId:checkItem.id,
+                sendName:checkItem.name,
+                sendPhone:checkItem.phone,
+                province:checkItem.province,
+                city:checkItem.city,
+                area:checkItem.district,
+                detailArea:checkItem.address
+              })
+            
+          }else{
+            // 弹框是否去新加地址
+            this.setState({
+              showIOS5:true,
+              msg:'请先添加地址',
+            })
+              
+            }
+        })
+    }
+    // 不去添加地址
+    notAddRess=()=>{
+      this.setState({
+        showIOS5:false,
+        checked:false,
+        isShowGetType:false,
+        isShowDiv:false
+      })
+    }
+    // 去添加地址
+    gotoAddress=()=>{
+      this.setState({
+        showIOS5:false
+      })
+      this.context.router.push({
+        pathname:'/usercenter/addAddress',
+        query:{
+          fromOrder:'1',
+          id:this.props.location.query.id
         }
+      })
     }
 
     // 跳转到地址列表
@@ -371,15 +607,135 @@ class Widget extends Component {
       this.context.router.push({
             pathname:'/usercenter/manageaddress',
             query:{
-              fromOrder:'1'
+              fromOrder:'1',
+              id:this.props.location.query.id
             }
           })
     }
     // 跳转到邮费支付页面
-    goPayMailMoney=()=>{
+    goPayMailMoney=(youfeiId)=>{
+      // 查询
+      const {
+        youjiAddressId,
+        sendName,
+        sendPhone,
+        province,
+        city,
+        area,
+        detailArea
+      } = this.state
+      // if(youjiAddressId&&youjiAddressId!=''){
+      //   // 修改地址
+      //   this.updatePeiSongDrug()
+      // }else{
+      //   // 新增地址
+      //   this.addPeiSongDrug()
+      // }
+      let zhifuPram={
+        id:youjiAddressId,
+        chronicDiseaseId:this.props.location.query.id,
+        sendName,
+        sendPhone,
+        province,
+        city,
+        area,
+        detailArea
+      }
+      window.localStorage.setItem('sendAddress',JSON.stringify(zhifuPram))
       this.context.router.push({
-        pathname:'/consult/paymail'
+        pathname:'/consult/paymail',
+        query:{
+          orderId:youjiAddressId
+        }
       })
+    }
+    // 修改邮寄订单
+    updatePeiSongDrug=()=>{
+      const {
+        youjiAddressId,
+        sendName,
+        sendPhone,
+        province,
+        city,
+        area,
+        detailArea
+      } = this.state
+      Api.
+        updatePeiSongDrug({
+          userId:window.localStorage.getItem('userId'),
+          id:youjiAddressId,
+          deliveryAddress:JSON.stringify({
+            id:youjiAddressId,
+            name:sendName,
+            phone:sendPhone,
+            province,city,
+            district:area,
+            address:detailArea
+          })
+        }).
+        then(res=>{
+          if(res.code==0){
+            this.context.router.push({
+              pathname:'/consult/paymail',
+              query:{
+                orderId:youjiAddressId
+              }
+            })
+          }
+        })
+    }
+    // 新增邮寄订单
+    addPeiSongDrug=()=>{
+      const {
+        // chronicDiseaseId,
+        youjiAddressId,
+        sendName,
+        sendPhone,
+        province,
+        city,
+        area,orderId,
+        detailArea
+      } = this.state
+      Api.
+        addPeiSongDrug({
+          orderId:this.props.location.query.id,
+          // chronicDiseaseId,
+          userId:window.localStorage.getItem('userId'),
+          deliveryAddress:JSON.stringify({
+            id:youjiAddressId,
+            name:sendName,
+            phone:sendPhone,
+            province,city,
+            district:area,
+            address:detailArea
+          })
+        }).
+        then(res=>{
+          if(res.code==0){
+            this.context.router.push({
+              pathname:'/consult/paymail',
+              query:{
+                orderId:youjiAddressId
+              }
+            })
+          }
+        })
+    }
+    // 复制运单号
+    yunhaoCopy=()=>{
+      const copyEle = document.querySelector('.contentText') // 获取要复制的节点
+      const range = document.createRange(); // 创造range
+      window.getSelection().removeAllRanges(); //清除页面中已有的selection
+      range.selectNode(copyEle); // 选中需要复制的节点
+      window.getSelection().addRange(range); // 执行选中元素
+      const copyStatus = document.execCommand("Copy"); // 执行copy操作
+      // 对成功与否定进行提示
+      if (copyStatus) {
+        Toasts.info('复制成功',2);
+      } else {
+        Toasts.info('复制失败',2);
+      }
+      window.getSelection().removeAllRanges(); //清除页面中已有的selection
     }
 
   render() {
@@ -388,10 +744,10 @@ class Widget extends Component {
       sendPhone,province,
       city,area,detailArea,
       isShowCheckType,checked,
-      isShowGetType,
-      msg,describeDetail,
+      isShowGetType,mailNum,isShowPeiSong,
+      msg,describeDetail,isCheckSwitch,
       showType,mainDiagnosis,
-      phone,orderDetail,
+      phone,orderDetail,isOrderInfoShow,
       leftTimeFlag,leftTime
     }=this.state
     let diagnosis =''
@@ -604,69 +960,117 @@ class Widget extends Component {
           <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={isShowGetType}>
                 您可选择到医院药房取药或直接将药品配送到家
           </Dialog>
-          {!!describeDetail.caseInfo&&!!describeDetail.caseInfo.recommend&&<div className='diagnosis main-info'>
+          <Dialog type="ios" title={this.state.style4.title} buttons={this.state.style4.buttons} show={this.state.showIOS4}>
+                您的处方中含有医院自研类，冷藏类药品，将不支持药品配送，只能选择<span>到院取药</span>。
+                若有特色情况确实无法到院取药，请联系医生重新开药或取消订单（取消订单后挂号费将不予退回）。
+          </Dialog>
+          <Dialog type="ios" title={this.state.style5.title} buttons={this.state.style5.buttons} show={this.state.showIOS5}>
+                {msg}
+          </Dialog>
+          {
+            isOrderInfoShow&&
+              <div className='diagnosis main-info'>
+                    <div className='title-tip'>
+                        <img src='./././resources/images/dingdaninfo.png'/>订单信息</div>
+                    <div className="items">
+                        <div>
+                          <p>
+                            <span>
+                              医院订单号：
+                            </span>
+                            <span className='order-info-span'>
+                            {describeDetail.orderStr?describeDetail.orderStr:'-'}
+                            </span>
+                          </p>
+                          <p className='dingdan-liushui'>
+                            <span>
+                              支付流水号：
+                            </span>
+                            <span className='dingdan-liushui-huanhang'>
+                            {describeDetail.paySerialNumber?describeDetail.paySerialNumber:'-'}
+                            </span>
+                          </p>
+                          <p>
+                            <span>
+                              支付时间：
+                            </span>
+                            <span className='order-info-span'>
+                            {describeDetail.payTime&&describeDetail.payTime!=''?dateTimeDate(describeDetail.payTime):'-'}
+                            </span>
+                          </p>
+                        </div>
+                    </div> 
+              </div>
+          }
+          {!!describeDetail&&isShowPeiSong&&<div className='diagnosis main-info'>
                 <div className='title-tip'>
-                    <img src='./././resources/images/des_jian.png'/>订单信息</div>
-                <div className="items">
-                    <div>
-                      <p>
-                        <span>
-                          医院订单号：
-                        </span>
-                        <span className='order-info-span'>
-                        1211224
-                        </span>
-                      </p>
-                      <p>
-                        <span>
-                          支付流水号：
-                        </span>
-                        <span className='order-info-span'>
-                        1211224
-                        </span>
-                      </p>
-                      <p>
-                        <span>
-                          支付时间：
-                        </span>
-                        <span className='order-info-span'>
-                        2020-2-12 15:25
-                        </span>
-                      </p>
-                    </div>
-                </div> 
-          </div>}
-          {!!describeDetail.caseInfo&&!!describeDetail.caseInfo.recommend&&<div className='diagnosis main-info'>
-                <div className='title-tip'>
-                    <img src='./././resources/images/des_jian.png'/>药品配送</div>
+                    <img src='./././resources/images/yaopingpeisong.png'/>药品配送</div>
                 <div className="items yaopingpeisong">
                       {
                         isShowCheckType?
-                          <List>
+                        <div>
+                          <List className='list-yaopin'>
                             <List.Item
                               extra={<Switch
+                                disabled={isCheckSwitch}
                                 checked={this.state.checked}
                                 onChange={(e) => this.getAddress(e)}
                               />}
                             >将处方药品邮寄到家</List.Item>
-                          </List>:null
-
+                          </List>
+                          <div onClick={this.goManageAddress} className={`address-info ${isShowDiv?'':'unshow-address'}`}>
+                            <div className='address-info-left'>
+                              <p className='send-address-info-ziti'>
+                                <span>{sendName}</span>
+                                <span className='youji-phone'>{sendPhone}</span>
+                              </p>
+                              <p>
+                                <span>{province}</span>
+                                <span className='youji-phone'>{city}</span>
+                                <span className='youji-phone'>{area}</span>
+                                <span className='youji-phone'>{detailArea}</span>
+                              </p>
+                            </div>
+                            <img src='./././resources/images/des_xyjt.png' className='address-info-img'/>
+                          </div>
+                          </div>
+                          :
+                          <div>
+                            <div className='send-address-info'>
+                              <img src='./././resources/images/kdys.png' className='send-address-info-img'/>
+                              <div>
+                                <p>
+                                  <span>运单号：</span>
+                                  <span className='contentText send-address-info-ziti'>{mailNum}</span>
+                                  <div className='yundan-fuzhi'>
+                                    <span onClick={this.yunhaoCopy}>复制</span>
+                                  </div>
+                                </p>
+                                <p>
+                                  <span>配送方式：</span>
+                                  <span className='send-address-info-ziti'>EMS（中国邮政速递物流）</span>
+                                </p>
+                              </div>
+                            </div>
+                            <div className='fenge-line'></div>
+                            <div className='send-address-info'>
+                              <img src='./././resources/images/dz.png' className='send-address-info-img'/>
+                              <div>
+                                <p>
+                                  <span className='send-address-info-ziti'>{sendName}</span>
+                                  <span className='send-address-info-ziti youji-phone'>{sendPhone}</span>
+                                </p>
+                                <p>
+                                  <span>{province}</span>
+                                  <span className='youji-phone'>{city}</span>
+                                  <span className='youji-phone'>{area}</span>
+                                  <span className='youji-phone'>{detailArea}</span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
                       }
-                      <div onClick={this.goManageAddress} className={`address-info ${isShowDiv?null:'unshow-address'}`}>
-                        <div className='address-info-left'>
-                          <p>
-                            <span>{sendName}</span>
-                            <span className='youji-phone'>{sendPhone}</span>
-                          </p>
-                          <p>
-                            <span>{province}</span>
-                            <span>{city}</span>
-                            <span>{area}</span>
-                            <span>{detailArea}</span>
-                          </p>
-                        </div>
-                        <img src='./././resources/images/des_xyjt.png' className='address-info-img'/>
-                      </div>
+                      
                 </div> 
           </div>}
           <div className="confirm" >
@@ -681,14 +1085,14 @@ class Widget extends Component {
               { (describeDetail.status=='12')&& 
               <p className='p2' style={{color:'white',background:'#ccc',border:'1px solid #ccc'}}>{describeDetail.statusName}</p>}
               
-              {(describeDetail.status=='4')&& 
+              {(describeDetail.status=='4')&& isShowCheckType&&!checked&&
               <p className='p2' onClick={()=>{ 
                   this.cancelConfirm(2)
                   // this.cancle()
               }}>申请退款</p>}
     
               {
-                isShowCheckType&&checked&&
+                (describeDetail.status=='4')&&isShowCheckType&&checked&&
                 <p className='p2' onClick={()=>{ 
                     this.goPayMailMoney()
                 }}>下一步</p>

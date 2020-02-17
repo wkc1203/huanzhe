@@ -8,7 +8,9 @@
     .fee-box {
         height: 134px;
         background-color: #fff;
-        margin-bottom: 10px;
+        // margin-bottom: 10px;
+        margin: 10px;
+        border-radius: 12px;
         .warm-tip1 {
             height: 30px;
             background-color: #ECFAFF;
@@ -20,6 +22,7 @@
         .fee-item{
             height: 104px;
             font-size: 34px;
+            font-weight: 600;
             color: #FF613B;
             text-align: center;
             padding-top: 15px;
@@ -31,7 +34,9 @@
     }
     .mm-list {
         padding: 15px 0;
-        margin-top: 10px;
+        // margin-top: 10px;
+        margin: 10px;
+        border-radius: 12px;
         background-color: #fff;
         .title {
             padding-left: 15px;
@@ -61,6 +66,39 @@
                     margin-left: 10px;
                 }
             }
+            .itrem{
+                border-top: 1px solid #ccc;
+                margin: auto 10px;
+            }
+        }
+    }
+    .mm-sendmail{
+        // margin-top: 10px;
+        margin: 10px;
+        border-radius: 12px;
+        background-color: #fff;
+        .list-item {
+            padding: 8px 15px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            .item-label {
+                color: $hc-color-gray;
+                min-width: 5em;
+                img{
+                    width: 22px;
+                    margin-right: 10px;
+                }
+            }
+            .item-value {
+                color: $hc-color-title;
+                flex: 1;
+                word-wrap: break-word;
+                white-space: pre-wrap;
+                text-align: right;
+                overflow: hidden;
+                margin-left: 10px;
+            }
         }
     }
     .list-tit {
@@ -72,7 +110,14 @@
     .beizhu-tishi{
         padding: 10px 15px;
         font-size: 13px;
-        color: #4cabcf;
+        color: rgb(255, 0, 0);
+    }
+    .beizhu-tishi-two{
+        padding: 10px 15px;
+        font-size: 13px;
+        span{
+            color: rgb(255, 0, 0);
+        }
     }
 
     .btn{

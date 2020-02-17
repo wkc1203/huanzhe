@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import hashHistory from 'react-router/lib/hashHistory';
 import { Button, Toptips,Switch,Dialog,Toast } from 'react-weui';
-
+import { Toast as Toasts } from 'antd-mobile';
 import Connect from '../../../components/connect/Connect';
 import { addressMap } from '../../../config/constant/constant';
 
@@ -59,19 +59,51 @@ class Widget extends Component {
             leftTime: '00:00',
             totalFee: 0,
             go:0,
-            payData:{}
+            payData:{},
+            sendName:'',
+            sendPhone:'',
+            province:'',
+            city:'',
+            area:'',
+            detailArea:''
         };
     }
 
     componentDidMount() {
-        /*this.getJs();
-        this.setState({
-            orderId:this.props.location.query.orderId,
-            inquiryId:this.props.location.query.inquiryId,
-            totalFee:this.props.location.query.totalFee,
-        })
+        
+        // this.getJs();
         const orderId =this.props.location.query.orderId;
-        this.confirmPay1();*/
+        let addressInfo=JSON.parse(window.localStorage.getItem('sendAddress'))
+        console.log('ddaddressInfo=',addressInfo)
+          if(addressInfo.province&&addressInfo.province!=''){
+            if(addressInfo.province.indexOf('新疆')>-1||addressInfo.province.indexOf('西藏')>-1){
+              this.setState({
+                totalFee:30
+              })
+            }
+            else if(addressInfo.province.indexOf('重庆')>-1){
+              this.setState({
+                totalFee:15
+              })
+            }else{
+              this.setState({
+                totalFee:25
+              })
+            }
+          }
+          if(addressInfo.leftPayTime){
+             this.getLeftTime(addressInfo.leftPayTime || 15);
+          }
+          this.setState({
+              sendName:addressInfo.sendName,
+              sendPhone:addressInfo.sendPhone,
+              province:addressInfo.province,
+              city:addressInfo.city,
+              area:addressInfo.area,
+              detailArea:addressInfo.detailArea
+          })
+        // this.getPeiSongDrugById(orderId)
+        // this.confirmPay1();
     }
 
     getJs() {
@@ -103,6 +135,20 @@ class Widget extends Component {
         });
     }
 
+    // 查询药品信息
+    getPeiSongDrugById=(id)=>{
+      Api.
+      getPeiSongDrugById({
+        userId:window.localStorage.getItem('userId'),
+        id
+      }).
+      then(res=>{
+        if(res.code==0){
+          
+        
+        }
+      })
+    }
     // 获取邮寄费用
 
     showToast() {
@@ -131,7 +177,29 @@ class Widget extends Component {
     }
     /*支付*/
     confirmPay() {
-      var  payData=this.state.payData;
+      let addressInfo=JSON.parse(window.localStorage.getItem('sendAddress'))
+      console.log('addressInfo=',addressInfo)
+      this.showLoading()
+      Api.
+      youfeiPrePay({
+        id:addressInfo.id,
+        chronicDiseaseId:addressInfo.chronicDiseaseId,
+        hisId:'2214'
+      }).
+      then(res=>{
+        this.hideLoading();
+        if(res.code==0&&res.data&&res.data.payUrl!=''){
+          console.log('payUrl=',res.data.payUrl)
+          window.location.href=res.data.payUrl;
+        }else{
+          Toasts.info('支付失败',2)
+        }
+      },e=>{
+        console.log('cuwo=',e)
+        this.hideLoading();
+        Toasts.info('支付失败',2)
+      })
+      /*var  payData=this.state.payData;
       if (this.state.payData) {
         wx.ready(function () {
           wx.chooseWXPay({
@@ -143,7 +211,7 @@ class Widget extends Component {
             paySign: payData.paySign, // 支付签名
             success: function (res) {
               var inquiryIdUrl=window.location.href.substring(window.location.href.lastIndexOf("?"),window.location.href.length);
-              var replaceUrl=window.location.origin+"/views/p2214/#/consult/waiting"+
+              var replaceUrl=window.location.origin+"/views/p2214/#/consult/waitingpaymail"+
                   inquiryIdUrl+"&type=TWZX";
               var storage=window.localStorage;
               //写入b字段
@@ -153,7 +221,7 @@ class Widget extends Component {
           });
         })
 
-      }
+      }*/
     }
 
     /*获取支付签名*/
@@ -202,28 +270,22 @@ class Widget extends Component {
     } 
 
     render() {
-        const {orderInfo,msg,hrefUrl,orderId,inquiryId,leftTimeFlag,leftTime,totalFee}=this.state;
+        const {
+          orderInfo,msg,hrefUrl,
+          orderId,inquiryId,
+          leftTimeFlag,leftTime,totalFee,
+          sendPhone,
+          sendName,
+          province,
+          city,
+          area,
+          detailArea
+        }=this.state;
         return (
             <div className='page1-paymail'>
                 <div className="home"><span className="jian"
                                             onClick={()=>{
-                                            if(this.props.location.query.card==1){
-                                                 this.context.router.push({
-                                      pathname:'ordermng/orderdetail',
-                                      query:{orderId:this.props.location.query.orderId,
-
-                                      }
-                                      })
-                                            }else{
-                                                this.context.router.push({
-                                                  pathname:'consult/confirminfo',
-                                                  query:{
-                                                    doctorId:this.props.location.query.doctorId,
-                                                    deptId:this.props.location.query.deptId,
-                                                    totalFee:this.props.location.query.totalFee
-                                                  }
-                                                })
-                                            }
+                                            this.context.router.goBack();
 
                                       }}
                     ></span>收银台
@@ -233,6 +295,9 @@ class Widget extends Component {
                     {msg}
                 </Dialog>
                 <div className='fee-box'>
+                    <div className="warm-tip1">
+                        <div className="lefttime">请在15:00分钟内完成支付</div>
+                    </div>
                     {leftTimeFlag&&
                     <div className="warm-tip1">
                         {leftTime!='0'&&<div className="lefttime">请在 {leftTime}秒内完成支付</div>}
@@ -240,7 +305,7 @@ class Widget extends Component {
 
                     <div className='fee-item'>
                         <div className='des-fee'>支付金额（元）</div>
-                        {(totalFee/100).toFixed(2)}
+                        <span>￥</span>{(totalFee*100/100).toFixed(2)}
                         {/*{{WxsUtils.formatMoney(totalFee,100)}}*/}
                     </div>
 
@@ -253,35 +318,40 @@ class Widget extends Component {
                                   <img src='./././resources/images/shr.png'/>
                                   <span>收货人</span>
                                 </div>
-                                <div className="item-value">{this.props.location.query.doctorName}</div>
+                                <div className="item-value">{sendName}</div>
                             </div>
-                            <div className="list-item">
+                            <div className='itrem'></div>
+                            <div className="list-item"> 
                                 <div className="item-label">
                                   <img src='./././resources/images/lxfs.png'/>
                                   <span>联系方式</span>
                                 </div>
-                                <div className="item-value">{this.props.location.query.deptName}</div>
+                                <div className="item-value">{sendPhone}</div>
                             </div>
+                            <div className='itrem'></div>
                             <div className="list-item">
                                 <div className="item-label">
                                   <img src='./././resources/images/szdq.png'/>
                                   <span>所在地区</span>
                                 </div>
-                                <div className="item-value">重庆市江北区</div>
+                                <div className="item-value">
+                                  <span>{province}</span>
+                                  <span>{city}</span>
+                                  <span>{area}</span>
+                                </div>
                             </div>
+                            <div className='itrem'></div>
                             <div className="list-item">
                                 <div className="item-label">
                                   <img src='./././resources/images/xxdz.png'/>
                                   <span>详细地址</span>
                                 </div>
-                                <div className="item-value">新牌坊</div>
+                                <div className="item-value">{detailArea}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="mm-list">
-                    <div className="content">
-                        <div className="list">
+                <div className="mm-sendmail">
                             <div className="list-item">
                                 <div className="item-label">
                                   <img src='./././resources/images/psfs.png'/>
@@ -289,12 +359,14 @@ class Widget extends Component {
                                 </div>
                                 <div className="item-value">EMS（中国邮政）</div>
                             </div>
-                        </div>
-                    </div>
                 </div>
                 <p className='beizhu-tishi'>
                   温馨提示：配送费用重庆市内为15元，重庆市外为25元，新疆西藏地区为30元，费用由中国邮政收取，
                   支付后即为确定需要配送，配送费不予退回。
+                </p>
+                <p className='beizhu-tishi-two'>
+                  请在15分钟内完成支付，若超时未支付则只能选择
+                  <span>到院取药</span>
                 </p>
 
                 <div className='btn'>
