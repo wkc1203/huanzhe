@@ -467,6 +467,8 @@ getCardList() {
               <Func url='/usercenter/collect' userId={userId}  img='./././resources/images/collect.png'  name='我的收藏'/>
               <Func url='/usercenter/complain' userId={userId}  img='./././resources/images/complain.png'  name='投诉建议'/>
 
+              <Func url='/usercenter/manageaddress' userId={userId}  img='./././resources/images/complain.png'  name='地址管理'/>
+
               <Func url='/ask/index' userId={userId}  img='./././resources/images/complain.png'  name='随访记录查询'/>
               <Func url='/usercenter/usercardjianchelist' userId={userId}  img='./././resources/images/complain.png'  name='每日数据监测记录'/>
             {cardShow && <div className='modal'

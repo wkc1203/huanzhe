@@ -145,6 +145,8 @@ class Widget extends Component {
             maxinquiryPage:'',
             maxinquiryPage:'',
             searchPage:1,//查询页
+            // 方式重复提交
+            islock:false
 
         };
     }
@@ -551,7 +553,10 @@ class Widget extends Component {
                 patientWeight:this.state.content.Weight,
                 userId:JSON.parse(window.localStorage.userInfo).id
             };
-            this.createOrder(params);
+            // 枷锁，防止重复提交
+            if(!this.state.islock){
+                this.createOrder(params);
+            }
         }else{
             this.setState({
                 showIOS1:true,
@@ -562,11 +567,17 @@ class Widget extends Component {
   
    /*创建订单*/
     createOrder(params) {
+        this.setState({
+            islock:true
+        })
          this.showLoading();
          Api
             .applyDisease(params)
             .then((res) => {
                 this.hideLoading();
+                this.setState({
+                    islock:false
+                })
                 if (res.code == 0) {
                     this.context.router.push({
                          pathname:'/consult/pay',
@@ -580,6 +591,9 @@ class Widget extends Component {
                 }
             }, (e) => {
             this.hideLoading();
+            this.setState({
+                islock:false
+            })
             window.scrollTo(0,0);
             console.log(e)
                    if(e.code==-2){

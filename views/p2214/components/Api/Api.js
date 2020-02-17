@@ -268,3 +268,19 @@ export const getHistoryData = (param) => fetch1.post('/api/ehis/followed/monitor
 export const getPersonInfo = (param) => fetch1.post('/api/ehis/followed/patient/info', param);
 // 我的-个人信息修改 /api/ehis/followed/patient/other/addOrUpdate
 export const updatePersonInfo = (param) => fetch1.post('/api/ehis/followed/patient/other/addOrUpdate', param);
+// 新增配送地址 
+export const addAddressSave = (param) => fetch1.post('/api/ehis/health/api/delivery/address/save', param);
+// 修改配送地址 
+export const updateAddress = (param) => fetch1.post('/api/ehis/health/api/delivery/address/update', param);
+// 查询地址列表 
+export const getAddressList = (param) => fetch1.post('/api/ehis/health/api/delivery/address/page', param);
+// 查询地址详细 api/ehis/health/api/delivery/address/getBy
+export const getAddressById= (param) => fetch1.post('/api/ehis/health/api/delivery/address/getBy', param);
+// 查询配送药品 
+export const getPeiSongDrugById= (param) => fetch1.post('/api/ehis/health/api/delivery/drug/getBy', param);
+// 新增配送药品 
+export const addPeiSongDrug= (param) => fetch1.post('/api/ehis/health/api/delivery/drug/save', param);
+// 修改配送药品 
+export const updatePeiSongDrug= (param) => fetch1.post('/api/ehis/health/api/delivery/drug/update', param);
+// 支付邮费
+export const youfeiPrePay= (param) => fetch1.post('/api/ehis/health/api/delivery/prePay', param);

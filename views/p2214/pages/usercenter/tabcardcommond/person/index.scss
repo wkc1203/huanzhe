@@ -34,22 +34,22 @@
 			flex:0.4;
 		}
 	}
-}
-.person-card-end {
-	text-align: end;
-}
+	.person-card-end {
+		text-align: end;
+	}
 
-.person-card-form {
-    background-color: #fff;
-	border-radius: 15px;
-	.weui-cell:before{
-		right:15px;
-	}
-	.am-list-body::before{
-		background-color:#fff !important;
-	}
-	.am-list-body::after{
-		background-color:#fff !important;
+	.person-card-form {
+	    background-color: #fff;
+		border-radius: 15px;
+		.weui-cell:before{
+			right:15px;
+		}
+		.am-list-body::before{
+			background-color:#fff !important;
+		}
+		.am-list-body::after{
+			background-color:#fff !important;
+		}
 	}
 }
 

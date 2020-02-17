@@ -806,7 +806,16 @@ expandMore(Visit_no){
                     <div className='modal-content-protocol'>
                         <div >       
 
-                             <div className="content-item" >1、仅支持慢病患者院内1个月内的历史处方记录续方申请；</div>
+                            <div className="content-item" >1、仅支持慢病历史处方记录申请；</div>
+                            <div className="content-item" >2、最大配药量遵循医保规定执行；</div>
+                            <div className="content-item" >3、提交申请后医师将在24小时内处理，请耐心等待；</div>
+                            <div className="content-item" >4、若24h内医生未接诊，系统将在<span style={{color:'red'}}>3个工作日内</span>自动为您退回网络门诊费；</div>
+                            <div className="content-item" >5、提交申请后，请留意平台消息，请在医师开具处方后及时在线支付药品费用；</div>
+                            <div className="content-item" >6、通过本平台开具的处方药品可以选择到院自取或配送到家（部分特殊药品暂不支持配送），配送费以实际显示为准；
+                            </div>
+                            <div className="content-item" >7、通过本平台开配的处方药品原则上不予退还。如需退费退药，请到医院窗口申请。
+                            </div>
+                             {/*<div className="content-item" >1、仅支持慢病患者院内1个月内的历史处方记录续方申请；</div>
                             <div className="content-item" >2、最大配药量遵循医保规定执行；
                             </div>
                             <div className="content-item" >3、<span style={{color:'red'}}>包含门诊费和药品费</span>两种业务类型缴费，请依次完成支付；
@@ -816,7 +825,7 @@ expandMore(Visit_no){
                             <div className="content-item" >5、订单支付成功后，可凭电子处方笺（条形码）<span style={{color:'red'}}>到渝中院区（门诊楼1楼）或两江院区药房取药</span>；
                             </div>
                             <div className="content-item" >6、通过本平台开配的药物原则上不予退换。如需退费退药，请到医院窗口申请。
-                            </div>
+                            </div>*/}
                       
 
                             {/* <div className="content-item" >1、只允许对1个月以内的慢病处方记录发起续方申请</div>
