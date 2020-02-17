@@ -583,7 +583,7 @@ class Widget extends Component {
                             {docInfo.freeReport !== '1' && <DoctorInfo1 img='./././resources/images/doctor-report.png' txt='报告解读' txt1='免费报告解读' url=''></DoctorInfo1>}
                             <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='检验检查' txt1='在线申请检验检查' url=''></DoctorInfo1>
                             {(docInfo.doctorId== '900' || docInfo.doctorId== '001'|| docInfo.doctorId=='400460'|| docInfo.doctorId=='481059'|| docInfo.doctorId=='400704') && <DoctorInfo1 img='./././resources/images/describe_mb.png' txt='慢病/处方' txt1='在线申请处方' url='/consult/describe' doctorId={docInfo.doctorId} deptId={docInfo.deptId} com='2'></DoctorInfo1>}
-                            {(docInfo.doctorId!= '900' && docInfo.doctorId!= '001') && <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='慢病/处方' txt1='在线申请处方' url=''></DoctorInfo1>
+                            {(docInfo.doctorId!= '900' && docInfo.doctorId!= '001'&& docInfo.doctorId!= '400460'&& docInfo.doctorId!= '481059'&& docInfo.doctorId!= '400704') && <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='慢病/处方' txt1='在线申请处方' url=''></DoctorInfo1>
                             }
                         </div>}
                     </div>
