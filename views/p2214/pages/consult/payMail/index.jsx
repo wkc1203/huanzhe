@@ -296,7 +296,7 @@ class Widget extends Component {
                 </Dialog>
                 <div className='fee-box'>
                     <div className="warm-tip1">
-                        <div className="lefttime">请在15:00分钟内完成支付</div>
+                        <div className="lefttime">请在30:00分钟内完成支付</div>
                     </div>
                     {leftTimeFlag&&
                     <div className="warm-tip1">
@@ -365,7 +365,7 @@ class Widget extends Component {
                   支付后即为确定需要配送，配送费不予退回。
                 </p>
                 <p className='beizhu-tishi-two'>
-                  请在15分钟内完成支付，若超时未支付则只能选择
+                  请在30分钟内完成支付，若超时未支付则只能选择
                   <span>到院取药</span>
                 </p>
 
