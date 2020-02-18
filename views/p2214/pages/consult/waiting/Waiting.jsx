@@ -82,7 +82,7 @@ class Widget extends Component {
                if(this.props.location.query.source&&this.props.location.query.source=='mdt'){
                  this.getOrderStats2(this.props.location.query.orderId);
                }else{
-                    this.getOrderStats1(this.props.location.query.orderId);
+                    this.getOrderStats1(this.props.location.query.orderId,this.props.location.query.id);
 
                }
         }else{
@@ -281,7 +281,7 @@ class Widget extends Component {
             }, (e) => {
             });
     }
-     getOrderStats1(orderId) {
+     getOrderStats1(orderId,id) {
         Api
             .getInquriyStatus({orderId:orderId})
             .then((res) => {
@@ -294,11 +294,18 @@ class Widget extends Component {
                             }) 
                         }else{
                             if(this.props.location.query.type=='chronic'||this.props.location.query.type=='CHRONICZF'){
-                               this.context.router.push({
-                                //    pathname:'inquiry/inquirylist',
-                                pathname:'/ordermng/orderlist',
-                                query:{busType:'describe'}}) 
-                            }else{
+                                if(id&&id!=''){
+                                    this.context.router.push({
+                                    pathname:'/ordermng/describedetail',
+                                    query:{busType:'describe',id}}) 
+                                }else{
+                                   this.context.router.push({
+                                    //    pathname:'inquiry/inquirylist',
+                                    pathname:'/ordermng/orderlist',
+                                    query:{busType:'describe'}}) 
+                                }
+                            }
+                            else{
                                this.context.router.push({
                                    pathname:'/add/addManage',
                                    query:{addId:this.props.location.query.id,source:this.props.location.query.source}

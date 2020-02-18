@@ -175,6 +175,7 @@ class Widget extends Component {
       // 添加地址
       if(this.state.addressId&&this.state.addressId!=''){
       // this.showLoading()
+        let updateOrAdd={}
         Api.
           updateAddress({
             userId:window.localStorage.getItem('userId'),
@@ -189,6 +190,7 @@ class Widget extends Component {
           }).
           then(res=>{
             // this.hideLoading()
+            updateOrAdd=res.data
             if(res.code==0){
               Toast.info('修改成功',2)
             }else{
@@ -213,6 +215,7 @@ class Widget extends Component {
           }).
           then(res=>{
             // this.hideLoading();
+           updateOrAdd=res.data
             if(res.code==0){
               Toast.info('新增成功',1)
             }else{
@@ -229,7 +232,7 @@ class Widget extends Component {
           // this.setState({
           //   isShowAlert2:true
           // })
-          this.getAddress()
+          this.getAddress(updateOrAdd)
           
         }else{
           this.context.router.push({
@@ -240,7 +243,7 @@ class Widget extends Component {
     // })
   }
   // 获取地址列表
-   getAddress(){
+   getAddress(updateOrAdd){
     // this.showLoading();
     Api.
       getAddressList({
@@ -273,6 +276,7 @@ class Widget extends Component {
               query:{
                   fromOrder:'1',
                   id:this.props.location.query.id,
+                  youjiAddressId:updateOrAdd.id,
                   sendName,
                   sendPhone,
                   province,
@@ -448,6 +452,7 @@ isRegistered() {
                             onChange={e=>this.setState({checked:e})}
                             checked={checked}
                             color='red'
+                            platform='ios'
                           />}
                         >设置默认地址</List.Item>
                       </List>

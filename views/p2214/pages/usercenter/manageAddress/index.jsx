@@ -303,6 +303,7 @@ class Widget extends Component {
           query:{
               fromOrder:'1',
               id:this.props.location.query.id,
+              youjiAddressId:e.id,
               sendName:e.name,
               sendPhone:e.phone,
               province:e.province,

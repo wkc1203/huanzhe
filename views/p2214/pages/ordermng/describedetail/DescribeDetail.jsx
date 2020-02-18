@@ -456,7 +456,7 @@ class Widget extends Component {
                                 isShowCheckType:true,
                                 checked:true,
                                 isShowDiv:true,
-                                youjiAddressId:this.props.location.query.id,
+                                youjiAddressId:this.props.location.query.youjiAddressId,
                                 sendName:this.props.location.query.sendName,
                                 sendPhone:this.props.location.query.sendPhone,
                                 province:this.props.location.query.province,
@@ -868,6 +868,20 @@ class Widget extends Component {
                        </div> 
                     </div>
                 </div>}
+                {describeDetail.status=='4'&&<div className="order-status">
+                    <div className="time">
+                      {describeDetail.payDate}
+                    </div>
+                    <div className="status">
+                       <div className="main_infos">
+                           <img src='./././resources/images/jfcg@2x.png'/>
+                           <p>
+                               <span className='dai'>缴费成功</span>
+                               <span className='yuan'>￥{describeDetail.totalFee/100}</span>
+                           </p>
+                       </div> 
+                    </div>
+                </div>}
                 {/*<div className='patient main-info'>*/}
                 <div className='main-info'>
                 <div className="title-tip">
@@ -1012,6 +1026,7 @@ class Widget extends Component {
                           <List className='list-yaopin'>
                             <List.Item
                               extra={<Switch
+                                platform='ios'
                                 disabled={isCheckSwitch}
                                 checked={this.state.checked}
                                 onChange={(e) => this.getAddress(e)}

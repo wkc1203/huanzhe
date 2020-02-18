@@ -19,12 +19,18 @@
 			}
 		}
 	}
+	.am-list-body:before{
+		display: none;
+	}
 	.list-radius-footer{
 		.am-list-body{
 			border-radius: 15px;
 			.am-textarea-item{
 				border-radius: 0 0 15px 15px; 
 			}
+		}
+		.am-list-body:after{
+			display: none;
 		}
 	}
 	.list-radius-switch{
@@ -38,12 +44,15 @@
 				}
 			}
 		}
+		.am-list-body:after{
+			display: none;
+		}
 	}
 	.am-list-content,.am-textarea-label,.am-input-label{
 		color: #666 !important;
 	}
 	.xiugai-div-btn{
-		position: absolute;
+		position: fixed;
 	    bottom: 80px;
 	    width: 90%;
 	    margin-right: 20px;
