@@ -396,71 +396,68 @@ isRegistered() {
                                                 this.context.router.goBack();
                                       }} 
                 ></span>{addressTitle}
-            </div>
+          </div>
           <div className="page-address-add">
-          <Dialog type="ios" title={style1.title} buttons={style1.buttons} show={isShowAlert}>
-              {msg}
-          </Dialog>
-          <Dialog type="ios" title={style2.title} buttons={style2.buttons} show={isShowAlert2}>
-              新增地址成功，是否将此地址设为默认地址并前往订单页面？
-          </Dialog>
-          <div className='person-card-form'>
+            <Dialog type="ios" title={style1.title} buttons={style1.buttons} show={isShowAlert}>
+                {msg}
+            </Dialog>
+            <Dialog type="ios" title={style2.title} buttons={style2.buttons} show={isShowAlert2}>
+                新增地址成功，是否将此地址设为默认地址并前往订单页面？
+            </Dialog>
 
-                      <List className='list-radius'>
-                        <InputItem
-                          placeholder="请输入联系人姓名"
-                          value={name}
-                          onChange={e=>this.setState({name:e})}
-                        >联系人</InputItem>
-                      </List>
+            <div className='person-card-form'>
+                <List className='list-radius'>
+                  <InputItem
+                    placeholder="请输入联系人姓名"
+                    value={name}
+                    onChange={e=>this.setState({name:e})}
+                  >联系人</InputItem>
+                </List>
 
-                      <List>
-                        <InputItem
-                          placeholder="请输入联系人电话"
-                          value={phone}
-                          onChange={e=>this.setState({phone:e})}
-                        >联系电话</InputItem>
-                      </List>
+                <List>
+                  <InputItem
+                    placeholder="请输入联系人电话"
+                    value={phone}
+                    onChange={e=>this.setState({phone:e})}
+                  >联系电话</InputItem>
+                </List>
 
-                      <div>
-                      <List className='address-list'>
-                        <Picker extra="请输入所在地区"
-                          data={city}
-                          value={address}
-                          onChange={e=>this.setState({address:e})}
-                        >
-                          <List.Item arrow="horizontal">所在地区</List.Item>
-                        </Picker>
-                      </List>
-                      </div>
+                <List className='address-list'>
+                  <Picker extra="请输入所在地区"
+                    data={city}
+                    value={address}
+                    onChange={e=>this.setState({address:e})}
+                  >
+                    <List.Item arrow="horizontal">所在地区</List.Item>
+                  </Picker>
+                </List>
 
-                      <List className='list-radius-footer'>
-                        <TextareaItem
-                          title='详细地址'
-                          placeholder="请输入详细地址信息,如街道、门牌号、小区、楼栋号、单元室等"
-                          rows={2}
-                          value={detailAddress}
-                          onChange={e=>this.setState({detailAddress:e})}
-                        />
-                       
-                      </List>
+                <List className='list-radius-footer'>
+                  <TextareaItem
+                    title='详细地址'
+                    placeholder="请输入详细地址信息,如街道、门牌号、小区、楼栋号、单元室等"
+                    rows={2}
+                    value={detailAddress}
+                    onChange={e=>this.setState({detailAddress:e})}
+                  />
+                 
+                </List>
 
-                      <List className='list-radius-switch'>
-                        <List.Item
-                          extra={
-                            <Switch
-                            onChange={e=>this.setState({checked:e})}
-                            checked={checked}
-                            color='red'
-                            platform='ios'
-                          />}
-                        >设置默认地址</List.Item>
-                      </List>
+                <List className='list-radius-switch'>
+                  <List.Item
+                    extra={
+                      <Switch
+                      onChange={e=>this.setState({checked:e})}
+                      checked={checked}
+                      color='red'
+                      platform='ios'
+                    />}
+                  >设置默认地址</List.Item>
+                </List>
 
-                
-                  <div className='xiugai-div'>
-                    <Button type='primary' className='xiugai-div-btn' onClick={this.baocun}>保存</Button>
-                  </div>
+                <div className='xiugai-div'>
+                  <Button type='primary' className='xiugai-div-btn' onClick={this.baocun}>保存</Button>
+                </div>
                 
             </div>
         </div>

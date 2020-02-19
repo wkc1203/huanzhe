@@ -20,7 +20,7 @@
 		}
 	}
 	.am-list-body:before{
-		display: none;
+		background-color: transparent !important;
 	}
 	.list-radius-footer{
 		.am-list-body{
@@ -48,6 +48,7 @@
 			display: none;
 		}
 	}
+
 	.am-list-content,.am-textarea-label,.am-input-label{
 		color: #666 !important;
 	}
