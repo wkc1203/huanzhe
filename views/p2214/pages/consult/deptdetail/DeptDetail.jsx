@@ -582,9 +582,9 @@ class Widget extends Component {
                             {docInfo.freeReport == '1' && <DoctorInfo1 img='./././resources/images/doctor_report_open.png' txt='报告解读' txt1='免费报告解读' url='/consult/report' doctorId={docInfo.doctorId} deptId={docInfo.deptId} com='2'></DoctorInfo1>}
                             {docInfo.freeReport !== '1' && <DoctorInfo1 img='./././resources/images/doctor-report.png' txt='报告解读' txt1='免费报告解读' url=''></DoctorInfo1>}
                             <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='检验检查' txt1='在线申请检验检查' url=''></DoctorInfo1>
-                            {(docInfo.doctorId== '900' || docInfo.doctorId== '001'|| docInfo.doctorId=='480078'|| docInfo.doctorId=='480746'|| docInfo.doctorId=='400160'|| docInfo.level=='主任医师'||docInfo.level=='副主任医师') && 
+                            {(docInfo.doctorId== '900' || docInfo.doctorId== '001'|| docInfo.doctorId=='480078'|| docInfo.doctorId=='480746'|| docInfo.doctorId=='400160'|| (docInfo.level&&docInfo.level.indexOf('主任医师')>-1)||(docInfo.level&&docInfo.level.indexOf('副主任医师')>-1)) && 
                                 <DoctorInfo1 img='./././resources/images/describe_mb.png' txt='慢病/处方' txt1='在线申请处方' url='/consult/describe' doctorId={docInfo.doctorId} deptId={docInfo.deptId} com='2'></DoctorInfo1>}
-                            {(docInfo.doctorId!= '900' && docInfo.doctorId!= '001'&& docInfo.doctorId!= '480078'&& docInfo.doctorId!= '480746'&& docInfo.doctorId!= '400160'&&docInfo.level!='主任医师'&&docInfo.level!='副主任医师') && 
+                            {(docInfo.doctorId!= '900' && docInfo.doctorId!= '001'&& docInfo.doctorId!= '480078'&& docInfo.doctorId!= '480746'&& docInfo.doctorId!= '400160'&&(docInfo.level&&docInfo.level.indexOf('主任医师')<0)&&(docInfo.level&&docInfo.level.indexOf('副主任医师')<0)) && 
                                 <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='慢病/处方' txt1='在线申请处方' url=''></DoctorInfo1>
                             }
                         </div>}
