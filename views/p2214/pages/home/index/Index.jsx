@@ -335,9 +335,10 @@ class Widget extends Component {
                             <div className="d-tab"
                                 onClick={() => {
                                     Utils.sum('index_inquiry_img');
-                                    this.context.router.push({
-                                        pathname: '/consult/alldeptlist'
-                                    })
+                                    javascript:location.href='https://miying.qq.com/guide-h5/home?appid=wx7bcc042d2453c7dc'
+                                    // this.context.router.push({
+                                    //     pathname: 'https://miying.qq.com/guide-h5/home?appid=wx7bcc042d2453c7dc'
+                                    // })
                                 }}>
                                 <div className="icon">
                                     <img
@@ -346,24 +347,29 @@ class Widget extends Component {
                                     />
                                    
                                 </div>
-                                <div className='text1 text-acitve'>在线问诊 </div>
+                                <div className='text1 text-acitve'>首诊分诊</div>
                                 {/*<div className='text2'>健康问题问医生</div>*/}
                             </div>
                             <div className="d-tab"
                                 onClick={() => {
-                                    this.setState({
-                                        isShowHome:false
+                                    Utils.sum('index_inquiry_img');
+                                    this.context.router.push({
+                                        pathname: '/consult/alldeptlist'
                                     })
-                                    this.switchOpen(1)
+                                    // this.setState({
+                                    //     isShowHome:false
+                                    // })
+                                    // this.switchOpen(1)
+
                                 }}>
                                 <div className="icon">
                                     <img
-                                        src="./././resources/images/fuzhengzhihui.png"
+                                        src="./././resources/images/fuzhen.png"
                                         alt=""
                                     />
                                    
                                 </div>
-                                <div className='text1'>诊后复诊 </div>
+                                <div className='text1 text-acitve'>诊后复诊 </div>
                                 {/*<div className='text2'>健康问题问医生</div>*/}
                             </div>
                              <div className="d-tab" onClick={()=>{
