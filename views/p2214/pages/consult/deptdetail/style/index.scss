@@ -336,6 +336,10 @@
                         line-height:15px;
                         color: $hc-color-pink;
                         text-align: center;
+                        .zh{
+                            color: #ccc !important;
+                            text-decoration: line-through
+                        }
                     }
                     .grey{
                          color:#ccc !important;
@@ -347,6 +351,10 @@
                         line-height:15px;
                         color: $hc-color-pink;
                         text-align: center;
+                        .zh{
+                            color: #ccc !important;
+                            text-decoration: line-through
+                        }
     
                     }
                     &:last-child .des span {

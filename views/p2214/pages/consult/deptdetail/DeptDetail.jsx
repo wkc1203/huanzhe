@@ -533,7 +533,7 @@ class Widget extends Component {
                                         <div className='text'>
                                             <div>图文咨询</div>
                                         </div>
-                                        <div className='des-fee'>￥{(item1.remune / 100).toFixed(2)}<span>/次</span></div>
+                                        <div className='des-fee'>￥{(item1.remune / 100).toFixed(2)}<span className="zh">/￥{(item1.price / 100).toFixed(2)}</span></div>
                                     </div>
                                 )
                             })}
@@ -551,7 +551,7 @@ class Widget extends Component {
                                                 <text className="f-color-gray">图文咨询</text>
                                             </div>
                                         </div>
-                                        <div className='des'>￥{(item2.remune / 100).toFixed(2)}<span>/次</span></div>
+                                        <div className='des'>￥{(item2.remune / 100).toFixed(2)}<span className="zh">/￥{(item2.price / 100).toFixed(2)}</span></div>
                                     </div>
                                 )
                             }
@@ -570,7 +570,7 @@ class Widget extends Component {
                                                 <text className="f-color-gray">图文咨询</text>
                                             </div>
                                         </div>
-                                        <div className='des'>￥{(item2.remune / 100).toFixed(2)}<span>/次</span></div>
+                                        <div className='des'>￥{(item2.remune / 100).toFixed(2)}<span className="zh">/￥{(item2.price / 100).toFixed(2)}</span></div>
                                     </div>
                                 )
                             }
