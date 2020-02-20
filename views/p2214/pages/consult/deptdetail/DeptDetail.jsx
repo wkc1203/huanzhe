@@ -201,7 +201,7 @@ class Widget extends Component {
                     //需在用户可能点击分享按钮前就先调用
                     wx.onMenuShareAppMessage({
                         title: pm.name + "|" + pm.hisName + "|" + pm.level, // 分享标题
-                        desc:'我刚刚咨询了'+pm.name+name+'，推荐给大家，点击链接可以直接在线咨询', // 分享描述
+                        desc:'我刚刚问诊了'+pm.name+name+'，推荐给大家，点击链接可以直接在线问诊', // 分享描述
                         link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                         imgUrl: pm.image, // 分享图标 
                         type: '', // 分享类型,music、video或link，不填默认为link
@@ -531,7 +531,7 @@ class Widget extends Component {
                                             <img src="./././resources/images/doctor-picture.png" />
                                         </div>
                                         <div className='text'>
-                                            <div>图文咨询</div>
+                                            <div>图文问诊</div>
                                         </div>
                                         <div className='des-fee'>￥{(item1.remune / 100).toFixed(2)}/<span className="zh">￥{(item1.price / 100).toFixed(2)}</span></div>
                                     </div>
@@ -548,7 +548,7 @@ class Widget extends Component {
                                         </div>
                                         <div className='text'>
                                             <div>
-                                                <text className="f-color-gray">图文咨询</text>
+                                                <text className="f-color-gray">图文问诊</text>
                                             </div>
                                         </div>
                                         <div className='des'>￥{(item2.remune / 100).toFixed(2)}/<span className="zh">￥{(item2.price / 100).toFixed(2)}</span></div>
@@ -567,7 +567,7 @@ class Widget extends Component {
                                         </div>
                                         <div className='text'>
                                             <div>
-                                                <text className="f-color-gray">图文咨询</text>
+                                                <text className="f-color-gray">图文问诊</text>
                                             </div>
                                         </div>
                                         <div className='des'>￥{(item2.remune / 100).toFixed(2)}/<span className="zh">￥{(item2.price / 100).toFixed(2)}</span></div>
@@ -575,8 +575,8 @@ class Widget extends Component {
                                 )
                             }
                             )}
-                            <DoctorInfo img='./././resources/images/doctor-phone.png' txt='电话咨询'></DoctorInfo>
-                            <DoctorInfo img='./././resources/images/doctor-vedio.png' txt='视频咨询'></DoctorInfo>
+                            <DoctorInfo img='./././resources/images/doctor-phone.png' txt='电话问诊'></DoctorInfo>
+                            <DoctorInfo img='./././resources/images/doctor-vedio.png' txt='视频问诊'></DoctorInfo>
                         </div>
                         {type == '1' && <div className="main-func1">
                             {docInfo.freeReport == '1' && <DoctorInfo1 img='./././resources/images/doctor_report_open.png' txt='报告解读' txt1='免费报告解读' url='/consult/report' doctorId={docInfo.doctorId} deptId={docInfo.deptId} com='2'></DoctorInfo1>}
@@ -671,14 +671,14 @@ class Widget extends Component {
                         <div className='modal-title'>温馨提示</div>
                         <div className='modal-content-protocol'>
                             <div className="content">
-                                <div className="content-item">您即将向{docInfo.name}{type == '2' ? '护士' : '医生'}进行图文咨询，
+                                <div className="content-item">您即将向{docInfo.name}{type == '2' ? '护士' : '医生'}进行图文问诊，
                                 {
                                     totalFee!=0?
                                     <span>试运行期间<span
-                                        className="f-color-red">咨询费{(totalFee / 100).toFixed(2)}元/次,</span></span>:null
+                                        className="f-color-red">问诊费{(totalFee / 100).toFixed(2)}元/次,</span></span>:null
                                 }
-                                <span className="f-color-red">每次咨询可追问4个问题，若{type == '2' ? '护士' : '医生'}回复咨询，有效期为48小时。</span>
-                                若{type == '2' ? '护士' : '医生'}未在24小时内回复您的咨询，系统将自动关闭本次咨询并自动为您退款，因{type == '2' ? '护士' : '医生'}回复咨询需一定的时间，<span className="f-color-red">如需急诊的患者，请自行前往医院就诊。</span>
+                                <span className="f-color-red">每次问诊可追问4个问题，若{type == '2' ? '护士' : '医生'}回复问诊，有效期为48小时。</span>
+                                若{type == '2' ? '护士' : '医生'}未在24小时内回复您的问诊，系统将自动关闭本次问诊并自动为您退款，因{type == '2' ? '护士' : '医生'}回复问诊需一定的时间，<span className="f-color-red">如需急诊的患者，请自行前往医院就诊。</span>
                                 </div>
                             </div>
                         </div>
@@ -704,7 +704,7 @@ class Widget extends Component {
                         <div className='modal-title'>温馨提示</div>
                         <div className='modal-content-protocol'>
                             <div className="contentStop">
-                            您好，<span>{docInfo.name}</span>医生暂未加入咨询平台，如需咨询可选择在线医生进行咨询，更多科室和医生将会陆续上线，请您留意！给您带来的不便，敬请谅解
+                            您好，<span>{docInfo.name}</span>医生暂未加入问诊平台，如需问诊可选择在线医生进行问诊，更多科室和医生将会陆续上线，请您留意！给您带来的不便，敬请谅解
                             </div>
                         </div>
                     </div>

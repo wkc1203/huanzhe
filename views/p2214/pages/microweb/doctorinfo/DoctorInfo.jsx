@@ -271,14 +271,14 @@ cancelModal() {
                           <div>
                             <img src="../../../resources/images/inquiry-bg.png" />
                           </div>
-                          <div>图文咨询</div>
+                          <div>图文问诊</div>
                         </Link>
                             }
                         {item.type=='1'&&(item.isOnDuty == '0'||item.isFull== "1")&&<div className="oper-item" >
                           <div>
                             <img src="../../../resources/images/inquiry-gray.png" />
                           </div>
-                          <div>图文咨询</div>
+                          <div>图文问诊</div>
                           {item.isOnDuty== "0"&&<div>（离线）</div>}
                           {item.isFull== "1"&&<div>（满）</div>}
                           
@@ -293,13 +293,13 @@ cancelModal() {
                 this.switchTip(1)
                 }}>
                 <div><img src="../../../resources/images/video.png" /></div>
-                <div>视频咨询</div>
+                <div>视频问诊</div>
               </div>
               <div className="oper-item" onClick={()=>{
                 this.switchTip(1)
                 }}>
                 <div><img src="../../../resources/images/phone.png" /></div>
-                <div>电话咨询</div>
+                <div>电话问诊</div>
               </div>
             </div>
               <div className="m-deptinfo">
@@ -337,7 +337,7 @@ cancelModal() {
                         <div className='modal-title'>温馨提示</div>
                         <div className='modal-content-protocol'>
                             <div className="content">
-                                <div className="content-item">您即将向{doctor.name}医生进行图文咨询，
+                                <div className="content-item">您即将向{doctor.name}医生进行图文问诊，
                                 试运行期间<span
                                         className="f-color-red">咨询费{(totalFee / 100).toFixed(2)}元/次，每次咨询可追问4个问题，若医生回复咨询，有效期为48小时</span>。
                                 若医生未在24小时内回复您的咨询，系统将自动关闭本次咨询并自动为您退款，因医生回复咨询需一定的时间，<span className="f-color-red">如需急诊的患者，请自行前往医院就诊。</span>

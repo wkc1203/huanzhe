@@ -1191,7 +1191,7 @@ onChange = (files,file,index) => {
                                             }
 
                                       }}
-                    ></span>图文咨询
+                    ></span>图文问诊
                 </div>
                 <Toast icon="success-no-circle" show={this.state.showToast}>一次最多只能上传四张图片</Toast>
                 <Toast icon="loading" show={this.state.jiazhai}>加载中....</Toast>

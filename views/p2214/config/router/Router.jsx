@@ -319,7 +319,7 @@ class Routers extends React.Component {
           {/* 咨询 */}
           <Route path="/inquiry">
             <IndexRedirect to="/inquiry/inquirylist" />
-            <Route path="/inquiry/inquirylist" component={Inquiry} title='咨询会话' />
+            <Route path="/inquiry/inquirylist" component={Inquiry} title='问诊' />
             <Route path="/inquiry/chat" component={ChatIndex} title='重医儿童医院互联网医院' />
             <Route path="/inquiry/mdtInquiry" component={MdtInquiry} title='重医儿童医院互联网医院' />
             <Route path="/inquiry/AiInquiry" component={AiInquiry} title='重医儿童医院互联网医院' />

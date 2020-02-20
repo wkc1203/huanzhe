@@ -309,7 +309,7 @@ class Widget extends Component {
                 <div className="orderType">
                     <div className={`${orderType=='1'?'active':''}`} onClick={()=>{
                         this.getType(1)
-                    }}>在线咨询
+                    }}>图文问诊
                     <span></span></div>
                     <div className={`${orderType=='2'?'active':''}`} onClick={()=>{
                         this.getType(2)
@@ -343,13 +343,13 @@ class Widget extends Component {
                                    {item.deptName} {!!item.doctor&&!!item.doctor.level ? '|' : ''} {!!item.doctor&&!!item.doctor.level?item.doctor.level:''}
                                  </div>
                                  <div className="dPat">
-                                    就诊人：{item.patientName}  |  图文咨询 
+                                    就诊人：{item.patientName}  |  图文问诊
                                  </div>
                                  <div className="content-text">
                                  {item.content&&item.content.indexOf('checkItem')!=-1?'[检查单]':item.content&&item.content.indexOf('PIC')!=-1?'[图片]':item.content&&item.content.indexOf('.mp3')!=-1?'[语音]':item.content&&item.content.indexOf('recipelList')!=-1?'[慢病续方]':item.content&&item.content.indexOf('慢病续方')!='-1'?'[慢病续方]':item.content&&item.content.indexOf('dept')!='-1'?'[专家会诊]':item.content&&item.content.length>0?item.content:'  '}
                                  </div>
                                  {(item.status == '0' || item.status == '1') &&item.userReaded !== '0' &&
-                                <div className="status-inquiry" style={{color:'white',background:'#4cabcf',border:'none'}}> 咨询中</div>}
+                                <div className="status-inquiry" style={{color:'white',background:'#4cabcf',border:'none'}}> 问诊中</div>}
                                 {item.status == '3' &&item.refundStatus == '0'&&
                                 
                                 <div className="status-inquiry complete" style={{color:'white',background:'#ccc',border:'none'}}>已完成</div>}
@@ -468,7 +468,7 @@ class Widget extends Component {
                     <div>
                         <img
                             src="../../../resources/images/inquiry-active.png"/>
-                        <div style={{color:'#4FABCA'}}>咨询会话</div>
+                        <div style={{color:'#4FABCA'}}>问诊</div>
                     </div>
                     <div onClick={()=>{ this.toNext(3)}}>
                         <img

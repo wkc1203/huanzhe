@@ -141,15 +141,15 @@ class Widget extends Component {
                 },
                 {
                     id: '1',
-                    name: '图文咨询'
+                    name: '图文问诊'
                 },
                 {
                     id: '2',
-                    name: '电话咨询'
+                    name: '电话问诊'
                 },
                 {
                     id: '3',
-                    name: '视频咨询'
+                    name: '视频问诊'
                 }
             ],
             DocTotalCount: ''

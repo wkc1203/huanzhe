@@ -150,7 +150,7 @@ class Widget extends Component {
                               {item.inquirys&&item.inquirys.map((item1,index1)=>{
                                   return(
                                       <div key={index1}>
-                                          {item1.type=='1'&&<c>图文咨询</c>}
+                                          {item1.type=='1'&&<c>图文问诊</c>}
                                           {item1.type=='1'&&<span className="fee-des">￥{(item1.remune/100).toFixed(2)}元/次 </span>}
                                       </div>
                                   )

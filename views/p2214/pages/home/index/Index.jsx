@@ -533,7 +533,7 @@ class Widget extends Component {
                         }>  {hasMsg && <span></span>}
                         <img
                             src="./././resources/images/inquiry.png" />
-                        <div>咨询会话</div>
+                        <div>问诊</div>
                     </div>
                     <div onClick={
                         () => {
