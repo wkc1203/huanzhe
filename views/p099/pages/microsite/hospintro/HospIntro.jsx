@@ -78,7 +78,7 @@ class Widget extends Component {
                 {/*</navigator>*/}
                 <div className="oper-box">
                   <div>
-                    图文咨询 | 就诊人：patientName
+                    图文问诊 | 就诊人：patientName
                   </div>
                   {/*<div>
                    图文咨询 | 就诊人：{{item.patientName}}

@@ -235,7 +235,7 @@ class Widget extends Component {
                            />
                      </div>
                      <div className="text">
-                       <div>图文咨询</div>
+                       <div>图文问诊</div>
                        <div>医生将在24小时内回复</div>
                      </div>
                   </div>

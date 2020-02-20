@@ -398,7 +398,7 @@ class Widget extends Component {
                                         <img src="../../../resources/images/inquiry-bg.png"/>
                                     </div>
                                     <div className='text'>
-                                        <div>图文咨询</div>
+                                        <div>图文问诊</div>
                                         <div>使用图片、文字等咨询医生</div>
                                     </div>
                                     <div className='des-fee'>￥{(item1.remune / 100).toFixed(2)}<span>/次</span></div>
@@ -416,7 +416,7 @@ class Widget extends Component {
                                         </div>
                                         <div className='text'>
                                             <div>
-                                                <text className="f-color-gray">图文咨询2</text>
+                                                <text className="f-color-gray">图文问诊2</text>
                                             </div>
                                             <div>使用图片、文字等咨询医生</div>
                                         </div>
@@ -561,7 +561,7 @@ class Widget extends Component {
                         <div className='modal-title'>温馨提示：</div>
                         <div className='modal-content-protocol'>
                             <div className="content">
-                                <div className="content-item">1、您即将向{docInfo.name}医生进行图文咨询，<span
+                                <div className="content-item">1、您即将向{docInfo.name}医生进行图文问诊，<span
                                     className="f-color-red">试运行期间咨询费{(totalFee / 100).toFixed(2)}元/次，平台正式上线后将调整咨询费</span>，本次咨询有效期48小时，有效期内您可以对咨询问题进行补充；
                                 </div>
                                 <div className="content-item">2、付款成功后，医生将在24小时内回复您的咨询，<span className="f-color-red">若医生未在24小时内回复您的咨询，系统将自动关闭本次咨询并自动为您退款；</span>

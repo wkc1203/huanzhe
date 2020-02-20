@@ -392,7 +392,7 @@ class Widget extends Component {
                                                         { item3.type == '1' &&
                                                         <text
                                                             className={`${item3.isOnDuty == '0' ? 'f-color-gray' : ''}`}>
-                                                            图文咨询
+                                                            图文问诊
                                                         </text>}
                                                         {item3.isOnDuty == '1' && item3.type == '1' &&
                                                         <span className="fee-des">
@@ -466,7 +466,7 @@ class Widget extends Component {
                                                 <div key={index1}>
                                                     {item1.type == '1' &&
                                                     <text className={`${item1.isOnDuty == '0' ? 'f-color-gray' : ''}`}>
-                                                        图文咨询</text>}
+                                                        图文问诊</text>}
                                                     {item1.isOnDuty == '1' && item1.type == '1' && <span
                                                         className="fee-des">￥{(item1.remune / 100).toFixed(2)}元/次 </span>}
                                                     {item1.isOnDuty == '0' && item1.type == '1' &&

@@ -63,7 +63,7 @@ class Widget extends Component {
                         </div>
                     </div>
                     <div className='oper-box'>
-                        图文咨询<span className="fee-des">￥100元/次 </span>
+                        图文问诊<span className="fee-des">￥100元/次 </span>
                         </div>
                     </Link>
 

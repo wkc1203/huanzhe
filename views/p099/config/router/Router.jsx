@@ -138,7 +138,7 @@ class Routers extends React.Component {
           {/* 科室医生 */}
           <Route path="/consult">
             <IndexRedirect to="/consult/confirminfo" />
-            <Route path="/consult/confirminfo" component={ConfirmInfo} title='图文咨询' />
+            <Route path="/consult/confirminfo" component={ConfirmInfo} title='图文问诊' />
             <Route path="/consult/deptdetail" component={DeptDetail} title='专家名片' />
             <Route path="/consult/alldeptlist" component={AllDeptList} title='找专家咨询' />
             <Route path="/consult/deptlist" component={DeptList} title='找专家咨询' />

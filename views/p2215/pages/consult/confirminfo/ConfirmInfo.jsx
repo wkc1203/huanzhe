@@ -881,7 +881,7 @@ class Widget extends Component {
                                             }
 
                                       }}
-                    ></span>图文咨询
+                    ></span>图文问诊
                 </div>
                 <Toast icon="success-no-circle" show={this.state.showToast}>一次最多只能上传四张图片</Toast>
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}

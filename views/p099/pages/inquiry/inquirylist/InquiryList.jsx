@@ -198,7 +198,7 @@ this.getJs();
                             </Link>
                             <div className="oper-box">
                                 <div>
-                                    图文咨询 | 就诊人：{item.patientName}
+                                    图文问诊 | 就诊人：{item.patientName}
                                 </div>
                                 {item.status == '2' && <div className="evaluate-item">
                                     <Link className='evaluate'

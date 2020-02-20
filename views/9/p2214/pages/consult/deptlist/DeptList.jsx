@@ -413,17 +413,17 @@ class Widget extends Component {
                                                             <div key={index2}
                                                                  className={`${item2.type!=='1'?'disNo':'flex22'} ${item2.isFull != '1' &&item2.type=='1'&&item2.isOnDuty == '1'?'status-item1':'grey-item1'}`}>
                                                                 {item2.isFull == '1' &&item2.type=='1'&&
-                                                                <div>图文咨询(满)</div>}
+                                                                <div>图文问诊(满)</div>}
                                                                 {item2.isFull != '1' &&item2.type=='1'&& item2.isOnDuty == '1' &&
-                                                                <div>图文咨询</div>}
+                                                                <div>图文问诊</div>}
                                                                 {item2.isFull != '1' &&item2.type=='1'&& item2.isOnDuty == '0' &&
-                                                                <div>图文咨询（离）</div>}
+                                                                <div>图文问诊（离）</div>}
                                                             </div>
                                                         )
                                                     })
                                                     }
-                                                    <div className='grey-item1'>电话咨询<p>(待上线)</p></div>
-                                                    <div className='grey-item1' style={{marginRight:'0'}}>视频咨询<p>(待上线)</p></div>
+                                                    <div className='grey-item1'>电话问诊<p>(待上线)</p></div>
+                                                    <div className='grey-item1' style={{marginRight:'0'}}>视频问诊<p>(待上线)</p></div>
                                                 </div>
                                             </div>
 
@@ -484,11 +484,11 @@ class Widget extends Component {
                                                         <div key={index1}
                                                              className={`${item1.type!=='1'?'disNo':'flex22'} ${item1.isFull != '1' &&item1.type=='1'&&item1.isOnDuty == '1'?'status-item1':'grey-item1'}`}>
                                                             {item1.isFull == '1' &&item1.type=='1'&&
-                                                            <div>图文咨询(满)</div>}
+                                                            <div>图文问诊(满)</div>}
                                                             {item1.isFull != '1' &&item1.type=='1'&& item1.isOnDuty == '1' &&
-                                                            <div>图文咨询</div>}
+                                                            <div>图文问诊</div>}
                                                             {item1.isFull != '1' &&item1.type=='1'&& item1.isOnDuty == '0' &&
-                                                            <div>图文咨询<p>(离)</p></div>}
+                                                            <div>图文问诊<p>(离)</p></div>}
                                                         </div>
                                                     )
                                                 })

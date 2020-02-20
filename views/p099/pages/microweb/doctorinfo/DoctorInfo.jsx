@@ -229,14 +229,14 @@ class Widget extends Component {
                           <div>
                             <img src="../../../resources/images/inquiry-bg.png" />
                           </div>
-                          <div>图文咨询</div>
+                          <div>图文问诊</div>
                         </Link>
                             }
                         {item.type=='1'&&item.isOnDuty == '0'&&<div className="oper-item" >
                           <div>
                             <img src="../../../resources/images/inquiry-gray.png" />
                           </div>
-                          <div>图文咨询</div>
+                          <div>图文问诊</div>
                           <div>（离线）</div>
                         </div>
                             }

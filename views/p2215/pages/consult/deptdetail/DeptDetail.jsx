@@ -427,7 +427,7 @@ class Widget extends Component {
                                         <img src="../../../resources/images/inquiry-bg.png"/>
                                     </div>
                                     <div className='text'>
-                                        <div>图文咨询</div>
+                                        <div>图文问诊</div>
                                         <div>使用图片、文字等咨询医生</div>
                                     </div>
                                     {/*<div className='des-fee'>￥{(item1.remune / 100).toFixed(2)}<span>/次</span></div>*/}
@@ -445,7 +445,7 @@ class Widget extends Component {
                                         </div>
                                         <div className='text'>
                                             <div>
-                                                <text className="f-color-gray">图文咨询</text>
+                                                <text className="f-color-gray">图文问诊</text>
                                             </div>
                                             <div>使用图片、文字等咨询医生</div>
                                         </div>

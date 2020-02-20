@@ -299,7 +299,7 @@ query:{doctorId:item1.doctorId,deptId:item1.deptId}
                                                             { item3.type == '1' &&
                                                             <text
                                                                 className={`${item3.isOnDuty == '0' ? 'f-color-gray' : ''}`}>
-                                                                图文咨询
+                                                                图文问诊
                                                             </text>}
                                                             {item3.isOnDuty == '1' && item3.type == '1' &&
                                                             <span className="fee-des">
