@@ -46,7 +46,7 @@ class Widget extends Component {
                   <div
                       className='doc-des ellipsis'>{specialty ? specialty : '暂无描述'}</div>
                   <div className='pinfen'>
-                      <span>咨询人数：{serviceTimes}</span>平均回复时长:  {replyTime}</div>
+                      <span>问诊量：{serviceTimes}</span>平均回复时长:  {replyTime}</div>
                   <div>
                   </div>
                   <div className='oper-box'>

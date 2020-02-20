@@ -1362,7 +1362,7 @@ onChange = (files,file,index) => {
                 <div className="reason">
                     <div className="reason-title" onClick={()=>{
                         this.display()
-                    }}>本次咨询目的</div>
+                    }}>本次问诊目的</div>
                     {type!='2'&&<div className="item-box1">
                          {type!='2'&&consultList && consultList.map((item, index)=> {
                             return (

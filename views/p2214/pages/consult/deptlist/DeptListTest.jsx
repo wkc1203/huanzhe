@@ -1271,7 +1271,7 @@ class Widget extends Component {
                                 })
                             }
                         }}
-                    ></span> {type == '2' ? '护理咨询' : '找专家咨询'}
+                    ></span> {type == '2' ? '护理咨询' : '找专家'}
                     </div>
                     <div className="allSearch">
                         <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
@@ -1305,7 +1305,7 @@ class Widget extends Component {
 
                         <div className="m-search" style={{ margin: "0px 8px" }}>
                             <div className="doc-screen">
-                                <div className={paixuStr == "inquirys" ? "active" : ''} onClick={() => { this.paixu('inquirys', 'DESC') }} >咨询量<i>
+                                <div className={paixuStr == "inquirys" ? "active" : ''} onClick={() => { this.paixu('inquirys', 'DESC') }} >问诊量<i>
                                     {paixuStr == "inquirys" ?
 
 

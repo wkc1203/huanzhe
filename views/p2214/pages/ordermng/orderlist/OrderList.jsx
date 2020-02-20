@@ -399,7 +399,7 @@ class Widget extends Component {
 
                  if (res.code == 0&&res.data&&res.data.recordList.length>0) {
                     
-                     const objStatus = { '-1': '待付款', '0': '咨询中', '1': '咨询中', '3': '已完成' };
+                     const objStatus = { '-1': '待付款', '0': '问诊中', '1': '问诊中', '3': '已完成' };
                      var items = res.data.recordList.map((item, index) => {
                          item.statusName = objStatus[item.status];
                          return item;
@@ -723,7 +723,7 @@ getmdtList() {
           <p className={`${item1Show?'item-active':''}`}
               onClick={()=>{
               this.changeShow(1)
-              }}>咨询 
+              }}>问诊
               {!item1Show&&<img src='./././resources/images/order-chat1s.png'/>}
               {item1Show&&<img src='./././resources/images/order-chat1.png'/>}
            </p>

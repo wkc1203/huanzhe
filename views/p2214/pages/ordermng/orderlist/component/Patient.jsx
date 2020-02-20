@@ -18,7 +18,7 @@ class Widget extends Component {
     const { typeName,patientName,status,statusName,refundStatus,id} = this.props;
     return (
       <div className="oper-box">
-                           <div className="pat-item">{typeName} | 就诊人：{patientName}</div>
+                           <div className="pat-item">{typeName=="图文咨询"?"图文问诊":""} | 就诊人：{patientName}</div>
                            {status != '2'&&<div className="status-name">{statusName}</div>}
                            {status == '2'&&<div className="status-name">已完成</div>}
                            {/* status == '2'&&refundStatus!=1&&<div className="eva-item" >

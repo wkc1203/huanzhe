@@ -538,7 +538,7 @@ getCardList() {
                     <div className='inquiry'  onClick={()=> {this.toNext(2)}}>
                     {hasMsg&&<span></span>}
                     <img  src="../../../resources/images/inquiry.png"/>
-                    <div>咨询会话</div>
+                    <div>问诊</div>
                     </div>
                     <div>  
                     <img  src="../../../resources/images/my-active.png"/>

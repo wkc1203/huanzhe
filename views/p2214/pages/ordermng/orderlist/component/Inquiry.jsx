@@ -31,7 +31,7 @@ class Widget extends Component {
                            </div>
                            <div className='msg-box'>
                                <div>
-                                   <div>咨询时间：{createTime}</div>
+                                   <div>问诊时间：{createTime}</div>
                                    <div>完成时间：{finishTime || '暂无完成时间' }  </div>
                                </div>
                                <div className='price-box'>

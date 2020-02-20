@@ -142,7 +142,7 @@ class Widget extends Component {
                                    </div>
                                    <div className='doc-des'>{item.deptName} | {item.level}</div>
                                    <div className='pinfen'>
-                                       <span>好评率：{item.favoriteRate}</span>咨询人数：{item.completed}</div>
+                                       <span>好评率：{item.favoriteRate}</span>问诊量：{item.completed}</div>
                                    <div className='doc-des ellipsis'>{item.specialty ? item.specialty : '暂无描述'}</div>
                                </div>
                            </div>

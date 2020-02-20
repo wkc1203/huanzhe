@@ -2806,7 +2806,7 @@ onChange = (files,file,index) => {
                         <div className='modal-body'>
                             <div className='modal-title'>确定取消咨询吗？</div>
                              <p></p>
-                            {noDoctor&&<div className='modal-content'>结束咨询会话后您可以对本次咨询进行评分</div>}
+                            {noDoctor&&<div className='modal-content'>结束问诊后您可以对本次咨询进行评分</div>}
                             <div className='modal-footer'>
                                         <span onClick={()=>{
                                         this.cancel()

@@ -512,7 +512,7 @@ class Widget extends Component {
                                       })
                                       }}
                     ></span>
-                    {type=='2'?'护理咨询':'找专家咨询'}
+                    {type=='2'?'护理咨询':'找专家'}
                 </div>
             <div className="allSearch">
                 
