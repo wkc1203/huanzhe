@@ -63,7 +63,8 @@ class Widget extends Component {
       <div className='text grey'>
           <div className='grey'>{txt}</div>
       </div>
-      <div className='des-fee grey'>￥0.01<span>/次</span></div>
+      {/* <div className='des-fee grey'>￥0.01<span>/次</span></div> */}
+      <div className='des-fee grey fs11'>暂未开放</div>
     </div>
        </div>     
     );
