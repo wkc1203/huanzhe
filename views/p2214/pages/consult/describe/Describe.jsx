@@ -922,7 +922,7 @@ expandMore(Visit_no){
                 {hasList&&<div className="describe-info">  
                      <div className="des_tip">
                       <img src="../../../resources/images/describe_tip_icon.png"/>
-                        最近1个月内在本科室的慢病就诊记录
+                        最近3个月内在本科室的慢病就诊记录
                      </div>
 
                      {
@@ -932,10 +932,10 @@ expandMore(Visit_no){
                      }
 
                     {this.state.newList&&this.state.newList.length>0&&this.state.newList.map((item,index)=>{
-                            
+                            console.log("has",item)
                          return(
                              
-                            <div className="describe-item"  key={index}   >
+                            <div className="describe-item"  key={index}>
                             <div className="des-basic" >
 
 

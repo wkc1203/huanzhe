@@ -533,7 +533,12 @@ class Widget extends Component {
                                         <div className='text'>
                                             <div>图文问诊</div>
                                         </div>
-                                        <div className='des-fee'>￥{(item1.amount/100) }/<span className="zh">￥{(item1.price/100) }</span></div>
+                                        <div className='des-fee'>
+                                        {item1.amount!=0&& <span>￥{(item1.amount/100) }</span>}
+                                        {item1.amount!=0&&item1.price!=0 &&<span>/</span>}
+                                        {item1.price!=0&&<span className="zh">￥{(item1.price/100) }</span>}
+                                        {item1.amount==0&&item1.price==0 &&<span style={{fontSize:11}}>暂未定价</span>}
+                                        </div>
                                     </div>
                                 )
                             })}
@@ -551,7 +556,12 @@ class Widget extends Component {
                                                 <text className="f-color-gray">图文问诊</text>
                                             </div>
                                         </div>
-                                        <div className='des'>￥{(item2.amount/100) }/<span className="zh">￥{(item2.price/100) }</span></div>
+                                        <div className='des'>
+                                        {item2.amount!=0&&<span>￥{(item2.amount/100) }</span>} 
+                                        {item2.amount!=0&&item2.price!=0 &&<span>/</span>}
+                                        {item2.price!=0&&<span className="zh">￥{(item2.price/100) }</span>}
+                                        {item2.amount==0&&item2.price==0 &&<span style={{fontSize:11}}>暂未定价</span>}
+                                        </div>
                                     </div>
                                 )
                             }
@@ -570,7 +580,12 @@ class Widget extends Component {
                                                 <text className="f-color-gray">图文问诊</text>
                                             </div>
                                         </div>
-                                        <div className='des'>￥{(item2.amount/100) }/<span className="zh">￥{(item2.price/100)}</span></div>
+                                        <div className='des'>
+                                        {item2.amount!=0&&<span>￥{(item2.amount/100) }</span>}  
+                                        {item2.amount!=0&&item2.price!=0 &&<span>/</span>}
+                                        {item2.price!=0&&<span className="zh">￥{(item2.price/100)}</span>}
+                                        {item2.amount==0&&item2.price==0 &&<span style={{fontSize:11}}>暂未定价</span>}
+                                        </div>
                                     </div>
                                 )
                             }

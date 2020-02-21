@@ -56,7 +56,7 @@ class Widget extends Component {
                       if(url!=''){
                            this.context.router.push({
                              pathname:url,
-                             query:{doctorId:doctorId,deptId:deptId,com:com,test:1}
+                             query:{doctorId:doctorId,deptId:deptId,com:com}
                            })
                       }else{
                         this.switchTip(1)
