@@ -553,11 +553,26 @@
         }
 
     }
+    .tbj{
+        .am-list-item{
+            padding-left: 0;
+        }
+        .am-list-item.am-input-item{
+            padding-left: 0;
+        }
+        .am-list-item .am-input-label{
+            color: #666;
+        }
+        .am-list-item .am-input-control input{
+            text-align: end;
+        }
+    }
    .describe{
     background-color: #fff;
     padding: 0 15px 15px;
     border-radius: 10px;
     margin: 5px 10px;
+
     .edit-title {
         height: 44px;
         line-height: 44px;

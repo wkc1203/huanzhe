@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import {Upload, Modal,Button,Spin, Alert,Drawer } from 'antd-mobile';
+import {Upload, Modal,Button,Spin, Alert,Drawer,PickerView,InputItem,List } from 'antd-mobile';
 import {  Toptips,Switch,Dialog,Toast,Icon } from 'react-weui';
 import Connect from '../../../components/connect/Connect';
 import { ImagePicker } from 'antd-mobile';
@@ -19,6 +19,7 @@ var maxLength = 0;
 var upload=true;
 var has=0;
 var imgList = [];
+
 class Widget extends Component {
     static contextTypes = {
         router: React.PropTypes.object,
@@ -146,10 +147,17 @@ class Widget extends Component {
             maxinquiryPage:'',
             searchPage:1,//查询页
             // 方式重复提交
-            islock:false
+            islock:false,
+            // 年龄
+            ageDate:[],
+            // 选中体重
+            weightcheck:'',
+            // 选中体重
+            isShowPick:false
 
         };
     }
+
     componentWillMount(){
         this.mounted = true;
     }
@@ -274,6 +282,15 @@ class Widget extends Component {
                  //加入缓存
                  storage.url=window.location.href;             
          }
+         let ageDate=[]
+         for(let i=1;i<400;i++){
+          let cbd = {
+            label: i,
+            value: i,
+          }
+          ageDate.push(cbd)
+         }
+         this.setState({ageDate})
         
         this.getDocDetail(this.props.location.query.doctorId, this.props.location.query.deptId);
        
@@ -540,6 +557,26 @@ class Widget extends Component {
    
     /*提示信息*/
     submitData() {
+
+          if(this.state.weightcheck==''){
+            this.setState({
+                showIOS1:true,
+                msg:'请输入体重'
+            })
+            return
+          }else if(this.state.weightcheck.indexOf(".")>=0){
+            this.setState({
+                showIOS1:true,
+                msg:'请输入整数'
+            })
+            return
+          } 
+          else{
+            this.state.content.Weight=this.state.weightcheck
+            this.state.content.Weight_unit='kg'
+          }
+          console.log('e=',this.state.weightcheck,this.state)
+
          if(this.state.detail.length>9){
             const params = {
                 doctorId: this.state.docInfo.doctorId,
@@ -550,7 +587,8 @@ class Widget extends Component {
                 diseaseDescribe:this.state.detail,
                 diagnosis:this.state.content.Diagnosis_desc,
                 patientId: this.state.pat.patientId,
-                patientWeight:this.state.content.Weight,
+                // patientWeight:this.state.content.Weight,
+                patientWeight:this.state.weightcheck,
                 userId:JSON.parse(window.localStorage.userInfo).id
             };
             // 枷锁，防止重复提交
@@ -721,7 +759,7 @@ add(){
 
 
     render() {
-        const {content,docList,showMore,codeUrl,doclistShow,policy,msg,callback,OSSAccessKeyId,open1,docInfo,cardList,consultList,imgArr,leftBindNum,
+        const {isShowPick,weightcheck,ageDate,content,docList,showMore,codeUrl,doclistShow,policy,msg,callback,OSSAccessKeyId,open1,docInfo,cardList,consultList,imgArr,leftBindNum,
             selectName,isIos,sign,selectSex,selectBirthday,toptip,files,reportInfo,hasApply,pat}=this.state;
             console.log("open",this.state.open)
             const sidebar =(<div className="doclist">{ docList.map((item,index)=>{
@@ -845,7 +883,7 @@ add(){
                
                 <div className="des-doc-item" id="head" onClick={()=>{
                     this.setState({
-                        open:true,
+                        // open:true,
                         //doclistShow:true
                     })
                 }}>
@@ -858,7 +896,7 @@ add(){
                             <div className="doc-des">{docInfo.hisName} | {docInfo.deptName } </div>
                         </div>
                     </div> 
-                    <img src='./././resources/images/des_xyjt.png' className='left_icon' />  
+                    {/*<img src='./././resources/images/des_xyjt.png' className='left_icon' /> */}
                 </div> 
 
                 <div className="describe-info">  
@@ -929,6 +967,18 @@ add(){
                                 </div>}
                         </div>
                     }
+                </div>
+                <div className="describe tbj">
+                  <List>
+                    <InputItem
+                      type='number'
+                      placeholder="请输入体重（kg）"
+                      value={weightcheck}
+                      onChange={e=>{console.log('eee=',e);this.setState({weightcheck:e})}}
+                      clear
+                      moneyKeyboardAlign="right"
+                    >体重(kg)</InputItem>
+                  </List>
                 </div>
                 <div className="describe">
                     <div className="edit-title">

@@ -11,6 +11,36 @@ import * as Utils from '../../../utils/utils';
 import * as Api from '../../../components/Api/Api';
 import 'style/index.scss';
 import hashHistory from 'react-router/lib/hashHistory';
+
+var biaoliang=[
+'480369',
+'400460',
+'480746',
+'480085',
+'400841',
+'480078',
+'480552',
+'480841',
+'480578',
+'481995',
+'480863',
+'400946',
+'481110',
+'400788',
+'400839',
+'481973',
+'480267',
+'481585',
+'400160',
+'481094',
+'2701',
+'481060',
+'400160',
+'480746',
+'900',
+'001',
+'480078'
+]
 class Widget extends Component {
     static contextTypes = {
         router: React.PropTypes.object,
@@ -57,7 +87,7 @@ class Widget extends Component {
             leftTime: 7,
             inquiryId: '',
             type: '1',
-            stopDocter:"" //停用医生弹窗
+            stopDocter:"", //停用医生弹窗
         };
     }
     componentDidMount() {
@@ -100,8 +130,8 @@ class Widget extends Component {
         if(window.localStorage.showTip==1){
             this.jumpConfirminfo(window.localStorage.remune?window.localStorage.remune:1)
         }
-        
     }
+
     changeStyle() {
         this.setState({
             hidden: false
@@ -597,9 +627,13 @@ class Widget extends Component {
                             {docInfo.freeReport == '1' && <DoctorInfo1 img='./././resources/images/doctor_report_open.png' txt='报告解读' txt1='免费报告解读' url='/consult/report' doctorId={docInfo.doctorId} deptId={docInfo.deptId} com='2'></DoctorInfo1>}
                             {docInfo.freeReport !== '1' && <DoctorInfo1 img='./././resources/images/doctor-report.png' txt='报告解读' txt1='免费报告解读' url=''></DoctorInfo1>}
                             <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='检验检查' txt1='在线申请检验检查' url=''></DoctorInfo1>
-                            {(docInfo.doctorId== '900' || docInfo.doctorId== '001'|| docInfo.doctorId=='480078'|| docInfo.doctorId=='480746'|| docInfo.doctorId=='400160'|| (docInfo.level&&docInfo.level.indexOf('主任医师')>-1)||(docInfo.level&&docInfo.level.indexOf('副主任医师')>-1)) && 
+                            {(biaoliang.indexOf(docInfo.doctorId)>=0||
+                                (docInfo.level&&docInfo.level.indexOf('主任医师')>-1)||
+                                (docInfo.level&&docInfo.level.indexOf('副主任医师')>-1)) && 
                                 <DoctorInfo1 img='./././resources/images/describe_mb.png' txt='慢病/处方' txt1='在线申请处方' url='/consult/describe' doctorId={docInfo.doctorId} deptId={docInfo.deptId} com='2'></DoctorInfo1>}
-                            {(docInfo.doctorId!= '900' && docInfo.doctorId!= '001'&& docInfo.doctorId!= '480078'&& docInfo.doctorId!= '480746'&& docInfo.doctorId!= '400160'&&(docInfo.level&&docInfo.level.indexOf('主任医师')<0)&&(docInfo.level&&docInfo.level.indexOf('副主任医师')<0)) && 
+                            {(biaoliang.indexOf(docInfo.doctorId)<0&&
+                                (docInfo.level&&docInfo.level.indexOf('主任医师')<0)&&
+                                (docInfo.level&&docInfo.level.indexOf('副主任医师')<0)) && 
                                 <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='慢病/处方' txt1='在线申请处方' url=''></DoctorInfo1>
                             }
                         </div>}
