@@ -637,6 +637,12 @@ class Widget extends Component {
                     </button>} 
                     <div className="empty-box"></div>
                 </div>}
+                {
+                    this.props.location.query.source=="describe2"&&
+                    <p className='jigaoyanse'>
+                        温馨提示：若您需要将药品配送到家，请在支付完药品费用后的<span className='jigaoyanse-tebie'>30分钟内支付邮寄费用</span>，超时将自动默认为“到院取药”。
+                    </p>
+                }
             </div>
         );
     }

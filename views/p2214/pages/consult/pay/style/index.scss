@@ -90,7 +90,7 @@
         color: #4cabcf;
      }
     .btn{
-        margin: 30px 10px;
+        margin: 20px 10px;
         .submit-btn {
             background-color: $hc-color-primary;
             color: #fff;
@@ -112,6 +112,12 @@
             overflow:hidden;
 
 
+        }
+    }
+    .jigaoyanse{
+        margin:0 10px 10px 10px;
+        &-tebie{
+            color: red;
         }
     }
 }

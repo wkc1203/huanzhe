@@ -409,73 +409,85 @@ class Widget extends Component {
                         this.setState({
                           isOrderInfoShow:true
                         })
-                        // 没有选中过，
-                        if(window.localStorage.getItem('isziti')&&window.localStorage.getItem('isziti')==1){
-                          this.setState({
-                           isShowPeiSong:true
-                          })
-                          if(info.deliveryDrugVo){
-                            if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==0){
-                              let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
+                        if(info.payTime&&info.payTime!=''){
+                          let shicha=new Date().getTime()-(new Date(info.payTime).getTime())
+                          if((shicha/60000)<29.5){
+                             // 没有选中过，
+                            if(window.localStorage.getItem('isziti')&&window.localStorage.getItem('isziti')==1){
                               this.setState({
-                                isShowCheckType:true,
-                                youjiAddressId:addr.id,
-                                mailNum:info.deliveryDrugVo.billNo,
-                                sendName:addr.name,
-                                sendPhone:addr.phone,
-                                province:addr.province,
-                                city:addr.city,
-                                area:addr.district,
-                                detailArea:addr.address
+                               isShowPeiSong:true
+                              })
+                              if(info.deliveryDrugVo){
+                                if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==0){
+                                  let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
+                                  
+                                    this.setState({
+                                      isShowCheckType:true,
+                                      youjiAddressId:addr.id,
+                                      mailNum:info.deliveryDrugVo.billNo,
+                                      sendName:addr.name,
+                                      sendPhone:addr.phone,
+                                      province:addr.province,
+                                      city:addr.city,
+                                      area:addr.district,
+                                      detailArea:addr.address
+                                    })
+                                  
+                                }
+                                if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==1){
+                                  let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
+                                  this.setState({
+                                    isShowCheckType:false,
+                                    youjiAddressId:addr.id,
+                                    mailNum:info.deliveryDrugVo.billNo,
+                                    sendName:addr.name,
+                                    sendPhone:addr.phone,
+                                    province:addr.province,
+                                    city:addr.city,
+                                    area:addr.district,
+                                    detailArea:addr.address
+                                  })
+                                }
+                                if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==2){
+                                  this.setState({
+                                    isCheckSwitch:true
+                                  })
+                                }
+                              }else{
+                                if(this.props.location.query.fromOrder=='1'){
+                                  console.log('ts=',this.props.location.query)
+                                  this.setState({
+                                    isShowPeiSong:true,
+                                    isShowCheckType:true,
+                                    checked:true,
+                                    isShowDiv:true,
+                                    youjiAddressId:this.props.location.query.youjiAddressId,
+                                    sendName:this.props.location.query.sendName,
+                                    sendPhone:this.props.location.query.sendPhone,
+                                    province:this.props.location.query.province,
+                                    city:this.props.location.query.city,
+                                    area:this.props.location.query.area,
+                                    detailArea:this.props.location.query.detailArea
+                                
+                                  })
+                                }else{
+                                  this.setState({
+                                    isShowGetType:true,
+                                  })
+                                }
+                              }
+                            }else{
+                              this.setState({
+                                isShowPeiSong:false
                               })
                             }
-                            if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==1){
-                              let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
-                              this.setState({
-                                isShowCheckType:false,
-                                youjiAddressId:addr.id,
-                                mailNum:info.deliveryDrugVo.billNo,
-                                sendName:addr.name,
-                                sendPhone:addr.phone,
-                                province:addr.province,
-                                city:addr.city,
-                                area:addr.district,
-                                detailArea:addr.address
-                              })
-                            }
-                            if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==2){
+                          }else{
                               this.setState({
                                 isCheckSwitch:true
                               })
                             }
-                          }else{
-                            if(this.props.location.query.fromOrder=='1'){
-                              console.log('ts=',this.props.location.query)
-                              this.setState({
-                                isShowPeiSong:true,
-                                isShowCheckType:true,
-                                checked:true,
-                                isShowDiv:true,
-                                youjiAddressId:this.props.location.query.youjiAddressId,
-                                sendName:this.props.location.query.sendName,
-                                sendPhone:this.props.location.query.sendPhone,
-                                province:this.props.location.query.province,
-                                city:this.props.location.query.city,
-                                area:this.props.location.query.area,
-                                detailArea:this.props.location.query.detailArea
-                            
-                              })
-                            }else{
-                              this.setState({
-                                isShowGetType:true,
-                              })
-                            }
-                          }
-                        }else{
-                          this.setState({
-                            isShowPeiSong:false
-                          })
                         }
+                       
 
                       }
 
@@ -972,7 +984,7 @@ class Widget extends Component {
           </div>}
 
           <Dialog type="ios" title={this.state.style3.title} buttons={this.state.style3.buttons} show={isShowGetType}>
-                您可选择到医院药房取药或直接将药品配送到家
+                药品费用支付成功，您可选择到医院药房取药或直接将药品配送到家。
           </Dialog>
           <Dialog type="ios" title={this.state.style4.title} buttons={this.state.style4.buttons} show={this.state.showIOS4}>
                 您的处方中含有医院自研类，冷藏类药品，将不支持药品配送，只能选择<span>到院取药</span>。
