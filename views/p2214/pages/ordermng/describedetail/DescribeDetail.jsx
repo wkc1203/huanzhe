@@ -1112,11 +1112,11 @@ class Widget extends Component {
               { (describeDetail.status=='12')&& 
               <p className='p2' style={{color:'white',background:'#ccc',border:'1px solid #ccc'}}>{describeDetail.statusName}</p>}
               
-              {(describeDetail.status=='4')&& isShowCheckType&&!checked&&
+              {/*(describeDetail.status=='4')&& isShowCheckType&&!checked&&
               <p className='p2' onClick={()=>{ 
                   this.cancelConfirm(2)
                   // this.cancle()
-              }}>申请退款</p>}
+              }}>申请退款</p>*/}
     
               {
                 (describeDetail.status=='4')&&isShowCheckType&&checked&&

@@ -284,9 +284,14 @@ class Widget extends Component {
                     <p>日期：<span>{!!detail.auditDate?detail.auditDate:''}</span></p>
                     <p></p>
                 </div>}
-                <div className='name'>
+                {
+                  <div>
+                    {!!detail.auditSuggest&&<p>审核备注：<span style={{color:'#e0109e'}}>{detail.auditSuggest}</span></p>}
+                  </div>
+                }
+                {/*<div className='name'>
                     {!!detail.storageAddress&&<p style={{color:'#4cabcf'}}>{detail.storageAddress}</p>}
-                </div>
+                </div>*/}
                 </div>
               </div>
         </div>
