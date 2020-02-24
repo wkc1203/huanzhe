@@ -922,7 +922,7 @@ expandMore(Visit_no){
                 {hasList&&<div className="describe-info">  
                      <div className="des_tip">
                       <img src="../../../resources/images/describe_tip_icon.png"/>
-                        最近3个月内在本科室的慢病就诊记录
+                        最近5个月内在本科室的慢病就诊记录
                      </div>
 
                      {

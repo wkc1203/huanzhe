@@ -474,13 +474,21 @@ class Widget extends Component {
                             interval1:interval1
                     })   
                 }           
-                          if (res.data.items.length > 0) {
-                            if(this.mounted){
+                if (res.data.items.length > 0) {
+                    if(this.mounted){
                         this.setState({
                             isEvaluate: res.data.inquiry.status == '3',
                             totalNum: 5,
                             orderId: res.data.inquiry.orderId
                         })
+                    }
+                    for (let i = 0; i < res.data.items.length; i++) {
+                        if(res.data.items[i].action=='applyChronic'){
+                            this.setState({
+                                totalNum:11,
+                            })
+                            break;
+                        }
                     }
                 }
                     var items = res.data.items;
@@ -490,12 +498,12 @@ class Widget extends Component {
                             totalNum--; 
                             var numEnd = totalNum;
                             if(this.mounted){
-                            this.setState({
-                                totalNum: totalNum,
-                                numEnd: numEnd
-                            })
+                                this.setState({
+                                    totalNum: totalNum,
+                                    numEnd: numEnd
+                                })
+                            }
                         }
-                    }
                     }
                     if (!this.state.endding && res.data.inquiry.status != '3' && res.data.inquiry.status != '2') {
                         if (this.state.numEnd <= 0) {
@@ -547,7 +555,6 @@ class Widget extends Component {
                                 
                             }
                             if(!!list[index].action&&list[index].action=='applyChronic'&&list[index].content!=''){
-                      
                                 list[index].checkContent=JSON.parse(list[index].content);
                                 
                             }

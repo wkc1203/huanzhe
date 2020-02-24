@@ -290,7 +290,7 @@ class Widget extends Component {
                   </div>
                 }
                 {<div className='name'>
-                    {!!detail.storageAddress&&(detail.deliveryDrugVo&&detail.deliveryDrugVo.status!=1)&&
+                    {!!detail.storageAddress&&((!detail.deliveryDrugVo)||(detail.deliveryDrugVo&&detail.deliveryDrugVo.status!=1))&&
                       <p style={{color:'#4cabcf'}}>{detail.storageAddress}</p>}
                 </div>}
                 </div>

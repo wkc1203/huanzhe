@@ -294,7 +294,17 @@ class Widget extends Component {
                             }) 
                         }else{
                             if(this.props.location.query.type=='chronic'||this.props.location.query.type=='CHRONICZF'){
-                                if(id&&id!=''){
+                                if(this.props.location.query.type=='chronic'){
+                                    this.context.router.push({
+                                        pathname:'inquiry/chat',
+                                        query:{
+                                            inquiryId:this.props.location.query.inquiryId,
+                                            orderId:this.props.location.query.orderId,
+                                            status:1,
+                                            manbing:'1'
+                                        }
+                                    })
+                                }else if(this.props.location.query.type=='CHRONICZF'&&id&&id!=''){
                                     this.context.router.push({
                                     pathname:'/ordermng/describedetail',
                                     query:{busType:'describe',id}}) 

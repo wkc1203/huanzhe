@@ -67,6 +67,8 @@ class Widget extends Component {
         showIOS4: false,
         // 没有地址，添加地址
         showIOS5:false,
+        // 添加配送地址信息 -二版
+        showIOS6:false,
         showAndroid1: false,
         showAndroid2: false,
         tipsConfig: {
@@ -139,6 +141,14 @@ class Widget extends Component {
                     type: 'primary',
                     label: '去添加地址',
                     onClick: this.gotoAddress.bind(this)
+                }
+            ]
+        },
+        style6: {
+            buttons: [
+                {
+                    label: '确定',
+                    onClick: this.setAddress.bind(this)
                 }
             ]
         },
@@ -265,6 +275,12 @@ class Widget extends Component {
     this.context.router.push({
         pathname:'consult/pay',
         query:{userId:this.state.describeDetail.userId,source:'describe2',id:this.state.describeDetail.id,orderId:this.state.describeDetail.orderStr}
+    })
+  }
+  // 添加配送地址 - 二版
+  setAddress=()=>{
+    this.setState({
+      showIOS6:false
     })
   }
 
@@ -405,12 +421,72 @@ class Widget extends Component {
                         })
                       }
 
+                      // if(info.status==3){
+                      //   if(info.deliveryDrugVo){
+                      //     // 待支付
+                      //     if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==0){
+                      //       let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
+                      //       this.setState({
+                      //         daishifuShwo:true,
+                      //         youjiAddressId:addr.id,
+                      //         mailNum:info.deliveryDrugVo.billNo,
+                      //         sendName:addr.name,
+                      //         sendPhone:addr.phone,
+                      //         province:addr.province,
+                      //         city:addr.city,
+                      //         area:addr.district,
+                      //         detailArea:addr.address
+                      //       })
+                      //     }
+                      //     // 支付成功
+                      //     if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==1){
+                      //       let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
+                      //       this.setState({
+                      //         zhifusuccess:true,
+                      //         youjiAddressId:addr.id,
+                      //         mailNum:info.deliveryDrugVo.billNo,
+                      //         sendName:addr.name,
+                      //         sendPhone:addr.phone,
+                      //         province:addr.province,
+                      //         city:addr.city,
+                      //         area:addr.district,
+                      //         detailArea:addr.address
+                      //       })
+                      //     }
+                      //     // 支付超时
+                      //     if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==2){
+                            
+                      //     }
+                      //   }else{
+                      //         if(this.props.location.query.fromOrder=='1'){
+                      //           console.log('ts=',this.props.location.query)
+                      //           this.setState({
+                      //             youjiAddressId:this.props.location.query.youjiAddressId,
+                      //             sendName:this.props.location.query.sendName,
+                      //             sendPhone:this.props.location.query.sendPhone,
+                      //             province:this.props.location.query.province,
+                      //             city:this.props.location.query.city,
+                      //             area:this.props.location.query.area,
+                      //             detailArea:this.props.location.query.detailArea
+                      //           })
+                      //         }else{
+                      //           this.setState({
+                      //             yuanshiShow:true
+                      //           })
+                      //         }
+                      //   }
+                      // }
+
                       if(info.status==4){
+                        
                         this.setState({
                           isOrderInfoShow:true
                         })
                         if(info.payDate&&info.payDate!=''){
-                          let shicha=new Date().getTime()-(new Date(info.payDate.replace(/-/g,'/')).getTime())
+                          let ynd=(info.payDate.split(' ')[0]).split('-')
+                          let sfm=(info.payDate.split(' ')[1]).split(':')
+                          // let shicha=new Date().getTime()-(new Date(info.payDate.replace(/-/g,'/')).getTime())
+                          let shicha=new Date().getTime()-(new Date(ynd[0],ynd[1]-1,ynd[2],sfm[0],sfm[1],sfm[2]).getTime())
                           if((shicha/60000)<29.5){
                              // 没有选中过，
                             if(window.localStorage.getItem('isziti')&&window.localStorage.getItem('isziti')==1){
@@ -485,6 +561,7 @@ class Widget extends Component {
                             if(info.deliveryDrugVo&&info.deliveryDrugVo.status&&info.deliveryDrugVo.status==1){
                                   let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
                                   this.setState({
+                                    isShowPeiSong:true,
                                     isShowCheckType:false,
                                     youjiAddressId:addr.id,
                                     mailNum:info.deliveryDrugVo.billNo,
@@ -640,7 +717,7 @@ class Widget extends Component {
           })
     }
     // 跳转到邮费支付页面
-    goPayMailMoney=(youfeiId)=>{
+    goPayMailMoney=()=>{
       // 查询
       const {
         youjiAddressId,
@@ -651,6 +728,11 @@ class Widget extends Component {
         area,
         detailArea
       } = this.state
+      // if(youjiAddressId==''||sendName==''){
+      //   this.setState({
+
+      //   })
+      // }
       // if(youjiAddressId&&youjiAddressId!=''){
       //   // 修改地址
       //   this.updatePeiSongDrug()
@@ -1008,13 +1090,48 @@ class Widget extends Component {
           <Dialog type="ios" title={this.state.style5.title} buttons={this.state.style5.buttons} show={this.state.showIOS5}>
                 {msg}
           </Dialog>
+          <Dialog type="ios" title={this.state.style6.title} buttons={this.state.style6.buttons} show={this.state.showIOS6}>
+                {msg}
+          </Dialog>
           {
             isOrderInfoShow&&
               <div className='diagnosis main-info'>
                     <div className='title-tip'>
                         <img src='./././resources/images/dingdaninfo.png'/>订单信息</div>
                     <div className="items">
+       {/*                  <div>
+                          <p>
+                            配送(快递)
+                          </p>
+                          <p>
+                            <span>
+                              配送单号：
+                            </span>
+                            <span className='order-info-span'>
+                            {describeDetail.orderStr?describeDetail.orderStr:'-'}
+                            </span>
+                          </p>
+                          <p className='dingdan-liushui'>
+                            <span>
+                              支付流水号：
+                            </span>
+                            <span className='dingdan-liushui-huanhang'>
+                            {describeDetail.paySerialNumber?describeDetail.paySerialNumber:'-'}
+                            </span>
+                          </p>
+                          <p>
+                            <span>
+                              支付时间：
+                            </span>
+                            <span className='order-info-span'>
+                            {describeDetail.payDate?describeDetail.payDate:'-'}
+                            </span>
+                          </p>
+                        </div> */}
                         <div>
+                          {/*<p>
+                            处方药品
+                          </p>*/}
                           <p>
                             <span>
                               医院订单号：
@@ -1047,6 +1164,47 @@ class Widget extends Component {
                 <div className='title-tip'>
                     <img src='./././resources/images/yaopingpeisong.png'/>药品配送</div>
                 <div className="items yaopingpeisong">
+                      {/*
+                        describeDetail.status=='3'?
+                           <List className='list-yaopin'>
+                            <List.Item
+                              onClick={this.goGetAddress()}
+                            >请选择或添加配送地址信息</List.Item>
+                          </List>:
+                          <div onClick={this.goManageAddress} className={`address-info ${isShowDiv?'':'unshow-address'}`}>
+                            <div className='address-info-left'>
+                              <p className='send-address-info-ziti'>
+                                <span>{sendName}</span>
+                                <span className='youji-phone'>{sendPhone}</span>
+                              </p>
+                              <p>
+                                <span>{province}</span>
+                                <span className='youji-phone'>{city}</span>
+                                <span className='youji-phone'>{area}</span>
+                                <span className='youji-phone'>{detailArea}</span>
+                              </p>
+                            </div>
+                            <img src='./././resources/images/des_xyjt.png' className='address-info-img'/>
+                          </div>
+                      */}
+                      {/*
+                        !!describeDetail&&describeDetail.deliveryDrugVo&&describeDetail.deliveryDrugVo.status&&describeDetail.deliveryDrugVo.status==1&&
+                        <div className='send-address-info'>
+                              <img src='./././resources/images/dz.png' className='send-address-info-img'/>
+                              <div>
+                                <p>
+                                  <span className='send-address-info-ziti'>{sendName}</span>
+                                  <span className='send-address-info-ziti youji-phone'>{sendPhone}</span>
+                                </p>
+                                <p>
+                                  <span>{province}</span>
+                                  <span className='youji-phone'>{city}</span>
+                                  <span className='youji-phone'>{area}</span>
+                                  <span className='youji-phone'>{detailArea}</span>
+                                </p>
+                              </div>
+                            </div>
+                      */}
                       {
                         isShowCheckType?
                         <div>
@@ -1115,10 +1273,19 @@ class Widget extends Component {
                       
                 </div> 
           </div>}
+          
           <div className="confirm" >
               {describeDetail.status=='3'&&<p className='p1' onClick={()=>{
                   this.pay()
-              }}>确定支付</p>}
+                  // this.goPayMailMoney()
+              }}>支付</p>
+              }
+              {/*
+                !!describeDetail&&describeDetail.deliveryDrugVo&&describeDetail.deliveryDrugVo.status&&info.deliveryDrugVo.status==1&&
+                 <p className='p1' onClick={()=>{
+                  this.pay()
+                }}>支付药品费</p>
+              */}
               { (describeDetail.status=='1'||describeDetail.status=='2'||describeDetail.status=='3')&&  
               <p className='p2' onClick={()=>{
                   this.cancelConfirm(1)

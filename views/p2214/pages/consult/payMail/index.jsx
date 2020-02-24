@@ -297,6 +297,7 @@ class Widget extends Component {
                 <div className='fee-box'>
                     <div className="warm-tip1">
                         <div className="lefttime">请在30:00分钟内完成支付</div>
+                      {/*<div className="lefttime">请在今日23：15前完成支付</div>*/}
                     </div>
                     {leftTimeFlag&&
                     <div className="warm-tip1">
