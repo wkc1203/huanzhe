@@ -225,7 +225,7 @@ class Widget extends Component {
                         <p>年龄：<span >{detail.patientAge}</span> </p>
                     </div>
                     <div className='person-item'>
-                        <p>体重：<span>{detail.caseInfo.patientWeight}kg</span></p>
+                        <p>体重：<span>{detail.caseInfo&&detail.caseInfo.patientWeight||detail.patientWeight}kg</span></p>
                     
                     </div>
                 </div>
@@ -289,9 +289,10 @@ class Widget extends Component {
                     {!!detail.auditSuggest&&<p>审核备注：<span style={{color:'#e0109e'}}>{detail.auditSuggest}</span></p>}
                   </div>
                 }
-                {/*<div className='name'>
-                    {!!detail.storageAddress&&<p style={{color:'#4cabcf'}}>{detail.storageAddress}</p>}
-                </div>*/}
+                {<div className='name'>
+                    {!!detail.storageAddress&&(detail.deliveryDrugVo&&detail.deliveryDrugVo.status!=1)&&
+                      <p style={{color:'#4cabcf'}}>{detail.storageAddress}</p>}
+                </div>}
                 </div>
               </div>
         </div>

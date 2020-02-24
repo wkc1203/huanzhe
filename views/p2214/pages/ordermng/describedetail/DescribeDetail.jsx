@@ -409,8 +409,8 @@ class Widget extends Component {
                         this.setState({
                           isOrderInfoShow:true
                         })
-                        if(info.payTime&&info.payTime!=''){
-                          let shicha=new Date().getTime()-(new Date(info.payTime).getTime())
+                        if(info.payDate&&info.payDate!=''){
+                          let shicha=new Date().getTime()-(new Date(info.payDate.replace(/-/g,'/')).getTime())
                           if((shicha/60000)<29.5){
                              // 没有选中过，
                             if(window.localStorage.getItem('isziti')&&window.localStorage.getItem('isziti')==1){
@@ -482,9 +482,24 @@ class Widget extends Component {
                               })
                             }
                           }else{
-                              this.setState({
-                                isCheckSwitch:true
-                              })
+                            if(info.deliveryDrugVo&&info.deliveryDrugVo.status&&info.deliveryDrugVo.status==1){
+                                  let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
+                                  this.setState({
+                                    isShowCheckType:false,
+                                    youjiAddressId:addr.id,
+                                    mailNum:info.deliveryDrugVo.billNo,
+                                    sendName:addr.name,
+                                    sendPhone:addr.phone,
+                                    province:addr.province,
+                                    city:addr.city,
+                                    area:addr.district,
+                                    detailArea:addr.address
+                                  })
+                                }else{
+                                  this.setState({
+                                    isCheckSwitch:true
+                                  })
+                                }
                             }
                         }
                        
@@ -1021,7 +1036,7 @@ class Widget extends Component {
                               支付时间：
                             </span>
                             <span className='order-info-span'>
-                            {describeDetail.payTime&&describeDetail.payTime!=''?dateTimeDate(describeDetail.payTime):'-'}
+                            {describeDetail.payDate?describeDetail.payDate:'-'}
                             </span>
                           </p>
                         </div>
