@@ -384,7 +384,7 @@ class Widget extends Component {
                                           alt=""
                                           />
                                     </div>
-                                      <div className='text1'>慢病诊疗</div>
+                                      <div className='text1'>慢病管理</div>
                                       {/*<div className='text2'>合理用药问药师</div>*/}
                                 </div>
                             <div className="d-tab" onClick={()=>{
