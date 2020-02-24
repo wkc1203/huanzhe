@@ -629,12 +629,12 @@ class Widget extends Component {
                             <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='检验检查' txt1='在线申请检验检查' url=''></DoctorInfo1>
                             {(biaoliang.indexOf(docInfo.doctorId)>=0||
                                 (docInfo.level&&docInfo.level.indexOf('主任医师')>-1)||
-                                (docInfo.level&&docInfo.level.indexOf('副主任医师')>-1)) && 
-                                <DoctorInfo1 img='./././resources/images/describe_mb.png' txt='慢病/处方' txt1='在线申请处方' url='/consult/describe' doctorId={docInfo.doctorId} deptId={docInfo.deptId} com='2'></DoctorInfo1>}
+                                (docInfo.level&&docInfo.level.indexOf('副主任医师')>-1)) &&
+                                <DoctorInfo1 img='./././resources/images/describe_mb.png' txt='复诊续方' txt1='在线申请处方' url='/consult/describe' doctorId={docInfo.doctorId} deptId={docInfo.deptId} com='2'></DoctorInfo1>}
                             {(biaoliang.indexOf(docInfo.doctorId)<0&&
                                 (docInfo.level&&docInfo.level.indexOf('主任医师')<0)&&
                                 (docInfo.level&&docInfo.level.indexOf('副主任医师')<0)) && 
-                                <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='慢病/处方' txt1='在线申请处方' url=''></DoctorInfo1>
+                                <DoctorInfo1 img='./././resources/images/doctor-check.png' txt='复诊续方' txt1='在线申请处方' url=''></DoctorInfo1>
                             }
                         </div>}
                     </div>
