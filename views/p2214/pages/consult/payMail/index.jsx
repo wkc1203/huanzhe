@@ -296,8 +296,8 @@ class Widget extends Component {
                 </Dialog>
                 <div className='fee-box'>
                     <div className="warm-tip1">
-                        <div className="lefttime">请在30:00分钟内完成支付</div>
-                      {/*<div className="lefttime">请在今日23：15前完成支付</div>*/}
+                        {/*<div className="lefttime">请在30:00分钟内完成支付</div>*/}
+                      <div className="lefttime">请在今日23：00前完成支付</div>
                     </div>
                     {leftTimeFlag&&
                     <div className="warm-tip1">
@@ -365,10 +365,10 @@ class Widget extends Component {
                   温馨提示：配送费用重庆市内为15元，重庆市外为25元，新疆西藏地区为30元，费用由中国邮政收取，
                   支付后即为确定需要配送，配送费不予退回。
                 </p>
-                <p className='beizhu-tishi-two'>
+                {/*<p className='beizhu-tishi-two'>
                   请在30分钟内完成支付，若超时未支付则只能选择
                   <span>到院取药</span>
-                </p>
+                </p>*/}
 
                 <div className='btn'>
                     {

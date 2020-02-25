@@ -136,6 +136,24 @@ class Widget extends Component {
   render() {
     const {msg,detail,case1,mainDiagnosis,show,leftTime}=this.state;
     console.log("ds",this._barcodeSVGS11)
+    
+    let diagnosisArr = detail.diagnosis?detail.diagnosis.split(";"):[];
+    let content = "";
+    if(diagnosisArr.length>0){
+      for (let i=0;i<diagnosisArr.length;i++) {
+          content += ((i+1)+'.');
+          let diagnosisInfo = diagnosisArr[i].split("|");
+          if (diagnosisInfo[0] != "无") {
+              content += diagnosisInfo[0]+' ' ;
+          }
+          content += diagnosisInfo[1];
+          if (diagnosisInfo[2] != "无") {
+              content += (' '+diagnosisInfo[2]);
+          }
+          content += ";";
+      }
+    }
+
     return (
         <div className={`${show?'over-hidden ':' '}container page-describe-info`}>
             <div className="home "><span className="jian"
@@ -240,6 +258,14 @@ class Widget extends Component {
                       <p>科室：<span>{detail.deptName}</span></p>
                     </div>             
                 </div>
+                {
+                  !!detail.diagnosis&&<div style={{marginTop:'10px'}} className='check-item'>
+                    <p>诊断：<span>{content}</span></p>
+                  </div>
+                }
+                {
+                  !!detail.diagnosis&&<div className='fenge-line'></div>
+                }
                 {detail.drugList&&<div className="more-info">
                          <div className="drug-icon">
                          <img src='./././resources/images/describe_ypcf.png'/> 

@@ -172,10 +172,10 @@ class Widget extends Component {
         area:this.state.address[2]?this.state.address[2]:'',
         detailArea:this.state.detailAddress,
       })
+      let updateOrAdd={}
       // 添加地址
       if(this.state.addressId&&this.state.addressId!=''){
       // this.showLoading()
-        let updateOrAdd={}
         Api.
           updateAddress({
             userId:window.localStorage.getItem('userId'),
@@ -190,8 +190,8 @@ class Widget extends Component {
           }).
           then(res=>{
             // this.hideLoading()
-            updateOrAdd=res.data
             if(res.code==0){
+              updateOrAdd=res.data
               Toast.info('修改成功',2)
             }else{
               Toast.info('修改失败',2)
@@ -215,8 +215,8 @@ class Widget extends Component {
           }).
           then(res=>{
             // this.hideLoading();
-           updateOrAdd=res.data
             if(res.code==0){
+              updateOrAdd=res.data
               Toast.info('新增成功',1)
             }else{
               Toast.info('新增失败',1)
@@ -232,7 +232,16 @@ class Widget extends Component {
           // this.setState({
           //   isShowAlert2:true
           // })
-          this.getAddress(updateOrAdd)
+          if(updateOrAdd){
+            this.getAddress(updateOrAdd)
+          }else{
+            this.context.router.push({
+              pathname:'/usercenter/manageaddress',
+              query:{
+                fromOrder:'1'
+              }
+            })
+          }
           
         }else{
           this.context.router.push({

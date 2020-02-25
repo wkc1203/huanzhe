@@ -474,6 +474,12 @@
       input[type="checkbox"]:checked + .checkbox{
           background:#4FABCA;
         }
+      .jiatou-fangxiang{
+        .am-list-extra{
+          display: flex;
+          justify-content: flex-end;
+        }
+      }
     }
     .am-list-content{
       color: #666 !important;
@@ -511,10 +517,8 @@
         color: #333;
       }
     }
-    .fenge-line{
-      border-top: 1px solid #ccc;
-      margin: 15px auto;
-    }
+
+    
     .unshow-address{
       display: none;
     }
@@ -522,6 +526,13 @@
       margin-left: 15px;
     }
   }
+  .peisongcolor{
+      color: #b2b2b2;
+    }
+  .fenge-line{
+      border-top: 1px solid #ccc;
+      margin: 15px auto;
+    }
   .dingdan-liushui{
     display: flex;
     justify-content: space-around;
