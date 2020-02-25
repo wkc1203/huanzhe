@@ -1176,7 +1176,7 @@ class Widget extends Component {
                 {msg}
           </Dialog>
           
-          {!!describeDetail&&(describeDetail.status=='3'||(describeDetail.status=='4'&&describeDetail.deliveryDrugVo))&&<div className='diagnosis main-info'>
+          {!!describeDetail&&(describeDetail.status=='3'||(describeDetail.status=='4'&&describeDetail.deliveryDrugVo&&describeDetail.deliveryDrugVo.status=='1'))&&<div className='diagnosis main-info'>
             <div className='title-tip'>
                 <img src='./././resources/images/yaopingpeisong.png'/>药品配送</div>
             <div className="items yaopingpeisong">
@@ -1229,7 +1229,7 @@ class Widget extends Component {
                   </div>
             }
             {
-              isOrderInfoShow&&describeDetail.deliveryDrugVo&&
+              isOrderInfoShow&&describeDetail.deliveryDrugVo&&describeDetail.deliveryDrugVo.status=='1'&&
               <div>
                 <div className='send-address-info'>
                   <img src='./././resources/images/kdys.png' className='send-address-info-img'/>
@@ -1340,6 +1340,9 @@ class Widget extends Component {
                     <div className='title-tip'>
                         <img src='./././resources/images/dingdaninfo.png'/>订单信息</div>
                     <div className="items">
+                      {
+                        describeDetail.deliveryDrugVo.status=='1'&&
+                        <div>
                         <div>
                           <p className='peisongcolor'>
                             配送(快递)
@@ -1370,6 +1373,8 @@ class Widget extends Component {
                           </p>
                         </div>
                         <div className='fenge-line'></div>
+                        </div>
+                      }
                         <div>
                           <p className='peisongcolor'>
                             处方药品
