@@ -494,6 +494,7 @@ class Widget extends Component {
                                 this.setState({
                                   yuanshiShow:true
                                 })
+                                this.goGetAddressFirst()
                               }
                         }
                       }
@@ -677,6 +678,42 @@ class Widget extends Component {
           isShowDiv:false
         })
       }
+    }
+
+    // 第一次获取地址信息
+    goGetAddressFirst=()=>{
+      Api.
+        getAddressList({
+          userId:window.localStorage.getItem('userId'),
+          pageNum:1
+        }).
+        then(res=>{
+          if(res.code==0&&res.data&&res.data.recordList.length>0){
+            let checkItem=''
+            for(let i=0;i<res.data.recordList.length;i++){
+              if(res.data.recordList[i].defaultFlag==1){
+                checkItem=res.data.recordList[i]
+              }
+            }
+            console.log('checkItem=',checkItem)
+            if(checkItem==''){
+              checkItem=res.data.recordList[0]
+            }
+              this.setState({
+                // isShowDiv:true,
+                yuanshiShow:false,
+                daishifuShow:true,
+                youjiAddressId:checkItem.id,
+                sendName:checkItem.name,
+                sendPhone:checkItem.phone,
+                province:checkItem.province,
+                city:checkItem.city,
+                area:checkItem.district,
+                detailArea:checkItem.address
+              })
+            
+          }
+        })
     }
 
     // 获取地址列表
