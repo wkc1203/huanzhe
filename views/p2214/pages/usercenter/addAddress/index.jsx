@@ -232,13 +232,14 @@ class Widget extends Component {
           // this.setState({
           //   isShowAlert2:true
           // })
-          if(updateOrAdd){
+          if(updateOrAdd&&updateOrAdd.id&&updateOrAdd.id!=''){
             this.getAddress(updateOrAdd)
           }else{
             this.context.router.push({
               pathname:'/usercenter/manageaddress',
               query:{
-                fromOrder:'1'
+                fromOrder:'1',
+                id:this.props.location.query.id,
               }
             })
           }
@@ -300,7 +301,8 @@ class Widget extends Component {
         this.context.router.push({
           pathname:'/usercenter/manageaddress',
           query:{
-            fromOrder:'1'
+            fromOrder:'1',
+            id:this.props.location.query.id,
           }
         })
       })

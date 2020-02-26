@@ -806,7 +806,7 @@ class Widget extends Component {
         area,
         detailArea
       } = this.state
-      if(yuanshiShow||youjiAddressId==''||sendName==''){
+      if(!youjiAddressId||youjiAddressId==''||sendName==''){
         this.setState({
           showIOS6:true,
           msg:'请选择或添加配送地址信息'

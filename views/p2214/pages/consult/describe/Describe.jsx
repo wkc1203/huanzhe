@@ -553,12 +553,19 @@ class Widget extends Component {
                         })
                      }
                 }
+                
             }, e=> {
                 this.setState({
                     reportList:[],
                     newList:[]
 
                 })
+                if(e.msg&&e.msg.indexOf('系统维护')>=0){
+                    this.setState({
+                        showIOS1:true,
+                        msg:e.msg
+                    })
+                }
                this.hideLoading();
             });
 
@@ -806,14 +813,20 @@ expandMore(Visit_no){
                     <div className='modal-content-protocol'>
                         <div >       
 
-                            <div className="content-item" >1、仅支持慢病历史处方记录申请；</div>
-                            <div className="content-item" >2、最大配药量遵循医保规定执行；</div>
+                            <div className="content-item" >1、仅支持有慢病历史处方记录的患者申请；</div>
+                            <div className="content-item" >2、最大配药量遵循医保规定执行（1个月）；</div>
                             <div className="content-item" >3、提交申请后医师将在24小时内处理，请耐心等待；</div>
                             <div className="content-item" >4、若24h内医生未接诊，系统将在<span style={{color:'red'}}>3个工作日内</span>自动为您退回网络门诊费；</div>
-                            <div className="content-item" >5、提交申请后，请留意平台消息，请在医师开具处方后及时在线支付药品费用；</div>
-                            <div className="content-item" >6、通过本平台开具的处方药品可以选择到院自取或配送到家（部分特殊药品暂不支持配送），配送费以实际显示为准；
+                            <div className="content-item" >5、提交申请后，请留意平台消息，请在医师开具处方后及时在线支付药品费和快递费，订单只在当天有效，超时网络挂号费概不退回；</div>
+                            <div className="content-item" >6、通过本平台开具的处方药品暂时只能选择快递到家，快递费以实际显示为准；
                             </div>
-                            <div className="content-item" >7、通过本平台开配的处方药品原则上不予退还。如需退费退药，请到医院窗口申请。
+                            <div className="content-item" >7、由于药品属于特殊商品，不能每种药品都进行配送，故以下几类药物暂不列入配送范围：
+                                <p style={{color:'red'}}>&nbsp;&nbsp;(1)、各类注射用（针）剂；</p>
+                                <p style={{color:'red'}}>&nbsp;&nbsp;(2)、重医儿院自配制剂；</p>
+                                <p style={{color:'red'}}>&nbsp;&nbsp;(3)、冰箱冷藏药品；</p>
+                                <p style={{color:'red'}}>&nbsp;&nbsp;(4)、一、二类精神药品。</p>
+                            </div>
+                            <div className="content-item" >8、通过本平台开配的处方药品缴费后不予退还。
                             </div>
                              {/*<div className="content-item" >1、仅支持慢病患者院内1个月内的历史处方记录续方申请；</div>
                             <div className="content-item" >2、最大配药量遵循医保规定执行；
