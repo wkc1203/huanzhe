@@ -566,18 +566,18 @@ class Widget extends Component {
                            
                               listUse[i].has=true;
                             //  console.log(listUse[i].has,"has")
-                              if(!!listUse[i].Recipel_list&&listUse[i].Recipel_list.length>0){
-                                 for(const item of listUse[i].Recipel_list){
-                                        //   for(let j=0;j<drugArray.length;i++){
-                                            console.log("qqq",":",j,"-",item.Item_code,":",drugArray.indexOf(item.Item_code))
-                                            if(drugArray.indexOf(item.Item_code)==-1){
-                                                listUse[i].has=false; 
-                                                console.log(listUse[i].has,"hass")
-                                             }
-                                        //   }
-                                }
+                            //   if(!!listUse[i].Recipel_list&&listUse[i].Recipel_list.length>0){
+                            //      for(const item of listUse[i].Recipel_list){
+                            //             //   for(let j=0;j<drugArray.length;i++){
+                            //                 console.log("qqq",":",j,"-",item.Item_code,":",drugArray.indexOf(item.Item_code))
+                            //                 if(drugArray.indexOf(item.Item_code)==-1){
+                            //                     listUse[i].has=false; 
+                            //                     console.log(listUse[i].has,"hass")
+                            //                  }
+                            //             //   }
+                            //     }
                                 
-                              } 
+                            //   } 
 
                              listUse[i].showMore=false;
                                 if(!!listUse[i].Recipel_list&&listUse[i].Recipel_list.length>0){
