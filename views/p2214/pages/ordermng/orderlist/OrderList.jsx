@@ -773,7 +773,7 @@ getmdtList() {
            <p className={`${item5Show?'item-active':''}`}
            onClick={()=>{
             this.changeShow(5)
-            }}>复诊续方
+            }}>慢病续方
             {!item5Show&&<img src='./././resources/images/order-prescribes.png'/>}
             {item5Show&&<img src='./././resources/images/order-prescribe.png'/>}
          </p>
