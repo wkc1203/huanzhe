@@ -119,7 +119,7 @@ class Widget extends Component {
                         onClick={() => {
                             this.context.router.goBack();
                         }}
-                    ></span>投诉建议详情
+                    ></span>意见反馈详情
                 </div>
 
                 <div className="suggestItem">
@@ -132,8 +132,8 @@ class Widget extends Component {
                                 <div className="sugText">
                                     <p><span className="sugtitle">提交时间：</span> <span className="sugtext">{reasonList.createDate}</span></p>
                                     <p><span className="sugtitle">提交人：</span> <span className="sugtext">{reasonList.patientName}</span></p>
-                                    <p><span className="sugtitle">投诉建议原因：</span> <span className="sugtext">{reasonList.complaintsReason}</span></p>
-                                    <p><span className="sugtitle">投诉建议内容：</span ></p>
+                                    <p><span className="sugtitle">意见反馈原因：</span> <span className="sugtext">{reasonList.complaintsReason}</span></p>
+                                    <p><span className="sugtitle">意见反馈内容：</span ></p>
                                     <div className="sugtextDetil">{reasonList.complaintsContent?reasonList.complaintsContent: "暂无"}</div>
                                     {this.state.img.length > 0 &&
                                         <div className="sugImg">

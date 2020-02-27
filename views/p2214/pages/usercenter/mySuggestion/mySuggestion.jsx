@@ -217,7 +217,7 @@ class Widget extends Component {
     /*提交数据*/
     submitData() {
         let errMsg = !this.state.reason
-            ? '请选择投诉原因'
+            ? '请选择意见原因'
             : this.state.content.length > 100 ? '描述不能多于100个字' : '';
         if (errMsg) {
             this.setState({
@@ -673,7 +673,7 @@ class Widget extends Component {
                     onClick={() => {
                         this.context.router.goBack();
                     }}
-                ></span>投诉建议
+                ></span>意见反馈
                 </div>
                 <Toast icon="success-no-circle" show={this.state.showToast}>{msg}</Toast>
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons} show={this.state.showIOS1}>
@@ -704,7 +704,7 @@ class Widget extends Component {
                     </div>
                 </div>
                 <div className="complain-suggest">
-                    <div className="suggest-title">请输入投诉或建议的内容</div>
+                    <div className="suggest-title">请输入意见或建议的内容</div>
                     <div className="area-box">
                         <textarea placeholder="请输入"
                             onChange={(e) => {

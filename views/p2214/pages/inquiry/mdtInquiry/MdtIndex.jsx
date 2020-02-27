@@ -1575,7 +1575,7 @@ onChange = (files,file,index) => {
                                         }}
                                     />
                                 </div>
-                                <p className='text'>投诉建议</p>
+                                <p className='text'>意见反馈</p>
                             </div>
                         </div>}
 

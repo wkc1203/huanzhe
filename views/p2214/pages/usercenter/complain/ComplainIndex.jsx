@@ -62,7 +62,7 @@ class Widget extends Component {
                         onClick={() => {
                             this.context.router.goBack();
                         }}
-                    ></span>我的投诉建议
+                    ></span>我的意见反馈
                            </div>
                 {/* <div className="addSuggest">
                     <img src="" alt="" />
@@ -74,7 +74,7 @@ class Widget extends Component {
 
                         <div className='no-data'>
                             <img src='../../../resources/images/no-result.png' />
-                            <div className="noSuggestTip">您还没有投诉建议</div>
+                            <div className="noSuggestTip">您还没有意见反馈</div>
                             <div className="goIcon">
                                 <span className="goBack go"> ‹ </span>
                                 <span className="goNext go"> › </span>
@@ -98,10 +98,10 @@ class Widget extends Component {
                                     <PanelBody>
                                         <MediaBox>
                                             <MediaBoxDescription className="sugText">
-                                                <p><span className="sugtitle">投诉建议原因：</span> <span className="sugtextss">{item.complaintsReason}</span></p>
+                                                <p><span className="sugtitle">意见反馈原因：</span> <span className="sugtextss">{item.complaintsReason}</span></p>
                                                 <p><span className="sugtitle">提交时间：</span> <span className="sugtextss">{item.createDate}</span></p>
                                                 <p><span className="sugtitle">提交人：</span> <span className="sugtextss">{item.patientName}</span></p>
-                                                <p><span className="sugtitle">投诉建议内容：</span > <span className="sugtextss">{item.complaintsContent?item.complaintsContent: " 暂无 "}</span></p>
+                                                <p><span className="sugtitle">意见反馈内容：</span > <span className="sugtextss">{item.complaintsContent?item.complaintsContent: " 暂无 "}</span></p>
                                                { reasonList[index].replyList!=[]&&
                                                   reasonList[index].replyList.map((iitem,id)=>{
                                                       if(iitem.type==2){

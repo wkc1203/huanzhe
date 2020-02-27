@@ -554,15 +554,19 @@ class Widget extends Component {
                                 list[index].checkContent.dept=JSON.parse(cont).dept.join(',')
                                 
                             }
-                            if(!!list[index].action&&list[index].action=='applyChronic'&&list[index].content!=''){
-                                list[index].checkContent=JSON.parse(list[index].content);
-                                
-                            }
-                            if(!!list[index].action&&list[index].action=='receiveChronic'&&list[index].content!=''){
-                      
-                                list[index].checkContent=JSON.parse(list[index].content);
-                                
-                            }  
+                        if(!!list[index].action&&list[index].action=='applyChronic'&&list[index].content!=''){
+                            list[index].checkContent=JSON.parse(list[index].content);
+                            
+                        }
+                        if(!!list[index].action&&list[index].action=='receiveChronic'&&list[index].content!=''){
+                  
+                            list[index].checkContent=JSON.parse(list[index].content);
+                            
+                        }
+                        /*if(!!list[index].content &&list[index].action !== 'addChecklist'&&list[index].action!='reportApply'&&
+                            list[index].action!='add'&&list[index].action!='mdt'&&list[index].action!='applyChronic'&&list[index].action!='receiveChronic'){
+                            list[index].content=this.tiaozhuan(list[index].content)
+                        }*/
                     
                     }
                     // 追加页面未发送的数据
@@ -2091,6 +2095,21 @@ onChange = (files,file,index) => {
     })
     
   }
+
+  // 对话中的链接跳转
+  tiaozhuan=(content)=>{
+    console.log('000000000000=',content)
+    if(content&&content.length>0){
+        let textR = content;
+        //  /https?:\/\/[\w-.%#?\/\\\]+/i
+        let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+        let pipeiList= textR.match(reg);
+        // content= textR.replace(reg, "<a href='$1$2'>$1$2</a>");
+        if(pipeiList&&pipeiList.length>0){
+            window.location.href=pipeiList[0]
+        }
+    }
+  }
       
     render() {
     const {isPingJia,userData,reportDate,isEvaluate,files,freeReport,list,msgText,isShow,isEnd,docInfo,userInfo,doctorid,deptid,showPlus,interval,
@@ -2325,7 +2344,7 @@ onChange = (files,file,index) => {
                                 }}
                             />
                         </div>
-                        <p className='text'>投诉建议</p>
+                        <p className='text'>意见反馈</p>
                     </div>
                 </div>}
 
@@ -2485,7 +2504,7 @@ onChange = (files,file,index) => {
                                     </div>
                                     </Link>
                                     {item.content &&item.action !== 'addChecklist'&&item.action!='reportApply'&&item.action!='add'&&item.action!='mdt'&&item.action!='applyChronic'&&item.action!='receiveChronic'&&
-                                        <div className='text'id="text">
+                                        <div className='text'id="text" onClick={()=>this.tiaozhuan(item.content)}>
                                         {item.content}
                                         <span className='angle'></span>
                                     </div>}
@@ -2677,7 +2696,7 @@ onChange = (files,file,index) => {
                                         </div>}
                                     {item.content &&item.action !== 'addChecklist' &&item.action!='reportApply'&&item.action!='mdt'&&item.action!='add'&&item.action!='applyChronic'&&item.action!='receiveChronic'&& <div className='send-di'>
                                         {item.isUnSend?<div className='send-di' onClick={e=>{e.stopPropagation();this.secondSend(item.untextsendNumN)}}><img src={tanhao} className='second-fen' /></div>:null}
-                                        <div className='text'>
+                                        <div className='text' onClick={()=>this.tiaozhuan(item.content)}>
                                             {item.content}
                                             <span className='angle'></span>
                                         </div>

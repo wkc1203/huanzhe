@@ -465,7 +465,7 @@ getCardList() {
                 </Link>
               </div>
               <Func url='/usercenter/collect' userId={userId}  img='./././resources/images/collect.png'  name='我的收藏'/>
-              <Func url='/usercenter/complain' userId={userId}  img='./././resources/images/complain.png'  name='投诉建议'/>
+              <Func url='/usercenter/complain' userId={userId}  img='./././resources/images/complain.png'  name='意见反馈'/>
 
               <Func url='/usercenter/manageaddress' userId={userId}  img='./././resources/images/complain.png'  name='地址管理'/>
 

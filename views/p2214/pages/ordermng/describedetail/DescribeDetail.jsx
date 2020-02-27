@@ -927,6 +927,29 @@ class Widget extends Component {
       window.getSelection().removeAllRanges(); //清除页面中已有的selection
     }
 
+    // 诊断处理
+    chuliDiagnosis=(diagnosis)=>{
+      let diagnosisArr = diagnosis?diagnosis.split(";"):[];
+      let content = "";
+      if(diagnosisArr.length>0){
+        for (let i=0;i<diagnosisArr.length;i++) {
+            content += ((i+1)+'.');
+            let diagnosisInfo = diagnosisArr[i].split("|");
+            if (diagnosisInfo[0] != "无") {
+                content += diagnosisInfo[0]+' ' ;
+            }
+            if(diagnosisInfo[1]){
+              content += diagnosisInfo[1];
+            }
+            if (diagnosisInfo[2]&&diagnosisInfo[2] != "无") {
+                content += (' '+diagnosisInfo[2]);
+            }
+            content += ";";
+        }
+      }
+      return content
+    }
+
   render() {
     const {
       yuanshiShow,daishifuShow,
@@ -943,8 +966,8 @@ class Widget extends Component {
     }=this.state
     let diagnosis =''
     if(!!describeDetail.diagnosis){
-       diagnosis = describeDetail.diagnosis.split('|').length>2?describeDetail.diagnosis.split('|').splice(0,describeDetail.diagnosis.split('|').length-1).join('|') :describeDetail.diagnosis
-
+       // diagnosis = describeDetail.diagnosis.split('|').length>2?describeDetail.diagnosis.split('|').splice(0,describeDetail.diagnosis.split('|').length-1).join('|') :describeDetail.diagnosis
+      diagnosis = this.chuliDiagnosis(describeDetail.diagnosis)
     }
 
     return (

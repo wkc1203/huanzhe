@@ -702,6 +702,29 @@ getmdtList() {
         describeList:list
     })
     }
+    // 诊断处理
+    chuliDiagnosis=(diagnosis)=>{
+      let diagnosisArr = diagnosis?diagnosis.split(";"):[];
+      let content = "";
+      if(diagnosisArr.length>0){
+        for (let i=0;i<diagnosisArr.length;i++) {
+            content += ((i+1)+'.');
+            let diagnosisInfo = diagnosisArr[i].split("|");
+            if (diagnosisInfo[0] != "无") {
+                content += diagnosisInfo[0]+' ' ;
+            }
+            if(diagnosisInfo[1]){
+              content += diagnosisInfo[1];
+            }
+            if (diagnosisInfo[2]&&diagnosisInfo[2] != "无") {
+                content += (' '+diagnosisInfo[2]);
+            }
+            content += ";";
+        }
+      }
+      return content
+    }
+
   render() {
     const {mdtList,describeList,checkList,manageList,item1Show,item2Show,item3Show,item4Show,item5Show,clickItem,isPatShow,orderList,patList,msg}=this.state;
     return (
@@ -1024,7 +1047,8 @@ getmdtList() {
         {item5Show&&!!describeList&&describeList.length>0&&describeList!='1'&&
             <div className='reportlist'>
             {describeList.map((item,index)=>{
-                const diagnosis = item.diagnosis.split('|').length>2?item.diagnosis.split('|').splice(0,item.diagnosis.split('|').length-1).join('|') :item.diagnosis
+                // const diagnosis = item.diagnosis.split('|').length>2?item.diagnosis.split('|').splice(0,item.diagnosis.split('|').length-1).join('|') :item.diagnosis
+                let  diagnosis = this.chuliDiagnosis(item.diagnosis)
                 return(
                     <div className="describe-item" key={index} onClick={(e)=>{
                         e.stopPropagation();

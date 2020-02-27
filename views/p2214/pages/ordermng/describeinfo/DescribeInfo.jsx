@@ -146,8 +146,11 @@ class Widget extends Component {
           if (diagnosisInfo[0] != "无") {
               content += diagnosisInfo[0]+' ' ;
           }
-          content += diagnosisInfo[1];
-          if (diagnosisInfo[2] != "无") {
+         
+          if(diagnosisInfo[1]){
+            content += diagnosisInfo[1];
+          }
+          if (diagnosisInfo[2]&&diagnosisInfo[2] != "无") {
               content += (' '+diagnosisInfo[2]);
           }
           content += ";";
