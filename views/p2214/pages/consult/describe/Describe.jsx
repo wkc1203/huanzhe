@@ -565,15 +565,17 @@ class Widget extends Component {
                           for(var i=0;i<listUse.length;i++){
                            
                               listUse[i].has=true;
+                            //  console.log(listUse[i].has,"has")
                               if(!!listUse[i].Recipel_list&&listUse[i].Recipel_list.length>0){
-                                  for(const item of listUse[i].Recipel_list){
-                                          for(let i=0;i<drugArray.length;i++){
-                                             //console.log("qqq",":",i,"-",item.Item_code,":",drugArray.indexOf(item.Item_code))
+                                 for(const item of listUse[i].Recipel_list){
+                                        //   for(let j=0;j<drugArray.length;i++){
+                                            console.log("qqq",":",j,"-",item.Item_code,":",drugArray.indexOf(item.Item_code))
                                             if(drugArray.indexOf(item.Item_code)==-1){
                                                 listUse[i].has=false; 
+                                                console.log(listUse[i].has,"hass")
                                              }
-                                          }
-                                  }
+                                        //   }
+                                }
                                 
                               } 
 
@@ -596,7 +598,7 @@ class Widget extends Component {
                               reportList:listUse,
                               newList:listt,
                           })
-                         // console.log("newList",this.state.newList)
+                         console.log("newList",this.state.newList)
                      }else{
                         this.setState({
                             reportList:[],
@@ -772,6 +774,7 @@ expandMore(Visit_no){
     console.log(key);
   };
     render() {
+        //console.log(listUse[i].has,"hass")
         const {knows,hasList,codeUrl,cardShow,isChecked,msg,cardList,leftBindNum,
             selectName,selectSex,selectBirthday,toptip,reportList,patientShow}=this.state;
             console.log("report",reportList,'11111111111111111222222222222222222222')
@@ -792,7 +795,7 @@ expandMore(Visit_no){
                                             }
 
                                       }}
-                    ></span>选择慢病处方记录
+                    ></span>选择复诊处方记录
                 </div>
                 <Toast icon="success-no-circle" show={this.state.showToast}>一次最多只能上传四张图片</Toast>
                 <Dialog type="ios" title={this.state.style1.title} buttons={this.state.style1.buttons}
@@ -859,12 +862,12 @@ expandMore(Visit_no){
                 <div className='modal-body-protocol'>
                     <div className='modal-title'  style={{fontSize:'16px'}}>
                             <p > 重庆医科大学附属儿童医院</p>
-                            <p> 慢病续方业务须知</p>
+                            <p> 复诊续方业务须知</p>
                     </div>
                     <div className='modal-content-protocol'>
                         <div >       
 
-                            <div className="content-item" >1、仅支持有慢病历史处方记录的患者申请；</div>
+                            <div className="content-item" >1、仅支持有历史处方记录的患者申请；</div>
                             <div className="content-item" >2、最大配药量遵循医保规定执行（1个月）；</div>
                             <div className="content-item" >3、提交申请后医师将在24小时内处理，请耐心等待；</div>
                             <div className="content-item" >4、若24h内医生未接诊，系统将在<span style={{color:'red'}}>3个工作日内</span>自动为您退回网络门诊费；</div>
@@ -945,7 +948,7 @@ expandMore(Visit_no){
                                     }else{
                                         this.setState({
                                             showIOS1:true,
-                                            msg:'请阅读并同意慢病续方业务须知'
+                                            msg:'请阅读并同意复诊续方业务须知'
 
                                         })
                                     }
@@ -986,17 +989,17 @@ expandMore(Visit_no){
                 {hasList&&<div className="describe-info">  
                      <div className="des_tip">
                       <img src="../../../resources/images/describe_tip_icon.png"/>
-                        最近5个月内在本科室的慢病就诊记录
+                        最近5个月内在本科室的就诊记录
                      </div>
 
                      {
 
-                        console.log(reportList,'reportListreportListreportList')
-
+                       // console.log(reportList,'reportListreportListreportList')
+                        console.log(this.state.newList,"itemm")
                      }
 
                     {this.state.newList&&this.state.newList.length>0&&this.state.newList.map((item,index)=>{
-                            console.log("has",item)
+                           // console.log("has",item)
                          return(
                              
                             <div className="describe-item"  key={index}>
@@ -1092,7 +1095,7 @@ expandMore(Visit_no){
             }
             {!hasList&& <div className='no-data'>
                 <img src='../../../resources/images/no-result.png'/>
-                <div>您近一个月内在本科室无慢病处方记录</div>
+                <div>您近一个月内在本科室无复诊处方记录</div>
             </div>}
                 <div className="empty-box"></div>
             </div>
