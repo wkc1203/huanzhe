@@ -1140,7 +1140,7 @@ class Widget extends Component {
                     pathname:'ordermng/describeinfo',
                     query:{detail:JSON.stringify(describeDetail)}
                   })
-                }}>查看详情 <img src='./././resources/images/des_xyjt.png'/></p>
+                }}>电子处方 <img src='./././resources/images/des_xyjt.png'/></p>
               </div>
   
               <div className="handle_content"> 

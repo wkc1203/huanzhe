@@ -2096,18 +2096,52 @@ onChange = (files,file,index) => {
     
   }
 
-  // 对话中的链接跳转
-  tiaozhuan=(content)=>{
-    console.log('000000000000=',content)
+  // 查看跳转链接
+  tiaozhuanList=(content)=>{
+    let returnContent=content
     if(content&&content.length>0){
         let textR = content;
-        //  /https?:\/\/[\w-.%#?\/\\\]+/i
+        let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+        let pipeiList= textR.match(reg);
+        let weizhi=[]
+        if(pipeiList&&pipeiList.length>0){
+           returnContent= this.digui(content,pipeiList,pipeiList.length,0)
+        }
+    }
+    return returnContent
+  }
+  // digui
+  digui=(neirong,fenge,count,cunm)=>{
+    let content=''
+    if(neirong&&neirong!=''){
+        count--;
+        let nt=neirong.split(fenge[cunm])
+        content += nt[0]
+        content += `<a href=${fenge[cunm]}>${fenge[cunm]}</a>`
+        cunm++;
+        if(nt.length>1){
+            for(let i=1;i<nt.length;i++){
+                content+=nt[i]
+            }
+        }
+        // this.digui(neirong.slice(neirong.indexOf(fenge[cunm])+fenge[cunm].length),fenge,fenge.length,cunm)
+
+    }
+    return content
+    
+  }
+
+  // 对话中的链接跳转
+  tiaozhuan=(content)=>{
+    if(content&&content.length>0){
+        let textR = content;
         let reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
         let pipeiList= textR.match(reg);
         // content= textR.replace(reg, "<a href='$1$2'>$1$2</a>");
         if(pipeiList&&pipeiList.length>0){
             window.location.href=pipeiList[0]
         }
+
     }
   }
       
@@ -2505,7 +2539,9 @@ onChange = (files,file,index) => {
                                     </Link>
                                     {item.content &&item.action !== 'addChecklist'&&item.action!='reportApply'&&item.action!='add'&&item.action!='mdt'&&item.action!='applyChronic'&&item.action!='receiveChronic'&&
                                         <div className='text'id="text" onClick={()=>this.tiaozhuan(item.content)}>
-                                        {item.content}
+                                        {
+                                           item.content
+                                        }
                                         <span className='angle'></span>
                                     </div>}
                                     { item.content &&item.action == 'receiveChronic' && <div className='text' 
@@ -2697,7 +2733,7 @@ onChange = (files,file,index) => {
                                     {item.content &&item.action !== 'addChecklist' &&item.action!='reportApply'&&item.action!='mdt'&&item.action!='add'&&item.action!='applyChronic'&&item.action!='receiveChronic'&& <div className='send-di'>
                                         {item.isUnSend?<div className='send-di' onClick={e=>{e.stopPropagation();this.secondSend(item.untextsendNumN)}}><img src={tanhao} className='second-fen' /></div>:null}
                                         <div className='text' onClick={()=>this.tiaozhuan(item.content)}>
-                                            {item.content}
+                                            <div dangerouslySetInnerHTML = {{ __html: this.tiaozhuanList(item.content) }} />
                                             <span className='angle'></span>
                                         </div>
                                     </div>}  
