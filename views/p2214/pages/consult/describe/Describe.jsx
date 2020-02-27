@@ -867,7 +867,7 @@ expandMore(Visit_no){
                     <div className='modal-content-protocol'>
                         <div >       
 
-                            <div className="content-item" >1、仅支持有历史处方记录的患者申请；</div>
+                            <div className="content-item" >1、仅支持有慢病处方记录的患者申请；</div>
                             <div className="content-item" >2、最大配药量遵循医保规定执行（1个月）；</div>
                             <div className="content-item" >3、提交申请后医师将在24小时内处理，请耐心等待；</div>
                             <div className="content-item" >4、若24h内医生未接诊，系统将在<span style={{color:'red'}}>3个工作日内</span>自动为您退回网络门诊费；</div>
@@ -989,7 +989,7 @@ expandMore(Visit_no){
                 {hasList&&<div className="describe-info">  
                      <div className="des_tip">
                       <img src="../../../resources/images/describe_tip_icon.png"/>
-                        最近5个月内在本科室的就诊记录
+                        最近5个月内在本科室的慢病就诊记录
                      </div>
 
                      {
