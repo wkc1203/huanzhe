@@ -435,13 +435,9 @@ class Widget extends Component {
 
                       if(info.status==3){
                         if(info.deliveryDrugVo){
-                          if(!info.deliveryDrugVo.status){
-                            this.setState({
-                              yuanshiShow:true,
-                            })
-                          }
+
                           // 待支付
-                          if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==0){
+                          if(info.deliveryDrugVo.status==0){
                             let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
                             this.setState({
                               daishifuShow:true,
@@ -456,7 +452,7 @@ class Widget extends Component {
                             })
                           }
                           // 支付成功
-                          if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==1){
+                          else if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==1){
                             let addr=JSON.parse(info.deliveryDrugVo.deliveryAddress)
                             this.setState({
                               zhifusuccess:true,
@@ -471,10 +467,16 @@ class Widget extends Component {
                             })
                           }
                           // 支付超时
-                          if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==2){
+                         else if(info.deliveryDrugVo.status&&info.deliveryDrugVo.status==2){
                             this.setState({
                               sendMailChaoShi:true
                             })
+                          }else{
+                            if(!info.deliveryDrugVo.status){
+                              this.setState({
+                                yuanshiShow:true,
+                              })
+                            }
                           }
                         }else{
                               if(this.props.location.query.fromOrder=='1'){
@@ -1199,7 +1201,7 @@ class Widget extends Component {
                 {msg}
           </Dialog>
           
-          {!!describeDetail&&(describeDetail.status=='3'||(describeDetail.status=='4'&&describeDetail.deliveryDrugVo&&describeDetail.deliveryDrugVo.status=='1'))&&<div className='diagnosis main-info'>
+          {!!describeDetail&&((describeDetail.status=='3'&&describeDetail.deliveryDrugVo&&describeDetail.deliveryDrugVo.status!='2')||(describeDetail.status=='4'&&describeDetail.deliveryDrugVo&&describeDetail.deliveryDrugVo.status=='1'))&&<div className='diagnosis main-info'>
             <div className='title-tip'>
                 <img src='./././resources/images/yaopingpeisong.png'/>药品配送</div>
             <div className="items yaopingpeisong">
