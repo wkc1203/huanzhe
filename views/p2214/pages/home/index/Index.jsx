@@ -468,6 +468,12 @@ class Widget extends Component {
                                         })
                                     }} />
                             </div>
+                             <div>
+                                <img src="./././resources/images/shoutu.png" alt=""
+                                    onClick={() => {
+                                        window.location.href='https://mp.weixin.qq.com/s/0Ny_mGQTnIyfu7m6wOj8Sg'
+                                    }} />
+                            </div>
                             <div>
                                 <img src="./././resources/images/second.jpg" alt=""
                                     onClick={() => {

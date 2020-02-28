@@ -2539,9 +2539,7 @@ onChange = (files,file,index) => {
                                     </Link>
                                     {item.content &&item.action !== 'addChecklist'&&item.action!='reportApply'&&item.action!='add'&&item.action!='mdt'&&item.action!='applyChronic'&&item.action!='receiveChronic'&&
                                         <div className='text'id="text" onClick={()=>this.tiaozhuan(item.content)}>
-                                        {
-                                           item.content
-                                        }
+                                        <div dangerouslySetInnerHTML = {{ __html: this.tiaozhuanList(item.content) }} />
                                         <span className='angle'></span>
                                     </div>}
                                     { item.content &&item.action == 'receiveChronic' && <div className='text' 
