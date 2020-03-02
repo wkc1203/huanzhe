@@ -1201,7 +1201,7 @@ class Widget extends Component {
                 {msg}
           </Dialog>
           
-          {!!describeDetail&&((describeDetail.status=='3'&&describeDetail.deliveryDrugVo&&describeDetail.deliveryDrugVo.status!='2')||(describeDetail.status=='4'&&describeDetail.deliveryDrugVo&&describeDetail.deliveryDrugVo.status=='1'))&&<div className='diagnosis main-info'>
+          {!!describeDetail&&(describeDetail.status=='3'||(describeDetail.status=='4'&&describeDetail.deliveryDrugVo&&describeDetail.deliveryDrugVo.status=='1'))&&<div className='diagnosis main-info'>
             <div className='title-tip'>
                 <img src='./././resources/images/yaopingpeisong.png'/>药品配送</div>
             <div className="items yaopingpeisong">
