@@ -19,7 +19,7 @@
     "echarts": "^4.6.0",
     "echarts-for-react": "^2.0.15-beta.1",
     "es6-promise": "4.0.5",
-    "fis3": "^3.4.41",
+    "fis3": "^3.4.46",
     "jsbarcode": "^3.11.0",
     "moment": "^2.17.1",
     "node-sass": "^4.13.1",
